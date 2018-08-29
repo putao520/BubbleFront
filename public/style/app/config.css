@@ -67,7 +67,7 @@
     color: #fff;
 }
 
-.config-mask-box .subnav-item.active > div {
+.config-mask-box .subnav-item.active>div {
     color: #fff;
 }
 
@@ -91,7 +91,7 @@
     height: 30px;
 }
 
-.config-mask-box .subnav-item > div i {
+.config-mask-box .subnav-item>div i {
     position: absolute;
     right: 5px;
     top: 7.5px;
@@ -107,7 +107,6 @@
     .config-mask-box {
         padding: 20px;
     }
-
     .config-mask-box .config-edit-box {
         height: auto;
     }

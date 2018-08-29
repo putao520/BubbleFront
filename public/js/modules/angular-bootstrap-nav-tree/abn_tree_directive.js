@@ -28,8 +28,7 @@
                             });
                         }
                     });
-                    var error, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n,
-                        on_treeData_change, select_branch, selected_branch, tree;
+                    var error, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n, on_treeData_change, select_branch, selected_branch, tree;
                     error = function (s) {
                         console.log('ERROR:' + s);
                         debugger;

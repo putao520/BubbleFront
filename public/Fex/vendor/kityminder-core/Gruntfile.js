@@ -2,7 +2,7 @@
 
 var path = require('path');
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
     'use strict';
 
     // These plugins provide necessary tasks.

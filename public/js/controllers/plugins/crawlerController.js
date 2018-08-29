@@ -6,27 +6,27 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
 
     var loading = function (v) {
         v ? $(".contentbatchMask").fadeIn(200) : $(".contentbatchMask").fadeOut(200);
-    };
+    }
 
     var initState = function () {
         bubble._call("crawler.query").success(function (v) {
             $scope.state = !v.errorcode ? "1" : "0";
         });
-    };
+    }
 
     $scope.start = function () {
         bubble._call("crawler.taskstart").success(function (v) {
             initState();
             swal(v.errorcode ? "任务启动失败" : "任务启动成功");
         });
-    };
+    }
 
     $scope.stop = function () {
         bubble._call("crawler.taskstop").success(function (v) {
             initState();
             swal(v.errorcode ? "任务停止失败" : "任务停止成功");
         });
-    };
+    }
 
     initState();
 
@@ -45,17 +45,17 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
                 $scope.task[i].check = false;
             }
         }
-    };
+    }
 
     $scope.copy = function (v, e) {
-        $scope.mode = "new";
+        $scope.mode = "new"
         $scope.json = JSON.parse(JSON.stringify(v));
         delete $scope.json._id;
         e.stopPropagation();
-    };
+    }
 
     $scope.create = function () {
-        $scope.mode = "new";
+        $scope.mode = "new"
         $scope.json = (window.localStorage.cacheBugConfig && JSON.parse(window.localStorage.cacheBugConfig)) || {
             name: "",
             desc: "",
@@ -74,12 +74,12 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
                     selecter: [""]
                 },
                 data: [
-                    {key: "", selecter: "", isTEXT: true}
+                    { key: "", selecter: "", isTEXT: true }
                 ],
                 collectApi: ""
             }
         }
-    };
+    }
 
     $scope.export = function () {
         var text = [];
@@ -88,15 +88,10 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
         for (var i = 0; i < $scope.task.length; i++) {
             var e = $scope.task[i];
             if (e.check) {
-                tmp = JSON.parse(JSON.stringify($scope.task[i]));
-                switchData(tmp, true);
+                tmp = JSON.parse(JSON.stringify($scope.task[i]))
+                switchData(tmp, true)
                 // text.push(JSON.stringify(tmp));
-                text.push(JSON.stringify({
-                    name: tmp.name,
-                    desc: tmp.desc,
-                    info: tmp.info,
-                    runtime: tmp.runtime * 60 * 60000
-                }));
+                text.push(JSON.stringify({ name: tmp.name, desc: tmp.desc, info: tmp.info, runtime: tmp.runtime * 60 * 60000 }));
                 list.push(tmp);
             }
         }
@@ -107,7 +102,7 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
         bubble.customModal("crawlerJsonModal.html", "crawlerJsonController", "lg", text, function (v) {
 
         });
-    };
+    }
 
     $scope.import = function () {
         bubble.customModal("crawlerJsonModal.html", "crawlerJsonController", "lg", "", function (v) {
@@ -134,31 +129,31 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
                 swal("请输入正确的JSON数组");
             }
         });
-    };
+    }
 
     $scope.removeSelector = function (i) {
         $scope.json.info.init.selecter.length > 1 && $scope.json.info.init.selecter.splice(i, 1);
-    };
+    }
 
     $scope.addSelector = function () {
         $scope.json.info.init.selecter.push("");
-    };
+    }
 
     $scope.removeLoop = function (i) {
         $scope.json.info.loop.selecter.length > 1 && $scope.json.info.loop.selecter.splice(i, 1);
-    };
+    }
 
     $scope.addLoop = function () {
         $scope.json.info.loop.selecter.push("");
-    };
+    }
 
     $scope.removeContent = function (i) {
         $scope.json.info.data.length > 1 && $scope.json.info.data.splice(i, 1);
-    };
+    }
 
     $scope.addContent = function () {
-        $scope.json.info.data.push({key: "", selecter: "", isTEXT: "1"});
-    };
+        $scope.json.info.data.push({ key: "", selecter: "", isTEXT: "1" });
+    }
 
     $scope.addContentBatch = function () {
         bubble.customModal("crawlerBatchModal.html", "crawlerBatchController", "lg", {}, function (v) {
@@ -167,18 +162,14 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
             delete v.start;
             delete v.end;
             for (var i = s; i < e; i++) {
-                $scope.json.info.data.push({
-                    key: v.key.replace(/\?/g, i),
-                    selecter: v.selecter.replace(/\?/g, i),
-                    isTEXT: v.isTEXT
-                });
+                $scope.json.info.data.push({ key: v.key.replace(/\?/g, i), selecter: v.selecter.replace(/\?/g, i), isTEXT: v.isTEXT });
             }
         });
-    };
+    }
 
     $scope.getDate = function (v) {
         return new Date(parseInt(v)).Format("yyyy-MM-dd");
-    };
+    }
 
     $scope.showItem = function (v, e) {
         if (e.target.nodeName === "INPUT") {
@@ -186,7 +177,7 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
         }
         $scope.json = v;
         $scope.mode = "show";
-    };
+    }
 
     $scope.neartimeChange = function () {
         bubble.customModal("crawlerNearTimeModal.html", "crawlerNearTimeController", "lg", {}, function (v) {
@@ -199,10 +190,10 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
             }
             if (!list.length) {
                 swal("请先选择需要导出的任务");
-
+                return;
             }
         });
-    };
+    }
 
     $scope.run = function (v) {
         loading(true);
@@ -225,7 +216,7 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
                 }
             });
         }
-    };
+    }
 
     $scope.deleteTask = function () {
         var list = [];
@@ -253,13 +244,13 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
                 swal("删除失败");
             }
         });
-    };
+    }
 
     $scope.timechange = function () {
         for (var i = 0; i < $scope.task.length; i++) {
             $scope.task[i].runtime = 1;
         }
-    };
+    }
 
     var switchTime = function (v, x) {
         var timetype = $scope.timetype;
@@ -280,7 +271,7 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
 
         v = x ? v / s : v * s;
         return parseInt(v.toFixed(2));
-    };
+    }
 
     var switchData = function (e, type) {
         try {
@@ -316,7 +307,7 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
         } catch (error) {
             swal("存在非标准JSON字段在[" + e.name + "],请删除后重新添加");
         }
-    };
+    }
 
     var initTasks = function () {
         loading(true);
@@ -331,7 +322,7 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
                 $scope.task = v.data;
             }
         });
-    };
+    }
 
     var inputCheck = function () {
         var o = $scope.json;
@@ -368,13 +359,13 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
             o.info.loop.selecter.push("");
         }
         if (!o.info.data.length) {
-            o.info.data.push({isTEXT: true, key: "", selecter: ""});
+            o.info.data.push({ isTEXT: true, key: "", selecter: "" });
             swal("请输入至少一个有效内容所在选择器");
             return false;
         }
 
         return true;
-    };
+    }
 
     $scope.ok = function () {
         if (inputCheck()) {
@@ -404,17 +395,17 @@ bubbleFrame.register('crawlerController', function ($scope, bubble, $timeout) {
                 });
             }
         }
-    };
+    }
 
     $scope.create();
     initTasks();
 });
 
 bubbleFrame.register('crawlerBatchController', function ($scope, bubble, $timeout, items, $modalInstance) {
-    $scope.json = {key: "", selecter: "", isTEXT: "1", start: "0", end: "0"};
+    $scope.json = { key: "", selecter: "", isTEXT: "1", start: "0", end: "0" };
     $scope.ok = function (e) {
         $modalInstance.close($scope.json);
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');
@@ -425,7 +416,7 @@ bubbleFrame.register('crawlerJsonController', function ($scope, bubble, $timeout
     $scope.json = items ? JSON.stringify(items) : "";
     $scope.ok = function (e) {
         $modalInstance.close($scope.json);
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');
@@ -436,7 +427,7 @@ bubbleFrame.register('crawlerNearTimeController', function ($scope, bubble, $tim
     $scope.json = items ? JSON.stringify(items) : "";
     $scope.ok = function (e) {
         $modalInstance.close($scope.json);
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');

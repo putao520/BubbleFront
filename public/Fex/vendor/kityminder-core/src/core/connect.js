@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('./kity');
     var utils = require('./utils');
     var Module = require('./module');
@@ -12,7 +12,7 @@ define(function (require, exports, module) {
         _connectProviders[name] = provider;
     }
 
-    register('default', function (node, parent, connection) {
+    register('default', function(node, parent, connection) {
         connection.setPathData([
             'M', parent.getLayoutVertexOut(),
             'L', node.getLayoutVertexIn()
@@ -28,11 +28,11 @@ define(function (require, exports, module) {
          *
          * @grammar getConnect() => {string}
          */
-        getConnect: function () {
+        getConnect: function() {
             return this.data.connect || 'default';
         },
 
-        getConnectProvider: function () {
+        getConnectProvider: function() {
             return _connectProviders[this.getConnect()] || _connectProviders['default'];
         },
 
@@ -44,18 +44,18 @@ define(function (require, exports, module) {
          *
          * @grammar getConnection() => {kity.Path}
          */
-        getConnection: function () {
+        getConnection: function() {
             return this._connection || null;
         }
     });
 
     kity.extendClass(Minder, {
 
-        getConnectContainer: function () {
+        getConnectContainer: function() {
             return this._connectContainer;
         },
 
-        createConnect: function (node) {
+        createConnect: function(node) {
             if (node.isRoot()) return;
 
             var connection = new kity.Path();
@@ -66,15 +66,15 @@ define(function (require, exports, module) {
             this.updateConnect(node);
         },
 
-        removeConnect: function (node) {
+        removeConnect: function(node) {
             var me = this;
-            node.traverse(function (node) {
+            node.traverse(function(node) {
                 me._connectContainer.removeShape(node._connection);
                 node._connection = null;
             });
         },
 
-        updateConnect: function (node) {
+        updateConnect: function(node) {
 
             var connection = node._connection;
             var parent = node.parent;
@@ -105,18 +105,18 @@ define(function (require, exports, module) {
     });
 
     Module.register('Connect', {
-        init: function () {
+        init: function() {
             this._connectContainer = new kity.Group().setId(utils.uuid('minder_connect_group'));
             this.getRenderContainer().prependShape(this._connectContainer);
         },
         events: {
-            'nodeattach': function (e) {
+            'nodeattach': function(e) {
                 this.createConnect(e.node);
             },
-            'nodedetach': function (e) {
+            'nodedetach': function(e) {
                 this.removeConnect(e.node);
             },
-            'layoutapply layoutfinish noderender': function (e) {
+            'layoutapply layoutfinish noderender': function(e) {
                 this.updateConnect(e.node);
             }
         }

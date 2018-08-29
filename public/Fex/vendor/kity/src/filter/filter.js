@@ -2,7 +2,7 @@
  * Filter 基类
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var svg = require('../graphic/svg');
     var Class = require('../core/class');
@@ -11,7 +11,7 @@ define(function (require, exports, module) {
 
         mixins: [require('./effectcontainer')],
 
-        constructor: function (x, y, width, height) {
+        constructor: function(x, y, width, height) {
 
             this.node = svg.createNode('filter');
 
@@ -29,13 +29,13 @@ define(function (require, exports, module) {
             }
         },
 
-        getId: function () {
+        getId: function() {
 
             return this.id;
 
         },
 
-        setId: function (id) {
+        setId: function(id) {
 
             this.node.id = id;
 
@@ -43,7 +43,7 @@ define(function (require, exports, module) {
 
         },
 
-        set: function (key, value) {
+        set: function(key, value) {
 
             this.node.setAttribute(key, value);
 
@@ -51,13 +51,13 @@ define(function (require, exports, module) {
 
         },
 
-        get: function (key) {
+        get: function(key) {
 
             return this.node.getAttribute(key);
 
         },
 
-        getNode: function () {
+        getNode: function() {
 
             return this.node;
 
@@ -68,7 +68,7 @@ define(function (require, exports, module) {
     var Shape = require('../graphic/shape');
 
     Class.extendClass(Shape, {
-        applyFilter: function (filter) {
+        applyFilter: function(filter) {
             var filterId = filter.get('id');
 
             if (filterId) {

@@ -4,7 +4,7 @@
  * 提供支持目标缩放的动画器
  */
 
-define(function (require) {
+define(function(require) {
     var Animator = require('./animator');
 
     /**
@@ -23,11 +23,11 @@ define(function (require) {
          * @param  {Number} sx x 轴的缩放比例
          * @param  {Number} sy y 轴的缩放比例
          */
-        constructor: function (sx, sy) {
+        constructor: function(sx, sy) {
             this.callBase({
                 beginValue: 0,
                 finishValue: 1,
-                setter: function (target, value, timeline) {
+                setter: function(target, value, timeline) {
                     var delta = timeline.getDelta();
                     var kx = Math.pow(sx, delta);
                     var ky = Math.pow(sy, delta);
@@ -55,7 +55,7 @@ define(function (require) {
          * @param {String|Function}   easing   动画播放使用的缓动函数，如 'ease'、'linear'、'swing'
          * @param {Function}          callback 播放结束之后的回调函数
          */
-        fxScale: function (sx, sy, duration, easing, delay, callback) {
+        fxScale: function(sx, sy, duration, easing, delay, callback) {
             return this.animate(new ScaleAnimator(sx, sy), duration, easing, delay, callback);
         }
     });

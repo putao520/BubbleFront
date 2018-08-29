@@ -1,6 +1,5 @@
 import angular from "angular";
 import app from "../../main";
-
 var $ = window.$;
 
 var html = `<div class="panel panel-default">
@@ -152,7 +151,7 @@ var SortGropu = function (bubble) {
                 var y = e.clientY - sy;
                 var _ox = ox + x;
                 var _oy = oy + y;
-                box.css({"top": _oy + "px", "left": _ox + "px"});
+                box.css({ "top": _oy + "px", "left": _ox + "px" });
             } else {
                 if (!$(".ui-tree-toolbox").length) {
                     $("body").unbind("mousemove");

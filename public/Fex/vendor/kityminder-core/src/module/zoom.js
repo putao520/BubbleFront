@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var utils = require('../core/utils');
 
@@ -8,7 +8,7 @@ define(function (require, exports, module) {
     var Module = require('../core/module');
     var Renderer = require('../core/render');
 
-    Module.register('Zoom', function () {
+    Module.register('Zoom', function() {
         var me = this;
 
         var timeline;
@@ -26,7 +26,7 @@ define(function (require, exports, module) {
         }
 
         kity.extendClass(Minder, {
-            zoom: function (value) {
+            zoom: function(value) {
                 var paper = this.getPaper();
                 var viewport = paper.getViewPort();
                 viewport.zoom = value / 100;
@@ -37,7 +37,7 @@ define(function (require, exports, module) {
                 paper.setViewPort(viewport);
                 if (value == 100) fixPaperCTM(paper);
             },
-            getZoomValue: function () {
+            getZoomValue: function() {
                 return this._zoomValue;
             }
         });
@@ -59,7 +59,7 @@ define(function (require, exports, module) {
                 var animator = new kity.Animator({
                     beginValue: minder._zoomValue,
                     finishValue: value,
-                    setter: function (target, value) {
+                    setter: function(target, value) {
                         target.zoom(value);
                     }
                 });
@@ -68,7 +68,7 @@ define(function (require, exports, module) {
                     timeline.pause();
                 }
                 timeline = animator.start(minder, duration, 'easeInOutSine');
-                timeline.on('finish', function () {
+                timeline.on('finish', function() {
                     minder.fire('viewchange');
                 });
             }
@@ -87,7 +87,7 @@ define(function (require, exports, module) {
         var ZoomCommand = kity.createClass('Zoom', {
             base: Command,
             execute: zoomMinder,
-            queryValue: function (minder) {
+            queryValue: function(minder) {
                 return minder._zoomValue;
             }
         });
@@ -102,13 +102,13 @@ define(function (require, exports, module) {
          */
         var ZoomInCommand = kity.createClass('ZoomInCommand', {
             base: Command,
-            execute: function (minder) {
+            execute: function(minder) {
                 zoomMinder(minder, this.nextValue(minder));
             },
-            queryState: function (minder) {
+            queryState: function(minder) {
                 return +!this.nextValue(minder);
             },
-            nextValue: function (minder) {
+            nextValue: function(minder) {
                 var stack = minder.getOption('zoom'),
                     i;
                 for (i = 0; i < stack.length; i++) {
@@ -129,13 +129,13 @@ define(function (require, exports, module) {
          */
         var ZoomOutCommand = kity.createClass('ZoomOutCommand', {
             base: Command,
-            execute: function (minder) {
+            execute: function(minder) {
                 zoomMinder(minder, this.nextValue(minder));
             },
-            queryState: function (minder) {
+            queryState: function(minder) {
                 return +!this.nextValue(minder);
             },
-            nextValue: function (minder) {
+            nextValue: function(minder) {
                 var stack = minder.getOption('zoom'),
                     i;
                 for (i = stack.length - 1; i >= 0; i--) {
@@ -147,7 +147,7 @@ define(function (require, exports, module) {
         });
 
         return {
-            init: function () {
+            init: function() {
                 this._zoomValue = 100;
                 this.setDefaultOptions({
                     zoom: [10, 20, 50, 100, 200]
@@ -160,7 +160,7 @@ define(function (require, exports, module) {
                 'zoom': ZoomCommand
             },
             events: {
-                'normal.mousewheel readonly.mousewheel': function (e) {
+                'normal.mousewheel readonly.mousewheel': function(e) {
                     if (!e.originEvent.ctrlKey && !e.originEvent.metaKey) return;
 
                     var delta = e.originEvent.wheelDelta;
@@ -177,7 +177,7 @@ define(function (require, exports, module) {
                         return;
                     }
 
-                    this._wheelZoomTimeout = setTimeout(function () {
+                    this._wheelZoomTimeout = setTimeout(function() {
                         var value;
                         var lastValue = me.getPaper()._zoom || 1;
                         if (delta < 0) {

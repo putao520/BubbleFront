@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var Layout = require('../core/layout');
 
@@ -10,7 +10,7 @@ define(function (require, exports, module) {
         Layout.register(name, kity.createClass({
             base: Layout,
 
-            doLayout: function (parent, children, round) {
+            doLayout: function(parent, children, round) {
                 var pBox = parent.getContentBox();
                 var indent = 20;
 
@@ -19,7 +19,7 @@ define(function (require, exports, module) {
 
                 if (!children.length) return;
 
-                children.forEach(function (child) {
+                children.forEach(function(child) {
                     var cbox = child.getContentBox();
                     child.setLayoutTransform(new kity.Matrix());
 
@@ -52,7 +52,7 @@ define(function (require, exports, module) {
 
             },
 
-            getOrderHint: function (node) {
+            getOrderHint: function(node) {
                 var hint = [];
                 var box = node.getLayoutBox();
                 var offset = node.getLevel() > 1 ? 3 : 5;

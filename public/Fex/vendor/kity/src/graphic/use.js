@@ -2,7 +2,7 @@
  * USE 功能
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var Svg = require('./svg');
     var Class = require('../core/class');
@@ -11,14 +11,14 @@ define(function (require, exports, module) {
 
         base: require('./shape'),
 
-        constructor: function (shape) {
+        constructor: function(shape) {
 
             this.callBase('use');
 
             this.ref(shape);
         },
 
-        ref: function (shape) {
+        ref: function(shape) {
 
             if (!shape) {
                 this.node.removeAttributeNS(Svg.xlink, 'xlink:href');
@@ -47,7 +47,7 @@ define(function (require, exports, module) {
     var Shape = require('./shape');
     Class.extendClass(Shape, {
         // fast-use
-        use: function () {
+        use: function() {
             return new Use(this);
         }
     });

@@ -55,7 +55,7 @@
 }
 
 .filebox .filelistbox .file {
-    width: 120px;
+    width: 125px;
     height: 127px;
     float: left;
     margin: 4px 0 0 6px;
@@ -153,7 +153,7 @@
     display: block;
 }
 
-.file-chosen-wrap > div {
+.file-chosen-wrap>div {
     border-radius: 5px;
 }
 
@@ -168,4 +168,12 @@
 .file-chosen-wrap .webuploader-pick {
     width: 30px;
     height: 20px;
+}
+.tishi{
+    font-size: 150%;
+    font-weight: bold;
+    text-align: center;
+}
+.w-full{
+    width: auto;
 }

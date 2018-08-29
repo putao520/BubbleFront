@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>坐标系</title>
+<html> 
+<head> 
+<title>坐标系</title>
     <script src="../../dist/kity.min.js"></script>
     <script src="coordinate.js"></script>
     <style>
@@ -10,18 +10,15 @@
             padding: 0;
             overflow: hidden;
         }
-
         fieldset {
             width: 80%;
             margin: 1%;
             float: left;
         }
-
         label {
             display: inline-block;
             width: 80px;
         }
-
         input {
             width: 400px;
         }
@@ -30,11 +27,11 @@
 <body>
 </body>
 <script>
-    function boxString(box) {
+    function boxString (box) {
         return [box.x, box.y, box.width, box.height].join(', ');
     }
 
-    var paper = new kity.Paper(document.body).pipe(function () {
+    var paper = new kity.Paper(document.body).pipe(function() {
         var width = 800, height = 500;
         var paper = this;
 
@@ -42,20 +39,20 @@
         this.setViewBox(-40.5, -40.5, width, height)
     });
 
-    paper.addShape(paper = new Coordinate('black', [-3, 69], [-3, 39]).pipe(function () {
+    paper.addShape(paper = new Coordinate('black', [-3, 69], [-3, 39]).pipe(function() {
         this.addShape(this.text = new kity.Text('Paper')
             .setVerticalAlign('bottom')
             .setX(5).setY(-5));
     }));
 
-    group = new Coordinate('green', [-3, 30], [-3, 30]).pipe(function () {
+    group = new Coordinate('green', [-3, 30], [-3, 30]).pipe(function() {
         this.addShape(this.text = new kity.Text('Group')
             .fill('green')
             .setVerticalAlign('bottom')
             .setX(5).setY(-5));
     });
 
-    rect = new Coordinate('red', [-2, 10], [-2, 10]).pipe(function () {
+    rect = new Coordinate('red', [-2, 10], [-2, 10]).pipe(function() {
         this.addShape(this.text = new kity.Text('Rect')
             .fill('red')
             .setVerticalAlign('bottom')

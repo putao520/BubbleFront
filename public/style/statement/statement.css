@@ -1,7 +1,7 @@
 /*************************************
  * statement 统计报表
  */
-.statement-box .charts1 {
+ .statement-box .charts1 {
     width: 100%;
     height: 800px;
     position: relative;
@@ -14,7 +14,6 @@
     width: 100%;
     position: relative;
 }
-
 .statement-box .datebox form {
     text-align: center;
 }

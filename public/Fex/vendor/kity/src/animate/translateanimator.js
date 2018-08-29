@@ -4,7 +4,7 @@
  * 提供让图形移动的动画器
  */
 
-define(function (require) {
+define(function(require) {
     var Animator = require('./animator');
 
     /**
@@ -22,14 +22,14 @@ define(function (require) {
          * @param  {Number} x x 方向上需要移动的距离
          * @param  {Number} y y 方向上需要移动的距离
          */
-        constructor: function (x, y) {
+        constructor: function(x, y) {
             this.callBase({
                 x: 0,
                 y: 0
             }, {
                 x: x,
                 y: y
-            }, function (target, value, timeline) {
+            }, function(target, value, timeline) {
                 var delta = timeline.getDelta();
                 target.translate(delta.x, delta.y);
             });
@@ -53,7 +53,7 @@ define(function (require) {
          * @param {String|Function}   easing   动画播放使用的缓动函数，如 'ease'、'linear'、'swing'
          * @param {Function}          callback 播放结束之后的回调函数
          */
-        fxTranslate: function (x, y, duration, easing, delay, callback) {
+        fxTranslate: function(x, y, duration, easing, delay, callback) {
             return this.animate(new TranslateAnimator(x, y), duration, easing, delay, callback);
         }
     });

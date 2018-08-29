@@ -38,8 +38,7 @@
     <div class="application-box">
         <div class="application-wrap">
             <div class="table-box wrapper">
-                <select-table multiple="true" editable="true" interface="app" title="App管理" control="tableControl"
-                              create-modal="applicationCreate.html"></select-table>
+                <select-table multiple="true" editable="true" interface="app" title="App管理" control="tableControl" create-modal="applicationCreate.html"></select-table>
             </div>
             <div class="info-box pos-rlt">
                 <div class="bg-light lter b-b wrapper-md ng-scope title-box">
@@ -53,12 +52,10 @@
                         <div class="b-a">
                             <div class="panel-heading no-border hover-anchor" ng-class="colors[$index % colors.length]">
                                 <span class="text-lt">{{item.serviceName}}服务的实例</span>
-                                <span class="pull-right hover-action cursor-p" ng-click="deleteIns(item, $index)"><i
-                                    class="fa fa-times"></i></span>
+                                <span class="pull-right hover-action cursor-p" ng-click="deleteIns(item, $index)"><i class="fa fa-times"></i></span>
                             </div>
                             <div class="item m-l-n-xxs m-r-n-xxs wrapper bg-white clear-b">
-                                <form
-                                    class="form-horizontal ng-pristine ng-valid ng-valid-date ng-valid-required ng-valid-parse ng-valid-date-disabled"
+                                <form class="form-horizontal ng-pristine ng-valid ng-valid-date ng-valid-required ng-valid-parse ng-valid-date-disabled"
                                     method="get">
                                     <div class="row padder-v-xs">
                                         <label class="col-sm-4 text-center">创建时间: </label>
@@ -68,8 +65,7 @@
                                     </div>
                                     <div class="row padder-v-xs">
                                         <label class="col-sm-4 text-center">配置信息: </label>
-                                        <div class="col-sm-8"><a ng-click="editConfig(item)">{{item.state ? "配置更新中..." :
-                                            "点击编辑配置"}}</a></div>
+                                        <div class="col-sm-8"><a ng-click="editConfig(item)">{{item.state ? "配置更新中..." : "点击编辑配置"}}</a></div>
                                     </div>
                                 </form>
                             </div>
@@ -81,8 +77,7 @@
                     <div class="bg-light lter m-b-sm">
                         <h1 class="m-n font-thin h4">服务列表</h1>
                     </div>
-                    <div class="alert ng-isolate-scope alert-danger text-center cursor-p" ng-repeat="item in service"
-                         ng-click="addIns(item)">
+                    <div class="alert ng-isolate-scope alert-danger text-center cursor-p" ng-repeat="item in service" ng-click="addIns(item)">
                         <div><span class="ng-binding ng-scope">{{item.serviceName}}</span></div>
                     </div>
                 </div>

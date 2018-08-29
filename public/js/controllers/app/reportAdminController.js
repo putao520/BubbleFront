@@ -1,13 +1,13 @@
 bubbleFrame.register('reportAdminController', function ($scope, bubble, $modal, $http, $stateParams, $timeout) {
     var id = "58d21d100d428914848a58e7";
     var tmpInfo = {};
-    $scope.Info = {phone: "", time: ""};
+    $scope.Info = { phone: "", time: "" };
     $scope.list = ["天", "小时"];
     $scope.type = "天";
 
     $scope.click = function (v) {
         $scope.type = v;
-    };
+    }
     // bubble._call("report.timerSendCount", { day: id }).success(function (v) {
     //     $scope.siteInfo = JSON.parse(JSON.stringify(v[0]));
     //     tmpInfo = JSON.parse(JSON.stringify(v[0]));
@@ -22,7 +22,7 @@ bubbleFrame.register('reportAdminController', function ($scope, bubble, $modal, 
             v.errorcode ? swal(v.message) : swal("修改成功");
             $(e.currentTarget).removeClass("data-loading");
         });
-    };
+    }
 
     $scope.review = function () {
         if (tmpInfo)

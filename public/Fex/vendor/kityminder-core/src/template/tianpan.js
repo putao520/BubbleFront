@@ -6,7 +6,7 @@
  * @author: along
  * @copyright: bpd729@163.com, 2015
  */
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var template = require('../core/template');
 
     template.register('tianpan', {

@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var data = require('../core/data');
     var LINE_ENDING_SPLITER = /\r\n|\r|\n/;
     var EMPTY_LINE = '';
@@ -24,7 +24,7 @@ define(function (require, exports, module) {
             var hasSharp = /^#/.test(note);
             if (hasSharp) {
                 lines.push(NOTE_MARK_START);
-                note = note.replace(/^#+/gm, function ($0) {
+                note = note.replace(/^#+/gm, function($0) {
                     return sharps + $0;
                 });
             }
@@ -35,7 +35,7 @@ define(function (require, exports, module) {
             lines.push(EMPTY_LINE);
         }
 
-        if (node.children) node.children.forEach(function (child) {
+        if (node.children) node.children.forEach(function(child) {
             lines = lines.concat(_build(child, level + 1));
         });
 
@@ -55,7 +55,7 @@ define(function (require, exports, module) {
             lines, line, lineInfo, level, node, parent, noteProgress, codeBlock;
 
         // 一级标题转换 `{title}\n===` => `# {title}`
-        markdown = markdown.replace(/^(.+)\n={3,}/, function ($0, $1) {
+        markdown = markdown.replace(/^(.+)\n={3,}/, function($0, $1) {
             return '# ' + $1;
         });
 
@@ -147,11 +147,11 @@ define(function (require, exports, module) {
         mineType: 'text/markdown',
         dataType: 'text',
 
-        encode: function (json) {
+        encode: function(json) {
             return encode(json.root);
         },
 
-        decode: function (markdown) {
+        decode: function(markdown) {
             return decode(markdown);
         }
     });

@@ -1,7 +1,6 @@
 import angular from "angular";
 import app from "../../main";
 import $ from "jquery";
-
 var Swiper = window.Swiper;
 
 app.directive('uiSwiper', ['$http', 'bubble', '$compile', '$timeout', function ($http, bubble, $compile, $timeout) {

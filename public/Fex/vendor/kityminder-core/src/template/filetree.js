@@ -6,19 +6,19 @@
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var template = require('../core/template');
 
     template.register('filetree', {
 
-        getLayout: function (node) {
+        getLayout: function(node) {
             if (node.getData('layout')) return node.getData('layout');
             if (node.isRoot()) return 'bottom';
 
             return 'filetree-down';
         },
 
-        getConnect: function (node) {
+        getConnect: function(node) {
             if (node.getLevel() == 1) {
                 return 'poly';
             }

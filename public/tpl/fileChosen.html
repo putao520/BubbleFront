@@ -1,27 +1,20 @@
 <div class="file-chosen-wrap animated fadeInUp">
     <div class="hbox hbox-auto-xs pos-rlt overflow-h bg-light" unselectable="on">
         <div class="col w w-auto-xs bg-light lter b-r navbox">
-            <div class="subnav-top b-b">文件选择
-                <button class="btn m-t-md m-r-sm btn-sm btn-info pull-right" id="fileUploadPickerChose"
-                        style="width: 50px;height: 30px;">上传
-                </button>
-            </div>
-            <a class="subnav-item hover-color" ng-class="item.selected ? 'active' : ''" ng-click="typeClick(item)"
-               ng-repeat="item in types">{{item.name}}</a>
+            <div class="subnav-top b-b">文件选择<button class="btn m-t-md m-r-sm btn-sm btn-info pull-right" id="fileUploadPickerChose" style="width: 50px;height: 30px;">上传</button></div>
+            <a class="subnav-item hover-color" ng-class="item.selected ? 'active' : ''" ng-click="typeClick(item)" ng-repeat="item in types">{{item.name}}</a>
         </div>
         <div class="col pos-rlt filebox w-full">
             <div class="breadcrumbbox h-70 wrapper b-b">
                 <ul class="breadcrumb bg-white b-a">
                     <li ng-repeat="item in pathmap">
-                        <span ng-click="breadcrumbClick($index)"
-                              ng-class="{'cursor-p': $index != pathmap.length - 1,'text-info': $index != pathmap.length - 1}">{{item[0].fileoldname}}</span>
+                        <span ng-click="breadcrumbClick($index)" ng-class="{'cursor-p': $index != pathmap.length - 1,'text-info': $index != pathmap.length - 1}">{{item[0].fileoldname}}</span>
                     </li>
                 </ul>
             </div>
             <div class="filelistbox">
-                <div class="wrapper-sm h-full pos-rlt overflow-auto" ng-mousedown="darw.start($event)"
-                     ng-mousemove="darw.move($event)" ui-scroll-load=".fileitembox"
-                     control="scrollControl">
+                <div class="wrapper-sm h-full pos-rlt overflow-auto" ng-mousedown="darw.start($event)" ng-mousemove="darw.move($event)" ui-scroll-load=".fileitembox"
+                    control="scrollControl">
                     <div class="select-box"></div>
                     <div class="fileitembox">
 

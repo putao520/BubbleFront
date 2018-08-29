@@ -2,7 +2,7 @@
  * 通过点来决定图形的公共父类
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var Utils = require('../core/utils');
 
@@ -12,7 +12,7 @@ define(function (require, exports, module) {
 
         mixins: [require('./pointcontainer')],
 
-        constructor: function (points, closeable) {
+        constructor: function(points, closeable) {
 
             this.callBase();
 
@@ -27,7 +27,7 @@ define(function (require, exports, module) {
         },
 
         //当点集合发生变化时采取的动作
-        onContainerChanged: function () {
+        onContainerChanged: function() {
 
             if (this.changeable) {
                 this.update();
@@ -35,7 +35,7 @@ define(function (require, exports, module) {
 
         },
 
-        update: function () {
+        update: function() {
 
             var drawer = this.getDrawer(),
                 points = this.getPoints();

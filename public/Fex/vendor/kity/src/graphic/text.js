@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var TextContent = require('./textcontent');
     var ShapeContainer = require('./shapecontainer');
@@ -42,7 +42,7 @@ define(function (require, exports, module) {
 
         mixins: [ShapeContainer],
 
-        constructor: function (content) {
+        constructor: function(content) {
             this.callBase('text');
             if (content !== undefined) {
                 this.setContent(content);
@@ -50,13 +50,13 @@ define(function (require, exports, module) {
             this._buildFontHash();
         },
 
-        fixPosition: function () {
+        fixPosition: function() {
             if (!this.__fixedPosition) {
                 this.setVerticalAlign(this.getVerticalAlign());
             }
         },
 
-        _buildFontHash: function () {
+        _buildFontHash: function() {
             var style = window.getComputedStyle(this.node);
 
             this._cachedFontHash = [style.fontFamily,
@@ -68,7 +68,7 @@ define(function (require, exports, module) {
             ].join('-');
         },
 
-        _fontChanged: function (font) {
+        _fontChanged: function(font) {
             var last = this._lastFont;
             var current = utils.extend({}, last, font);
 
@@ -87,26 +87,26 @@ define(function (require, exports, module) {
             return changed;
         },
 
-        setX: function (x) {
+        setX: function(x) {
             this.node.setAttribute('x', x);
             return this;
         },
-        setPosition: function (x, y) {
+        setPosition: function(x, y) {
             return this.setX(x).setY(y);
         },
-        setY: function (y) {
+        setY: function(y) {
             this.node.setAttribute('y', y);
             return this;
         },
-        getX: function () {
+        getX: function() {
             return +this.node.getAttribute('x') || 0;
         },
 
-        getY: function () {
+        getY: function() {
             return +this.node.getAttribute('y') || 0;
         },
 
-        setFont: function (font) {
+        setFont: function(font) {
             this.callBase(font);
             if (this._fontChanged(font)) {
                 this._buildFontHash();
@@ -115,18 +115,18 @@ define(function (require, exports, module) {
             return this;
         },
 
-        setTextAnchor: function (anchor) {
+        setTextAnchor: function(anchor) {
             this.node.setAttribute('text-anchor', anchor);
             return this;
         },
 
-        getTextAnchor: function () {
+        getTextAnchor: function() {
             return this.node.getAttribute('text-anchor') || 'start';
         },
 
         // top/bottom/middle/baseline
-        setVerticalAlign: function (align) {
-            this.whenPaperReady(function () {
+        setVerticalAlign: function(align) {
+            this.whenPaperReady(function() {
                 var dy;
                 switch (align) {
                     case 'top':
@@ -148,23 +148,23 @@ define(function (require, exports, module) {
             return this;
         },
 
-        getVerticalAlign: function () {
+        getVerticalAlign: function() {
             return this.verticalAlign || 'baseline';
         },
 
-        setStartOffset: function (offset) {
+        setStartOffset: function(offset) {
             // only for text path
             if (this.shapeNode != this.node) {
                 this.shapeNode.setAttribute('startOffset', offset * 100 + '%');
             }
         },
 
-        addSpan: function (span) {
+        addSpan: function(span) {
             this.addShape(span);
             return this;
         },
 
-        setPath: function (path) {
+        setPath: function(path) {
             var textpath = this.shapeNode;
             if (this.shapeNode == this.node) {
                 // 当前还不是 textpath

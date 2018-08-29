@@ -10,11 +10,11 @@ bubbleFrame.register('userController', function ($scope, $timeout, bubble, $http
         // onClick: function (key, v) {
         //     info.show(v._id);
         // }
-    };
+    }
 
     $scope.closeInfo = function () {
         info.hide();
-    };
+    }
 
     var Info = function () {
         var _this = this;
@@ -24,7 +24,7 @@ bubbleFrame.register('userController', function ($scope, $timeout, bubble, $http
         this.init = function () {
             this.initEvent();
             return this;
-        };
+        }
 
         this.initEvent = function () {
             box.unbind("click").click(function (e) {
@@ -32,32 +32,24 @@ bubbleFrame.register('userController', function ($scope, $timeout, bubble, $http
                     box.fadeOut(200);
                 }
             });
-        };
+        }
 
         this.show = function (v) {
             this.getData(v);
             box.fadeIn(200);
-        };
+        }
 
         this.hide = function () {
             box.fadeOut(200);
-        };
+        }
 
         this.getData = function (v) {
             $scope.isajax = true;
             var count = 0;
-            bubble._call("count.group", "undefined", "VisitRecord_13", [{
-                "field": "uid",
-                "logic": "==",
-                "value": v
-            }], "uid", "count", "oid", "0").success(function (v) {
+            bubble._call("count.group", "undefined", "VisitRecord_13", [{ "field": "uid", "logic": "==", "value": v }], "uid", "count", "oid", "0").success(function (v) {
                 $scope.data = v.record.data;
                 $scope.data.forEach(function (x, i) {
-                    bubble._call("content.pageBy", 1, 10, [{
-                        "field": "_id",
-                        "logic": "==",
-                        "value": x._id
-                    }]).success(function (rs) {
+                    bubble._call("content.pageBy", 1, 10, [{ "field": "_id", "logic": "==", "value": x._id }]).success(function (rs) {
                         $scope.data[i].content = rs.data[0] ? rs.data[0] : "";
                         if (++count == $scope.data.length) {
                             $scope.isajax = false;
@@ -66,6 +58,6 @@ bubbleFrame.register('userController', function ($scope, $timeout, bubble, $http
                 });
             });
         }
-    };
+    }
     var info = new Info().init();
 });

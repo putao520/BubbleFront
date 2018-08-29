@@ -1,11 +1,11 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var Point = require('./point');
 
     return require('../core/class').createClass('Sweep', {
 
         base: require('./path'),
 
-        constructor: function (sectionArray, angle, angleOffset) {
+        constructor: function(sectionArray, angle, angleOffset) {
             this.callBase();
             this.sectionArray = sectionArray || [];
             this.angle = angle || 0;
@@ -13,34 +13,34 @@ define(function (require, exports, module) {
             this.draw();
         },
 
-        getSectionArray: function () {
+        getSectionArray: function() {
             return this.sectionArray;
         },
 
-        setSectionArray: function (value) {
+        setSectionArray: function(value) {
             this.sectionArray = value;
             return this.draw();
         },
 
-        getAngle: function () {
+        getAngle: function() {
             return this.angle;
         },
 
-        setAngle: function (value) {
+        setAngle: function(value) {
             this.angle = value;
             return this.draw();
         },
 
-        getAngleOffset: function () {
+        getAngleOffset: function() {
             return this.angleOffset;
         },
 
-        setAngleOffset: function (value) {
+        setAngleOffset: function(value) {
             this.angleOffset = value;
             return this.draw();
         },
 
-        draw: function () {
+        draw: function() {
             var sectionArray = this.sectionArray,
                 i;
             for (i = 0; i < sectionArray.length; i += 2) {
@@ -49,7 +49,7 @@ define(function (require, exports, module) {
             return this;
         },
 
-        drawSection: function (from, to) {
+        drawSection: function(from, to) {
             var angleLength = this.angle && (this.angle % 360 ? this.angle % 360 : 360),
                 angleStart = this.angleOffset,
                 angleHalf = angleStart + angleLength / 2,

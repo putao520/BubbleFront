@@ -5,19 +5,19 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
     var appid = bubble.getAppId();
 
     var sitemap = [
-        {key: "article", value: "文章发布量"},
-        {key: "view", value: "文章浏览量"},
-        {key: "reported", value: "被举报量"},
-        {key: "consulted", value: "被咨询量"},
-    ];
+        { key: "article", value: "文章发布量" },
+        { key: "view", value: "文章浏览量" },
+        { key: "reported", value: "被举报量" },
+        { key: "consulted", value: "被咨询量" },
+    ]
 
     var columnmap = [
-        {key: "article", value: "文章发布量"},
-        {key: "unChecked", value: "未待审核文章"},
-        {key: "refuse", value: "拒绝审核文章"},
-        {key: "pass", value: "已审核文章"},
-        {key: "view", value: "浏览量"},
-    ];
+        { key: "article", value: "文章发布量" },
+        { key: "unChecked", value: "未待审核文章" },
+        { key: "refuse", value: "拒绝审核文章" },
+        { key: "pass", value: "已审核文章" },
+        { key: "view", value: "浏览量" },
+    ]
 
     // $scope.yaqtestdata = [
     //     { "webID": "312314", "appId": "432423422r2", "article": 12, "view": 312, "reported": 32, "consulted": 21, "time": 21341233, "name": "企务公开" },
@@ -61,15 +61,15 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
                 rs[1] = moment().valueOf();
                 break;
             default:
-                rs = [];
+                rs = []
                 break;
         }
         return rs;
-    };
+    }
 
     var loading = function (v) {
         v ? $(".contentbatchMask").fadeIn(200) : $(".contentbatchMask").fadeOut(200);
-    };
+    }
 
     var getBar = function (o) {
         var series = o.legend.map(function (v, i) {
@@ -134,7 +134,7 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
             ],
             series: series
         }
-    };
+    }
 
     var getPie = function (o) {
         var series = o.legend.map(function (v, i) {
@@ -154,7 +154,7 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
         });
         return {
             angleAxis: {},
-            tooltip: {format: ''},
+            tooltip: { format: '' },
             polar: {},
             radiusAxis: {
                 center: ['50%', '50%'],
@@ -171,7 +171,7 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
             },
             series: series,
         }
-    };
+    }
 
     var resize = function () {
         if (!$(".content-count-box").length) {
@@ -180,14 +180,14 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
             left && left.resize();
             right && right.resize();
         }
-    };
+    }
 
     $scope.getDataByTime = function () {
         $scope.getData(Date.parse(new Date($scope.stime)) + "," + Date.parse(new Date($scope.etime)));
         $scope.columnmap = [];
         $scope.currentMap = sitemap;
         $(".btnitem").removeClass("cur");
-    };
+    }
 
     $scope.getDataByType = function (type, e) {
         $(".btnitem").removeClass("cur");
@@ -195,7 +195,7 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
         $scope.getData(type);
         $scope.columnmap = [];
         $scope.currentMap = sitemap;
-    };
+    }
 
     $scope.sort = function (k, e) {
         var obj = $(e.currentTarget);
@@ -213,7 +213,7 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
             obj.append('<i class="m-l-xs text-danger fa fa-long-arrow-down"></i>');
             bubble.sortBy($scope.currentData, k, false);
         }
-    };
+    }
 
     $scope.goPrev = function () {
         if ($scope.columnmap.length) {
@@ -224,7 +224,7 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
             $scope.sitemap = [];
             $scope.getData(currentTime);
         }
-    };
+    }
 
     $scope.goNext = function (v, i) {
         if ($scope.currentMode == "column") {
@@ -246,7 +246,7 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
                 getColumn(v)
             }
         }
-    };
+    }
 
     $scope.navClick = function (type, v, i) {
         if (type == "root") {
@@ -275,7 +275,7 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
             $scope.columnmap.splice(i + 1, $scope.columnmap.length);
             initColumnChart();
         }
-    };
+    }
 
     $scope.changeMode = function () {
         if ($scope.currentMode === "site") {
@@ -302,7 +302,7 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
             $scope.currentMode = "site";
             initSiteChart();
         }
-    };
+    }
 
     var getOptionData = function (v, d) {
         var data = [];
@@ -318,13 +318,13 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
             Axis.push(e.name);
         }
 
-        return {data: data, legend: legend, Axis: Axis};
-    };
+        return { data: data, legend: legend, Axis: Axis };
+    }
 
     var offEnent = function () {
         left.off("click");
         right.off("click");
-    };
+    }
 
     var initSiteChart = function () {
         var o = getOptionData($scope.currentMap, $scope.currentData.slice(0, 5));
@@ -344,13 +344,13 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
                 initSiteChart();
             }
             bubble.updateScope($scope);
-        };
+        }
         left.on('click', click);
         right.on('click', click);
-    };
+    }
 
     var initColumnChart = function () {
-        var o = getOptionData($scope.currentMap, $scope.currentData.slice(0, 5));
+        var o = getOptionData($scope.currentMap, $scope.currentData.slice(0, 5))
         left.setOption(getPie(o));
         right.setOption(getBar(o));
         offEnent();
@@ -361,10 +361,10 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
                 initColumnChart();
             }
             bubble.updateScope($scope);
-        };
+        }
         left.on('click', cb);
         right.on('click', cb);
-    };
+    }
 
     var getColumn = function (v) {
         $scope.currentMap = columnmap;
@@ -375,13 +375,13 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
                 $scope.currentData = reviewData(rs, "contentId");
                 initColumnChart();
             }
-        };
+        }
         if (currentTime != "all") {
             bubble._call("webShow.getcolumn|17", appid, v.webId, getTimestamp(currentTime).join(",")).success(cb);
         } else {
             bubble._call("webShow.getcolumnall|17", appid, v.webId).success(cb);
         }
-    };
+    }
 
     var reviewData = function (v, key) {
         var rs = [];
@@ -391,7 +391,7 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
         rs = bubble.sortBy(rs, "article");
         rs = bubble.getTreeData(rs, key);
         return rs;
-    };
+    }
 
     $scope.getData = function (type) {
         currentTime = type;
@@ -407,7 +407,7 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
                 $scope.currentMap = sitemap;
                 initSiteChart();
             }
-        };
+        }
         if (type.indexOf(",") >= 0) {
             bubble._call("webShow.state|17", appid, type, 1, 50).success(cb);
             return;
@@ -425,7 +425,7 @@ bubbleFrame.register('contentCountController', function ($scope, bubble, $timeou
                 bubble._call("webShow.state|17", appid, getTimestamp("day").join(","), 1, 50).success(cb);
                 break;
         }
-    };
+    }
 
     $scope.getData("all");
 

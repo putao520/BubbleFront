@@ -7,21 +7,16 @@
         <form name="reset" ng-init="isCollapsed=true" class="ng-pristine ng-valid-email ng-invalid ng-invalid-required">
             <div class="list-group list-group-sm">
                 <div class="list-group-item">
-                    <input type="email" placeholder="Email" ng-model="email"
-                           class="form-control no-border ng-pristine ng-untouched ng-valid-email ng-invalid ng-invalid-required"
-                           required="">
+                    <input type="email" placeholder="Email" ng-model="email" class="form-control no-border ng-pristine ng-untouched ng-valid-email ng-invalid ng-invalid-required"
+                        required="">
                 </div>
             </div>
-            <button type="submit" ng-disabled="reset.$invalid" class="btn btn-lg btn-primary btn-block"
-                    ng-click="isCollapsed = !isCollapsed"
-                    disabled="disabled">Send
-            </button>
+            <button type="submit" ng-disabled="reset.$invalid" class="btn btn-lg btn-primary btn-block" ng-click="isCollapsed = !isCollapsed"
+                disabled="disabled">Send</button>
         </form>
         <div collapse="isCollapsed" class="m-t collapse" style="height: 0px;">
             <div class="alert alert-success">
-                <p>A reset link sent to your email address, please check it in 7 days. <a ui-sref="access.login"
-                                                                                          class="btn btn-sm btn-success">Sign
-                    in</a></p>
+                <p>A reset link sent to your email address, please check it in 7 days. <a ui-sref="access.login" class="btn btn-sm btn-success" >Sign in</a></p>
             </div>
         </div>
     </div>

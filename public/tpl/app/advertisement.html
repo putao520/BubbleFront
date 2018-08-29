@@ -59,7 +59,7 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col-sm-6 padder" ng-repeat="item in pics">
-                    <img class="w-full cursor-p" ui-img ng-src="{{item}}"/>
+                    <img class="w-full cursor-p" ui-img ng-src="{{item}}" />
                 </div>
             </div>
         </div>
@@ -74,8 +74,7 @@
                 <h1 class="m-n font-thin h3">广告管理</h1>
             </div>
             <div class="table-box wrapper">
-                <select-table multiple="true" editable="true" interface="advertisement" title="广告列表"
-                              control="tableControl" create-modal="advCreate.html"></select-table>
+                <select-table multiple="true" editable="true" interface="advertisement" title="广告列表" control="tableControl" create-modal="advCreate.html"></select-table>
             </div>
         </div>
         <div class="adv-item-box">
@@ -90,17 +89,15 @@
                 </div>
                 <div class="adv-infobox">
                     <div class="piclist b-r wrapper">
-                        <div class="picitem {{item.select ? 'cur' : ''}} pull-left"
-                             ng-repeat="item in swiperConfig.data" ng-click="itemClick(item)">
+                        <div class="picitem {{item.select ? 'cur' : ''}} pull-left" ng-repeat="item in swiperConfig.data" ng-click="itemClick(item)">
                             <div class="deletebtn">
                                 <i ng-click="up(item,$index)" class="fa fa-arrow-up"></i>
                                 <i ng-click="down(item,$index)" class="fa fa-arrow-down"></i>
                                 <i ng-click="removeItem(item)" class="fa fa-times"></i>
                             </div>
-                            <img src="{{item.img}}"/>
+                            <img src="{{item.img}}" />
                         </div>
-                        <div class="picitem uploadbtn pull-left b-a" ng-if="currentItem.adtype != '1'"
-                             id="fileUploadPickerImge">
+                        <div class="picitem uploadbtn pull-left b-a" ng-if="currentItem.adtype != '1'" id="fileUploadPickerImge">
                             <i class="fa fa-upload"></i>
                         </div>
                         <div class="picitem addbtn pull-left b-a" ng-if="currentItem.adtype == '1'">
@@ -108,15 +105,13 @@
                         </div>
                     </div>
                     <div class="infobox">
-                        <div class="inputbox b-b wrapper {{item.select ? '' : 'none'}}" ng-show="shower"
-                             ng-if="currentItem.adtype != '1'" ng-repeat="item in swiperConfig.data">
+                        <div class="inputbox b-b wrapper {{item.select ? '' : 'none'}}" ng-show="shower" ng-if="currentItem.adtype != '1'" ng-repeat="item in swiperConfig.data">
                             <div class="form-group">
                                 <label>跳转URL</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" ng-model="item.url" placeholder="图片URL">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button"
-                                                ng-click="openColumn(item)">栏目选择</button>
+                                        <button class="btn btn-default" type="button" ng-click="openColumn(item)">栏目选择</button>
                                     </span>
                                 </div>
                             </div>
@@ -127,8 +122,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="inputbox b-b wrapper {{item.select ? '' : 'none'}}" ng-show="shower"
-                             ng-if="currentItem.adtype == '1'" ng-repeat="item in swiperConfig.data">
+                        <div class="inputbox b-b wrapper {{item.select ? '' : 'none'}}" ng-show="shower" ng-if="currentItem.adtype == '1'" ng-repeat="item in swiperConfig.data">
                             <div class="form-group">
                                 <label>关联文章</label>
                                 <div>

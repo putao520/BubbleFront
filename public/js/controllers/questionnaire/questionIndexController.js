@@ -8,11 +8,11 @@ bubbleFrame.register('questionIndexController', function ($scope, bubble, $timeo
                 fn(v);
             });
         },
-        title: [{name: "题目列表", key: "sl", width: 110}, {name: "查看结果", key: "result", width: 110}],
+        title: [{ name: "题目列表", key: "sl", width: 110 }, { name: "查看结果", key: "result", width: 110 }],
         html: ['<a class="btn btn-sm m-t-n-xs"><i class="fa fa-navicon"></i></a>', '<a class="btn btn-sm m-t-n-xs"><i class="fa fa-search"></i></a>'],
         onClick: function (key, v) {
             if (key == "result") {
-                $state.go("app.questionnaire.questionanswer", {qid: v._id});
+                $state.go("app.questionnaire.questionanswer", { qid: v._id });
                 return;
             }
             $scope.modalVisible = true;
@@ -26,7 +26,7 @@ bubbleFrame.register('questionIndexController', function ($scope, bubble, $timeo
                 $scope.quesitionList = v;
             });
         }
-    };
+    }
 
     $scope.modalConfirm = function () {
         if (!$scope.currentQs.length) {
@@ -37,10 +37,7 @@ bubbleFrame.register('questionIndexController', function ($scope, bubble, $timeo
             return v._id;
         });
         bubble.loading(true);
-        bubble._call("questionnaire.update", $scope.current._id, bubble.replaceBase64(JSON.stringify({
-            questionIds: ids.join(","),
-            questionNum: ids.length
-        }))).success(function (v) {
+        bubble._call("questionnaire.update", $scope.current._id, bubble.replaceBase64(JSON.stringify({ questionIds: ids.join(","), questionNum: ids.length }))).success(function (v) {
             if (!v.errorcode) {
                 $scope.current.questionIds = $scope.currentQs;
                 $scope.current.questionNum = ids.length;
@@ -51,7 +48,7 @@ bubbleFrame.register('questionIndexController', function ($scope, bubble, $timeo
             }
             bubble.loading(false);
         });
-    };
+    }
 
     $scope.moveup = function (v, i) {
         if (i == 0) {
@@ -60,7 +57,7 @@ bubbleFrame.register('questionIndexController', function ($scope, bubble, $timeo
         var tmp = $scope.currentQs[i];
         $scope.currentQs[i] = $scope.currentQs[i - 1];
         $scope.currentQs[i - 1] = tmp;
-    };
+    }
 
     $scope.movedown = function (v, i) {
         if (i == $scope.currentQs - 1) {
@@ -69,7 +66,7 @@ bubbleFrame.register('questionIndexController', function ($scope, bubble, $timeo
         var tmp = $scope.currentQs[i];
         $scope.currentQs[i] = $scope.currentQs[i + 1];
         $scope.currentQs[i + 1] = tmp;
-    };
+    }
 
     $scope.remove = function (v) {
         for (var i = 0; i < $scope.currentQs.length; i++) {
@@ -78,7 +75,7 @@ bubbleFrame.register('questionIndexController', function ($scope, bubble, $timeo
                 $scope.currentQs.splice(i, 1);
             }
         }
-    };
+    }
 
     $scope.add = function (v) {
         for (var i = 0; i < $scope.currentQs.length; i++) {
@@ -120,7 +117,7 @@ bubbleFrame.register('questionIndexCreateController', function (bubble, items, $
                 swal(v.message);
             }
         });
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');

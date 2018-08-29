@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var Layout = require('../core/layout');
     var Minder = require('../core/minder');
@@ -6,13 +6,13 @@ define(function (require, exports, module) {
     Layout.register('mind', kity.createClass({
         base: Layout,
 
-        doLayout: function (node, children) {
+        doLayout: function(node, children) {
             var layout = this;
             var half = Math.ceil(node.children.length / 2);
             var right = [];
             var left = [];
 
-            children.forEach(function (child) {
+            children.forEach(function(child) {
                 if (child.getIndex() < half) right.push(child);
                 else left.push(child);
             });
@@ -28,7 +28,7 @@ define(function (require, exports, module) {
             node.setLayoutVectorOut(new kity.Vector(0, 0));
         },
 
-        getOrderHint: function (node) {
+        getOrderHint: function(node) {
             var hint = [];
             var box = node.getLayoutBox();
             var offset = 5;

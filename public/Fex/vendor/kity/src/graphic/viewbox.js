@@ -1,7 +1,7 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     return require('../core/class').createClass('ViewBox', {
 
-        getViewBox: function () {
+        getViewBox: function() {
             var attr = this.node.getAttribute('viewBox');
             if (attr === null) {
                 // firefox:
@@ -25,7 +25,7 @@ define(function (require, exports, module) {
             }
         },
 
-        setViewBox: function (x, y, width, height) {
+        setViewBox: function(x, y, width, height) {
             this.node.setAttribute('viewBox', [x, y, width, height].join(' '));
             return this;
         }

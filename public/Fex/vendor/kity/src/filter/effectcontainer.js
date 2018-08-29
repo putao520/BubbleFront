@@ -2,73 +2,73 @@
  * Effect所用的container
  */
 
-define(function (require) {
+define(function(require) {
 
     return require('../core/class').createClass('EffectContainer', {
 
         base: require('../graphic/container'),
 
-        addEffect: function (point, pos) {
+        addEffect: function(point, pos) {
 
             return this.addItem.apply(this, arguments);
 
         },
 
-        prependEffect: function () {
+        prependEffect: function() {
 
             return this.prependItem.apply(this, arguments);
 
         },
 
-        appendEffect: function () {
+        appendEffect: function() {
 
             return this.appendItem.apply(this, arguments);
 
         },
 
-        removeEffect: function (pos) {
+        removeEffect: function(pos) {
 
             return this.removeItem.apply(this, arguments);
 
         },
 
-        addEffects: function () {
+        addEffects: function() {
 
             return this.addItems.apply(this, arguments);
 
         },
 
-        setEffects: function () {
+        setEffects: function() {
 
             return this.setItems.apply(this, arguments);
 
         },
 
-        getEffect: function () {
+        getEffect: function() {
 
             return this.getItem.apply(this, arguments);
 
         },
 
-        getEffects: function () {
+        getEffects: function() {
 
             return this.getItems.apply(this, arguments);
 
         },
 
-        getFirstEffect: function () {
+        getFirstEffect: function() {
 
             return this.getFirstItem.apply(this, arguments);
 
         },
 
-        getLastEffect: function () {
+        getLastEffect: function() {
 
             return this.getLastItem.apply(this, arguments);
 
         },
 
-        handleAdd: function (effectItem, pos) {
+        handleAdd: function(effectItem, pos) {
 
             var count = this.getEffects().length,
                 nextEffectItem = this.getItem(pos + 1);

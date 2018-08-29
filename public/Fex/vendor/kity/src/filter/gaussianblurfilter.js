@@ -2,7 +2,7 @@
  * 高斯模糊滤镜
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var GaussianblurEffect = require('./effect/gaussianblureffect');
 
@@ -10,7 +10,7 @@ define(function (require, exports, module) {
 
         base: require('./filter'),
 
-        constructor: function (stdDeviation) {
+        constructor: function(stdDeviation) {
 
             this.callBase();
 

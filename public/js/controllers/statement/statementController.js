@@ -10,7 +10,7 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
             $scope.etime1 = "";
             var time = getTime();
             getByTime(time[0], time[1]);
-        };
+        }
 
         var getTime = function (type) {
             type = type !== undefined ? type : $scope.type1;
@@ -25,7 +25,7 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
                     return [Date.parse(moment().subtract(1, "days")), Date.parse(new Date())];
                     break;
             }
-        };
+        }
 
         $scope.searchContent = function () {
             $scope.type1 = "";
@@ -44,14 +44,14 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
                 return;
             }
             getByTime(s, e);
-        };
+        }
         var getByTime = function (s, e) {
             $(".contentbatchMask").fadeIn(200);
             bubble._call("content.totaltime", window.localStorage.siteid, s, e).success(function (v) {
                 initCitem(v[window.localStorage.siteid], true);
                 $(".contentbatchMask").fadeOut(200);
             });
-        };
+        }
         var box = $(".charts1");
         // box.height(box.width() / 2);
         // echarts.init(box[0]).setOption(option);
@@ -73,13 +73,13 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
                 s[4].data.unshift(v[i].clickcount);
             }
             return h;
-        };
+        }
 
         $scope.path = [];
 
         $scope.returnS = function () {
             initCitem($scope.path.pop(), true);
-        };
+        }
 
         var getOption = function (v) {
             return {
@@ -121,7 +121,7 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
                 },
                 series: v.series
             }
-        };
+        }
 
         var initCitem = function (v, s) {
             var f = v;
@@ -129,48 +129,12 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
             var hcount = 0;
             var ccall = [];
             var series = [
-                {
-                    name: '总计',
-                    itemStyle: {normal: {barBorderRadius: [0, 5, 5, 0]}},
-                    type: 'bar',
-                    data: [],
-                    label: {normal: {show: true, formatter: "{c}", position: "right"}}
-                },
-                {
-                    name: '待审核',
-                    itemStyle: {normal: {barBorderRadius: [0, 5, 5, 0]}},
-                    type: 'bar',
-                    data: [],
-                    label: {normal: {show: true, formatter: "{c}", position: "right"}}
-                },
-                {
-                    name: '审核通过',
-                    itemStyle: {normal: {barBorderRadius: [0, 5, 5, 0]}},
-                    type: 'bar',
-                    data: [],
-                    label: {normal: {show: true, formatter: "{c}", position: "right"}}
-                },
-                {
-                    name: '审核拒绝',
-                    itemStyle: {normal: {barBorderRadius: [0, 5, 5, 0]}},
-                    type: 'bar',
-                    data: [],
-                    label: {normal: {show: true, formatter: "{c}", position: "right"}}
-                },
-                {
-                    name: '阅读量',
-                    itemStyle: {normal: {barBorderRadius: [0, 5, 5, 0]}},
-                    type: 'bar',
-                    data: [],
-                    label: {normal: {show: true, formatter: "{c}", position: "right"}}
-                },
-                {
-                    name: '阅读率',
-                    itemStyle: {normal: {barBorderRadius: [0, 5, 5, 0]}},
-                    type: 'bar',
-                    data: [],
-                    label: {normal: {show: true, formatter: "{c}%", position: "right"}}
-                }
+                { name: '总计', itemStyle: { normal: { barBorderRadius: [0, 5, 5, 0] } }, type: 'bar', data: [], label: { normal: { show: true, formatter: "{c}", position: "right" } } },
+                { name: '待审核', itemStyle: { normal: { barBorderRadius: [0, 5, 5, 0] } }, type: 'bar', data: [], label: { normal: { show: true, formatter: "{c}", position: "right" } } },
+                { name: '审核通过', itemStyle: { normal: { barBorderRadius: [0, 5, 5, 0] } }, type: 'bar', data: [], label: { normal: { show: true, formatter: "{c}", position: "right" } } },
+                { name: '审核拒绝', itemStyle: { normal: { barBorderRadius: [0, 5, 5, 0] } }, type: 'bar', data: [], label: { normal: { show: true, formatter: "{c}", position: "right" } } },
+                { name: '阅读量', itemStyle: { normal: { barBorderRadius: [0, 5, 5, 0] } }, type: 'bar', data: [], label: { normal: { show: true, formatter: "{c}", position: "right" } } },
+                { name: '阅读率', itemStyle: { normal: { barBorderRadius: [0, 5, 5, 0] } }, type: 'bar', data: [], label: { normal: { show: true, formatter: "{c}%", position: "right" } } }
             ];
             var yAxis = [];
             v = v.children;
@@ -197,7 +161,7 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
             }
             // tmpbox.height(hcount <= 2 && hcount > 0 ? 300 : hcount * 120);
             tmpbox.css("overflow", "hidden");
-            renderCharts(tmpbox[0], 2, {series: series, yAxis: yAxis}).on("click", function (p) {
+            renderCharts(tmpbox[0], 2, { series: series, yAxis: yAxis }).on("click", function (p) {
                 for (var x = 0; x < v.length; x++) {
                     (function (n) {
                         if (v[n].name == p.name && v[n].children && v[n].children.length) {
@@ -212,21 +176,21 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
                                 bubble._call("content.totalcolumn", v[n].id, time[0], time[1]).success(function (rs) {
                                     $(".contentbatchMask").fadeOut(200);
                                     $scope.path.push(f);
-                                    initCitem({children: rs[v[n].id]}, true);
+                                    initCitem({ children: rs[v[n].id] }, true);
                                     bubble.updateScope($scope);
                                 });
                             } else if ($scope.stime1 || $scope.stime2) {
                                 bubble._call("content.totalcolumn", v[n].id, $scope.stime1, $scope.etime1).success(function (rs) {
                                     $(".contentbatchMask").fadeOut(200);
                                     $scope.path.push(f);
-                                    initCitem({children: rs[v[n].id]}, true);
+                                    initCitem({ children: rs[v[n].id] }, true);
                                     bubble.updateScope($scope);
                                 });
                             } else {
                                 bubble._call("content.totalcolumn", v[n].id, 0, 0).success(function (rs) {
                                     $(".contentbatchMask").fadeOut(200);
                                     $scope.path.push(f);
-                                    initCitem({children: rs[v[n].id]}, true);
+                                    initCitem({ children: rs[v[n].id] }, true);
                                     bubble.updateScope($scope);
                                 });
                             }
@@ -234,7 +198,7 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
                     })(x)
                 }
             });
-        };
+        }
 
         var renderCharts = function (o, type, v) {
             var rs = echarts.init(o);
@@ -244,7 +208,7 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
         }
 
         // new Timepicker(box.parent());
-    };
+    }
 
     var Report = function () {
         $scope.stime2 = Date.parse(new Date()) - 30 * 24 * 60 * 60 * 1000;
@@ -252,10 +216,10 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
         $scope.type2 = "";
         $scope.schange2 = function (v) {
             $scope.stime2
-        };
+        }
         $scope.echange2 = function (v) {
             $scope.etime2
-        };
+        }
         var box = $(".charts1");
         box.height(box.width() / 2);
         $scope.changetype2 = function (v) {
@@ -273,7 +237,7 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
                     getDateByTime(Date.parse(moment().subtract(1, "days")), Date.parse(new Date()));
                     break;
             }
-        };
+        }
 
         $scope.searchRepoer = function () {
             $scope.type2 = "";
@@ -292,7 +256,7 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
                 return;
             }
             getDateByTime(s, e);
-        };
+        }
 
         var getDate = function () {
             bubble._call("statistics.count", "undefined", "suggest_" + bubble.getAppId(), []).success(function (v) {
@@ -301,30 +265,22 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
             bubble._call("statistics.count", "undefined", "reportInfo_" + bubble.getAppId(), []).success(function (v) {
                 $scope.report = v.record.totalSize;
             });
-        };
+        }
 
         var getDateByTime = function (s, e) {
             $(".contentbatchMask").fadeIn(200);
-            bubble._call("statistics.count", "undefined", "suggest_" + bubble.getAppId(), [{
-                field: "time",
-                logic: ">=",
-                value: s
-            }, {field: "time", logic: "<=", value: e}]).success(function (v) {
+            bubble._call("statistics.count", "undefined", "suggest_" + bubble.getAppId(), [{ field: "time", logic: ">=", value: s }, { field: "time", logic: "<=", value: e }]).success(function (v) {
                 $(".contentbatchMask").fadeOut(200);
                 $scope.suggest = v.record.totalSize;
             });
-            bubble._call("statistics.count", "undefined", "reportInfo_" + bubble.getAppId(), [{
-                field: "time",
-                logic: ">=",
-                value: s
-            }, {field: "time", logic: "<=", value: e}]).success(function (v) {
+            bubble._call("statistics.count", "undefined", "reportInfo_" + bubble.getAppId(), [{ field: "time", logic: ">=", value: s }, { field: "time", logic: "<=", value: e }]).success(function (v) {
                 $(".contentbatchMask").fadeOut(200);
                 $scope.report = v.record.totalSize;
             });
-        };
+        }
 
         getDate();
-    };
+    }
 
     // var Timepicker = function (obj) {
     //     $scope["timer" + pickers.length] = this;

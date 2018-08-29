@@ -55,15 +55,15 @@
     background: #ddd;
 }
 
-.content-column-box .nav li > a {
+.content-column-box .nav li>a {
     transition: background .2s;
 }
 
-.content-column-box .nav li > a:hover {
+.content-column-box .nav li>a:hover {
     background: #ddd;
 }
 
-.content-column-box .nav li.active > a:hover {
+.content-column-box .nav li.active>a:hover {
     background: #23b7e5;
 }
 
@@ -127,7 +127,7 @@
     text-align: center;
 }
 
-.content-wechat-tmp-box .wechatbtn > div {
+.content-wechat-tmp-box .wechatbtn>div {
     float: left;
     width: 50%;
     cursor: pointer;
@@ -154,7 +154,7 @@
     color: #fff;
     font-size: 18px;
     text-align: center;
-    background: rgba(0, 0, 0, .5);
+    background: rgba( 0, 0, 0, .5);
     -webkit-transition: all .2s;
     -moz-transition: all .2s;
     transition: all .2s;
@@ -185,7 +185,7 @@
     transition: all .2s;
 }
 
-.content-wechat-tmp-box .itembtn > div:hover {
+.content-wechat-tmp-box .itembtn>div:hover {
     color: #23b7e5;
 }
 
@@ -259,7 +259,7 @@
     text-align: left;
 }
 
-.contentBox .attachmentUpload > div {
+.contentBox .attachmentUpload>div {
     width: 85px;
     height: 17px;
 }
@@ -511,6 +511,7 @@
     background: #efefef !important;
 }
 
+
 /* .content-list-box .table td{padding: 15px 15px;} */
 
 .content-list-box .new-table-pager-box {
@@ -652,7 +653,7 @@
     left: 280px;
     height: 100%;
     right: 0;
-    background: rgba(0, 0, 0, .2);
+    background: rgba( 0, 0, 0, .2);
     z-index: 10;
 }
 
@@ -671,7 +672,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, .5);
+    background: rgba( 0, 0, 0, .5);
     z-index: 1050;
     padding: 50px;
     display: none;
@@ -773,7 +774,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, .5);
+    background: rgba( 0, 0, 0, .5);
     z-index: 1050;
     padding: 50px 20%;
     display: none;
@@ -827,7 +828,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, .5);
+    background: rgba( 0, 0, 0, .5);
     z-index: 1050;
     display: none;
 }

@@ -7,11 +7,9 @@
         max-height: 300px;
         overflow: auto;
     }
-
     .crawler-box .formbox {
         margin-top: 15px;
     }
-
     .crawler-box .formbox .panel-body {
         height: auto;
     }
@@ -24,17 +22,14 @@
         padding: 15px;
         padding-bottom: 80px;
     }
-
     .crawler-box .history {
         width: 30%;
         height: 100%;
     }
-
     .crawler-box .formbox {
         width: 70%;
         height: 100%;
     }
-
     .crawler-box .panel {
         height: 100%;
         overflow: auto;

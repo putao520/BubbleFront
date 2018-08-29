@@ -10,36 +10,26 @@
             </div>
             <div class="list-group list-group-sm">
                 <div class="list-group-item">
-                    <input placeholder="Name"
-                           class="form-control no-border ng-pristine ng-untouched ng-invalid ng-invalid-required"
-                           ng-model="user.name"
-                           required="">
+                    <input placeholder="Name" class="form-control no-border ng-pristine ng-untouched ng-invalid ng-invalid-required" ng-model="user.name"
+                        required="">
                 </div>
                 <div class="list-group-item">
-                    <input type="email" placeholder="Email"
-                           class="form-control no-border ng-pristine ng-untouched ng-valid-email ng-invalid ng-invalid-required"
-                           ng-model="user.email" required="">
+                    <input type="email" placeholder="Email" class="form-control no-border ng-pristine ng-untouched ng-valid-email ng-invalid ng-invalid-required"
+                        ng-model="user.email" required="">
                 </div>
                 <div class="list-group-item">
-                    <input type="password" placeholder="Password"
-                           class="form-control no-border ng-pristine ng-untouched ng-invalid ng-invalid-required"
-                           ng-model="user.password" required="">
+                    <input type="password" placeholder="Password" class="form-control no-border ng-pristine ng-untouched ng-invalid ng-invalid-required"
+                        ng-model="user.password" required="">
                 </div>
             </div>
             <div class="checkbox m-b-md m-t-none">
                 <label class="i-checks">
-                    <input type="checkbox" ng-model="agree" required=""
-                           class="ng-pristine ng-untouched ng-invalid ng-invalid-required"><i></i> 同意 <a
-                    href="">葡萄云使用条款</a>
-                </label>
+              <input type="checkbox" ng-model="agree" required="" class="ng-pristine ng-untouched ng-invalid ng-invalid-required"><i></i> 同意 <a href="">葡萄云使用条款</a>
+            </label>
             </div>
-            <button type="submit" class="btn btn-lg btn-primary btn-block" ng-click="signup()"
-                    ng-disabled="form.$invalid" disabled="disabled">注 册
-            </button>
+            <button type="submit" class="btn btn-lg btn-primary btn-block" ng-click="signup()" ng-disabled="form.$invalid" disabled="disabled">注 册</button>
             <div class="line line-dashed"></div>
-            <p class="text-center">
-                <small>已经有葡萄云账号?</small>
-            </p>
+            <p class="text-center"><small>已经有葡萄云账号?</small></p>
             <a ui-sref="access.login" class="btn btn-lg btn-default btn-block">登 录</a>
         </form>
     </div>

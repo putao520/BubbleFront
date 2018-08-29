@@ -6,7 +6,7 @@
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var Minder = require('./minder');
 
     var animateDefaultOptions = {
@@ -17,14 +17,14 @@ define(function (require, exports, module) {
     };
     var resoredAnimationOptions = {};
 
-    Minder.registerInitHook(function () {
+    Minder.registerInitHook(function() {
         this.setDefaultOptions(animateDefaultOptions);
         if (!this.getOption('enableAnimation')) {
             this.disableAnimation();
         }
     });
 
-    Minder.prototype.enableAnimation = function () {
+    Minder.prototype.enableAnimation = function() {
         for (var name in animateDefaultOptions) {
             if (animateDefaultOptions.hasOwnProperty(name)) {
                 this.setOption(resoredAnimationOptions[name]);
@@ -32,7 +32,7 @@ define(function (require, exports, module) {
         }
     };
 
-    Minder.prototype.disableAnimation = function () {
+    Minder.prototype.disableAnimation = function() {
         for (var name in animateDefaultOptions) {
             if (animateDefaultOptions.hasOwnProperty(name)) {
                 resoredAnimationOptions[name] = this.getOption(name);

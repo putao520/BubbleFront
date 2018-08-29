@@ -1,18 +1,18 @@
 'use strict';
 bubbleFrame.register('emailController', function ($scope, bubble) {
     $scope.tableControl = {
-        title: [{name: "发送消息", key: "ss", width: 30}],
+        title: [{ name: "发送消息", key: "ss", width: 30 }],
         html: ['<a class="btn btn-sm m-t-n-xs"><i class="fa  fa-send"></i></a>'],
         onClick: function (key, v) {
             sendMessage(v);
         }
-    };
+    }
 
     var sendMessage = function () {
         bubble.customModal("EmailSendModal.html", "EmailSendController", "lg", {}, function (v) {
 
         });
-    };
+    }
 
     var active = function () {
         bubble.customModal("EmailActiveModal.html", "EmailActiveController", "lg", {}, function (v) {

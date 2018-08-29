@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var utils = require('../core/utils');
 
@@ -18,7 +18,7 @@ define(function (require, exports, module) {
      */
     var AppendChildCommand = kity.createClass('AppendChildCommand', {
         base: Command,
-        execute: function (km, text) {
+        execute: function(km, text) {
             var parent = km.getSelectedNode();
             if (!parent) {
                 return null;
@@ -34,7 +34,7 @@ define(function (require, exports, module) {
             }
             km.layout(600);
         },
-        queryState: function (km) {
+        queryState: function(km) {
             var selectedNode = km.getSelectedNode();
             return selectedNode ? 0 : -1;
         }
@@ -50,7 +50,7 @@ define(function (require, exports, module) {
      */
     var AppendSiblingCommand = kity.createClass('AppendSiblingCommand', {
         base: Command,
-        execute: function (km, text) {
+        execute: function(km, text) {
             var sibling = km.getSelectedNode();
             var parent = sibling.parent;
             if (!parent) {
@@ -62,7 +62,7 @@ define(function (require, exports, module) {
             node.render();
             km.layout(600);
         },
-        queryState: function (km) {
+        queryState: function(km) {
             var selectedNode = km.getSelectedNode();
             return selectedNode ? 0 : -1;
         }
@@ -77,12 +77,12 @@ define(function (require, exports, module) {
      */
     var RemoveNodeCommand = kity.createClass('RemoverNodeCommand', {
         base: Command,
-        execute: function (km) {
+        execute: function(km) {
             var nodes = km.getSelectedNodes();
             var ancestor = MinderNode.getCommonAncestor.apply(null, nodes);
             var index = nodes[0].getIndex();
 
-            nodes.forEach(function (node) {
+            nodes.forEach(function(node) {
                 if (!node.isRoot()) km.removeNode(node);
             });
             if (nodes.length == 1) {
@@ -93,7 +93,7 @@ define(function (require, exports, module) {
             }
             km.layout(600);
         },
-        queryState: function (km) {
+        queryState: function(km) {
             var selectedNode = km.getSelectedNode();
             return selectedNode && !selectedNode.isRoot() ? 0 : -1;
         }
@@ -101,16 +101,16 @@ define(function (require, exports, module) {
 
     var AppendParentCommand = kity.createClass('AppendParentCommand', {
         base: Command,
-        execute: function (km, text) {
+        execute: function(km, text) {
             var nodes = km.getSelectedNodes();
 
-            nodes.sort(function (a, b) {
+            nodes.sort(function(a, b) {
                 return a.getIndex() - b.getIndex();
             });
             var parent = nodes[0].parent;
 
             var newParent = km.createNode(text, parent, nodes[0].getIndex());
-            nodes.forEach(function (node) {
+            nodes.forEach(function(node) {
                 newParent.appendChild(node);
             });
             newParent.setGlobalLayoutTransform(nodes[nodes.length >> 1].getGlobalLayoutTransform());
@@ -118,7 +118,7 @@ define(function (require, exports, module) {
             km.select(newParent, true);
             km.layout(600);
         },
-        queryState: function (km) {
+        queryState: function(km) {
             var nodes = km.getSelectedNodes();
             if (!nodes.length) return -1;
             var parent = nodes[0].parent;
@@ -130,7 +130,7 @@ define(function (require, exports, module) {
         }
     });
 
-    Module.register('NodeModule', function () {
+    Module.register('NodeModule', function() {
         return {
             commands: {
                 'AppendChildNode': AppendChildCommand,

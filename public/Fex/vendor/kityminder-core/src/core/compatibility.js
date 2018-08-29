@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var utils = require('./utils');
 
     function compatibility(json) {
@@ -8,11 +8,11 @@ define(function (require, exports, module) {
         switch (version) {
             case '1.1.3':
                 c_113_120(json);
-            /* falls through */
+                /* falls through */
             case '1.2.0':
             case '1.2.1':
                 c_120_130(json);
-            /* falls through */
+                /* falls through */
             case '1.3.0':
             case '1.3.1':
             case '1.3.2':
@@ -27,14 +27,14 @@ define(function (require, exports, module) {
 
     function traverse(node, fn) {
         fn(node);
-        if (node.children) node.children.forEach(function (child) {
+        if (node.children) node.children.forEach(function(child) {
             traverse(child, fn);
         });
     }
 
     /* 脑图数据升级 */
     function c_120_130(json) {
-        traverse(json, function (node) {
+        traverse(json, function(node) {
             var data = node.data;
             delete data.layout_bottom_offset;
             delete data.layout_default_offset;
@@ -60,7 +60,7 @@ define(function (require, exports, module) {
             json.theme = 'classic';
         }
 
-        traverse(json, function (node) {
+        traverse(json, function(node) {
             var data = node.data;
 
             // 升级优先级、进度图标

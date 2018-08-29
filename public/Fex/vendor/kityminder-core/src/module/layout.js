@@ -7,7 +7,7 @@
  * @copyright: Baidu FEX, 2014
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var Command = require('../core/command');
     var Module = require('../core/module');
@@ -25,21 +25,21 @@ define(function (require, exports, module) {
     var LayoutCommand = kity.createClass('LayoutCommand', {
         base: Command,
 
-        execute: function (minder, name) {
+        execute: function(minder, name) {
             var nodes = minder.getSelectedNodes();
-            nodes.forEach(function (node) {
+            nodes.forEach(function(node) {
                 node.layout(name);
             });
         },
 
-        queryValue: function (minder) {
+        queryValue: function(minder) {
             var node = minder.getSelectedNode();
             if (node) {
                 return node.getData('layout');
             }
         },
 
-        queryState: function (minder) {
+        queryState: function(minder) {
             return minder.getSelectedNode() ? 0 : -1;
         }
     });
@@ -54,13 +54,13 @@ define(function (require, exports, module) {
     var ResetLayoutCommand = kity.createClass('ResetLayoutCommand', {
         base: Command,
 
-        execute: function (minder) {
+        execute: function(minder) {
             var nodes = minder.getSelectedNodes();
 
             if (!nodes.length) nodes = [minder.getRoot()];
 
-            nodes.forEach(function (node) {
-                node.traverse(function (child) {
+            nodes.forEach(function(node) {
+                node.traverse(function(child) {
                     child.resetLayoutOffset();
                     if (!child.isRoot()) {
                         child.setData('layout', null);

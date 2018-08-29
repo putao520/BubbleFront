@@ -2,20 +2,24 @@
     /**
      * 路由注册
      */
-    bubbleFrame.defaultRouter("/access/login");
-    var router = bubbleFrame.router();             //获取一级路由对象
+    bubbleFrame.defaultRouter("/access/login")
+    var router = bubbleFrame.router()             //获取一级路由对象
 
     router.add("access", null);
-    router.add("app", null);
+    router.add("app",null);
     //登录路由
     var parent = router.setParent("access", "access");
     parent.add("login");            //登录
     parent.add("register");         //注册
     parent.add("forgotpwd");
-    parent.add("changepwd");
+    parent.add("changepwd");          
     //系统路由
     parent = router.setParent("app", "app");
-    parent.add("user")();                 //用户管理
+    parent.add("user")();
+    parent.add("appManage","", ["mind"])("../../style/putao/deploy"); 
+    parent.add("serviceManage")("../../style/putao/deploy");                  //用户管理
+    parent.add("afterHook")();
+    parent.add("beforeHook")();
     parent.add("reportReply")("report");          //举报快接回复管理
     parent.add("reportType", "")("report");       //举报类型管理
     parent.add("report{type}", "", "angularBootstrapNavTree")("report");     //举报管理
@@ -26,7 +30,7 @@
     parent.add("push", "", "angularBootstrapNavTree")("push");               //下级推送
     parent.add("verify{state}", "", "angularBootstrapNavTree")("push");             //文章审核
     parent.add("qwCompany", "", ["nestable", "angularBootstrapNavTree"]);        //企业管理
-    parent.add("dashboard", "");        //控制台
+    parent.add("dashboard", "")('dashboard');        //控制台
     parent.add("performance");      //性能监测
     parent.add("searchword", null);     //搜索热词
     parent.add("reportAdmin");      //举报管理员
@@ -48,11 +52,11 @@
     parent.add("thirdParty", null, "", "<div ui-view class='animated fadeIn'></div>");          //第三方
     parent.add("activity", null, "", "<div ui-view class='animated fadeIn'></div>");          //活动
     parent.add("statements", null, "", "<div ui-view class='animated fadeIn'></div>");          //统计报表
-    parent.add("plugins", null, "", "<div ui-view class='h-full animated fadeIn'></div>");          //API监视
+    parent.add("plugins", null, "", "<div ui-view class='h-full fadeIn pos-rlt'></div>");          //API监视
     parent.add("questionnaire", null, "", "<div ui-view class=' fade-in-up'></div>");          //各种附加模块
     parent.add("demonstration", null, "", "<div ui-view class='h-full fade-in-up'></div>");          //错别字演示
     parent.add("putao", null, "", "<div ui-view class='h-full fade-in-up'></div>");          //葡萄云配置
-    // parent.add("filetmp", null, "", "<div ui-view class='animated fadeIn'></div>");          //
+    // parent.add("filetmp", null, "", "<div ui-view class='animated fadeIn'></div>");          // 
     //第三方
     parent = router.setParent("thirdParty", "thirdParty");
     parent.add("wechat");           //微信
@@ -81,6 +85,7 @@
     parent.add("monitor");
     parent.add("crawler")();
     parent.add("autoform");
+    parent.add("tree")();
     parent.add("power", "", ["chosen", "angularBootstrapNavTree", "pdf", "step", "mind"])();
     //问卷
     parent = router.setParent("questionnaire", "questionnaire");
@@ -91,7 +96,7 @@
     parent.add("questionanswer{qid}");   //问卷答复
     //葡萄云配置
     parent = router.setParent("putao", "putao");
-    parent.add("config");                           //配置管理
+    parent.add("config")();                           //配置管理
     parent.add("interface");                        //接口管理
     parent.add("application", "", "masonry");       //应用管理
     parent.add("service");                          //服务管理
@@ -103,4 +108,4 @@
     //内容演示
     parent = router.setParent("demonstration", "demonstration");
     parent.add("contentBack", "", ["chosen", "angularBootstrapNavTree", "pdf", "step"])("content");       //内容管理
-})();
+})()

@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var utils = require('../core/utils');
     var MinderNode = require('../core/node');
@@ -8,7 +8,7 @@ define(function (require, exports, module) {
     // 矩形的变形动画定义
     var MoveToParentCommand = kity.createClass('MoveToParentCommand', {
         base: Command,
-        execute: function (minder, nodes, parent) {
+        execute: function(minder, nodes, parent) {
             var node;
             for (var i = 0; i < nodes.length; i++) {
                 node = nodes[i];
@@ -26,13 +26,13 @@ define(function (require, exports, module) {
     var DropHinter = kity.createClass('DropHinter', {
         base: kity.Group,
 
-        constructor: function () {
+        constructor: function() {
             this.callBase();
             this.rect = new kity.Rect();
             this.addShape(this.rect);
         },
 
-        render: function (target) {
+        render: function(target) {
             this.setVisible(!!target);
             if (target) {
                 this.rect
@@ -41,7 +41,7 @@ define(function (require, exports, module) {
                     .stroke(
                         target.getStyle('drop-hint-color') || 'yellow',
                         target.getStyle('drop-hint-width') || 2
-                    );
+                );
                 this.bringTop();
             }
         }
@@ -50,14 +50,14 @@ define(function (require, exports, module) {
     var OrderHinter = kity.createClass('OrderHinter', {
         base: kity.Group,
 
-        constructor: function () {
+        constructor: function() {
             this.callBase();
             this.area = new kity.Rect();
             this.path = new kity.Path();
             this.addShapes([this.area, this.path]);
         },
 
-        render: function (hint) {
+        render: function(hint) {
             this.setVisible(!!hint);
             if (hint) {
                 this.area.setBox(hint.area);
@@ -75,20 +75,20 @@ define(function (require, exports, module) {
     //    2. 计算可以 drop 的节点，产生 drop 交互提示
     var TreeDragger = kity.createClass('TreeDragger', {
 
-        constructor: function (minder) {
+        constructor: function(minder) {
             this._minder = minder;
             this._dropHinter = new DropHinter();
             this._orderHinter = new OrderHinter();
             minder.getRenderContainer().addShapes([this._dropHinter, this._orderHinter]);
         },
 
-        dragStart: function (position) {
+        dragStart: function(position) {
             // 只记录开始位置，不马上开启拖放模式
             // 这个位置同时是拖放范围收缩时的焦点位置（中心）
             this._startPosition = position;
         },
 
-        dragMove: function (position) {
+        dragMove: function(position) {
             // 启动拖放模式需要最小的移动距离
             var DRAG_MOVE_THRESHOLD = 10;
 
@@ -121,7 +121,7 @@ define(function (require, exports, module) {
             }
         },
 
-        dragEnd: function () {
+        dragEnd: function() {
             this._startPosition = null;
             this._dragPosition = null;
 
@@ -133,7 +133,7 @@ define(function (require, exports, module) {
 
             if (this._dropSucceedTarget) {
 
-                this._dragSources.forEach(function (source) {
+                this._dragSources.forEach(function(source) {
                     source.setLayoutOffset(null);
                 });
 
@@ -146,7 +146,7 @@ define(function (require, exports, module) {
                 var hint = this._orderSucceedHint;
                 var index = hint.node.getIndex();
 
-                var sourceIndexes = this._dragSources.map(function (source) {
+                var sourceIndexes = this._dragSources.map(function(source) {
                     // 顺便干掉布局偏移
                     source.setLayoutOffset(null);
                     return source.getIndex();
@@ -173,7 +173,7 @@ define(function (require, exports, module) {
         // 进入拖放模式：
         //    1. 计算拖放源和允许的拖放目标
         //    2. 标记已启动
-        _enterDragMode: function () {
+        _enterDragMode: function() {
             this._calcDragSources();
             if (!this._dragSources.length) {
                 this._startPosition = null;
@@ -195,15 +195,15 @@ define(function (require, exports, module) {
         //       1. 将节点按照树高排序，排序后只可能是前面节点是后面节点的祖先
         //       2. 从后往前枚举排序的结果，如果发现枚举目标之前存在其祖先，
         //          则排除枚举目标作为拖放源，否则加入拖放源
-        _calcDragSources: function () {
+        _calcDragSources: function() {
             this._dragSources = this._minder.getSelectedAncestors();
         },
 
-        _fadeDragSources: function (opacity) {
+        _fadeDragSources: function(opacity) {
             var minder = this._minder;
-            this._dragSources.forEach(function (source) {
+            this._dragSources.forEach(function(source) {
                 source.getRenderContainer().setOpacity(opacity, 200);
-                source.traverse(function (node) {
+                source.traverse(function(node) {
                     if (opacity < 1) {
                         minder.detachNode(node);
                     } else {
@@ -223,13 +223,13 @@ define(function (require, exports, module) {
         //       (2) 如果不是拖放目标之一，以当前子节点为当前节点，回到 1 计算
         //    3. 返回允许列表
         //
-        _calcDropTargets: function () {
+        _calcDropTargets: function() {
 
             function findAvailableParents(nodes, root) {
                 var availables = [],
                     i;
                 availables.push(root);
-                root.getChildren().forEach(function (test) {
+                root.getChildren().forEach(function(test) {
                     for (i = 0; i < nodes.length; i++) {
                         if (nodes[i] == test) return;
                     }
@@ -239,12 +239,12 @@ define(function (require, exports, module) {
             }
 
             this._dropTargets = findAvailableParents(this._dragSources, this._minder.getRoot());
-            this._dropTargetBoxes = this._dropTargets.map(function (source) {
+            this._dropTargetBoxes = this._dropTargets.map(function(source) {
                 return source.getLayoutBox();
             });
         },
 
-        _calcOrderHints: function () {
+        _calcOrderHints: function() {
             var sources = this._dragSources;
             var ancestor = MinderNode.getCommonAncestor(sources);
 
@@ -258,7 +258,7 @@ define(function (require, exports, module) {
 
             var siblings = ancestor.children;
 
-            this._orderHints = siblings.reduce(function (hint, sibling) {
+            this._orderHints = siblings.reduce(function(hint, sibling) {
                 if (sources.indexOf(sibling) == -1) {
                     hint = hint.concat(sibling.getOrderHint());
                 }
@@ -266,7 +266,7 @@ define(function (require, exports, module) {
             }, []);
         },
 
-        _leaveDragMode: function () {
+        _leaveDragMode: function() {
             this._dragMode = false;
             this._dropSucceedTarget = null;
             this._orderSucceedHint = null;
@@ -275,7 +275,7 @@ define(function (require, exports, module) {
             this._minder.rollbackStatus();
         },
 
-        _drawForDragMode: function () {
+        _drawForDragMode: function() {
             this._text.setContent(this._dragSources.length + ' items');
             this._text.setPosition(this._startPosition.x, this._startPosition.y + 5);
             this._minder.getRenderContainer().addShape(this);
@@ -289,14 +289,14 @@ define(function (require, exports, module) {
          * @returns {*}
          * @private
          */
-        _boxTest: function (targets, targetBoxMapper, judge) {
-            var sourceBoxes = this._dragSources.map(function (source) {
+        _boxTest: function(targets, targetBoxMapper, judge) {
+            var sourceBoxes = this._dragSources.map(function(source) {
                 return source.getLayoutBox();
             });
 
             var i, j, target, sourceBox, targetBox;
 
-            judge = judge || function (intersectBox, sourceBox, targetBox) {
+            judge = judge || function(intersectBox, sourceBox, targetBox) {
                 return intersectBox && !intersectBox.isEmpty();
             };
 
@@ -318,14 +318,13 @@ define(function (require, exports, module) {
             return null;
         },
 
-        _dropTest: function () {
-            this._dropSucceedTarget = this._boxTest(this._dropTargets, function (target, i) {
+        _dropTest: function() {
+            this._dropSucceedTarget = this._boxTest(this._dropTargets, function(target, i) {
                 return this._dropTargetBoxes[i];
-            }, function (intersectBox, sourceBox, targetBox) {
+            }, function(intersectBox, sourceBox, targetBox) {
                 function area(box) {
                     return box.width * box.height;
                 }
-
                 if (!intersectBox) return false;
                 /*
                 * Added by zhangbobell, 2015.9.8
@@ -346,53 +345,53 @@ define(function (require, exports, module) {
             return !!this._dropSucceedTarget;
         },
 
-        _orderTest: function () {
-            this._orderSucceedHint = this._boxTest(this._orderHints, function (hint) {
+        _orderTest: function() {
+            this._orderSucceedHint = this._boxTest(this._orderHints, function(hint) {
                 return hint.area;
             });
             this._renderOrderHint(this._orderSucceedHint);
             return !!this._orderSucceedHint;
         },
 
-        _renderDropHint: function (target) {
+        _renderDropHint: function(target) {
             this._dropHinter.render(target);
         },
 
-        _renderOrderHint: function (hint) {
+        _renderOrderHint: function(hint) {
             this._orderHinter.render(hint);
         },
-        preventDragMove: function () {
+        preventDragMove: function() {
             this._startPosition = null;
         }
     });
 
-    Module.register('DragTree', function () {
+    Module.register('DragTree', function() {
         var dragger;
 
         return {
-            init: function () {
+            init: function() {
                 dragger = new TreeDragger(this);
-                window.addEventListener('mouseup', function () {
+                window.addEventListener('mouseup', function() {
                     dragger.dragEnd();
                 });
             },
             events: {
-                'normal.mousedown inputready.mousedown': function (e) {
+                'normal.mousedown inputready.mousedown': function(e) {
                     // 单选中根节点也不触发拖拽
                     if (e.originEvent.button) return;
                     if (e.getTargetNode() && e.getTargetNode() != this.getRoot()) {
                         dragger.dragStart(e.getPosition());
                     }
                 },
-                'normal.mousemove dragtree.mousemove': function (e) {
+                'normal.mousemove dragtree.mousemove': function(e) {
                     dragger.dragMove(e.getPosition());
                 },
-                'normal.mouseup dragtree.beforemouseup': function (e) {
+                'normal.mouseup dragtree.beforemouseup': function(e) {
                     dragger.dragEnd();
                     //e.stopPropagation();
                     e.preventDefault();
                 },
-                'statuschange': function (e) {
+                'statuschange': function(e) {
                     if (e.lastStatus == 'textedit' && e.currentStatus == 'normal') {
                         dragger.preventDragMove();
                     }

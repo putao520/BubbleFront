@@ -10,7 +10,7 @@
         {
             name: 'kinde',
             files: [
-                './js/modules/kindeditor/kindeditor-min.js',
+                './js/modules/kindeditor/kindeditor.js',
             ]
         },
         {
@@ -81,4 +81,4 @@
             ]
         },
     ])
-})();
+})()

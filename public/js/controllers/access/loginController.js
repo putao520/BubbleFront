@@ -12,7 +12,7 @@ bubbleFrame.register('loginController', function ($timeout, $scope, bubble, $sta
         if (!$scope.user.username || !$scope.user.password) {
             swal("用户名密码不可为空");
         }
-        var p = {password: $scope.user.password};
+        var p = { password: $scope.user.password };
         if (bubble.isEmail($scope.user.username)) {
             p.email = $scope.user.username;
             p.loginmode = 0;
@@ -32,7 +32,7 @@ bubbleFrame.register('loginController', function ($timeout, $scope, bubble, $sta
                 $localStorage.logininfo = JSON.stringify(v);
                 window.logininfo = v;
                 $rootScope.logininfo = v;
-                $state.go("app.content");
+                $state.go("app.appManage");
                 window.localStorage.sitename = v.webinfo[0].wbname;
                 window.localStorage.siteid = v.webinfo[0].wbid;
                 window.localStorage.sitewbgid = v.webinfo[0].wbgid;
@@ -40,7 +40,7 @@ bubbleFrame.register('loginController', function ($timeout, $scope, bubble, $sta
                     if (rs.errorcode) {
                         $state.go("access.login");
                         swal("获取网站信息失败");
-
+                        return;
                     }
                 });
             } else {
@@ -49,6 +49,6 @@ bubbleFrame.register('loginController', function ($timeout, $scope, bubble, $sta
                 $("button[type='submit']").html("登 陆");
             }
         });
-    };
+    }
     bubble.clearCache();
 });

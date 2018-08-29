@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var utils = require('../core/utils');
 
@@ -8,13 +8,13 @@ define(function (require, exports, module) {
     var Module = require('../core/module');
     var Renderer = require('../core/render');
 
-    Module.register('image', function () {
+    Module.register('image', function() {
         function loadImageSize(url, callback) {
             var img = document.createElement('img');
-            img.onload = function () {
+            img.onload = function() {
                 callback(img.width, img.height);
             };
-            img.onerror = function () {
+            img.onerror = function() {
                 callback(null);
             };
             img.src = url;
@@ -52,11 +52,11 @@ define(function (require, exports, module) {
         var ImageCommand = kity.createClass('ImageCommand', {
             base: Command,
 
-            execute: function (km, url, title) {
+            execute: function(km, url, title) {
                 var nodes = km.getSelectedNodes();
 
-                loadImageSize(url, function (width, height) {
-                    nodes.forEach(function (n) {
+                loadImageSize(url, function(width, height) {
+                    nodes.forEach(function(n) {
                         var size = fitImageSize(
                             width, height,
                             km.getOption('maxImageWidth'),
@@ -71,13 +71,13 @@ define(function (require, exports, module) {
                 });
 
             },
-            queryState: function (km) {
+            queryState: function(km) {
                 var nodes = km.getSelectedNodes(),
                     result = 0;
                 if (nodes.length === 0) {
                     return -1;
                 }
-                nodes.forEach(function (n) {
+                nodes.forEach(function(n) {
                     if (n && n.getData('image')) {
                         result = 0;
                         return false;
@@ -85,7 +85,7 @@ define(function (require, exports, module) {
                 });
                 return result;
             },
-            queryValue: function (km) {
+            queryValue: function(km) {
                 var node = km.getSelectedNode();
                 return {
                     url: node.getData('image'),
@@ -97,15 +97,15 @@ define(function (require, exports, module) {
         var ImageRenderer = kity.createClass('ImageRenderer', {
             base: Renderer,
 
-            create: function (node) {
+            create: function(node) {
                 return new kity.Image(node.getData('image'));
             },
 
-            shouldRender: function (node) {
+            shouldRender: function(node) {
                 return node.getData('image');
             },
 
-            update: function (image, node, box) {
+            update: function(image, node, box) {
                 var url = node.getData('image');
                 var title = node.getData('imageTitle');
                 var size = node.getData('imageSize');

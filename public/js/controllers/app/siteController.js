@@ -2,25 +2,18 @@ bubbleFrame.register('siteController', function ($scope, bubble, $modal, $http, 
     var sortGropu = "";
     $scope.id = "";
 
-    $scope.gropuList = [{
-        name: "",
-        id: 6,
-        fatherid: 0,
-        selected: false,
-        ownid: 0,
-        children: [{name: "财政局C1", id: 7, fatherid: 6, selected: true, ownid: 0},]
-    }];
+    $scope.gropuList = [{ name: "", id: 6, fatherid: 0, selected: false, ownid: 0, children: [{ name: "财政局C1", id: 7, fatherid: 6, selected: true, ownid: 0 },] }];
 
     $scope.mode = false;
 
     $scope.breadcrumb = [];
 
     var groupChange = function (v) {
-        $scope.id = {wbgid: v.wbgid};
-    };
+        $scope.id = { wbgid: v.wbgid };
+    }
 
     $scope.tableControl = {
-        title: [{name: "打开", key: "sl", width: 30}],
+        title: [{ name: "打开", key: "sl", width: 30 }],
         html: ['<a class="btn btn-sm m-t-n-xs"><i class="fa fa-navicon"></i></a>'],
         onClick: function (key, v) {
             $.ajax({
@@ -36,14 +29,14 @@ bubbleFrame.register('siteController', function ($scope, bubble, $modal, $http, 
             })
 
         }
-    };
+    }
     /**
      * 站群切换部分
      */
     $scope.breadcrumbClick = function (idx) {
         $scope.treeNav.slideTo(idx);
         sortGropu.initCollapse();
-    };
+    }
 
     $scope.treeNav = {
         onModeChange: function () {
@@ -54,7 +47,7 @@ bubbleFrame.register('siteController', function ($scope, bubble, $modal, $http, 
             sortGropu.initCollapse();
         },
         onChange: groupChange
-    };
+    }
 
     /*--------------------------------------------------------------------------------------*/
 
@@ -77,7 +70,7 @@ bubbleFrame.register('siteController', function ($scope, bubble, $modal, $http, 
                 _this.expandItem(wrap);
             }
             currentState = tmpState = box.nestable('serialize');
-        };
+        }
 
         var initHtml = function (v, i) {
             var idx = i !== undefined ? i : "";
@@ -91,13 +84,13 @@ bubbleFrame.register('siteController', function ($scope, bubble, $modal, $http, 
                     .replace("@c", data[i].children ? initHtml(data[i].children, idx ? idx + "-" + i : i) : "").replace("@btn", btn);
             }
             return '<ol class="dd-list">' + html + '</ol>';
-        };
+        }
 
         var initBtnEvent = function () {
             box.find(".fa.fa-times").click(_this.delete);
             box.find(".fa.fa-plus").click(_this.create);
             box.find(".fa.fa-pencil").click(_this.edit);
-        };
+        }
 
         var initLinster = function () {
             try {
@@ -108,7 +101,7 @@ bubbleFrame.register('siteController', function ($scope, bubble, $modal, $http, 
             } catch (e) {
 
             }
-        };
+        }
 
         var getEventObject = function (e) {
             var t = $(e.target);
@@ -125,7 +118,7 @@ bubbleFrame.register('siteController', function ($scope, bubble, $modal, $http, 
             }
 
             return [d, p, n];
-        };
+        }
 
         this.init = function () {
             // box.html('<div ui-jq="nestable" ui-options="{maxDepth: 10}" class="dd max-w-full"></div>' + initHtml() + '</div>');
@@ -133,23 +126,23 @@ bubbleFrame.register('siteController', function ($scope, bubble, $modal, $http, 
             initBtnEvent();
             initLinster();
             return this;
-        };
+        }
 
         this.expandItem = function (v) {
             box.nestable("expandItem", v);
-        };
+        }
 
         this.expandAll = function () {
             box.nestable("expandAll");
-        };
+        }
 
         this.collapseAll = function () {
             box.nestable("collapseAll");
-        };
+        }
 
         this.change = function (e) {
             currentState = $('.dd').nestable('serialize');
-        };
+        }
 
         this.updateSite = function (e) {
             $(e.currentTarget).addClass("data-loading").attr("disabled", "disabled");
@@ -157,11 +150,11 @@ bubbleFrame.register('siteController', function ($scope, bubble, $modal, $http, 
                 return;
             }
             $(e.currentTarget).removeClass("data-loading").removeAttr("disabled", "disabled");
-        };
+        }
 
         this.getCurrentInfo = function () {
 
-        };
+        }
 
         this.delete = function (e) {
             var o = getEventObject(e);
@@ -187,18 +180,18 @@ bubbleFrame.register('siteController', function ($scope, bubble, $modal, $http, 
                             });
                     }
                 });
-        };
+        }
 
         this.create = function (e) {
             var o = getEventObject(e);
             bubble.openModal("create", "siteGroupCreate.html", {
-                value: {fatherid: o[0].wbgid},
+                value: { fatherid: o[0].wbgid },
                 functionName: "siteGroup.add",
                 key: "name"
             }, function (rs) {
 
             });
-        };
+        }
 
         this.edit = function (e) {
             var o = getEventObject(e);
@@ -211,21 +204,21 @@ bubbleFrame.register('siteController', function ($scope, bubble, $modal, $http, 
 
             });
         }
-    };
+    }
 
     $scope.indexSave = function (e) {
         sortGropu.updateSite(e);
-    };
+    }
 
     $scope.createRoot = function () {
         bubble.openModal("create", "siteGroupCreate.html", {
-            value: {fatherid: 0, sort: 1},
+            value: { fatherid: 0, sort: 1 },
             functionName: "site.add",
             key: "name"
         }, function (rs) {
 
         });
-    };
+    }
 
     //初始化数据
     bubble._call("siteGroup.page", 1, 1000).success(function (v) {

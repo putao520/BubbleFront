@@ -7,12 +7,12 @@
     var config60 = {
         api: "60:801",
         upload: "60:9000"
-    };
+    }
 
     var config185 = {
         api: "185:7000",
         upload: "185:9000"
-    };
+    }
 
     bubbleFrame.setHost({
         "226:801": "http://123.57.214.226:801",
@@ -25,13 +25,15 @@
         "60:9000": "http://60.173.0.46:9000",
         "185:7000": "http://60.173.1.185:7000",
         "185:9000": "http://60.173.1.185:9000",
-        "59:803": "http://59.110.21.171:803"
+        "59:803": "http://59.110.21.171:803",
+        "226:810": "http://123.57.214.226:810",
+        "226:999": "http://123.57.214.226:999"
     });
 
     bubbleFrame.setDistributive({
         debug: {
             "GrapeFW": {
-                api: "59:803",
+                api: "226:999",
                 upload: "226:8080"
             },
             22: config226,
@@ -92,7 +94,9 @@
             act: "vote",
             power: "GrapeRight",
             log: "GrapeLog",
-            webInfo: 'GrapeWebInfo'
+            webInfo: 'GrapeWebInfo',
+            filter:'GrapeFW',
+            filter1:'GrapeFW'
         },
         //若配置其他ID,则覆写通用配置
         "17": {
@@ -267,6 +271,7 @@
             pageByWbid: ["content", "ContentGroup", "getColumns", [typeList.Int, typeList.Int, typeList.String]],         //根据网站ID获取该网站栏目
             getGovColumn: ["content", "PushContentToGov", "getColumnID"],         //获取政府信息公开网栏目
             SetLinkOgid: ["content", "ContentGroup", "SetLinkOgid", [typeList.String, typeList.String, typeList.Int]],
+            sort: ["content", "ContentGroup", "update_sort_by_id"]
         },
         //新闻
         content: {
@@ -627,6 +632,18 @@
         upload: {
             file: "{uploadhost}/FileServer/UploadFile?appid={appid}",
             visible: "{uploadhost}",
+        },
+        filter:{
+            page:['filter',"hookService",'pageBefore'],
+            delete:['filter','hookService',"delete",[typeList.String, typeList.Int]],
+            update:['filter','hookService','update',[typeList.String, typeList.String,typeList.Int]],
+            add:['filter','hookService','insert',[typeList.String,typeList.Int]],
+        },
+        filter1:{
+            page:['filter1',"hookService",'pageAfter'],
+            delete:['filter1','hookService',"delete",[typeList.String, typeList.Int]],
+            update:['filter1','hookService','update',[typeList.String, typeList.String,typeList.Int]],
+            add:['filter1','hookService','insert',[typeList.String,typeList.Int]],
         }
     });
-})();
+})()

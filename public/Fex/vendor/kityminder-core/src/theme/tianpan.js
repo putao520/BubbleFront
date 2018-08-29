@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var theme = require('../core/theme');
 
     ['tianpan', 'tianpan-compact'].forEach(function (name) {

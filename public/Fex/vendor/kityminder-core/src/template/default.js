@@ -6,12 +6,12 @@
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var template = require('../core/template');
 
     template.register('default', {
 
-        getLayout: function (node) {
+        getLayout: function(node) {
 
             if (node.getData('layout')) return node.getData('layout');
 
@@ -24,13 +24,13 @@ define(function (require, exports, module) {
 
             // 一级节点
             if (level === 1) {
-                return node.getLayoutPointPreview().x > 0 ? 'right' : 'left';
+                return node.getLayoutPointPreview().x > 0 ? 'right': 'left';
             }
 
             return node.parent.getLayout();
         },
 
-        getConnect: function (node) {
+        getConnect: function(node) {
             if (node.getLevel() == 1) return 'arc';
             return 'under';
         }

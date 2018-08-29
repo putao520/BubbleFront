@@ -1,16 +1,16 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var Point = require('./point');
 
     var Marker = require('../core/class').createClass('Marker', {
         base: require('./resource'),
         mixins: [require('./shapecontainer'), require('./viewbox')],
 
-        constructor: function () {
+        constructor: function() {
             this.callBase('marker');
             this.setOrient('auto');
         },
 
-        setRef: function (x, y) {
+        setRef: function(x, y) {
             if (arguments.length === 1) {
                 y = x.y;
                 x = x.x;
@@ -20,34 +20,34 @@ define(function (require, exports, module) {
             return this;
         },
 
-        getRef: function () {
+        getRef: function() {
             return new Point(+this.node.getAttribute('refX'), +this.node.getAttribute('refY'));
         },
 
-        setWidth: function (width) {
+        setWidth: function(width) {
             this.node.setAttribute('markerWidth', this.width = width);
             return this;
         },
 
-        setOrient: function (orient) {
+        setOrient: function(orient) {
             this.node.setAttribute('orient', this.orient = orient);
             return this;
         },
 
-        getOrient: function () {
+        getOrient: function() {
             return this.orient;
         },
 
-        getWidth: function () {
+        getWidth: function() {
             return +this.width;
         },
 
-        setHeight: function (height) {
+        setHeight: function(height) {
             this.node.setAttribute('markerHeight', this.height = height);
             return this;
         },
 
-        getHeight: function () {
+        getHeight: function() {
             return +this.height;
         }
     });
@@ -55,7 +55,7 @@ define(function (require, exports, module) {
     var Path = require('./path');
 
     require('../core/class').extendClass(Path, {
-        setMarker: function (marker, pos) {
+        setMarker: function(marker, pos) {
             pos = pos || 'end';
             if (!marker) {
                 this.node.removeAttribute('marker-' + pos);

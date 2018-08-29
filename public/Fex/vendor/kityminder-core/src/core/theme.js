@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('./kity');
     var utils = require('./utils');
     var Minder = require('./minder');
@@ -7,18 +7,18 @@ define(function (require, exports, module) {
     var Command = require('./command');
 
     var cssLikeValueMatcher = {
-        left: function (value) {
+        left: function(value) {
             return 3 in value && value[3] ||
                 1 in value && value[1] ||
                 value[0];
         },
-        right: function (value) {
+        right: function(value) {
             return 1 in value && value[1] || value[0];
         },
-        top: function (value) {
+        top: function(value) {
             return value[0];
         },
-        bottom: function (value) {
+        bottom: function(value) {
             return 2 in value && value[2] || value[0];
         }
     };
@@ -41,11 +41,10 @@ define(function (require, exports, module) {
     function register(name, theme) {
         _themes[name] = theme;
     }
-
     exports.register = register;
 
     utils.extend(Minder, {
-        getThemeList: function () {
+        getThemeList: function() {
             return _themes;
         }
     });
@@ -56,7 +55,7 @@ define(function (require, exports, module) {
          * 切换脑图实例上的主题
          * @param  {String} name 要使用的主题的名称
          */
-        useTheme: function (name) {
+        useTheme: function(name) {
 
             this.setTheme(name);
             this.refresh(800);
@@ -64,7 +63,7 @@ define(function (require, exports, module) {
             return true;
         },
 
-        setTheme: function (name) {
+        setTheme: function(name) {
             if (name && !_themes[name]) throw new Error('Theme ' + name + ' not exists!');
             var lastTheme = this._theme;
             this._theme = name || null;
@@ -86,11 +85,11 @@ define(function (require, exports, module) {
          * 获取脑图实例上的当前主题
          * @return {[type]} [description]
          */
-        getTheme: function (node) {
+        getTheme: function(node) {
             return this._theme || this.getOption('defaultTheme') || 'fresh-blue';
         },
 
-        getThemeItems: function (node) {
+        getThemeItems: function(node) {
             var theme = this.getTheme(node);
             return _themes[this.getTheme(node)];
         },
@@ -99,7 +98,7 @@ define(function (require, exports, module) {
          * 获得脑图实例上的样式
          * @param  {String} item 样式名称
          */
-        getStyle: function (item, node) {
+        getStyle: function(item, node) {
             var items = this.getThemeItems(node);
             var segment, dir, selector, value, matcher;
 
@@ -129,14 +128,14 @@ define(function (require, exports, module) {
          * 获取指定节点的样式
          * @param  {String} name 样式名称，可以不加节点类型的前缀
          */
-        getNodeStyle: function (node, name) {
+        getNodeStyle: function(node, name) {
             var value = this.getStyle(node.getType() + '-' + name, node);
             return value !== null ? value : this.getStyle(name, node);
         }
     });
 
     kity.extendClass(MinderNode, {
-        getStyle: function (name) {
+        getStyle: function(name) {
             return this.getMinder().getNodeStyle(this, name);
         }
     });
@@ -158,18 +157,18 @@ define(function (require, exports, module) {
             'theme': kity.createClass('ThemeCommand', {
                 base: Command,
 
-                execute: function (km, name) {
+                execute: function(km, name) {
                     return km.useTheme(name);
                 },
 
-                queryValue: function (km) {
+                queryValue: function(km) {
                     return km.getTheme() || 'default';
                 }
             })
         }
     });
 
-    Minder.registerInitHook(function () {
+    Minder.registerInitHook(function() {
         this.setTheme();
     });
 

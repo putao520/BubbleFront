@@ -4,7 +4,7 @@
  * 一些常用的工具方法
  */
 
-define(function () {
+define(function() {
 
     /**
      * @class kity.Utils
@@ -126,7 +126,7 @@ define(function () {
          * @param {parameter} sources 源对象
          * @param {boolean} notCover 是否不要覆盖源对象已有的属性
          */
-        deepExtend: function (t, s) {
+        deepExtend: function(t, s) {
             var a = arguments,
                 notCover = this.isBoolean(a[a.length - 1]) ? a[a.length - 1] : false,
                 len = this.isBoolean(a[a.length - 1]) ? a.length - 1 : a.length;
@@ -209,7 +209,7 @@ define(function () {
             return JSON.parse(JSON.stringify(obj));
         },
 
-        queryPath: function (path, obj) {
+        queryPath: function(path, obj) {
             var arr = path.split('.');
             var i = 0,
                 tmp = obj,
@@ -227,7 +227,7 @@ define(function () {
             }
         },
 
-        getValue: function (value, defaultValue) {
+        getValue: function(value, defaultValue) {
 
             return value !== undefined ? value : defaultValue;
 
@@ -353,7 +353,7 @@ define(function () {
          * 创建 op 操作的一个平行化版本
          */
         parallelize: function parallelize(op) {
-            return function (v1, v2) {
+            return function(v1, v2) {
                 return utils.paralle(v1, v2, op);
             };
         }
@@ -408,7 +408,7 @@ define(function () {
      * @description 判断一个值是否为布尔类型
      * @param  {any} unknown 要判断的值
      */
-    utils.each(['String', 'Function', 'Array', 'Number', 'RegExp', 'Object', 'Boolean'], function (v) {
+    utils.each(['String', 'Function', 'Array', 'Number', 'RegExp', 'Object', 'Boolean'], function(v) {
         utils['is' + v] = function typeCheck(obj) {
             return Object.prototype.toString.apply(obj) == '[object ' + v + ']';
         };

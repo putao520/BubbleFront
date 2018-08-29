@@ -6,12 +6,12 @@
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var template = require('../core/template');
 
     template.register('fish-bone', {
 
-        getLayout: function (node) {
+        getLayout: function(node) {
 
             if (node.getData('layout')) return node.getData('layout');
 
@@ -27,17 +27,14 @@ define(function (require, exports, module) {
                 return 'fish-bone-slave';
             }
 
-            return node.getLayoutPointPreview().y > 0 ? 'filetree-up' : 'filetree-down';
+            return node.getLayoutPointPreview().y > 0 ? 'filetree-up': 'filetree-down';
         },
 
-        getConnect: function (node) {
+        getConnect: function(node) {
             switch (node.getLevel()) {
-                case 1:
-                    return 'fish-bone-master';
-                case 2:
-                    return 'line';
-                default:
-                    return 'l';
+                case 1: return 'fish-bone-master';
+                case 2: return 'line';
+                default: return 'l';
             }
         }
     });

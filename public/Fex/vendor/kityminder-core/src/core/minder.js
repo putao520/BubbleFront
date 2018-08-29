@@ -6,14 +6,14 @@
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('./kity');
     var utils = require('./utils');
 
     var _initHooks = [];
 
     var Minder = kity.createClass('Minder', {
-        constructor: function (options) {
+        constructor: function(options) {
             this._options = utils.extend({}, options);
 
             var initHooks = _initHooks.slice();
@@ -32,7 +32,7 @@ define(function (require, exports, module) {
 
     Minder.version = '1.4.37';
 
-    Minder.registerInitHook = function (hook) {
+    Minder.registerInitHook = function(hook) {
         _initHooks.push(hook);
     };
 

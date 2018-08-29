@@ -1,8 +1,9 @@
+
 /*************************************
  * user
  */
 
-.userbox .user-data-table tr {
+ .userbox .user-data-table tr {
     cursor: pointer;
 }
 
@@ -13,7 +14,7 @@
     width: 100%;
     height: 100%;
     z-index: 1050;
-    background: rgba(0, 0, 0, .5);
+    background: rgba( 0, 0, 0, .5);
     padding: 50px;
     display: none;
 }

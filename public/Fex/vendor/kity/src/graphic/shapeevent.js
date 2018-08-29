@@ -2,7 +2,7 @@
  * 图形事件包装类
  * */
 
-define(function (require, exprots, module) {
+define(function(require, exprots, module) {
 
     var Matrix = require('./matrix'),
         Utils = require('../core/utils'),
@@ -10,7 +10,7 @@ define(function (require, exprots, module) {
 
     return require('../core/class').createClass('ShapeEvent', {
 
-        constructor: function (event) {
+        constructor: function(event) {
 
             var target = null;
 
@@ -51,7 +51,7 @@ define(function (require, exprots, module) {
 
         },
 
-        preventDefault: function () {
+        preventDefault: function() {
 
             var evt = this.originEvent;
 
@@ -76,7 +76,7 @@ define(function (require, exprots, module) {
         },
 
         //当前鼠标事件在用户坐标系中点击的点的坐标位置
-        getPosition: function (refer, touchIndex) {
+        getPosition: function(refer, touchIndex) {
 
             if (!this.originEvent) {
                 return null;
@@ -90,9 +90,9 @@ define(function (require, exprots, module) {
             var targetNode = target.shapeNode || target.node;
 
             var pScreen = new Point(
-                eventClient && eventClient.clientX || 0,
-                eventClient && eventClient.clientY || 0
-            );
+                    eventClient && eventClient.clientX || 0,
+                    eventClient && eventClient.clientY || 0
+                );
 
             var pTarget = Matrix.transformPoint(pScreen, targetNode.getScreenCTM().inverse());
             var pRefer = Matrix.getCTM(target, refer || 'view').transformPoint(pTarget);
@@ -100,7 +100,7 @@ define(function (require, exprots, module) {
             return pRefer;
         },
 
-        stopPropagation: function () {
+        stopPropagation: function() {
 
             var evt = this.originEvent;
 

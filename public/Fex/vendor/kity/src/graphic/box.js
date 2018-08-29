@@ -4,7 +4,7 @@
  * 表示一个矩形区域
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     /**
      * @class kity.Box
@@ -31,7 +31,7 @@ define(function (require, exports, module) {
          * var box2 = new kity.Box({x: 10, y: 20, width: 50, height: 50});
          * ```
          */
-        constructor: function (x, y, width, height) {
+        constructor: function(x, y, width, height) {
             var box = arguments[0];
             if (box && typeof(box) === 'object') {
                 x = box.x;
@@ -149,7 +149,7 @@ define(function (require, exports, module) {
          * var box = new kity.Box(10, 10, 30, 50);
          * console.log(box.getRangeX()); // [10, 40]
          */
-        getRangeX: function () {
+        getRangeX: function() {
             return [this.left, this.right];
         },
 
@@ -166,7 +166,7 @@ define(function (require, exports, module) {
          * var box = new kity.Box(10, 10, 30, 50);
          * console.log(box.getRangeY()); // [10, 60]
          */
-        getRangeY: function () {
+        getRangeY: function() {
             return [this.top, this.bottom];
         },
 
@@ -187,7 +187,7 @@ define(function (require, exports, module) {
          * console.log(box3.valueOf()); // [10, 10, 70, 70]
          * ```
          */
-        merge: function (another) {
+        merge: function(another) {
             if (this.isEmpty()) {
                 return new Box(another.x, another.y, another.width, another.height);
             }
@@ -216,7 +216,7 @@ define(function (require, exports, module) {
          * console.log(box3.valueOf()); // [30, 30, 20, 20]
          * ```
          */
-        intersect: function (another) {
+        intersect: function(another) {
             if (!another instanceof Box) {
                 another = new Box(another);
             }
@@ -263,7 +263,7 @@ define(function (require, exports, module) {
          * var box3 = box.expand(1, 2, 3, 4); // [9, 8, 24, 26]
          * ```
          */
-        expand: function (top, right, bottom, left) {
+        expand: function(top, right, bottom, left) {
             if (arguments.length < 1) {
                 return new Box(this);
             }
@@ -297,7 +297,7 @@ define(function (require, exports, module) {
          * console.log(box.valueOf()); // [0, 0, 200, 50]
          * ```
          */
-        valueOf: function () {
+        valueOf: function() {
             return [this.x, this.y, this.width, this.height];
         },
 
@@ -314,7 +314,7 @@ define(function (require, exports, module) {
          * var box = new kity.Box(0, 0, 200, 50);
          * console.log(box.toString()); // "0 0 200 50"
          */
-        toString: function () {
+        toString: function() {
             return this.valueOf().join(' ');
         },
 
@@ -331,7 +331,7 @@ define(function (require, exports, module) {
          * console.log(box.isEmpty()); // true
          * ```
          */
-        isEmpty: function () {
+        isEmpty: function() {
             return !this.width || !this.height;
         }
     });
@@ -353,7 +353,7 @@ define(function (require, exports, module) {
      * console.log(kity.Box.parse([0, 0, 100, 200]));
      * ```
      */
-    Box.parse = function (any) {
+    Box.parse = function(any) {
         if (typeof(any) == 'string') {
             return Box.parse(any.split(/[\s,]+/).map(parseFloat));
         }

@@ -16,12 +16,12 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
 
     $scope.getMaxDate = function () {
         return new Date().Format("yyyy-MM-dd hh:mm:ss");
-    };
+    }
 
     $scope.updateLocalStorage = function () {
         if ($scope.mode == "new" && $scope.newItem)
             window.localStorage.backContent = JSON.stringify($scope.newItem);
-    };
+    }
 
     KindEditor.lang({
         hello: '添加图片'
@@ -30,7 +30,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
     $scope.$watch("newItem.content", function (n) {
         editorNoUpdate || editor.html(n);
         editorNoUpdate = false;
-    });
+    })
 
     var editor = KindEditor.create('#editor_id', {
         items: [
@@ -73,7 +73,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
 
     $scope.setImage = function (v) {
         $scope.newItem.image = v;
-    };
+    }
 
     $scope.column_tree_data = [];   //栏目树数据
     var initTree = function (v) {
@@ -82,13 +82,13 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
         });
         $scope.treeSelect = function (v) {
             columnChange(v);
-        };
+        }
         $(".content-column-box .open-btn").click(function () {
             $scope.newItem = "";
             $scope.imgList = [];
             bubble.updateScope($scope);
         });
-    };
+    }
 
     var optionList = [];
     var getOptions = function (v, f) {
@@ -99,7 +99,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             data[i].children && optionList.push(getOptions(data[i].children, data[i]));
         }
         return f ? '<optgroup label="' + f.name + '">' + rs + '</optgroup>' : '<optgroup label="根栏目">' + rs + '</optgroup>' + optionList.join("");
-    };
+    }
     var select = "";
     var selectData = "";
     var newItemTpl = {
@@ -123,7 +123,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
         "fatherid": 0,
         "isdelete": 0,
         "state": "草稿"
-    };
+    }
     $scope.toggleshow = false;
     $scope.mode = "wait";
     $scope.shower = bubble.isMobile();
@@ -139,12 +139,12 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
         startingDay: 1,
         class: 'datepicker'
     };
-    $scope.openState = {time: false};
+    $scope.openState = { time: false };
     $scope.openDate = function (i, e) {
         $scope.openState.time = true;
         e.preventDefault();
         e.stopPropagation();
-    };
+    }
     $scope.tmpNews = [];
     (function () {
         loadingbox.fadeIn(200);
@@ -166,12 +166,12 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 return d[i];
             }
         }
-    };
+    }
 
     var initChosenSelect = function (id) {
         select.val(id);
         select.trigger("chosen:updated.chosen");
-    };
+    }
 
     $scope.column_tree_current = "";
     var columnChange = function (v, istree) {
@@ -188,7 +188,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
         $scope.search.reset(true);
         $scope.pager.init($scope.current._id);
         istree && ($scope.column_tree_current = $scope.current.name);
-    };
+    }
 
     $scope.newsClick = function (v) {
         if ($scope.mindtype == "use") {
@@ -236,7 +236,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             editor.edit.setHeight($(".content-console-box .row-row:first").height() - 270);
             $("#pdfbox").height($(".content-console-box .row-row:first").height() - 210);
         });
-    };
+    }
 
     $scope.create = function (v, i, e) {
         setPdf();
@@ -290,7 +290,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
         topsuffixcheckbox[0].checked = false;
         $scope.newItem.isSuffix == "0";
         editor.html($scope.newItem.content ? $scope.newItem.content : "");
-    };
+    }
 
     $scope.delete = function (item) {
         swal({
@@ -334,7 +334,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                     });
                 }
             });
-    };
+    }
 
     $scope.deleteCheckAll = function (e) {
         var f = e.currentTarget.checked;
@@ -346,7 +346,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
         } else {
             $(".deleteBtn").hide();
         }
-    };
+    }
 
     $scope.deleteCheck = function (v, e) {
         if (v) {
@@ -367,7 +367,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
         } else {
             $(".deleteBtn").hide();
         }
-    };
+    }
     //分片发布
     var getChunk = function (v) {
         var num = 18000;
@@ -380,7 +380,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             count++;
             $(".loading-spinner p").length || $(".loading-spinner").append("<p></p>");
             var content = list.shift();
-            bubble._call("content.append", id, {content: bubble.replaceBase64(content)}).success(function (v) {
+            bubble._call("content.append", id, { content: bubble.replaceBase64(content) }).success(function (v) {
                 o.content += content;
                 if (count == chunks) {
                     $(".contentbatchMask:not(.powerloading)").fadeOut(200);
@@ -392,7 +392,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 }
                 f || $(".loading-spinner p").html("<p>已完成" + (((count / chunks) * 100).toFixed(2)) + "%</p>");
             });
-        };
+        }
         if (c.length > num) {
             while (subnum < c.length) {
                 list.push(c.substring(subnum, subnum + num));
@@ -404,7 +404,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
         }
 
         return false;
-    };
+    }
 
     var checkPrivacy = function () {
         var html = $scope.newItem.content;
@@ -426,21 +426,21 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             }
             rs.pop();
             return rs;
-        };
+        }
         var setColor = function (v) {
             if (v) {
                 var left = "<span style='color:#E53333'>";
                 var right = "</span>";
                 tmphtml = html.substring(0, v.index) + left + html.substring(v.index, v.index + v[0].length) + right + html.substring(v.index + v[0].length, html.length);
             }
-        };
+        }
         // var cl = getList(card);
         var pl = getList(phone);
         var idl = getList(idcard);
         // setColor(cl.concat(pl.concat(idl)));
         $scope.newItem.content = html;
         return false;
-    };
+    }
 
     $scope.allPraviteCheck = function () {
         bubble._call("content.checkAllArticle", "mainName").success(function (v) {
@@ -450,7 +450,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             p.append("<p></p>");
             p.find("p").html("正在检测中");
         });
-    };
+    }
 
     $scope.save = function (check, p) {
         if ($(".btn-save").html() == "发布中..") {
@@ -534,9 +534,9 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                     continueAppend || $(".contentbatchMask:not(.powerloading)").fadeOut(200);
                 });
             }
-        };
-        check ? errorWord.check($scope.newItem, p ? p : {type: "private", content: editor.html()}, cb) : cb();
-    };
+        }
+        check ? errorWord.check($scope.newItem, p ? p : { type: "private", content: editor.html() }, cb) : cb();
+    }
     //全部发布
     $scope.publishAll = function () {
         var count = 0;
@@ -567,7 +567,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                         v.selected = true;
                         $scope.newItem = $scope.news[0];
                     }
-                    $(".loading-spinner p").html("<p>已完成" + (((count / d.length) * 100).toFixed(0)) + "%</p>");
+                    $(".loading-spinner p").html("<p>已完成" + (((count / d.length) * 100).toFixed(0)) + "%</p>")
                     for (var i = 0; i < $scope.tmpNews.length; i++) {
                         if ($scope.tmpNews[i].mainName == p.mainName) {
                             $scope.tmpNews.splice(i, 1);
@@ -577,11 +577,11 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 });
             })(d[i]);
         }
-    };
+    }
 
     $scope.getTimeText = function (v) {
         return !isNaN(v) ? new Date(v).Format("yyyy-MM-dd hh:mm") : v;
-    };
+    }
 
     $scope.getOldTime = function (v) {
         isNaN(v) && (v = Date.parse(new Date(v)));
@@ -590,7 +590,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
         time[0] == 0 && (time = Math.floor((new Date().getTime() - new Date(v * 1).getTime()) / (60 * 1000)) + "分钟前");
         time[0] == 0 && (time = "刚刚");
         return time;
-    };
+    }
 
     $scope.transmit = function (e) {
         var o = $(e.currentTarget);
@@ -598,7 +598,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
         bubble._call("content.transmit", "11", $scope.newItem.image, bubble.replaceBase64($scope.newItem.content)).success(function (v) {
             o.html("转发");
         });
-    };
+    }
     //纯图片新闻删除图片
     $scope.deleteImgList = function (v) {
         for (var i = 0; i < $scope.imgList.length; i++) {
@@ -607,9 +607,9 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 $scope.imgList.splice(i, 1);
                 $scope.newItem.content = $scope.imgList.join(",");
                 return;
-            }
+            };
         }
-    };
+    }
     //文章内容图片上传
     var UploadImageList = function () {
         var uploader = "";
@@ -627,24 +627,24 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             uploader.on("fileQueued", this.fileQueued);
             uploader.on("uploadSuccess", s || this.uploadSuccess);
             return this;
-        };
+        }
 
         this.fileQueued = function (file) {
             $scope.imgList.push("./img/loading.gif");
             file.ListIndex = $scope.imgList.length - 1;
             bubble.updateScope($scope);
-        };
+        }
 
         this.uploadSuccess = function (file, v) {
             !v.errorcode ? $scope.imgList[file.ListIndex] = bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/") : swal("上传失败");
             $scope.newItem.content = $scope.imgList.join(",");
             bubble.updateScope($scope);
-        };
+        }
 
         this.uploadError = function (file, msg) {
             swal("上传失败");
         }
-    };
+    }
     //文档上传
     var UploadOfficeWord = function () {
         var uploader = "";
@@ -676,12 +676,12 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             uploader.on("uploadProgress", p || this.uploadProgress);
             uploader.on("uploadSuccess", s || this.uploadSuccess);
             return this;
-        };
+        }
 
         this.uploadProgress = function (file, percentage) {
             $("#wordUploadPicker .webuploader-pick").html("处理中");
             $(".worduploadprocess").width((percentage.toFixed(2) * 100) + "%");
-        };
+        }
 
         this.uploadSuccess = function (file, v) {
             bubble._call("file.getWord", v._id).success(function (v) {
@@ -689,14 +689,14 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 $(".worduploadprocess").width(0);
                 $("#wordUploadPicker .webuploader-pick").html("选择文档");
             })
-        };
+        }
 
         this.uploadError = function (file, msg) {
             $("#wordUploadPicker .webuploader-pick").html("选择文档");
             $(".worduploadprocess").width(0);
             swal("上传失败");
         }
-    };
+    }
     //批量文档上传
     var BatchWord = function () {
         var box = $(".wordBatchUploaderBox");
@@ -714,15 +714,15 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
         this.init = function () {
             this.initUploader();
             return this;
-        };
+        }
 
         this.getUpload = function () {
             return uploader;
-        };
+        }
 
         var getType = function (v) {
             return doc.indexOf(v) >= 0;
-        };
+        }
 
         var setSwitch = function () {
             if (!ulist.length) {
@@ -743,7 +743,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             }
             ulist = [];
             noswich = false;
-        };
+        }
 
         this.initUploader = function () {
             uploader = WebUploader.create({
@@ -808,7 +808,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                     $(".contentbatchMask:not(.powerloading)").fadeOut(200);
                 }
             });
-        };
+        }
         /**
          * 批量上传文档转码插入
          */
@@ -861,7 +861,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 }.bind(this));
             }
         }
-    };
+    }
 
     var setPdf = function (v, o) {
         if (!v) {
@@ -895,12 +895,12 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                         page.render(renderContext);
                         cb(i + 1);
                     });
-                };
+                }
                 cb(1);
             });
             $("#pdfbox").fadeIn(200);
         }
-    };
+    }
 
     //错别字处理类
     var ErrorWord = function () {
@@ -916,7 +916,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
 
         this.init = function () {
             return this;
-        };
+        }
 
         this.check = function (v, p, fn) {
             box.fadeIn(200);
@@ -959,12 +959,12 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             box.find(".error-box").unbind("scroll").scroll(function () {
                 $(box.find("iframe")[0].contentWindow).scrollTop($(this).scrollTop());
             });
-        };
+        }
 
         var resetBtn = function () {
             box.find(".btn-danger").hide();
             box.find(".btn-success").show();
-        };
+        }
 
         box.find(".close-btn").click(function (e) {
             current.CONTENT = editorerror.html();
@@ -991,7 +991,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
         box.click(function (e) {
             e.currentTarget === e.target && $(this).fadeOut(200);
         });
-    };
+    }
 
     //分页处理类
     var Pager = function () {
@@ -1001,54 +1001,54 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
         this.parameter = [];
         var pagebox = $(".new-pager-box");
         this.pagesize = "10";
-        this.current = {page: 0, total: 0};
+        this.current = { page: 0, total: 0 };
 
         this.init = function (id) {
             _this.parameter = [];
             currentId = id ? id : currentId;
             if (!pageCache[id]) {
-                pageCache[id] = {page: 1}
+                pageCache[id] = { page: 1 }
             }
             _this.current = pageCache[id];
             this.initEvent();
             this.getData();
             return this;
-        };
+        }
 
         this.pagesizeChange = function (v) {
             _this.current.page = 1;
             _this.getData();
-        };
+        }
 
         this.getCurrent = function () {
             return _this.current;
-        };
+        }
 
         this.initHtml = function () {
             pagebox.find(".c").html(_this.current.page);
             pagebox.find(".t").html(_this.current.total);
-        };
+        }
 
         this.initEvent = function () {
             pagebox.find(".prev").unbind("click").click(this.prev);
             pagebox.find(".next").unbind("click").click(this.next);
             pagebox.find("input").unbind("keydown").keydown(this.go);
-        };
+        }
 
         this.clearParameter = function () {
             _this.parameter = [];
-        };
+        }
 
         this.setParameter = function (v) {
             if (typeof v === 'object') {
                 for (var tmp in v) {
-                    _this.parameter.push({field: tmp, logic: "like", value: v[tmp]});
+                    _this.parameter.push({ field: tmp, logic: "like", value: v[tmp] });
                 }
             } else {
                 _this.parameter = [];
             }
             _this.getData();
-        };
+        }
 
         this.getData = function (v) {
             loadingbox.fadeIn(200);
@@ -1056,7 +1056,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             if (!currentId) {
                 return;
             }
-            var par = [{field: "ogid", logic: "=", value: currentId}].concat(_this.parameter);
+            var par = [{ field: "ogid", logic: "=", value: currentId }].concat(_this.parameter);
             bubble._call("content.pageBy", _this.current.page, _this.pagesize, par).success(function (v) {
                 if (!v.errorcode) {
                     $scope.news = v.data;
@@ -1076,12 +1076,12 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 }
                 loadingbox.fadeOut(200);
             })
-        };
+        }
 
         this.export = function () {
-            var par = [{field: "ogid", logic: "=", value: currentId}].concat(_this.parameter);
+            var par = [{ field: "ogid", logic: "=", value: currentId }].concat(_this.parameter);
             window.open(bubble.getHost() + "/" + bubble.getAppId() + "/GrapeContent/Content/ExportContent/s:" + JSON.stringify(par) + "/文章列表.xls");
-        };
+        }
 
         this.prev = function () {
             if (_this.current.page <= 1) {
@@ -1089,7 +1089,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             }
             _this.current.page--;
             _this.getData();
-        };
+        }
 
         this.next = function () {
             if (_this.current.page >= _this.current.total) {
@@ -1097,7 +1097,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             }
             _this.current.page++;
             _this.getData();
-        };
+        }
 
         this.go = function (e) {
             if (e.keyCode == 13) {
@@ -1109,12 +1109,12 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 _this.getData();
             }
         }
-    };
+    }
 
     //搜索类
     var Search = function () {
         var _this = this;
-        this.par = {content: false, mainName: true, souce: false, author: false};
+        this.par = { content: false, mainName: true, souce: false, author: false };
         this.keyword = "";
 
         this.checkChange = function (v) {
@@ -1123,12 +1123,12 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 if (_this.par[tmp]) {
                     f = true;
                     break;
-                }
+                };
             }
             if (!f) {
                 _this.par[v] = true;
             }
-        };
+        }
 
         this.do = function () {
             if (!_this.keyword) {
@@ -1142,14 +1142,14 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             }
             $scope.pager.clearParameter();
             $scope.pager.setParameter(p);
-        };
+        }
 
         this.reset = function (s) {
-            _this.par = {content: false, mainName: true, souce: false, author: false};
+            _this.par = { content: false, mainName: true, souce: false, author: false };
             _this.keyword = "";
             s || $scope.pager.setParameter();
         }
-    };
+    }
 
     /**
      * 文章预览控制类
@@ -1162,46 +1162,38 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             $("body").append(box.fadeIn(200));
             $(".preview-close").click(this.hide);
             this.initHtml(v);
-        };
+        }
 
         this.showById = function (id, fn) {
             loadingbox.fadeIn(200);
             bubble._call("content.find", id).success(function (v) {
                 $("body").append(box.fadeIn(200));
                 $(".preview-close").click(_this.hide);
-                box.click(function (e) {
-                    if (e.target === e.currentTarget) {
-                        _this.hide();
-                    }
-                });
+                box.click(function (e) { if (e.target === e.currentTarget) { _this.hide(); } });
                 loadingbox.fadeOut(200);
                 _this.initHtml(v);
                 fn && fn();
             })
-        };
+        }
 
         this.showByMeetingId = function (id, fn) {
             loadingbox.fadeIn(200);
             bubble._call("powerContent.get", id).success(function (v) {
                 $("body").append(box.fadeIn(200));
                 $(".preview-close").click(_this.hide);
-                box.click(function (e) {
-                    if (e.target === e.currentTarget) {
-                        _this.hide();
-                    }
-                });
+                box.click(function (e) { if (e.target === e.currentTarget) { _this.hide(); } });
                 loadingbox.fadeOut(200);
                 v.mainName = v.name;
                 _this.initHtml(v);
                 fn && fn();
             });
-        };
+        }
 
         this.hide = function () {
             box.fadeOut(200, function () {
                 box.remove();
             });
-        };
+        }
 
         this.initHtml = function (v) {
             var d = v ? v : $scope.newItem;
@@ -1216,14 +1208,14 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 box.find(".content").html(d.content ? d.content : editor.html());
             }
             box.find("table").css("margin", "0 auto");
-        };
+        }
 
         box.unbind("click").click(function (e) {
             if (e.target === e.currentTarget) {
                 _this.hide();
             }
         });
-    };
+    }
     /**
      * 机器人控制类
      */
@@ -1240,18 +1232,18 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             // initImgLoad();
             initEvent();
             return this;
-        };
+        }
 
         this.show = function () {
             box.show();
             current = 0;
             timer = setInterval(ani, 2000);
             return this;
-        };
+        }
 
         this.unlock = function () {
             messageLock = false;
-        };
+        }
 
         this.hide = function () {
             clearInterval(timer);
@@ -1264,7 +1256,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             box.find(".p2").fadeOut(200);
             box.find(".p1").fadeIn(200);
             hidePop();
-        };
+        }
 
         var ani = function () {
             var prev = 0;
@@ -1278,7 +1270,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             }
             box.find("img:eq(" + (prev) + ")").fadeOut(800);
             box.find("img:eq(" + (next) + ")").fadeIn(800);
-        };
+        }
 
         var initImgLoad = function () {
             var name = "content-ani";
@@ -1295,7 +1287,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                     }
                 }
             }
-        };
+        }
 
         var hidePop = function () {
             box.find(".messagebox").addClass("out");
@@ -1304,7 +1296,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 box.find(".messagebox").removeClass("out");
                 messageTimer = 0;
             }, 200);
-        };
+        }
 
         var getError = function (p, content) {
             bubble._call("content.check", bubble.replaceBase64(content)).success(function (v) {
@@ -1315,7 +1307,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 p.error = v;
                 $scope.save(true, p);
             });
-        };
+        }
 
         var initEvent = function () {
             box.unbind("click").click(function (e) {
@@ -1347,22 +1339,22 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                     return;
                 }
                 if (idx == 1) {
-                    $scope.save(true, {type: "private", content: editor.html()});
+                    $scope.save(true, { type: "private", content: editor.html() });
                     return;
                 }
                 box.find(".p1").fadeOut(200);
                 box.find(".p2").fadeIn(200);
                 if (idx == 0) {
-                    getError({type: "error"}, editor.html());
+                    getError({ type: "error" }, editor.html());
                     return;
                 }
                 if (idx == 2) {
-                    getError({type: "all"}, editor.html());
-
+                    getError({ type: "all" }, editor.html());
+                    return;
                 }
             });
         }
-    };
+    }
 
     /**
      * 附件操作类
@@ -1375,7 +1367,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
         this.init = function () {
             initUploader();
             return this;
-        };
+        }
 
         var initUploader = function () {
             uploader = WebUploader.create({
@@ -1399,12 +1391,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 if (!($scope.newItem.attrid instanceof Array)) {
                     $scope.newItem.attrid = [];
                 }
-                $scope.newItem.attrid.push({
-                    fileoldname: file.name,
-                    size: bubble.getSize(file.size),
-                    state: "上传中",
-                    _id: {$oid: ""}
-                });
+                $scope.newItem.attrid.push({ fileoldname: file.name, size: bubble.getSize(file.size), state: "上传中", _id: { $oid: "" } });
                 file.ele = $scope.newItem.attrid[$scope.newItem.attrid.length - 1];
                 bubble.updateScope($scope);
             };
@@ -1418,11 +1405,11 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 box.find(".process").width(0);
                 bubble.updateScope($scope);
             });
-        };
+        }
 
         this.download = function (v) {
             window.open(v.filepath);
-        };
+        }
 
         this.remove = function (v) {
             for (var i = 0; i < $scope.newItem.attrid.length; i++) {
@@ -1433,7 +1420,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 }
             }
         }
-    };
+    }
 
     /**
      * 脑图操作类
@@ -1455,7 +1442,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
         this.updateModal = null;                        //决策会议编辑操作类
         this.powerListModal = null;                     //执行结果操作类
         this.tableControl = {                         //执行结果列表
-            title: [{name: "查看文章", key: "gk", width: 80}],
+            title: [{ name: "查看文章", key: "gk", width: 80 }],
             html: ['<a class="btn btn-sm m-t-n-xs"><i class="fa fa-search"><i></a>'],
             onClick: function (key, v, i, e, p, s, t) {
                 $scope.preview.showByMeetingId(v._id);
@@ -1475,7 +1462,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             "template": "right",
             "theme": "fresh-blue",
             "version": "1.4.43"
-        };
+        }
 
         var initsite = function () {
             $(".powerloading").fadeIn(200);
@@ -1483,7 +1470,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 $(".powerloading").fadeOut(200);
                 _this.site_tree_data = initSiteName(bubble.getTreeData(v.data, "_id"));
             });
-        };
+        }
 
         var initSiteName = function (v) {
             for (var i = 0; i < v.length; i++) {
@@ -1493,7 +1480,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 }
             }
             return v;
-        };
+        }
 
         var getJson = function (v, fn) {
             var count = 0;
@@ -1502,7 +1489,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 "type": 0,
                 "_id": v._id,
                 "text": v.name,
-            };
+            }
             tmp.root.children = [
                 {
                     "data": {
@@ -1510,7 +1497,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                         "type": 10,
                     }
                 }
-            ];
+            ]
             if (v.itemChildrenData) {
                 for (var i = 0; i < v.itemChildrenData.length; i++) {
                     (function (n) {
@@ -1532,13 +1519,9 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                             ]
                         };
                         tmp.root.children.unshift(o);
-                        bubble._call("powerContent.pageBy", 1, 10, [{
-                            field: "fatherid",
-                            logic: "=",
-                            value: o.data._id
-                        }]).success(function (rs) {
+                        bubble._call("powerContent.pageBy", 1, 10, [{ field: "fatherid", logic: "=", value: o.data._id }]).success(function (rs) {
                             for (var i = rs.data.length - 1; i >= 0; i--) {
-                                o.children.unshift({data: {"type": 2, "_id": rs.data[i]._id, "text": rs.data[i].name}})
+                                o.children.unshift({ data: { "type": 2, "_id": rs.data[i]._id, "text": rs.data[i].name } })
                             }
                             if (++count == v.itemChildrenData.length) {
                                 fn && fn(tmp);
@@ -1547,7 +1530,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                     })(i)
                 }
             }
-        };
+        }
 
         this.scal = function (v) {
             if (v) {
@@ -1555,7 +1538,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             } else {
                 minder.execCommand('ZoomOut');
             }
-        };
+        }
 
         this.init = function () {
             minder = new kityminder.Minder();
@@ -1573,7 +1556,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             initEvent();
             initsite();
             return this;
-        };
+        }
 
         this.siteTreeSelect = function (v) {
             $(".powerloading").fadeIn(200);
@@ -1581,11 +1564,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             _this.powerTypeList = null;
             _this.meetingList = [];
             _this.currentType = null;
-            bubble._call("powerType.pageBy", 1, 1000, [{
-                field: "wbid",
-                logic: "=",
-                value: v._id
-            }]).success(function (rs) {
+            bubble._call("powerType.pageBy", 1, 1000, [{ field: "wbid", logic: "=", value: v._id }]).success(function (rs) {
                 _this.powerTypeList = rs.data;
                 if (rs.data.length) {
                     _this.powerTypeList[0].active = true;
@@ -1594,15 +1573,11 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 }
                 $(".powerloading").fadeOut(200);
             });
-        };
+        }
 
         var getPowerList = function (id) {
             $(".powerloading").fadeIn(200);
-            bubble._call("power.pageBy", 1, 1000, [{
-                field: "wbid",
-                logic: "=",
-                value: _this.currentSite._id
-            }, {field: "type", logic: "=", value: id}]).success(function (rs) {
+            bubble._call("power.pageBy", 1, 1000, [{ field: "wbid", logic: "=", value: _this.currentSite._id }, { field: "type", logic: "=", value: id }]).success(function (rs) {
                 if (!rs.errrocode && rs.data && rs.data.length) {
                     _this.meetingList = rs.data;
                 } else {
@@ -1611,7 +1586,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 }
                 $(".powerloading").fadeOut(200);
             });
-        };
+        }
 
         this.typeChange = function (v) {
             for (var i = 0; i < _this.powerTypeList.length; i++) {
@@ -1622,7 +1597,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             getPowerList(v._id);
             _this.currentType = v;
             _this.currentMeeting = "";
-        };
+        }
 
         //初始化minder视角缩放等级并移至中心点
         this.initView = function () {
@@ -1631,10 +1606,9 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             // view.zoom = 1.2;
             view.center.x = $(target).width() / 1.2;
             p.setViewPort(view);
-        };
+        }
         //文章选择事件回调,可覆写,由打开文章选择器的对象处理选择事件
-        this.addCallBack = function (v) {
-        };
+        this.addCallBack = function (v) { }
 
         /**
          * 显示文章选择窗口
@@ -1647,7 +1621,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 case "new":
                     _this.contentShow = true;
                     $scope.create();
-                    $scope.current = {_id: demoCid};
+                    $scope.current = { _id: demoCid };
                     $scope.mindtype = "create";
                     break;
 
@@ -1659,11 +1633,11 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
 
                 default:
             }
-        };
+        }
 
         this.export = function () {
             swal(JSON.stringify(minder.exportJson()));
-        };
+        }
 
         //删除节点
         this.delete = function () {
@@ -1690,7 +1664,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                         });
                     }
                 });
-        };
+        }
 
         //添加会议
         this.addMeeting = function () {
@@ -1700,7 +1674,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 swal("在添加权力之前请先至少添加一个分类");
                 _this.powerTypeModal.show();
             }
-        };
+        }
 
         //会议切换
         this.onMeetingSelect = function (v, e) {
@@ -1720,7 +1694,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                     $(".powerloading").fadeOut(200);
                 })
             });
-        };
+        }
 
         //删除会议
         this.deleteMeeting = function (v, i, e) {
@@ -1749,13 +1723,13 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                         });
                     }
                 });
-        };
+        }
 
         //会议快速重命名
         this.onMeetingBlur = function (v) {
             if (v.name != _this.currentMeeting.name)
                 swal("修改成功");
-        };
+        }
 
         var initEvent = function () {
             $(".content-wraper-box").unbind("click").click(function (e) {
@@ -1768,7 +1742,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
             minder.off('dblclick', dclick);
             minder.on('mousedown', md);
             minder.on('dblclick', dclick);
-        };
+        }
 
         //minder双击事件
         var dclick = function () {
@@ -1780,7 +1754,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 $scope.preview.showByMeetingId(node.data._id);
             }
             bubble.updateScope($scope);
-        };
+        }
 
         //minder单击事件,因click和原事件有冲突,故用mousedown代替
         var md = function () {
@@ -1800,12 +1774,12 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 _this.currentNode = "";
             }
             bubble.updateScope($scope);
-        };
+        }
 
         //执行结果操作类
         var PowerListModal = function () {
             this.show = function () {
-                _this.tableCond = [{"field": "fatherid", "logic": "=", "value": _this.currentNode.parent.data._id}];
+                _this.tableCond = [{ "field": "fatherid", "logic": "=", "value": _this.currentNode.parent.data._id }];
                 _this.powerListShower = true;
                 $timeout(function () {
                     $(".power-result-wrapper").unbind("click").click(function (e) {
@@ -1815,12 +1789,12 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                         }
                     });
                 });
-            };
+            }
 
             this.hide = function () {
                 _this.tableCond = [];
                 _this.powerListShower = false;
-            };
+            }
 
             //添加操作结果
             this.addResult = function () {
@@ -1862,7 +1836,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                     }.bind(this));
                 }
             }
-        };
+        }
 
         //决策会议操作类
         var UpdateModal = function () {
@@ -1876,7 +1850,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                     this.btntext = "查看已关联文章";
                     $(".powerloading").fadeOut(200);
                 }.bind(this));
-            };
+            }
 
             //新增决议会议回调函数
             this.addCallBack = function (v, name) {
@@ -1889,7 +1863,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                     node.text = v.mainName;
                     node.linkId = v._id;
                 }
-            };
+            }
 
             //确认添加,并插入节点
             this.confirm = function () {
@@ -1899,7 +1873,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 } else {
                     addNode.call(this);
                 }
-            };
+            }
 
             var update = function () {
                 var node = this.node;
@@ -1926,7 +1900,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                     this.hide();
                     initEvent();
                 }
-            };
+            }
 
             var addNode = function () {
                 var node = this.node;
@@ -1950,23 +1924,23 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 $(".powerloading").fadeIn(200);
                 bubble._call("powerContent.insert", bubble.replaceBase64(JSON.stringify(p))).success(function (v) {
                     this.hide();
-                    _this.onMeetingSelect(_this.currentMeeting, true);
+                    _this.onMeetingSelect(_this.currentMeeting, true);;
                 }.bind(this));
-            };
+            }
 
             //引用添加文章
             this.use = function () {
                 mode = "use";
                 _this.showContentList(mode);
                 _this.addCallBack = this.addCallBack;
-            };
+            }
 
             //新增添加文章
             this.create = function () {
                 mode = "new";
                 _this.showContentList(mode);
                 _this.addCallBack = this.addCallBack;
-            };
+            }
 
             this.show = function () {
                 _this.powerEditorShower = true;
@@ -1978,14 +1952,14 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                         }
                     });
                 });
-            };
+            }
 
             //新增入口
             this.add = function () {
                 this.node = {};
                 this.new = true;
                 this.show();
-            };
+            }
 
             //编辑入口
             this.update = function () {
@@ -1994,19 +1968,19 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                     this.new = false;
                     this.show();
                 } catch (e) {
-
+                    return;
                 }
-            };
+            }
 
             this.hide = function () {
                 _this.powerEditorShower = false;
             }
-        };
+        }
 
         var AddModal = function () {
             var mode = "";
             this.btntext = "查看已关联文章";
-            this.data = [{name: ""}, {name: "", time: ""}, {name: ""}];
+            this.data = [{ name: "" }, { name: "", time: "" }, { name: "" }];
 
             this.addCallBack = function (v, name, i) {
                 _this.contentShow = false;
@@ -2017,7 +1991,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                     _this.addModal.data[i].name = v.mainName;
                     _this.addModal.data[i].aid = v._id;
                 }
-            };
+            }
 
             this.view = function (i) {
                 this.btntext = "文章加载中...";
@@ -2026,7 +2000,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                     this.btntext = "查看已关联文章";
                     $(".powerloading").fadeOut(200);
                 }.bind(this));
-            };
+            }
 
             this.use = function (i) {
                 mode = "use";
@@ -2034,7 +2008,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 _this.addCallBack = function (v, name) {
                     this.addCallBack(v, name, i);
                 }.bind(this);
-            };
+            }
 
             this.create = function (i) {
                 mode = "new";
@@ -2042,11 +2016,11 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                 _this.addCallBack = function (v, name) {
                     this.addCallBack(v, name, i);
                 }.bind(this);
-            };
+            }
 
             this.hide = function () {
                 _this.powerAddShower = false;
-            };
+            }
 
             this.show = function () {
                 _this.powerAddShower = true;
@@ -2058,7 +2032,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                         }
                     });
                 });
-            };
+            }
 
             this.confirm = function () {
                 if (!this.data[2].name) {
@@ -2079,26 +2053,16 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
 
                 if (this.data[0].name) {
                     if (this.data[0].aid) {
-                        p.children = {linkId: this.data[0].aid, type: 0};
+                        p.children = { linkId: this.data[0].aid, type: 0 };
                     } else {
-                        p.children = {existid: this.data[0].aid, type: 0};
+                        p.children = { existid: this.data[0].aid, type: 0 };
                     }
 
                     if (this.data[1].name) {
                         if (this.data[1].aid) {
-                            p.children.children = {
-                                linkId: this.data[1].aid,
-                                type: 1,
-                                runCycle: parseInt(this.data[1].runCycle),
-                                effectiveTime: parseInt(this.data[1].runCycle)
-                            };
+                            p.children.children = { linkId: this.data[1].aid, type: 1, runCycle: parseInt(this.data[1].runCycle), effectiveTime: parseInt(this.data[1].runCycle) };
                         } else {
-                            p.children.children = {
-                                existid: this.data[1].aid,
-                                type: 1,
-                                runCycle: parseInt(this.data[1].runCycle),
-                                effectiveTime: parseInt(this.data[1].runCycle)
-                            };
+                            p.children.children = { existid: this.data[1].aid, type: 1, runCycle: parseInt(this.data[1].runCycle), effectiveTime: parseInt(this.data[1].runCycle) };
                         }
                     }
                 }
@@ -2113,7 +2077,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                     }
                 }.bind(this));
             }
-        };
+        }
 
         var PowerTypeModal = function () {
             var queue = [];             //更新队列
@@ -2131,14 +2095,14 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                         }
                     });
                 });
-            };
+            }
 
             this.hide = function () {
                 this.json = "";
                 queueDone = 0;
                 queue = [];
                 _this.powerTypeShower = false;
-            };
+            }
 
             this.confirm = function () {
                 $(".powerloading").fadeIn(200);
@@ -2162,7 +2126,7 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                         }
                     }
                 }
-            };
+            }
             //执行删除
             var doDelete = function (id) {
                 bubble._call("powerType.delete", id).success(function (v) {
@@ -2177,13 +2141,10 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                         swal("删除失败");
                     }
                 }.bind(this));
-            };
+            }
             //执行添加
             var doAdd = function (name) {
-                bubble._call("powerType.add", bubble.replaceBase64(JSON.stringify({
-                    name: name,
-                    wbid: _this.currentSite._id
-                }))).success(function (v) {
+                bubble._call("powerType.add", bubble.replaceBase64(JSON.stringify({ name: name, wbid: _this.currentSite._id }))).success(function (v) {
                     if (--queueDone == 0) {
                         this.hide();
                         _this.siteTreeSelect(_this.currentSite);
@@ -2192,10 +2153,10 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                         swal("添加失败");
                     }
                 }.bind(this));
-            };
+            }
             //执行更改
             var doUpdate = function (v) {
-                bubble._call("powerType.update", v._id, bubble.replaceBase64(JSON.stringify({name: v.name}))).success(function (v) {
+                bubble._call("powerType.update", v._id, bubble.replaceBase64(JSON.stringify({ name: v.name }))).success(function (v) {
                     if (--queueDone == 0) {
                         this.hide();
                         _this.siteTreeSelect(_this.currentSite);
@@ -2204,13 +2165,13 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                         swal("添加失败");
                     }
                 }.bind(this));
-            };
+            }
 
             this.deleteType = function (v, i, e) {
                 var o = $(e.target);
                 this.json.splice(i, 1);
-                queue.push({do: "delete", id: v._id});
-            };
+                queue.push({ do: "delete", id: v._id });
+            }
 
             this.insertType = function (e) {
                 var o = $(e.target);
@@ -2224,12 +2185,12 @@ bubbleFrame.register('powerController', function ($scope, bubble, $modal, $http,
                         return;
                     }
                 }
-                queue.push({do: "add", name: name});
-                this.json.push({name: name});
+                queue.push({ do: "add", name: name });
+                this.json.push({ name: name });
                 o.parents(".input-group:first").find("input").val("");
             }
         }
-    };
+    }
 
     //待渲染完成后初始化各个类
     $timeout(function () {

@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var Resource = require('./resource');
     var ShapeContainer = require('./shapecontainer');
@@ -8,34 +8,34 @@ define(function (require, exports, module) {
         base: Resource,
         mixins: [ShapeContainer],
 
-        constructor: function (paper) {
+        constructor: function(paper) {
             this.callBase('pattern', paper);
             this.node.setAttribute('patternUnits', 'userSpaceOnUse');
         },
-        setX: function (x) {
+        setX: function(x) {
             this.x = x;
             this.node.setAttribute('x', x);
             return this;
         },
-        setY: function (y) {
+        setY: function(y) {
             this.y = y;
             this.node.setAttribute('y', y);
             return this;
         },
-        setWidth: function (width) {
+        setWidth: function(width) {
             this.width = width;
             this.node.setAttribute('width', width);
             return this;
         },
-        setHeight: function (height) {
+        setHeight: function(height) {
             this.height = height;
             this.node.setAttribute('height', height);
             return this;
         },
-        getWidth: function () {
+        getWidth: function() {
             return this.width;
         },
-        getHeight: function () {
+        getHeight: function() {
             return this.height;
         }
     });

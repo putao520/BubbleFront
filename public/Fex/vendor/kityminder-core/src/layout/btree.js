@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var Layout = require('../core/layout');
 
@@ -79,7 +79,7 @@ define(function (require, exports, module) {
 
             base: Layout,
 
-            doLayout: function (parent, children) {
+            doLayout: function(parent, children) {
 
                 var pbox = parent.getContentBox();
 
@@ -95,7 +95,7 @@ define(function (require, exports, module) {
                     return false;
                 }
 
-                children.forEach(function (child) {
+                children.forEach(function(child) {
                     var cbox = child.getContentBox();
                     child.setLayoutTransform(new kity.Matrix());
 

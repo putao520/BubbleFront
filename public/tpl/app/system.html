@@ -87,12 +87,8 @@
                         <img src="{{siteInfo.thumbnail}}" height="200" width="200">
                     </div>
                     <div class="col-sm-10 col-sm-offset-2 m-t-xs">
-                        <progressbar ng-show="isActive" class="active progress-xs m-b-xs" value="value" type="success">
-                            {{value}}%
-                        </progressbar>
-                        <button id="uploadPicker" style="width:90px;height:34px;" class="btn btn-default"><i
-                            class="fa fa-cloud-upload text text-muted"></i> <span class="text text-muted">Upload</span>
-                        </button>
+                        <progressbar ng-show="isActive" class="active progress-xs m-b-xs" value="value" type="success">{{value}}%</progressbar>
+                        <button id="uploadPicker" style="width:90px;height:34px;" class="btn btn-default"> <i class="fa fa-cloud-upload text text-muted"></i> <span class="text text-muted">Upload</span></button>
                         <span class="m-l">若文章没有缩略图的情况下将使用该缩略图</span>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var utils = require('../core/utils');
 
@@ -8,7 +8,7 @@ define(function (require, exports, module) {
     var Module = require('../core/module');
     var Renderer = require('../core/render');
 
-    Module.register('StyleModule', function () {
+    Module.register('StyleModule', function() {
         var styleNames = ['font-size', 'font-family', 'font-weight', 'font-style', 'background', 'color'];
         var styleClipBoard = null;
 
@@ -31,11 +31,11 @@ define(function (require, exports, module) {
                 'copystyle': kity.createClass('CopyStyleCommand', {
                     base: Command,
 
-                    execute: function (minder) {
+                    execute: function(minder) {
                         var node = minder.getSelectedNode();
                         var nodeData = node.getData();
                         styleClipBoard = {};
-                        styleNames.forEach(function (name) {
+                        styleNames.forEach(function(name) {
                             if (name in nodeData) styleClipBoard[name] = nodeData[name];
                             else {
                                 styleClipBoard[name] = null;
@@ -45,7 +45,7 @@ define(function (require, exports, module) {
                         return styleClipBoard;
                     },
 
-                    queryState: function (minder) {
+                    queryState: function(minder) {
                         var nodes = minder.getSelectedNodes();
                         if (nodes.length !== 1) return -1;
                         return hasStyle(nodes[0]) ? 0 : -1;
@@ -62,8 +62,8 @@ define(function (require, exports, module) {
                 'pastestyle': kity.createClass('PastStyleCommand', {
                     base: Command,
 
-                    execute: function (minder) {
-                        minder.getSelectedNodes().forEach(function (node) {
+                    execute: function(minder) {
+                        minder.getSelectedNodes().forEach(function(node) {
                             for (var name in styleClipBoard) {
                                 if (styleClipBoard.hasOwnProperty(name))
                                     node.setData(name, styleClipBoard[name]);
@@ -74,7 +74,7 @@ define(function (require, exports, module) {
                         return styleClipBoard;
                     },
 
-                    queryState: function (minder) {
+                    queryState: function(minder) {
                         return (styleClipBoard && minder.getSelectedNodes().length) ? 0 : -1;
                     }
                 }),
@@ -88,9 +88,9 @@ define(function (require, exports, module) {
                  */
                 'clearstyle': kity.createClass('ClearStyleCommand', {
                     base: Command,
-                    execute: function (minder) {
-                        minder.getSelectedNodes().forEach(function (node) {
-                            styleNames.forEach(function (name) {
+                    execute: function(minder) {
+                        minder.getSelectedNodes().forEach(function(node) {
+                            styleNames.forEach(function(name) {
                                 node.setData(name);
                             });
                         });
@@ -99,7 +99,7 @@ define(function (require, exports, module) {
                         return styleClipBoard;
                     },
 
-                    queryState: function (minder) {
+                    queryState: function(minder) {
                         var nodes = minder.getSelectedNodes();
                         if (!nodes.length) return -1;
                         for (var i = 0; i < nodes.length; i++) {

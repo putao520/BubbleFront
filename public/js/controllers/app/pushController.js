@@ -2,11 +2,7 @@ bubbleFrame.register('pushController', function ($scope, bubble, $timeout) {
     var column = "";
     $scope.news = [];
     $scope.pnew = null;
-    bubble._call("content.searchPush", 1, 1000, [{
-        field: "wbid",
-        logic: "==",
-        value: window.localStorage.siteid
-    }]).success(function (v) {
+    bubble._call("content.searchPush", 1, 1000, [{ field: "wbid", logic: "==", value: window.localStorage.siteid }]).success(function (v) {
         if (!v.errorcode) {
             $scope.news = v.data;
             $scope.news.map(function (v) {
@@ -18,7 +14,7 @@ bubbleFrame.register('pushController', function ($scope, bubble, $timeout) {
     $scope.confirm = function (v, e) {
         column.show(v);
         e.stopPropagation();
-    };
+    }
 
     $scope.cancel = function (v, e) {
         swal({
@@ -49,11 +45,11 @@ bubbleFrame.register('pushController', function ($scope, bubble, $timeout) {
                 }
             });
         e.stopPropagation();
-    };
+    }
 
     $scope.closeColumn = function () {
         $(".push-cloumn-move").fadeOut(200);
-    };
+    }
 
     $scope.preview = function (v) {
         var box = $(".push-preview");
@@ -63,7 +59,7 @@ bubbleFrame.register('pushController', function ($scope, bubble, $timeout) {
         box.find(".content").html(d.content);
         box.find(".tipsbox").hide();
         box.find(".preview-box").show();
-    };
+    }
 
     var Column = function () {
         var current = "";
@@ -75,12 +71,12 @@ bubbleFrame.register('pushController', function ($scope, bubble, $timeout) {
                     e.stopPropagation();
                 }) : stop();
             }, 20);
-        };
+        }
         stop();
 
         $scope.onSelect = function (v) {
             v.label != "根栏目" && (current = v);
-        };
+        }
 
         $scope.tree = {};
 
@@ -90,7 +86,7 @@ bubbleFrame.register('pushController', function ($scope, bubble, $timeout) {
                 return;
             }
             $(".contentbatchMask").fadeIn(200);
-            bubble._call("content.pushTo", currentNew._id, {ogid: current._id}).success(function (v) {
+            bubble._call("content.pushTo", currentNew._id, { ogid: current._id }).success(function (v) {
                 $(".contentbatchMask").fadeOut(200);
                 $(".push-cloumn-move").fadeOut(200);
                 swal("审核成功");
@@ -101,16 +97,16 @@ bubbleFrame.register('pushController', function ($scope, bubble, $timeout) {
                     }
                 }
             });
-        };
+        }
 
         var initData = function () {
             bubble._call("column.page", 1, 500).success(function (v) {
                 $scope.columnData = bubble.getTreeData(v.data, "_id", false, function (v) {
                     v.label = v.name;
                 });
-                $scope.columnData = [{label: "根栏目", _id: {$oid: 0}, children: $scope.columnData}];
+                $scope.columnData = [{ label: "根栏目", _id: { $oid: 0 }, children: $scope.columnData }];
             });
-        };
+        }
 
         $(".push-cloumn-move").unbind("click").click(function (e) {
             if (e.target === e.currentTarget) {
@@ -122,9 +118,9 @@ bubbleFrame.register('pushController', function ($scope, bubble, $timeout) {
             initData();
             currentNew = v;
             $(".push-cloumn-move").fadeIn(200);
-        };
+        }
         initData();
-    };
+    }
     $timeout(function () {
         column = new Column();
     })

@@ -2,7 +2,7 @@
  * 蒙板
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var Class = require('../core/class');
     var Shape = require('./shape');
@@ -12,13 +12,13 @@ define(function (require, exports, module) {
         base: Shape,
         mixins: [require('./shapecontainer')],
 
-        constructor: function () {
+        constructor: function() {
 
             this.callBase('mask');
 
         },
 
-        mask: function (shape) {
+        mask: function(shape) {
 
             shape.getNode().setAttribute('mask', 'url(#' + this.getId() + ')');
             return this;
@@ -28,7 +28,7 @@ define(function (require, exports, module) {
     });
 
     Class.extendClass(Shape, {
-        maskWith: function (mask) {
+        maskWith: function(mask) {
             mask.mask(this);
             return this;
         }

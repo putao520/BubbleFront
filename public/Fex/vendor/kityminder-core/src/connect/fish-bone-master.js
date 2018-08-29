@@ -7,11 +7,11 @@
  * @copyright: Baidu FEX, 2014
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var connect = require('../core/connect');
 
-    connect.register('fish-bone-master', function (node, parent, connection) {
+    connect.register('fish-bone-master', function(node, parent, connection) {
 
         var pout = parent.getLayoutVertexOut(),
             pin = node.getLayoutVertexIn();

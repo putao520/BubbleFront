@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var utils = require('../core/utils');
 
@@ -8,7 +8,7 @@ define(function (require, exports, module) {
     var Module = require('../core/module');
     var Renderer = require('../core/render');
 
-    Module.register('PriorityModule', function () {
+    Module.register('PriorityModule', function() {
         var minder = this;
 
         // Designed by Akikonata
@@ -34,18 +34,18 @@ define(function (require, exports, module) {
         var PriorityIcon = kity.createClass('PriorityIcon', {
             base: kity.Group,
 
-            constructor: function () {
+            constructor: function() {
                 this.callBase();
                 this.setSize(20);
                 this.create();
                 this.setId(utils.uuid('node_priority'));
             },
 
-            setSize: function (size) {
+            setSize: function(size) {
                 this.width = this.height = size;
             },
 
-            create: function () {
+            create: function() {
                 var white, back, mask, number; // 4 layer
 
                 white = new kity.Path().setPathData(MASK_PATH).fill('white');
@@ -66,7 +66,7 @@ define(function (require, exports, module) {
                 this.number = number;
             },
 
-            setValue: function (value) {
+            setValue: function(value) {
                 var back = this.back,
                     mask = this.mask,
                     number = this.number;
@@ -94,14 +94,14 @@ define(function (require, exports, module) {
          */
         var PriorityCommand = kity.createClass('SetPriorityCommand', {
             base: Command,
-            execute: function (km, value) {
+            execute: function(km, value) {
                 var nodes = km.getSelectedNodes();
                 for (var i = 0; i < nodes.length; i++) {
                     nodes[i].setData(PRIORITY_DATA, value || null).render();
                 }
                 km.layout();
             },
-            queryValue: function (km) {
+            queryValue: function(km) {
                 var nodes = km.getSelectedNodes();
                 var val;
                 for (var i = 0; i < nodes.length; i++) {
@@ -111,7 +111,7 @@ define(function (require, exports, module) {
                 return val || null;
             },
 
-            queryState: function (km) {
+            queryState: function(km) {
                 return km.getSelectedNodes().length ? 0 : -1;
             }
         });
@@ -123,15 +123,15 @@ define(function (require, exports, module) {
                 left: kity.createClass('PriorityRenderer', {
                     base: Renderer,
 
-                    create: function (node) {
+                    create: function(node) {
                         return new PriorityIcon();
                     },
 
-                    shouldRender: function (node) {
+                    shouldRender: function(node) {
                         return node.getData(PRIORITY_DATA);
                     },
 
-                    update: function (icon, node, box) {
+                    update: function(icon, node, box) {
                         var data = node.getData(PRIORITY_DATA);
                         var spaceLeft = node.getStyle('space-left'),
                             x, y;

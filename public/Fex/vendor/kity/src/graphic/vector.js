@@ -1,52 +1,52 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var Point = require('./point');
     var Matrix = require('./matrix');
     var Vector = require('../core/class').createClass('Vector', {
         base: Point,
-        constructor: function (x, y) {
+        constructor: function(x, y) {
             this.callBase(x, y);
         },
-        square: function () {
+        square: function() {
             return this.x * this.x + this.y * this.y;
         },
-        length: function () {
+        length: function() {
             return Math.sqrt(this.square());
         },
-        add: function (q) {
+        add: function(q) {
             return new Vector(this.x + q.x, this.y + q.y);
         },
-        minus: function (q) {
+        minus: function(q) {
             return new Vector(this.x - q.x, this.y - q.y);
         },
-        dot: function (q) {
+        dot: function(q) {
             return this.x * q.x + this.y * q.y;
         },
-        project: function (q) {
+        project: function(q) {
             return q.multipy(this.dot(q) / q.square());
         },
-        normalize: function (length) {
+        normalize: function(length) {
             if (length === undefined) {
                 length = 1;
             }
             return this.multipy(length / this.length());
         },
-        multipy: function (scale) {
+        multipy: function(scale) {
             return new Vector(this.x * scale, this.y * scale);
         },
-        rotate: function (angle, unit) {
+        rotate: function(angle, unit) {
             if (unit == 'rad') {
                 angle = angle / Math.PI * 180;
             }
             var p = new Matrix().rotate(angle).transformPoint(this);
             return new Vector(p.x, p.y);
         },
-        vertical: function () {
+        vertical: function() {
             return new Vector(this.y, -this.x);
         },
-        reverse: function () {
+        reverse: function() {
             return this.multipy(-1);
         },
-        getAngle: function () {
+        getAngle: function() {
             var length = this.length();
             if (length === 0) return 0;
             var rad = Math.acos(this.x / length);
@@ -54,15 +54,15 @@ define(function (require, exports, module) {
             return sign * 180 * rad / Math.PI;
         }
     });
-    Vector.fromPoints = function (p1, p2) {
+    Vector.fromPoints = function(p1, p2) {
         return new Vector(p2.x - p1.x, p2.y - p1.y);
     };
-    Vector.fromPolar = function () {
+    Vector.fromPolar = function() {
         var p = Point.fromPolar.apply(Point, arguments);
         return new Vector(p.x, p.y);
     };
     require('../core/class').extendClass(Point, {
-        asVector: function () {
+        asVector: function() {
             return new Vector(this.x, this.y);
         }
     });

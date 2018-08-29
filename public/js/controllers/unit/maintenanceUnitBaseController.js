@@ -6,7 +6,7 @@ bubbleFrame.register('maintenanceUnitBaseController', function ($scope, bubble) 
     var initInfo = function () {
         $scope.info = JSON.parse(JSON.stringify(tmpInfo));
         delete $scope.info._id;
-    };
+    }
 
     bubble._call("maintenanceUnit.page", 1, 100).success(function (v) {
         tmpInfo = v.data[0];
@@ -15,7 +15,7 @@ bubbleFrame.register('maintenanceUnitBaseController', function ($scope, bubble) 
 
     $scope.review = function () {
         initInfo();
-    };
+    }
 
     $scope.confirm = function (e) {
         $(e.currentTarget).addClass("data-loading");
@@ -32,7 +32,7 @@ bubbleFrame.register('maintenanceUnitBaseController', function ($scope, bubble) 
                 swal("修改失败");
             }
         });
-    };
+    }
 
     $scope.sel = "123";
 

@@ -6,7 +6,7 @@ bubbleFrame.register('operatingUnitInfoController', function ($scope, bubble) {
     var initInfo = function () {
         $scope.siteInfo = JSON.parse(JSON.stringify(tmpInfo));
         delete $scope.siteInfo._id;
-    };
+    }
 
     bubble._call("organ.page", 1, 100).success(function (v) {
         tmpInfo = v.data[0];
@@ -15,7 +15,7 @@ bubbleFrame.register('operatingUnitInfoController', function ($scope, bubble) {
 
     $scope.review = function () {
         initInfo();
-    };
+    }
 
     $scope.confirm = function (e) {
         $(e.currentTarget).addClass("data-loading");

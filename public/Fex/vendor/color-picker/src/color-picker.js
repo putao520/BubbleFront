@@ -1,11 +1,11 @@
 angular.module('ui.colorpicker', [])
-    .directive('colorPicker', ['$compile', 'localize', function ($compile, localize) {
+    .directive('colorPicker', ['$compile', 'localize', function($compile, localize) {
         return {
             restrict: 'EA',
             scope: {
                 setColor: '&'
             },
-            link: function (scope, element, attrs) {
+            link: function(scope, element, attrs) {
                 var defaultColor = scope.setColor() || attrs.defaultColor || '#fff';
 
                 var defaultOptions = {
@@ -87,8 +87,8 @@ angular.module('ui.colorpicker', [])
                     + ' ng-mouseleave="previewColor(setColor() || defaultOptions.defaultColor)"></span>'
                     + '</div>'
                     + '<div class="colorpicker-title colorpicker-morecolor" ng-if="isSupportNativeColorPicker">'
-                    + '<label for="native-color-picker' + pickerInputId + '" ng-bind="defaultOptions.moreText"></label>'
-                    + '<input id="native-color-picker' + pickerInputId + '" class="native-color-picker" type="color"'
+                    + '<label for="native-color-picker'+ pickerInputId +'" ng-bind="defaultOptions.moreText"></label>'
+                    + '<input id="native-color-picker'+ pickerInputId +'" class="native-color-picker" type="color"'
                     + ' ng-model="nativeColor"'
                     + ' ng-change="selectColor(nativeColor);" />'
                     + '</div>'
@@ -125,10 +125,10 @@ angular.module('ui.colorpicker', [])
                 if (window.attachEvent) {
                     window.attachEvent('onresize', reCalculatePostion);
                 } else if (window.addEventListener) {
-                    window.addEventListener('resize', reCalculatePostion);
+                    window.addEventListener('resize',reCalculatePostion);
                 }
 
-                function reCalculatePostion() {
+                function reCalculatePostion () {
                     var newPostion = getColorpickerTemplatePosition(element);
                     colorpickerTemplate.css(newPostion);
                 }
@@ -201,7 +201,7 @@ angular.module('ui.colorpicker', [])
 
                     try {
                         uiMemory = JSON.parse(uiMemory)
-                    } catch (e) {
+                    } catch(e) {
                         return null;
                     }
 
@@ -266,7 +266,7 @@ angular.module('ui.colorpicker', [])
                 }
 
 
-                function getColorpickerTemplatePosition(element) {
+                function getColorpickerTemplatePosition (element) {
                     var
                         positionValue,
                         positionOffset = getOffset(element[0]);
@@ -277,7 +277,7 @@ angular.module('ui.colorpicker', [])
                     //}
 
                     if (position === 'top') {
-                        positionValue = {
+                        positionValue =  {
                             'top': positionOffset.top - 147,
                             'left': positionOffset.left
                         };

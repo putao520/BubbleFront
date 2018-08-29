@@ -41,7 +41,7 @@ bubbleFrame.register('dashboardController', function ($scope, bubble) {
     // });
     bubble._call("suggest.count").success(function (v) {
         $scope.suggest = v.message;
-    });
+    })
 
     //待处理举报
     // bubble._call("count.group", undefined, "reportInfo_13", "[]", "refusetime", "count", "time", "0").success(function (v) {

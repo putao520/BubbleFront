@@ -2,7 +2,6 @@ import angular from "angular";
 import app from "../../main";
 import echarts from "echarts";
 import $ from "jquery";
-
 app.directive('uiEcharts', ["bubble", function (bubble) {
     return {
         scope: {

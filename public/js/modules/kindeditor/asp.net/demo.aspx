@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" validateRequest="false" %>
 
 <script runat="server">
-protected; void Page_Load(object; sender, EventArgs; e;)
+protected void Page_Load(object sender, EventArgs e)
 {
     this.Label1.Text = Request.Form["content1"];
 }

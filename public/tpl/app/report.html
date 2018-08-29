@@ -59,8 +59,7 @@
             </div>
             <div class="col-xs-1">
                 <a class="report-modal-title-btn right hover-color">
-                    <h1 class="m-n font-thin h3 text-right text-dark" ng-click="next($event)"><i
-                        class="fa fa-angle-right"></i></h1>
+                    <h1 class="m-n font-thin h3 text-right text-dark" ng-click="next($event)"><i class="fa fa-angle-right"></i></h1>
                 </a>
             </div>
         </div>
@@ -70,8 +69,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">举报内容</label>
                 <div class="col-sm-9">
-                    <textarea rows="" cols="" disabled="disabled" class="form-control"
-                              ng-model="data.content"></textarea>
+                    <textarea rows="" cols="" disabled="disabled" class="form-control" ng-model="data.content"></textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -83,8 +81,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">举报状态</label>
                 <div class="col-sm-9">
-                    <input type="text" disabled="disabled" class="form-control" ng-model="stateText[data.state]"
-                           placeholder="">
+                    <input type="text" disabled="disabled" class="form-control" ng-model="stateText[data.state]" placeholder="">
                 </div>
             </div>
             <div class="form-group" ng-show="data.reason && (data.state == '2' || data.state == '3')">
@@ -122,23 +119,14 @@
                 <div class="col-sm-9">
                     <div class="input-group m-b">
                         <div class="report-modal-toolbox">
-                            <div class="item" tooltip="上一个视频"><i ng-click="videoleft()"
-                                                                 class="fa fa-arrow-left cursor-p"
-                                                                 ng-class="{disabled:videoCurrent == 0}"></i></div>
+                            <div class="item" tooltip="上一个视频"><i ng-click="videoleft()" class="fa fa-arrow-left cursor-p" ng-class="{disabled:videoCurrent == 0}"></i></div>
                             <div class="item"><i ng-click="deg = deg - 90" class="fa fa-rotate-left cursor-p"></i></div>
-                            <div class="item"><i ng-click="deg = deg + 90" class="fa fa-rotate-right cursor-p"></i>
-                            </div>
-                            <div class="item" tooltip="视频不支持在线播放?点我下载到本地播放"><i ng-click="download()"
-                                                                               class="fa fa-download cursor-p"></i>
-                            </div>
-                            <div class="item" tooltip="下一个视频"><i ng-click="videoright()"
-                                                                 class="fa fa-arrow-right cursor-p"
-                                                                 ng-class="{disabled:videoCurrent == videoList.length - 1}"></i>
-                            </div>
+                            <div class="item"><i ng-click="deg = deg + 90" class="fa fa-rotate-right cursor-p"></i></div>
+                            <div class="item" tooltip="视频不支持在线播放?点我下载到本地播放"><i ng-click="download()" class="fa fa-download cursor-p"></i></div>
+                            <div class="item" tooltip="下一个视频"><i ng-click="videoright()" class="fa fa-arrow-right cursor-p" ng-class="{disabled:videoCurrent == videoList.length - 1}"></i></div>
                         </div>
-                        <ui-video url="videoList[videoCurrent]" rotate="deg"
-                                  type="video/{{videoList[videoCurrent].split('.').pop()}}" width="350"
-                                  height="350"></ui-video>
+                        <ui-video url="videoList[videoCurrent]" rotate="deg" type="video/{{videoList[videoCurrent].split('.').pop()}}" width="350"
+                            height="350"></ui-video>
                     </div>
                 </div>
             </div>
@@ -157,8 +145,7 @@
                 <label class="col-sm-2 control-label">举报图片</label>
                 <div class="col-sm-9">
                     <div class="ui-img-wrap pull-left m-r-sm m-b-sm cursor-p" ng-repeat="item in imgs track by $index">
-                        <img src="{{item}}" ui-img="popup" ui-width="100" ui-height="100"
-                             class="pull-left m-r-sm cursor-p"/>
+                        <img src="{{item}}" ui-img="popup" ui-width="100" ui-height="100" class="pull-left m-r-sm cursor-p" />
                     </div>
                 </div>
             </div>
@@ -172,8 +159,7 @@
                         </tr>
                         <tr ng-repeat="item in files">
                             <td class="wrapper-sm b">{{item.name}}</td>
-                            <td class="wrapper-sm b cursor-p"><span class="text-info"
-                                                                    ng-click="downloadfile(item.path)">下载</span></td>
+                            <td class="wrapper-sm b cursor-p"><span class="text-info" ng-click="downloadfile(item.path)">下载</span></td>
                         </tr>
                     </table>
                 </div>
@@ -207,23 +193,19 @@
     </h1>
 </div>
 <div class="wrapper">
-    <select-table editable="true" interface="report" title="举报列表" control="tableControl" list="list" create-modal=""
-                  select-par="par"></select-table>
+    <select-table editable="true" interface="report" title="举报列表" control="tableControl" list="list" create-modal="" select-par="par"></select-table>
 </div>
 <div class="push-config-wrap">
     <div class="push-config-box">
         <div class="title">
             举报转发
-            <button type="button" class="btn btn-default pull-right m-l-sm m-t-sm" ng-click="circulation.hide()">关闭
-            </button>
-            <button type="button" class="btn btn-info pull-right m-l-sm m-t-sm" ng-click="circulation.push()">确认转发
-            </button>
+            <button type="button" class="btn btn-default pull-right m-l-sm m-t-sm" ng-click="circulation.hide()">关闭</button>
+            <button type="button" class="btn btn-info pull-right m-l-sm m-t-sm" ng-click="circulation.push()">确认转发</button>
         </div>
         <div class="content-box">
             <div class="tipsbox">暂无可转发站点</div>
-            <abn-tree tree-data="column_tree_data" text="column_tree_current" tree-control="ctree"
-                      on-select="treeSelect(branch)" icon-leaf="fa fa-columns"
-                      expand-level="1" icon-expand="fa fa-plus" icon-collapse="fa fa-minus">
+            <abn-tree tree-data="column_tree_data" text="column_tree_current" tree-control="ctree" on-select="treeSelect(branch)" icon-leaf="fa fa-columns"
+                expand-level="1" icon-expand="fa fa-plus" icon-collapse="fa fa-minus">
             </abn-tree>
         </div>
     </div>

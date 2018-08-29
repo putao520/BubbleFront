@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var utils = require('../core/utils');
 
@@ -9,32 +9,32 @@ define(function (require, exports, module) {
     var Renderer = require('../core/render');
 
     var ViewDragger = kity.createClass('ViewDragger', {
-        constructor: function (minder) {
+        constructor: function(minder) {
             this._minder = minder;
             this._enabled = false;
             this._bind();
             var me = this;
-            this._minder.getViewDragger = function () {
+            this._minder.getViewDragger = function() {
                 return me;
             };
             this.setEnabled(false);
         },
 
-        isEnabled: function () {
+        isEnabled: function() {
             return this._enabled;
         },
 
-        setEnabled: function (value) {
+        setEnabled: function(value) {
             var paper = this._minder.getPaper();
             paper.setStyle('cursor', value ? 'pointer' : 'default');
             paper.setStyle('cursor', value ? '-webkit-grab' : 'default');
             this._enabled = value;
         },
-        timeline: function () {
+        timeline: function() {
             return this._moveTimeline;
         },
 
-        move: function (offset, duration) {
+        move: function(offset, duration) {
             var minder = this._minder;
 
             var targetPosition = this.getMovement().offset(offset);
@@ -42,7 +42,7 @@ define(function (require, exports, module) {
             this.moveTo(targetPosition, duration);
         },
 
-        moveTo: function (position, duration) {
+        moveTo: function(position, duration) {
 
             if (duration) {
                 var dragger = this;
@@ -52,12 +52,12 @@ define(function (require, exports, module) {
                 this._moveTimeline = this._minder.getRenderContainer().animate(new kity.Animator(
                     this.getMovement(),
                     position,
-                    function (target, value) {
+                    function(target, value) {
                         dragger.moveTo(value);
                     }
                 ), duration, 'easeOutCubic').timeline();
 
-                this._moveTimeline.on('finish', function () {
+                this._moveTimeline.on('finish', function() {
                     dragger._moveTimeline = null;
                 });
 
@@ -68,12 +68,12 @@ define(function (require, exports, module) {
             this._minder.fire('viewchange');
         },
 
-        getMovement: function () {
+        getMovement: function() {
             var translate = this._minder.getRenderContainer().transform.translate;
             return translate ? translate[0] : new kity.Point();
         },
 
-        getView: function () {
+        getView: function() {
             var minder = this._minder;
             var c = minder._lastClientSize || {
                 width: minder.getRenderTarget().clientWidth,
@@ -85,7 +85,7 @@ define(function (require, exports, module) {
             return viewMatrix.inverse().translate(-m.x, -m.y).transformBox(box);
         },
 
-        _bind: function () {
+        _bind: function() {
             var dragger = this,
                 isTempDrag = false,
                 lastPosition = null,
@@ -115,7 +115,7 @@ define(function (require, exports, module) {
             this._minder.on('normal.mousedown normal.touchstart ' +
                 'inputready.mousedown inputready.touchstart ' +
                 'readonly.mousedown readonly.touchstart',
-                function (e) {
+                function(e) {
                     if (e.originEvent.button == 2) {
                         e.originEvent.preventDefault(); // 阻止中键拉动
                     }
@@ -126,56 +126,56 @@ define(function (require, exports, module) {
                     }
                 })
 
-                .on('normal.mousemove normal.touchmove ' +
-                    'readonly.mousemove readonly.touchmove ' +
-                    'inputready.mousemove inputready.touchmove',
-                    function (e) {
-                        if (e.type == 'touchmove') {
-                            e.preventDefault(); // 阻止浏览器的后退事件
-                        }
-                        if (!isTempDrag) return;
-                        var offset = kity.Vector.fromPoints(lastPosition, e.getPosition('view'));
-                        if (offset.length() > 10) {
-                            this.setStatus('hand', true);
-                            var paper = dragger._minder.getPaper();
-                            paper.setStyle('cursor', '-webkit-grabbing');
-                        }
-                    })
-
-                .on('hand.beforemousedown hand.beforetouchstart', function (e) {
-                    // 已经被用户打开拖放模式
-                    if (dragger.isEnabled()) {
-                        lastPosition = e.getPosition('view');
-                        e.stopPropagation();
+            .on('normal.mousemove normal.touchmove ' +
+                'readonly.mousemove readonly.touchmove ' +
+                'inputready.mousemove inputready.touchmove',
+                function(e) {
+                    if (e.type == 'touchmove') {
+                        e.preventDefault(); // 阻止浏览器的后退事件
+                    }
+                    if (!isTempDrag) return;
+                    var offset = kity.Vector.fromPoints(lastPosition, e.getPosition('view'));
+                    if (offset.length() > 10) {
+                        this.setStatus('hand', true);
                         var paper = dragger._minder.getPaper();
                         paper.setStyle('cursor', '-webkit-grabbing');
                     }
                 })
 
-                .on('hand.beforemousemove hand.beforetouchmove', function (e) {
-                    if (lastPosition) {
-                        currentPosition = e.getPosition('view');
+            .on('hand.beforemousedown hand.beforetouchstart', function(e) {
+                // 已经被用户打开拖放模式
+                if (dragger.isEnabled()) {
+                    lastPosition = e.getPosition('view');
+                    e.stopPropagation();
+                    var paper = dragger._minder.getPaper();
+                    paper.setStyle('cursor', '-webkit-grabbing');
+                }
+            })
 
-                        // 当前偏移加上历史偏移
-                        var offset = kity.Vector.fromPoints(lastPosition, currentPosition);
-                        dragger.move(offset);
-                        e.stopPropagation();
-                        e.preventDefault();
-                        e.originEvent.preventDefault();
-                        lastPosition = currentPosition;
-                    }
-                })
+            .on('hand.beforemousemove hand.beforetouchmove', function(e) {
+                if (lastPosition) {
+                    currentPosition = e.getPosition('view');
 
-                .on('mouseup touchend', dragEnd);
+                    // 当前偏移加上历史偏移
+                    var offset = kity.Vector.fromPoints(lastPosition, currentPosition);
+                    dragger.move(offset);
+                    e.stopPropagation();
+                    e.preventDefault();
+                    e.originEvent.preventDefault();
+                    lastPosition = currentPosition;
+                }
+            })
+
+            .on('mouseup touchend', dragEnd);
 
             window.addEventListener('mouseup', dragEnd);
-            this._minder.on('contextmenu', function (e) {
+            this._minder.on('contextmenu', function(e) {
                 e.preventDefault();
             });
         }
     });
 
-    Module.register('View', function () {
+    Module.register('View', function() {
 
         var km = this;
 
@@ -188,7 +188,7 @@ define(function (require, exports, module) {
          */
         var ToggleHandCommand = kity.createClass('ToggleHandCommand', {
             base: Command,
-            execute: function (minder) {
+            execute: function(minder) {
 
                 if (minder.getStatus() != 'hand') {
                     minder.setStatus('hand', true);
@@ -198,7 +198,7 @@ define(function (require, exports, module) {
                 this.setContentChanged(false);
 
             },
-            queryState: function (minder) {
+            queryState: function(minder) {
                 return minder.getStatus() == 'hand' ? 1 : 0;
             },
             enableReadOnly: true
@@ -214,7 +214,7 @@ define(function (require, exports, module) {
          */
         var CameraCommand = kity.createClass('CameraCommand', {
             base: Command,
-            execute: function (km, focusNode) {
+            execute: function(km, focusNode) {
 
                 focusNode = focusNode || km.getRoot();
                 var viewport = km.getPaper().getViewPort();
@@ -245,7 +245,7 @@ define(function (require, exports, module) {
         var MoveCommand = kity.createClass('MoveCommand', {
             base: Command,
 
-            execute: function (km, dir) {
+            execute: function(km, dir) {
                 var dragger = km._viewDragger;
                 var size = km._lastClientSize;
                 var duration = km.getOption('viewAnimationDuration');
@@ -269,7 +269,7 @@ define(function (require, exports, module) {
         });
 
         return {
-            init: function () {
+            init: function() {
                 this._viewDragger = new ViewDragger(this);
             },
             commands: {
@@ -278,10 +278,10 @@ define(function (require, exports, module) {
                 'move': MoveCommand
             },
             events: {
-                statuschange: function (e) {
+                statuschange: function(e) {
                     this._viewDragger.setEnabled(e.currentStatus == 'hand');
                 },
-                mousewheel: function (e) {
+                mousewheel: function(e) {
                     var dx, dy;
                     e = e.originEvent;
                     if (e.ctrlKey || e.shiftKey) return;
@@ -304,18 +304,18 @@ define(function (require, exports, module) {
 
                     var me = this;
                     clearTimeout(this._mousewheeltimer);
-                    this._mousewheeltimer = setTimeout(function () {
+                    this._mousewheeltimer = setTimeout(function() {
                         me.fire('viewchanged');
                     }, 100);
 
                     e.preventDefault();
                 },
-                'normal.dblclick readonly.dblclick': function (e) {
+                'normal.dblclick readonly.dblclick': function(e) {
                     if (e.kityEvent.targetShape instanceof kity.Paper) {
                         this.execCommand('camera', this.getRoot(), 800);
                     }
                 },
-                'paperrender finishInitHook': function () {
+                'paperrender finishInitHook': function() {
                     if (!this.getRenderTarget()) {
                         return;
                     }
@@ -325,7 +325,7 @@ define(function (require, exports, module) {
                         height: this.getRenderTarget().clientHeight
                     };
                 },
-                resize: function (e) {
+                resize: function(e) {
                     var a = {
                             width: this.getRenderTarget().clientWidth,
                             height: this.getRenderTarget().clientHeight
@@ -335,7 +335,7 @@ define(function (require, exports, module) {
                         new kity.Point((a.width - b.width) / 2 | 0, (a.height - b.height) / 2 | 0));
                     this._lastClientSize = a;
                 },
-                'selectionchange layoutallfinish': function (e) {
+                'selectionchange layoutallfinish': function(e) {
                     var selected = this.getSelectedNode();
                     var minder = this;
 
@@ -359,8 +359,8 @@ define(function (require, exports, module) {
                     *
                     * fixed bug : 初始化的时候中心节点位置不固定（有的时候在左上角，有的时候在中心）
                     * */
-                    if (timeline) {
-                        timeline.on('finish', function () {
+                    if (timeline){
+                        timeline.on('finish', function() {
                             minder.fire('selectionchange');
                         });
 

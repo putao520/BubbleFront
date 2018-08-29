@@ -8,11 +8,11 @@
                 var fn = function (v) {
                     var tmp = "";
                     for (var i = 0; i < v.data.length; i++) {
-                        v.data[i].type = v.data[i].tid.name;
+                        v.data[i].type = v.data[i].tid.name
                         v.data[i].tid = v.data[i].tid.attr;
                     }
                     cb(v);
-                };
+                }
                 if (tid) {
                     bubble._call("actobj.pages", eid, tid, p, s).success(fn);
                 } else {
@@ -34,7 +34,7 @@
                     cb(v);
                 });
             },
-            title: [{name: "对象详情", key: "sl", width: 90}],
+            title: [{ name: "对象详情", key: "sl", width: 90 }],
             html: ['<a class="btn btn-sm m-t-n-xs"><i class="fa fa-navicon"></i></a>'],
             onClick: function (key, v) {
                 bubble.customModal("voteinfo.html", "voteController", "lg", v, function (rs) {
@@ -55,14 +55,14 @@
 
         $scope.download = function () {
             window.open($scope.url);
-        };
+        }
 
         $scope.ok = function (e) {
             $(e.currentTarget).addClass("data-loading");
-            bubble._call("actobj.update", eid, items._id, bubble.replaceBase64(JSON.stringify({state: 0}))).success(function (v) {
+            bubble._call("actobj.update", eid, items._id, bubble.replaceBase64(JSON.stringify({ state: 0 }))).success(function (v) {
                 $modalInstance.close(v);
             });
-        };
+        }
 
         $scope.cancel = function (e) {
             $modalInstance.dismiss('cancel');
@@ -70,12 +70,12 @@
     });
 
     bubbleFrame.register('actobjCreate', function ($scope, $modalInstance, items, bubble, $timeout) {
-        $scope.value = {eid: eid, time: 0, voteCnt: 0, vCnt: 0, state: 0, eid: eid, tid: "", attr: {}, number: 0};
+        $scope.value = { eid: eid, time: 0, voteCnt: 0, vCnt: 0, state: 0, eid: eid, tid: "", attr: {}, number: 0 };
         $scope.type = "";
         var typeLit = {
             content: "59c7566f9c93690f5a9a6233",
             video: "59c74a4ac6c2040ec4c08f9c"
-        };
+        }
 
         $timeout(function () {
             var fileCount = 0;
@@ -123,7 +123,7 @@
             } else {
                 $modalInstance.close(v.message ? v.message : v);
             }
-        };
+        }
 
         $scope.ok = function (e) {
             $(e.currentTarget).addClass("data-loading");
@@ -139,7 +139,7 @@
             bubble._call("actobj.add", eid, bubble.replaceBase64(JSON.stringify($scope.value))).success(function (v) {
                 cb(v);
             });
-        };
+        }
 
         $scope.cancel = function (e) {
             $modalInstance.dismiss('cancel');

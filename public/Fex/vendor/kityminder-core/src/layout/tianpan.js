@@ -6,7 +6,7 @@
  * @author: along
  * @copyright: bpd729@163.com, 2015
  */
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var Layout = require('../core/layout');
     var Minder = require('../core/minder');
@@ -20,14 +20,14 @@ define(function (require, exports, module) {
             var layout = this;
             var pbox = parent.getContentBox();
 
-            var x, y, box;
+            var x, y,box;
             var _theta = 5;
             var _r = Math.max(pbox.width, 50);
             children.forEach(function (child, index) {
                 child.setLayoutTransform(new kity.Matrix());
                 box = layout.getTreeBox(child);
                 _r = Math.max(Math.max(box.width, box.height), _r);
-            });
+            })
             _r = _r / 1.5 / Math.PI;
 
             children.forEach(function (child, index) {

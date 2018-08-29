@@ -3,7 +3,7 @@
  *
  * 提供颜色支持
  */
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var Utils = require('../core/utils'),
 
@@ -35,7 +35,7 @@ define(function (require, exports, module) {
              *     RGB 表示：如 'RGB(200, 200, 0)', 'RGBA(200, 200, 200, .5)'
              *     HSL 表示：如 'HSL(100, 60%, 80%)', 'HSLA(100, 60%, 80%, .5)'
              */
-            constructor: function () {
+            constructor: function() {
 
                 var colorValue = null;
 
@@ -99,7 +99,7 @@ define(function (require, exports, module) {
              *     r、g、b 值和 h、s、l 值会联动修改
              * @param {number} value 要设置的值
              */
-            set: function (name, value) {
+            set: function(name, value) {
 
                 var values = null;
 
@@ -140,7 +140,7 @@ define(function (require, exports, module) {
              * @param  {string} name  要增加的通道的名称，具体含义请查看 set 方法
              * @param  {number} value 增量值
              */
-            inc: function (name, value) {
+            inc: function(name, value) {
 
                 value = this.get(name) + value;
 
@@ -166,7 +166,7 @@ define(function (require, exports, module) {
              * @param  {string} name  要减少值的通道的名称，具体含义请查看 set 方法
              * @param  {number} value 减量值
              */
-            dec: function (name, value) {
+            dec: function(name, value) {
 
                 return this.inc(name, -value);
 
@@ -180,7 +180,7 @@ define(function (require, exports, module) {
              *
              * @grammar clone() => {kity.Color}
              */
-            clone: function () {
+            clone: function() {
 
                 return new Color(this.toRGBA());
 
@@ -194,7 +194,7 @@ define(function (require, exports, module) {
              *
              * @grammar get() => {number}
              */
-            get: function (name) {
+            get: function(name) {
 
                 if (!Color._MAX_VALUE[name]) {
                     return null;
@@ -204,7 +204,7 @@ define(function (require, exports, module) {
 
             },
 
-            getValues: function () {
+            getValues: function() {
                 return Utils.clone(this._color);
             },
 
@@ -225,7 +225,7 @@ define(function (require, exports, module) {
              *         l: 0
              *     }
              */
-            valueOf: function () {
+            valueOf: function() {
                 return this.getValues();
             },
 
@@ -237,7 +237,7 @@ define(function (require, exports, module) {
              *
              * @grammar toRGB() => {string}
              */
-            toRGB: function () {
+            toRGB: function() {
                 return ColorUtils.toString(this._color, 'rgb');
             },
 
@@ -249,7 +249,7 @@ define(function (require, exports, module) {
              *
              * @grammar toRGBA() => {string}
              */
-            toRGBA: function () {
+            toRGBA: function() {
                 return ColorUtils.toString(this._color, 'rgba');
             },
 
@@ -261,7 +261,7 @@ define(function (require, exports, module) {
              *
              * @grammar toHEX() => {string}
              */
-            toHEX: function () {
+            toHEX: function() {
                 return ColorUtils.toString(this._color, 'hex');
             },
 
@@ -273,7 +273,7 @@ define(function (require, exports, module) {
              *
              * @grammar toHSL() => {string}
              */
-            toHSL: function () {
+            toHSL: function() {
                 return ColorUtils.toString(this._color, 'hsl');
             },
 
@@ -285,7 +285,7 @@ define(function (require, exports, module) {
              *
              * @grammar toHSLA() => {string}
              */
-            toHSLA: function () {
+            toHSLA: function() {
                 return ColorUtils.toString(this._color, 'hsla');
             },
 
@@ -296,7 +296,7 @@ define(function (require, exports, module) {
              * @description 返回当前颜色的 RGB 或 RGBA 表示，如果颜色有透明度，将使用 RGBA 形式，否则是 RGB 形式
              * @grammar toString() => {string}
              */
-            toString: function () {
+            toString: function() {
 
                 if (this._color.a === 1) {
                     return this.toRGB();
@@ -357,7 +357,7 @@ define(function (require, exports, module) {
          *     RGB 表示：如 'RGB(200, 200, 0)', 'RGBA(200, 200, 200, .5)'
          *     HSL 表示：如 'HSL(100, 60%, 80%)', 'HSLA(100, 60%, 80%, .5)'
          */
-        parse: function (valStr) {
+        parse: function(valStr) {
 
             var rgbValue;
 
@@ -391,7 +391,7 @@ define(function (require, exports, module) {
          * @param  {number} s 饱和度（Saturation）分量值，取值范围 [0, 100]
          * @param  {number} l 亮度（Lighteness）分量值，取值范围 [0, 100]
          */
-        createHSL: function (h, s, l) {
+        createHSL: function(h, s, l) {
             return Color.createHSLA(h, s, l, 1);
         },
 
@@ -409,7 +409,7 @@ define(function (require, exports, module) {
          * @param  {number} l 亮度（Lighteness）分量值，取值范围 [0, 100]
          * @param  {number} a 透明度（Alpha）分量值，取值范围 [0, 1]
          */
-        createHSLA: function (h, s, l, a) {
+        createHSLA: function(h, s, l, a) {
 
             var colorValue = null;
 
@@ -435,7 +435,7 @@ define(function (require, exports, module) {
          * @param  {number} g 绿色（Green）分量值，取值范围 [0, 255]
          * @param  {number} b 蓝色（Blue）分量值，取值范围 [0, 255]
          */
-        createRGB: function (r, g, b) {
+        createRGB: function(r, g, b) {
             return Color.createRGBA(r, g, b, 1);
         },
 
@@ -453,7 +453,7 @@ define(function (require, exports, module) {
          * @param  {number} b 蓝色（Blue）分量值，取值范围 [0, 255]
          * @param  {number} a 透明度（Alpha）分量值，取值范围 [0, 1]
          */
-        createRGBA: function (r, g, b, a) {
+        createRGBA: function(r, g, b, a) {
             return new Color(r, g, b, a);
         }
 
@@ -462,7 +462,7 @@ define(function (require, exports, module) {
     //内部工具对象
     Utils.extend(ColorUtils, {
 
-        parseToValue: function (valStr) {
+        parseToValue: function(valStr) {
 
             var rgbaValue = {};
 
@@ -497,7 +497,7 @@ define(function (require, exports, module) {
 
         },
 
-        hexToValue: function (hexStr) {
+        hexToValue: function(hexStr) {
 
             var result = {},
                 keys = ['r', 'g', 'b'];
@@ -506,7 +506,7 @@ define(function (require, exports, module) {
 
                 hexStr = RegExp.$1.split('');
 
-                Utils.each(keys, function (key, index) {
+                Utils.each(keys, function(key, index) {
 
                     if (hexStr.length === 3) {
 
@@ -533,7 +533,7 @@ define(function (require, exports, module) {
 
         },
 
-        rgbaToValue: function (rgbaStr) {
+        rgbaToValue: function(rgbaStr) {
 
             var result = {},
                 hasAlpha = false,
@@ -545,7 +545,7 @@ define(function (require, exports, module) {
 
                 rgbaStr = rgbaStr.replace(/^rgba?/i, '').replace(/\s+/g, '').replace(/[^0-9,.]/g, '').split(',');
 
-                Utils.each(keys, function (key, index) {
+                Utils.each(keys, function(key, index) {
 
                     result[key] = rgbaStr[index] | 0;
 
@@ -564,7 +564,7 @@ define(function (require, exports, module) {
 
         },
 
-        hslaToValue: function (hslaStr) {
+        hslaToValue: function(hslaStr) {
 
             var result = {},
                 hasAlpha = false;
@@ -598,7 +598,7 @@ define(function (require, exports, module) {
         },
 
         //hsl值对象转换为rgb值对象
-        hslValueToRGBValue: function (hslValue) {
+        hslValueToRGBValue: function(hslValue) {
 
             function trans(v1, v2, vH) {
 
@@ -663,7 +663,7 @@ define(function (require, exports, module) {
         },
 
         //rgb值对象转换为hsl值对象
-        rgbValueToHslValue: function (rgbValue) {
+        rgbValueToHslValue: function(rgbValue) {
 
             var max = null,
                 min = null,
@@ -733,7 +733,7 @@ define(function (require, exports, module) {
 
         },
 
-        toString: function (colorValue, type) {
+        toString: function(colorValue, type) {
 
             var vals = [];
 
@@ -748,7 +748,7 @@ define(function (require, exports, module) {
 
             if (type !== 'hex') {
 
-                Utils.each(type.split(''), function (key) {
+                Utils.each(type.split(''), function(key) {
 
                     vals.push(colorValue[key]);
 
@@ -769,11 +769,11 @@ define(function (require, exports, module) {
         },
 
         //16进制的2个数字转化为10进制， 如果转化失败， 返回0
-        toNumber: function (value) {
+        toNumber: function(value) {
             return Number('0x' + value) | 0;
         },
 
-        toHexValue: function (value) {
+        toHexValue: function(value) {
 
             var result = value.toString(16);
 
@@ -782,12 +782,12 @@ define(function (require, exports, module) {
         },
 
         //溢出控制
-        overflowFormat: function (value) {
+        overflowFormat: function(value) {
 
             var tmpValue = Utils.extend({}, value),
                 keys = 'rgba';
 
-            Utils.each(keys.split(''), function (key) {
+            Utils.each(keys.split(''), function(key) {
 
                 if (!tmpValue.hasOwnProperty(key)) {
                     return;

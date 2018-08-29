@@ -1,11 +1,11 @@
 var kityPie = kity.createClass({
     base: kity.Path,
-    constructor: function (r, R, a1, a2, x, y) {
+    constructor: function(r, R, a1, a2, x, y) {
         this.callBase();
         this.draw(r, R, a1, a2, x, y);
         this.center = kity.Point.fromPolar((R + r) / 2, (a1 + a2) / 2);
     },
-    draw: function (r, R, a1, a2, x, y) {
+    draw: function(r, R, a1, a2, x, y) {
         var d = this.getDrawer();
         var p1 = kity.Point.fromPolar(r, a1),
             p2 = kity.Point.fromPolar(R, a1),

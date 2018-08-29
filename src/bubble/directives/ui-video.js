@@ -22,7 +22,7 @@ app.directive('uiVideo', ['$timeout', function ($timeout) {
                     b: 1,
                 };
 
-                var params = {bgcolor: '#FFF', allowFullScreen: true, allowScriptAccess: 'always'};
+                var params = { bgcolor: '#FFF', allowFullScreen: true, allowScriptAccess: 'always' };
                 window.CKobject.embedSWF('./js/modules/ckplayer/ckplayer.swf', 'videoa1', 'ckplayer_a1', '600', '400', flashvars, params);
 
                 var video = [$scope.url.replace(/\\/g, "/") + '->' + $scope.type];
@@ -31,7 +31,7 @@ app.directive('uiVideo', ['$timeout', function ($timeout) {
             }
             init();
             $scope.$watch("rotate", function (v) {
-                $("#video").css({transform: "rotate(" + v + "deg)"});
+                $("#video").css({ transform: "rotate(" + v + "deg)" });
             });
             // $scope.open = function () {
             //     if (!$scope.url) {

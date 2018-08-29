@@ -25,14 +25,14 @@
 
         window.onload = function () {
 
-            var paper = new kity.Paper(document.body),
+            var paper = new kity.Paper( document.body ),
                 filter = new kity.GaussianblurFilter(),
-                image = new kity.Image("1.jpg", 300, 500, 50, 50);
+                image = new kity.Image( "1.jpg", 300, 500, 50, 50 );
 
-            paper.addResource(filter);
-            image.applyFilter(filter);
+            paper.addResource( filter );
+            image.applyFilter( filter );
 
-            paper.addShape(image);
+            paper.addShape( image );
 
         };
 

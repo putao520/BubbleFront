@@ -46,7 +46,7 @@ bubbleFrame.register('systemController', function ($scope, bubble, $modal, $http
     $scope.siteInfo = {};
     $scope.isActive = false;
     $scope.value = 0;
-    bubble._call("site.find", {_id: id}).success(function (v) {
+    bubble._call("site.find", { _id: id }).success(function (v) {
         v[0].thumbnail = v[0].thumbnail ? v[0].thumbnail.replace(/\\/g, "/") : "";
         $scope.siteInfo = JSON.parse(JSON.stringify(v[0]));
         tmpInfo = JSON.parse(JSON.stringify(v[0]));
@@ -67,12 +67,12 @@ bubbleFrame.register('systemController', function ($scope, bubble, $modal, $http
             v.errorcode ? swal(v.message) : swal("修改成功");
             $(e.currentTarget).removeClass("data-loading");
         });
-    };
+    }
 
     $scope.review = function () {
         if (tmpInfo)
             $scope.siteInfo = JSON.parse(JSON.stringify(tmpInfo));
-    };
+    }
 
     //文档上传
     var Upload = function () {
@@ -91,13 +91,13 @@ bubbleFrame.register('systemController', function ($scope, bubble, $modal, $http
             uploader.on("uploadProgress", this.uploadProgress);
             uploader.on("uploadSuccess", this.uploadSuccess);
             return this;
-        };
+        }
 
         this.uploadProgress = function (file, percentage) {
             $scope.value = percentage;
             $scope.isActive = true;
             bubble.updateScope($scope);
-        };
+        }
 
         this.uploadSuccess = function (file, v) {
             $scope.siteInfo.thumbnail = bubble.getInterface("upload").visible + v.filepath;
@@ -105,7 +105,7 @@ bubbleFrame.register('systemController', function ($scope, bubble, $modal, $http
             $scope.isActive = false;
             bubble.updateScope($scope);
         }
-    };
+    }
 
     var upload = new Upload().init();
 });

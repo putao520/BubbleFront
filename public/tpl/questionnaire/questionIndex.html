@@ -52,18 +52,15 @@
         <h1 class="m-n font-thin h3">问卷管理</h1>
     </div>
     <div class="wrapper-md">
-        <select-table multiple="true" editable="true" interface="questionnaire"
-                      create-controller="questionIndexCreateController" title="问卷列表"
-                      create-modal="quesitionIndexAdd.html"
-                      control="tableControl"></select-table>
+        <select-table multiple="true" editable="true" interface="questionnaire" create-controller="questionIndexCreateController" title="问卷列表" create-modal="quesitionIndexAdd.html"
+            control="tableControl"></select-table>
     </div>
     <ui-bubble-modal show="modalVisible" name="选项管理" confirm="modalConfirm">
         <div class="quesition-list b-r">
             <p class="m-n b-b quesition-header padder">问题列表
                 <span class="h6 text-info">(点击问题添加至问卷)</span>
             </p>
-            <div class="padder quesition-item" ng-repeat="item in quesitionList" ng-click="add(item)">{{item.name}}
-            </div>
+            <div class="padder quesition-item" ng-repeat="item in quesitionList" ng-click="add(item)">{{item.name}}</div>
         </div>
         <div class="option-box b-r">
             <p class="m-n b-b quesition-header padder">问题管理</p>
@@ -91,16 +88,14 @@
                 <div class="m-b-lg" ng-repeat="item in currentQs track by $index">
                     <p>{{$index + 1}}. {{item.name}}</p>
                     <div class="m-t">
-                        <div class="inputitem checkbox pull-left" ng-if="item.type == 1"
-                             ng-repeat="items in item.options track by $index">
+                        <div class="inputitem checkbox pull-left" ng-if="item.type == 1" ng-repeat="items in item.options track by $index">
                             <label class="i-checks">
                                 <input type="checkbox" ng-checked="item.select" value="{{items.id}}">
                                 <i></i>
                                 {{items.name}}
                             </label>
                         </div>
-                        <div ng-if="item.type == 0" class="inputitem radio  pull-left"
-                             ng-repeat="items in item.options track by $index">
+                        <div ng-if="item.type == 0" class="inputitem radio  pull-left" ng-repeat="items in item.options track by $index">
                             <label class="i-checks">
                                 <input type="radio" name="iteminput" value="{{items.id}}">
                                 <i></i>

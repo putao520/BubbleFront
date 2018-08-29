@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var ShapeContainer = require('./shapecontainer');
     var ViewBox = require('./viewbox');
@@ -8,7 +8,7 @@ define(function (require, exports, module) {
 
         base: require('./view'),
 
-        constructor: function () {
+        constructor: function() {
 
             this.callBase('view');
 

@@ -7,13 +7,11 @@
     font-size: 36px;
     cursor: pointer;
 }
-
 .actobj-create-upload-process {
     height: 2px;
     width: 0px;
 }
-
-.actobj-create-upload > div {
+.actobj-create-upload>div {
     width: 100%;
     height: 100%;
     color: #58666e;

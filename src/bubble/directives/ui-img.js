@@ -1,28 +1,25 @@
 import angular from "angular";
 import app from "../../main";
-
 var $ = window.$;
 
 app.directive('uiImg', ['$http', 'bubble', function ($http, bubble) {
     return {
         restrict: 'AE',
-        scope: {},
+        scope: {
+
+        },
         link: function (scope, element, attr) {
             var pos = function () {
                 var w = attr.uiWidth;
                 var h = attr.uiHeight;
                 if (attr.scale == "false") {
-                    $(this).css({height: h + "px", width: h + "px"});
+                    $(this).css({ height: h + "px", width: h + "px" });
                 } else {
                     if (this.naturalHeight == 0 || $(this).parent(".ui-img-wrap").length) {
                         element[0].onload = function () {
                             var hn = this.naturalHeight;
                             var wn = this.naturalWidth;
-                            $(this).css({
-                                position: "relative",
-                                top: "-" + (hn > h ? (hn - h) / 2 : 0) + "px",
-                                left: "-" + (wn > w ? (wn - w) / 2 : 0) + "px"
-                            });
+                            $(this).css({ position: "relative", top: "-" + (hn > h ? (hn - h) / 2 : 0) + "px", left: "-" + (wn > w ? (wn - w) / 2 : 0) + "px" });
                         }.bind(this)
                     }
                 }
@@ -39,7 +36,7 @@ app.directive('uiImg', ['$http', 'bubble', function ($http, bubble) {
                         url: "src",
                         navbar: false
                     }).viewer("show");
-                    box.find(".imgpopup-closebtn").unbind("click").click(function () {
+                    box.find(".imgpopup-closebtn").unbind("click").click(function(){
 
                     });
                     box.click(function (e) {

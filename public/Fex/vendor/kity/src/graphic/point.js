@@ -2,7 +2,7 @@
  * 点对象抽象
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     /**
      * @class kity.Point
@@ -14,11 +14,11 @@ define(function (require, exports, module) {
          * @constructor
          * @for kity.Point
          * @description 指定默认的 x 和 y 创建一个点
-         *
+         * 
          * @param  {Number} x 点的 x 坐标
          * @param  {Number} y 点的 y 坐标
          */
-        constructor: function (x, y) {
+        constructor: function(x, y) {
             /**
              * @property
              * @for kity.Point
@@ -36,7 +36,7 @@ define(function (require, exports, module) {
             this.y = y || 0;
         },
 
-        offset: function (dx, dy) {
+        offset: function(dx, dy) {
             if (arguments.length == 1) {
                 dy = dx.y;
                 dx = dx.x;
@@ -44,23 +44,23 @@ define(function (require, exports, module) {
             return new Point(this.x + dx, this.y + dy);
         },
 
-        valueOf: function () {
+        valueOf: function() {
             return [this.x, this.y];
         },
 
-        toString: function () {
+        toString: function() {
             return this.valueOf().join(' ');
         },
 
-        spof: function () {
+        spof: function() {
             return new Point((this.x | 0) + 0.5, (this.y | 0) + 0.5);
         },
 
-        round: function () {
+        round: function() {
             return new Point((this.x | 0), (this.y | 0));
         },
 
-        isOrigin: function () {
+        isOrigin: function() {
             return this.x === 0 && this.y === 0;
         }
     });
@@ -74,7 +74,7 @@ define(function (require, exports, module) {
      * @param  {Number} angle  极坐标中的角度
      * @param  {String} unit   角度使用的单位，默认为 'deg' (角度)，可以取值为 'rad'，表示传入的是弧度值
      */
-    Point.fromPolar = function (radius, angle, unit) {
+    Point.fromPolar = function(radius, angle, unit) {
         if (unit != 'rad') {
             // deg to rad
             angle = angle / 180 * Math.PI;
@@ -82,7 +82,7 @@ define(function (require, exports, module) {
         return new Point(radius * Math.cos(angle), radius * Math.sin(angle));
     };
 
-    Point.parse = function (unknown) {
+    Point.parse = function(unknown) {
         if (!unknown) return new Point();
         if (unknown instanceof Point) {
             return unknown;

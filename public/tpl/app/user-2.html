@@ -160,48 +160,44 @@
                 </div>
                 <table class="table table-striped m-b-none">
                     <thead>
-                    <tr>
-                        <th>Progress</th>
-                        <th>Item</th>
-                    </tr>
+                        <tr>
+                            <th>Progress</th>
+                            <th>Item</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <div class="progress progress-sm progress-striped active m-t-xs m-b-none">
-                                <div class="progress-bar bg-success" data-toggle="tooltip" data-original-title="80%"
-                                     style="width: 80%"></div>
-                            </div>
-                        </td>
-                        <td>App prototype design</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="progress progress-xs m-t-xs m-b-none">
-                                <div class="progress-bar bg-info" data-toggle="tooltip" data-original-title="40%"
-                                     style="width: 40%"></div>
-                            </div>
-                        </td>
-                        <td>Design documents</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="progress progress-xs m-t-xs m-b-none">
-                                <div class="progress-bar bg-warning" data-toggle="tooltip" data-original-title="20%"
-                                     style="width: 20%"></div>
-                            </div>
-                        </td>
-                        <td>UI toolkit</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="progress progress-xs m-t-xs m-b-none">
-                                <div class="progress-bar bg-danger" data-toggle="tooltip" data-original-title="15%"
-                                     style="width: 15%"></div>
-                            </div>
-                        </td>
-                        <td>Testing</td>
-                    </tr>
+                        <tr>
+                            <td>
+                                <div class="progress progress-sm progress-striped active m-t-xs m-b-none">
+                                    <div class="progress-bar bg-success" data-toggle="tooltip" data-original-title="80%" style="width: 80%"></div>
+                                </div>
+                            </td>
+                            <td>App prototype design</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="progress progress-xs m-t-xs m-b-none">
+                                    <div class="progress-bar bg-info" data-toggle="tooltip" data-original-title="40%" style="width: 40%"></div>
+                                </div>
+                            </td>
+                            <td>Design documents</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="progress progress-xs m-t-xs m-b-none">
+                                    <div class="progress-bar bg-warning" data-toggle="tooltip" data-original-title="20%" style="width: 20%"></div>
+                                </div>
+                            </td>
+                            <td>UI toolkit</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="progress progress-xs m-t-xs m-b-none">
+                                    <div class="progress-bar bg-danger" data-toggle="tooltip" data-original-title="15%" style="width: 15%"></div>
+                                </div>
+                            </td>
+                            <td>Testing</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -215,61 +211,53 @@
                 </div>
                 <table class="table table-striped m-b-none">
                     <thead>
-                    <tr>
-                        <th style="width:60px;" class="text-center">Graph</th>
-                        <th>Item</th>
-                        <th style="width:70px;"></th>
-                    </tr>
+                        <tr>
+                            <th style="width:60px;" class="text-center">Graph</th>
+                            <th>Item</th>
+                            <th style="width:70px;"></th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <div ng-init="data1=[ 16,15,15,14,17,18,16,15,16 ]" ui-jq="sparkline"
-                                 ui-options="{{data1}}, {type:'bar', height:19, barWidth:4, barSpacing:2, barColor:'{{app.color.success}}'}"
-                                 class="sparkline inline">loading...
-                            </div>
-                        </td>
-                        <td>App downloads</td>
-                        <td class="text-success" style="width: 80px;">
-                            <i class="fa fa-level-up"></i> 40%
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center">
-                            <div ng-init="data2=[ 60,30,10 ]" ui-jq="sparkline"
-                                 ui-options="{{data2}}, {type:'pie', height:19, sliceColors:['{{app.color.info}}','#fff','{{app.color.warning}}']}"
-                                 class="sparkline inline">loading...
-                            </div>
-                        </td>
-                        <td>Social connection</td>
-                        <td class="text-success">
-                            <i class="fa fa-level-up"></i> 20%
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div ng-init="data3=[ 16,15,15,14,17,18,16,15,16 ]" ui-jq="sparkline"
-                                 ui-options="{{data3}}, {type:'line', height:19, width:60, lineColor:'{{app.color.primary}}', fillColor:'#fff'}"
-                                 class="sparkline inline">loading...
-                            </div>
-                        </td>
-                        <td>Revenue</td>
-                        <td class="text-warning">
-                            <i class="fa fa-level-down"></i> 5%
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div ng-init="data4=[ 16,15,15,14,17,18,16,15,16 ]" ui-jq="sparkline"
-                                 ui-options="{{data4}}, {type:'discrete', height:19, width:60, lineColor:'{{app.color.success}}'}"
-                                 class="sparkline inline">loading...
-                            </div>
-                        </td>
-                        <td>Customer increase</td>
-                        <td class="text-danger">
-                            <i class="fa fa-level-down"></i> 20%
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                <div ng-init="data1=[ 16,15,15,14,17,18,16,15,16 ]" ui-jq="sparkline" ui-options="{{data1}}, {type:'bar', height:19, barWidth:4, barSpacing:2, barColor:'{{app.color.success}}'}"
+                                    class="sparkline inline">loading...</div>
+                            </td>
+                            <td>App downloads</td>
+                            <td class="text-success" style="width: 80px;">
+                                <i class="fa fa-level-up"></i> 40%
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <div ng-init="data2=[ 60,30,10 ]" ui-jq="sparkline" ui-options="{{data2}}, {type:'pie', height:19, sliceColors:['{{app.color.info}}','#fff','{{app.color.warning}}']}"
+                                    class="sparkline inline">loading...</div>
+                            </td>
+                            <td>Social connection</td>
+                            <td class="text-success">
+                                <i class="fa fa-level-up"></i> 20%
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div ng-init="data3=[ 16,15,15,14,17,18,16,15,16 ]" ui-jq="sparkline" ui-options="{{data3}}, {type:'line', height:19, width:60, lineColor:'{{app.color.primary}}', fillColor:'#fff'}"
+                                    class="sparkline inline">loading...</div>
+                            </td>
+                            <td>Revenue</td>
+                            <td class="text-warning">
+                                <i class="fa fa-level-down"></i> 5%
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div ng-init="data4=[ 16,15,15,14,17,18,16,15,16 ]" ui-jq="sparkline" ui-options="{{data4}}, {type:'discrete', height:19, width:60, lineColor:'{{app.color.success}}'}"
+                                    class="sparkline inline">loading...</div>
+                            </td>
+                            <td>Customer increase</td>
+                            <td class="text-danger">
+                                <i class="fa fa-level-down"></i> 20%
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -296,44 +284,38 @@
                 <div class="table-responsive user-data-table">
                     <table class="table table-striped b-t b-light">
                         <thead>
-                        <tr>
-                            <th style="width:20px;">
-                                <label class="i-checks m-b-none">
-                                    <input type="checkbox"><i></i>
-                                </label>
-                            </th>
-                            <th>用户名</th>
-                            <th>状态</th>
-                            <th>创建时间</th>
-                        </tr>
+                            <tr>
+                                <th style="width:20px;">
+                                    <label class="i-checks m-b-none">
+                                <input type="checkbox"><i></i>
+                            </label>
+                                </th>
+                                <th>用户名</th>
+                                <th>状态</th>
+                                <th>创建时间</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label>
-                            </td>
-                            <td ng-click="open($event)">Idrawfast</td>
-                            <td ng-click="open($event)">4c</td>
-                            <td ng-click="open($event)">Jul 25, 2013</td>
-                        </tr>
-                        <tr>
-                            <td ng-click="open($event)"><label class="i-checks m-b-none"><input type="checkbox"
-                                                                                                name="post[]"><i></i></label>
-                            </td>
-                            <td ng-click="open($event)">Formasa</td>
-                            <td ng-click="open($event)">8c</td>
-                            <td ng-click="open($event)">Jul 22, 2013</td>
-                        </tr>
+                            <tr>
+                                <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
+                                <td ng-click="open($event)">Idrawfast</td>
+                                <td ng-click="open($event)">4c</td>
+                                <td ng-click="open($event)">Jul 25, 2013</td>
+                            </tr>
+                            <tr>
+                                <td ng-click="open($event)"><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
+                                <td ng-click="open($event)">Formasa</td>
+                                <td ng-click="open($event)">8c</td>
+                                <td ng-click="open($event)">Jul 22, 2013</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
                 <footer class="panel-footer">
                     <div class="row">
                         <div class="col-sm-12 text-right text-center-xs">
-                            <span tooltip="双击编辑" class="pull-left text-muted inline wrapper-xs m-r-sm"><i
-                                class="fa fa-question"></i></span>
-                            <button class="btn m-b-xs btn-sm btn-primary btn-addon table-delete-btn pull-left"
-                                    disabled="disabled"><i class="fa fa-trash-o"></i>删除
-                            </button>
+                            <span tooltip="双击编辑" class="pull-left text-muted inline wrapper-xs m-r-sm"><i class="fa fa-question"></i></span>
+                            <button class="btn m-b-xs btn-sm btn-primary btn-addon table-delete-btn pull-left" disabled="disabled"><i class="fa fa-trash-o"></i>删除</button>
                             <ul class="pagination pagination-sm m-t-none m-b-none pull-right">
                                 <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
                                 <li><a href="">1</a></li>

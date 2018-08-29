@@ -57,7 +57,7 @@ bubbleFrame.register('fexController', function ($scope, bubble) {
         "template": "structure",
         "theme": "fresh-blue",
         "version": "1.4.37"
-    };
+    }
     $scope.initEditor = function (editor, minder) {
         window.editor = editor;
         window.minder = minder;

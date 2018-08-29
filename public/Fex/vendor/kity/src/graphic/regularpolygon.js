@@ -1,10 +1,10 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var Point = require('./point');
 
     return require('../core/class').createClass('RegularPolygon', {
         base: require('./path'),
-        constructor: function (side, radius, x, y) {
+        constructor: function(side, radius, x, y) {
             this.callBase();
             this.radius = radius || 0;
             this.side = Math.max(side || 3, 3);
@@ -17,21 +17,21 @@ define(function (require, exports, module) {
             this.center = new Point(x, y);
             this.draw();
         },
-        getSide: function () {
+        getSide: function() {
             return this.side;
         },
-        setSide: function (side) {
+        setSide: function(side) {
             this.side = side;
             return this.draw();
         },
-        getRadius: function () {
+        getRadius: function() {
             return this.radius;
         },
-        setRadius: function (radius) {
+        setRadius: function(radius) {
             this.radius = radius;
             return this.draw();
         },
-        draw: function () {
+        draw: function() {
             var radius = this.radius,
                 side = this.side,
                 step = Math.PI * 2 / side,

@@ -19,7 +19,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         $scope.newItem.content = pdfCacheContent;
         $scope.newItem.type = 1;
         setPdf();
-    };
+    }
 
     $scope.siteconfig = {
         title: "栏目关联",
@@ -31,9 +31,9 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             $scope.newItem.GovId = v[0].id;
             $scope.save();
         }
-    };
+    }
 
-    bubble._call("site.find", {_id: window.localStorage.siteid}).success(function (v) {
+    bubble._call("site.find", { _id: window.localStorage.siteid }).success(function (v) {
         $scope.saveToGovBtn = v[0].GovUserName && v[0].GovCode;
     });
 
@@ -55,7 +55,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             $scope.pager.getData();
         });
-    };
+    }
 
     var setPdf = function (v, o) {
         if (!v) {
@@ -89,21 +89,21 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                         page.render(renderContext);
                         cb(i + 1);
                     });
-                };
+                }
                 cb(1);
             });
             $("#pdfbox").fadeIn(200);
         }
-    };
+    }
 
     $scope.getMaxDate = function () {
         return new Date().Format("yyyy-MM-dd hh:mm:ss");
-    };
+    }
 
     $scope.updateLocalStorage = function () {
         if ($scope.mode == "new" && $scope.newItem)
             window.localStorage.backContent = JSON.stringify($scope.newItem);
-    };
+    }
 
     // KindEditor.plugin('hello', function (K) {
     //     var editor = this, name = 'hello';
@@ -128,7 +128,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
     $scope.$watch("newItem.content", function (n) {
         editorNoUpdate || editor.html(n);
         editorNoUpdate = false;
-    });
+    })
 
     var editor = KindEditor.create('#editor_id', {
         items: [
@@ -165,7 +165,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             //text = text.match(reg);
             //text = text ? text.join("") : "";
             if ($scope.newItem) {
-                $scope.newItem.desp = text.substring(0, 100);
+                $scope.newItem.desp = text.substring(0, 100);				
                 $scope.newItem.content = html;
                 editorNoUpdate = true;
             }
@@ -177,7 +177,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
 
     $scope.setImage = function (v) {
         $scope.newItem.image = v;
-    };
+    }
 
     topcheckbox.change(function (v) {
         $scope.newItem.attribute = this.checked ? "1" : "0";
@@ -205,13 +205,13 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         });
         $scope.treeSelect = function (v) {
             columnChange(v);
-        };
+        }
         $(".content-column-box .open-btn").click(function () {
             $scope.newItem = "";
             $scope.imgList = [];
             bubble.updateScope($scope);
         });
-    };
+    }
 
     var optionList = [];
     var getOptions = function (v, f) {
@@ -222,7 +222,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             data[i].children && optionList.push(getOptions(data[i].children, data[i]));
         }
         return f ? '<optgroup label="' + f.name + '">' + rs + '</optgroup>' : '<optgroup label="根栏目">' + rs + '</optgroup>' + optionList.join("");
-    };
+    }
     var select = "";
     var selectData = "";
     var newItemTpl = {
@@ -246,11 +246,10 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         "fatherid": 0,
         "isdelete": 0,
         "state": "草稿"
-    };
+    }
     $scope.fileControl = {
-        onSelect: function (v) {
-        }
-    };
+        onSelect: function (v) { }
+    }
     $scope.toggleshow = false;
     $scope.mode = "wait";
     $scope.shower = bubble.isMobile();
@@ -266,12 +265,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         startingDay: 1,
         class: 'datepicker'
     };
-    $scope.openState = {time: false};
+    $scope.openState = { time: false };
     $scope.openDate = function (i, e) {
         $scope.openState.time = true;
         e.preventDefault();
         e.stopPropagation();
-    };
+    }
     $scope.tmpNews = [];
     (function () {
         loadingbox.fadeIn(200);
@@ -293,12 +292,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 return d[i];
             }
         }
-    };
+    }
 
     var initChosenSelect = function (id) {
         select.val(id);
         select.trigger("chosen:updated.chosen");
-    };
+    }
 
     $scope.column_tree_current = "";
     var columnChange = function (v, istree) {
@@ -315,13 +314,10 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         $scope.search.reset(true);
         $scope.pager.init($scope.current._id);
         istree && ($scope.column_tree_current = $scope.current.name);
-    };
+    }
 
     $scope.newMove = function (v) {
-        bubble.customModal("columnMoveModal.html", "columnMoveController", "lg", {
-            colmun: $scope.list,
-            newItem: $scope.newItem
-        }, function (v) {
+        bubble.customModal("columnMoveModal.html", "columnMoveController", "lg", { colmun: $scope.list, newItem: $scope.newItem }, function (v) {
             for (var i = 0; i < $scope.news.length; i++) {
                 if ($scope.news[i]._id === $scope.newItem._id) {
                     $scope.news.splice(i, 1);
@@ -330,16 +326,13 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }
             }
         });
-    };
+    }
 
     $scope.columnPicker = function (v) {
-        bubble.customModal("columnMoveModal.html", "columnMoveController", "lg", {
-            colmun: $scope.list,
-            mode: "picker"
-        }, function (v) {
+        bubble.customModal("columnMoveModal.html", "columnMoveController", "lg", { colmun: $scope.list, mode: "picker" }, function (v) {
             columnChange(v, true);
         });
-    };
+    }
 
     $scope.newsClick = function (v) {
         setPdf(v.type == 10 ? v.content : undefined);
@@ -383,7 +376,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             editor.edit.setHeight($(".content-console-box .row-row:first").height() - 270);
             $("#pdfbox").height($(".content-console-box .row-row:first").height() - 210);
         });
-    };
+    }
 
     $scope.create = function (v, i, e) {
         setPdf();
@@ -437,11 +430,11 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         topsuffixcheckbox[0].checked = false;
         $scope.newItem.isSuffix == "0";
         editor.html($scope.newItem.content ? $scope.newItem.content : "");
-    };
+    }
 
     //置顶
     $scope.top = function (v, i, e) {
-        bubble._call("content.update", v._id, bubble.replaceBase64(JSON.stringify({attribute: v.attribute == "1" ? "0" : "1"})).success(function (rs) {
+        bubble._call("content.update", v._id, bubble.replaceBase64(JSON.stringify({ attribute: v.attribute == "1" ? "0" : "1" })).success(function (rs) {
             if (!rs.errorcode) {
                 v.attribute = v.attribute == "1" ? "0" : "1";
                 $scope.newItem && (topcheckbox[0].checked = $scope.newItem.attribute == "1");
@@ -450,7 +443,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             swal("置顶失败");
         }));
-    };
+    }
 
     $scope.delete = function (item) {
         swal({
@@ -494,7 +487,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     });
                 }
             });
-    };
+    }
 
     $scope.weixinPush = function (v) {
         var ids = [];
@@ -509,7 +502,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
         }
         $scope.sdkconfig.method.show();
-    };
+    }
 
     $scope.deleteCheckAll = function (e) {
         var f = e.currentTarget.checked;
@@ -521,7 +514,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         } else {
             $(".deleteBtn").hide();
         }
-    };
+    }
 
     $scope.deleteCheck = function (v, e) {
         if (v) {
@@ -542,7 +535,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         } else {
             $(".deleteBtn").hide();
         }
-    };
+    }
     //分片发布
     var getChunk = function (v) {
         var num = 18000;
@@ -555,7 +548,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             count++;
             $(".loading-spinner p").length || $(".loading-spinner").append("<p></p>");
             var content = list.shift();
-            bubble._call("content.append", id, {content: bubble.replaceBase64(content)}).success(function (v) {
+            bubble._call("content.append", id, { content: bubble.replaceBase64(content) }).success(function (v) {
                 o.content += content;
                 if (count == chunks) {
                     $(".contentbatchMask").fadeOut(200);
@@ -567,7 +560,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }
                 f || $(".loading-spinner p").html("<p>已完成" + (((count / chunks) * 100).toFixed(2)) + "%</p>");
             });
-        };
+        }
         if (c.length > num) {
             while (subnum < c.length) {
                 list.push(c.substring(subnum, subnum + num));
@@ -579,7 +572,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         }
 
         return false;
-    };
+    }
 
     var checkPrivacy = function () {
         var html = $scope.newItem.content;
@@ -601,21 +594,21 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             rs.pop();
             return rs;
-        };
+        }
         var setColor = function (v) {
             if (v) {
                 var left = "<span style='color:#E53333'>";
                 var right = "</span>";
                 tmphtml = html.substring(0, v.index) + left + html.substring(v.index, v.index + v[0].length) + right + html.substring(v.index + v[0].length, html.length);
             }
-        };
+        }
         // var cl = getList(card);
         var pl = getList(phone);
         var idl = getList(idcard);
         // setColor(cl.concat(pl.concat(idl)));
         $scope.newItem.content = html;
         return false;
-    };
+    }
 
     $scope.allPraviteCheck = function () {
         bubble._call("content.checkAllArticle", "mainName").success(function (v) {
@@ -625,11 +618,11 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             p.append("<p></p>");
             p.find("p").html("正在检测中");
         });
-    };
+    }
 
     $scope.saveToGov = function () {
         $scope.siteconfig.method.show();
-    };
+    }
 
     $scope.save = function (check, p) {
         if ($(".btn-save").html() == "发布中..") {
@@ -727,9 +720,9 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     $(".contentbatchMask").fadeOut(200);
                 });
             }
-        };
-        check ? errorWord.check($scope.newItem, p ? p : {type: "private", content: editor.html()}, cb) : cb();
-    };
+        }
+        check ? errorWord.check($scope.newItem, p ? p : { type: "private", content: editor.html() }, cb) : cb();
+    }
     //全部发布
     $scope.publishAll = function () {
         var count = 0;
@@ -760,7 +753,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                         v.selected = true;
                         $scope.newItem = $scope.news[0];
                     }
-                    $(".loading-spinner p").html("<p>已完成" + (((count / d.length) * 100).toFixed(0)) + "%</p>");
+                    $(".loading-spinner p").html("<p>已完成" + (((count / d.length) * 100).toFixed(0)) + "%</p>")
                     for (var i = 0; i < $scope.tmpNews.length; i++) {
                         if ($scope.tmpNews[i].mainName == p.mainName) {
                             $scope.tmpNews.splice(i, 1);
@@ -770,11 +763,11 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 });
             })(d[i]);
         }
-    };
+    }
 
     $scope.getTimeText = function (v) {
         return !isNaN(v) ? new Date(v).Format("yyyy-MM-dd hh:mm") : v;
-    };
+    }
 
     $scope.getOldTime = function (v) {
         isNaN(v) && (v = Date.parse(new Date(v)));
@@ -783,7 +776,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         time[0] == 0 && (time = Math.floor((new Date().getTime() - new Date(v * 1).getTime()) / (60 * 1000)) + "分钟前");
         time[0] == 0 && (time = "刚刚");
         return time;
-    };
+    }
     //文件选择中选择图片
     var imgSelect = function (v) {
         if (v.filetype != 1) {
@@ -793,12 +786,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         $scope.newItem.image = v.filepath.indexOf("http") < 0 ? bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/") : v.filepath;
         $scope.fileControl.close();
         bubble.updateScope($scope);
-    };
+    }
     //打开图片文件选择
     $scope.openFile = function (fn) {
         $scope.fileControl.open();
         $scope.fileControl.onSelect = fn ? fn : imgSelect;
-    };
+    }
 
     $scope.transmit = function (e) {
         var o = $(e.currentTarget);
@@ -806,7 +799,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         bubble._call("content.transmit", "11", $scope.newItem.image, bubble.replaceBase64($scope.newItem.content)).success(function (v) {
             o.html("转发");
         });
-    };
+    }
     //纯图片新闻删除图片
     $scope.deleteImgList = function (v) {
         for (var i = 0; i < $scope.imgList.length; i++) {
@@ -815,9 +808,9 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 $scope.imgList.splice(i, 1);
                 $scope.newItem.content = $scope.imgList.join(",");
                 return;
-            }
+            };
         }
-    };
+    }
     //文章内容图片上传
     var UploadImageList = function () {
         var uploader = "";
@@ -835,24 +828,24 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             uploader.on("fileQueued", this.fileQueued);
             uploader.on("uploadSuccess", s || this.uploadSuccess);
             return this;
-        };
+        }
 
         this.fileQueued = function (file) {
             $scope.imgList.push("./img/loading.gif");
             file.ListIndex = $scope.imgList.length - 1;
             bubble.updateScope($scope);
-        };
+        }
 
         this.uploadSuccess = function (file, v) {
             !v.errorcode ? $scope.imgList[file.ListIndex] = bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/") : swal("上传失败");
             $scope.newItem.content = $scope.imgList.join(",");
             bubble.updateScope($scope);
-        };
+        }
 
         this.uploadError = function (file, msg) {
             swal("上传失败");
         }
-    };
+    }
     //文档上传
     var UploadOfficeWord = function () {
         var uploader = "";
@@ -884,12 +877,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             uploader.on("uploadProgress", p || this.uploadProgress);
             uploader.on("uploadSuccess", s || this.uploadSuccess);
             return this;
-        };
+        }
 
         this.uploadProgress = function (file, percentage) {
             $("#wordUploadPicker .webuploader-pick").html("处理中");
             $(".worduploadprocess").width((percentage.toFixed(2) * 100) + "%");
-        };
+        }
 
         this.uploadSuccess = function (file, v) {
             bubble._call("file.getWord", v._id).success(function (v) {
@@ -897,14 +890,14 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 $(".worduploadprocess").width(0);
                 $("#wordUploadPicker .webuploader-pick").html("选择文档");
             })
-        };
+        }
 
         this.uploadError = function (file, msg) {
             $("#wordUploadPicker .webuploader-pick").html("选择文档");
             $(".worduploadprocess").width(0);
             swal("上传失败");
         }
-    };
+    }
     //批量文档上传
     var BatchWord = function () {
         var box = $(".wordBatchUploaderBox");
@@ -922,15 +915,15 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         this.init = function () {
             this.initUploader();
             return this;
-        };
+        }
 
         this.getUpload = function () {
             return uploader;
-        };
+        }
 
         var getType = function (v) {
             return v && doc.indexOf(v.toLowerCase()) >= 0;
-        };
+        }
 
         var setSwitch = function () {
             if (!ulist.length) {
@@ -951,7 +944,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             ulist = [];
             noswich = false;
-        };
+        }
 
         this.initUploader = function () {
             uploader = WebUploader.create({
@@ -1016,7 +1009,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     $(".contentbatchMask").fadeOut(200);
                 }
             });
-        };
+        }
         /**
          * 批量上传文档转码插入
          */
@@ -1069,7 +1062,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }.bind(this));
             }
         }
-    };
+    }
 
     //错别字处理类
     var ErrorWord = function () {
@@ -1085,7 +1078,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
 
         this.init = function () {
             return this;
-        };
+        }
 
         this.check = function (v, p, fn) {
             box.fadeIn(200);
@@ -1128,12 +1121,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             box.find(".error-box").unbind("scroll").scroll(function () {
                 $(box.find("iframe")[0].contentWindow).scrollTop($(this).scrollTop());
             });
-        };
+        }
 
         var resetBtn = function () {
             box.find(".btn-danger").hide();
             box.find(".btn-success").show();
-        };
+        }
 
         box.find(".close-btn").click(function (e) {
             current.CONTENT = editorerror.html();
@@ -1160,7 +1153,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         box.click(function (e) {
             e.currentTarget === e.target && $(this).fadeOut(200);
         });
-    };
+    }
 
     //分页处理类
     var Pager = function () {
@@ -1171,56 +1164,56 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         var pagebox = $(".new-pager-box");
         this.pagesize = "10";
         var searchAll = false;
-        this.current = {page: 0, total: 0};
+        this.current = { page: 0, total: 0 };
 
         this.init = function (id) {
             _this.parameter = [];
             currentId = id ? id : currentId;
             if (!pageCache[id]) {
-                pageCache[id] = {page: 1}
+                pageCache[id] = { page: 1 }
             }
             _this.current = pageCache[id];
             this.initEvent();
             this.getData();
             return this;
-        };
+        }
 
         this.pagesizeChange = function (v) {
             _this.current.page = 1;
             _this.getData();
-        };
+        }
 
         this.getCurrent = function () {
             return _this.current;
-        };
+        }
 
         this.initHtml = function () {
             pagebox.find(".c").html(_this.current.page);
             pagebox.find(".t").html(_this.current.total);
-        };
+        }
 
         this.initEvent = function () {
             pagebox.find(".prev").unbind("click").click(this.prev);
             pagebox.find(".next").unbind("click").click(this.next);
             pagebox.find("input").unbind("keydown").keydown(this.go);
-        };
+        }
 
         this.clearParameter = function () {
             _this.parameter = [];
             searchAll = false;
-        };
+        }
 
         this.setParameter = function (v, o) {
             if (typeof v === 'object') {
                 for (var tmp in v) {
-                    _this.parameter.push({field: tmp, logic: "like", value: v[tmp]});
+                    _this.parameter.push({ field: tmp, logic: "like", value: v[tmp] });
                 }
             } else {
                 _this.parameter = [];
             }
             searchAll = o == "all";
             _this.getData(searchAll);
-        };
+        }
 
         this.getData = function (v) {
             loadingbox.fadeIn(200);
@@ -1229,7 +1222,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 return;
             }
             if (!searchAll) {
-                var par = [{field: "ogid", logic: "=", value: currentId}].concat(_this.parameter);
+                var par = [{ field: "ogid", logic: "=", value: currentId }].concat(_this.parameter);
             } else {
                 var par = _this.parameter;
             }
@@ -1253,12 +1246,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }
                 loadingbox.fadeOut(200);
             })
-        };
+        }
 
         this.export = function () {
-            var par = [{field: "ogid", logic: "=", value: currentId}].concat(_this.parameter);
+            var par = [{ field: "ogid", logic: "=", value: currentId }].concat(_this.parameter);
             window.open(bubble.getHost() + "/" + bubble.getAppId() + "/GrapeContent/Content/ExportContent/s:" + JSON.stringify(par) + "/文章列表.xls");
-        };
+        }
 
         this.prev = function () {
             if (_this.current.page <= 1) {
@@ -1266,7 +1259,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             _this.current.page--;
             _this.getData();
-        };
+        }
 
         this.next = function () {
             if (_this.current.page >= _this.current.total) {
@@ -1274,7 +1267,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             _this.current.page++;
             _this.getData();
-        };
+        }
 
         this.go = function (e) {
             if (e.keyCode == 13) {
@@ -1286,12 +1279,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 _this.getData();
             }
         }
-    };
+    }
 
     //搜索类
     var Search = function () {
         var _this = this;
-        this.par = {content: false, mainName: true, souce: false, author: false};
+        this.par = { content: false, mainName: true, souce: false, author: false };
         this.keyword = "";
 
         this.checkChange = function (v) {
@@ -1300,12 +1293,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 if (_this.par[tmp]) {
                     f = true;
                     break;
-                }
+                };
             }
             if (!f) {
                 _this.par[v] = true;
             }
-        };
+        }
 
         this.searchAll = function () {
             if (!_this.keyword) {
@@ -1319,7 +1312,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             $scope.pager.clearParameter();
             $scope.pager.setParameter(p, "all");
-        };
+        }
 
         this.do = function () {
             if (!_this.keyword) {
@@ -1333,14 +1326,14 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             $scope.pager.clearParameter();
             $scope.pager.setParameter(p);
-        };
+        }
 
         this.reset = function (s) {
-            _this.par = {content: false, mainName: true, souce: false, author: false};
+            _this.par = { content: false, mainName: true, souce: false, author: false };
             _this.keyword = "";
             s || $scope.pager.setParameter();
         }
-    };
+    }
 
     //预览
     var Preview = function () {
@@ -1350,11 +1343,11 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         this.show = function (v) {
             box.fadeIn(200);
             this.initHtml(v);
-        };
+        }
 
         this.hide = function () {
             box.fadeOut(200);
-        };
+        }
 
         this.initHtml = function (v) {
             var d = v ? v : $scope.newItem;
@@ -1369,14 +1362,14 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 box.find(".content").html(d.content ? d.content : editor.html());
             }
             box.find("table").css("margin", "0 auto");
-        };
+        }
 
         box.unbind("click").click(function (e) {
             if (e.target === e.currentTarget) {
                 _this.hide();
             }
         })
-    };
+    }
 
     $scope.pushToWechat = function (v) {
         var pushItem = [];
@@ -1384,9 +1377,9 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
 
         if (pushItem.length > 8) {
             swal("一次最多只能推送8篇文章");
-
+            return;
         }
-    };
+    }
 
     //推送辅助窗口
     var PushConfig = function () {
@@ -1413,7 +1406,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
 
             initList();
-        };
+        }
 
         this.init = function () {
             box.unbind("click").click(function (e) {
@@ -1422,7 +1415,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }
             });
             return this;
-        };
+        }
 
         this.hide = function () {
             box.fadeOut(200);
@@ -1432,7 +1425,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             currentColumn = 0;
             type = "";
             switchStep(false);
-        };
+        }
 
         var switchStep = function (v) {
             if (v) {
@@ -1453,7 +1446,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 box.find(".push-back-btn").hide();
                 box.find(".push-config-box").removeClass("min");
             }
-        };
+        }
 
         this.siteOk = function () {
             // bsStep(0);
@@ -1484,12 +1477,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 currentColumn = idx;
                 initBtnDisabled();
             });
-        };
+        }
 
         //返回站点选择,丢弃所有栏目选择信息
         this.backToSite = function () {
             switchStep(false);
-        };
+        }
 
         //跳至某站点栏目选择
         var columnJump = function (idx) {
@@ -1499,7 +1492,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 o.find("li:eq(" + i + ")").addClass("active");
             }
             box.find(".columnlist").hide().eq(idx).fadeIn(200);
-        };
+        }
 
         var initBtnDisabled = function () {
             if (currentColumn == siteList.length) {
@@ -1515,19 +1508,19 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             box.find(".push-prev-btn").removeAttr("disabled");
             box.find(".push-next-btn").removeAttr("disabled");
-        };
+        }
 
         //下一个站点栏目选择
         this.next = function () {
             columnJump(++currentColumn);
             initBtnDisabled();
-        };
+        }
 
         //上一个站点栏目选择
         this.prev = function () {
             columnJump(--currentColumn);
             initBtnDisabled();
-        };
+        }
 
         var regColumnItemEvent = function (x) {
             //栏目选择
@@ -1536,7 +1529,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 if (!this.id) {
                     box.find(".columnlist:eq(" + x + ") .item").removeClass("cur");
                     $(this).addClass("cur");
-                    siteList[x].column = [{id: "-1", name: "直接推送"}];
+                    siteList[x].column = [{ id: "-1", name: "直接推送" }];
                     return;
                 }
                 if (siteList[x].column[0] && siteList[x].column[0].id == "-1") {
@@ -1552,14 +1545,14 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                         }
                     }
                 } else {
-                    siteList[x].column.push({id: this.id.split("_")[0], name: this.id.split("_")[1]});
+                    siteList[x].column.push({ id: this.id.split("_")[0], name: this.id.split("_")[1] });
                     $(this).addClass("cur");
                 }
             });
-        };
+        }
 
         var initInfoBox = function () {
-            var html = '';
+            var html = ''
             var emptyNum = 0;
             for (var i = 0; i < siteList.length; i++) {
                 var std = "<td rowspan='" + (siteList[i].column.length) + "'>" + siteList[i].name + "</td>";
@@ -1581,7 +1574,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             html += '<tr><td colspan="2" class="text-right">' + btn + '</td></tr>';
             box.find(".columnlist table").html("").append(html);
             box.find(".columnlist table button").unbind("click").click(send);
-        };
+        }
 
         //初始化各站点栏目列表
         var initColumn = function (v) {
@@ -1602,7 +1595,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
 
             currentColumn = 0;
             initBtnDisabled();
-        };
+        }
 
         var initList = function () {
             box.find(".content-box").html('<div class="tipsbox">暂无可推送平台</div>');
@@ -1629,7 +1622,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     });
                 }
             }
-        };
+        }
 
         var initListHtml = function (v, name, key, fn) {
             var title = '<div class="subtitle">' + name + '</div>';
@@ -1642,13 +1635,13 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                         cb(v[i].children, l + 1);
                     }
                 }
-            };
+            }
             cb(v);
             var t = $("<div class='sitelist'>" + title + html + "</div>");
             t.find(".item").click(fn);
             box.find(".content-box").html("").append(t);
             box.find(".tipsbox").hide();
-        };
+        }
 
         var renderList = function (v) {
             box.find(".pushcolumnbox").remove();
@@ -1656,7 +1649,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 if (!$(this).hasClass("cur")) {
                     $(this).addClass("cur");
                     siteList || (siteList = []);
-                    siteList.push({id: this.id.split("_")[0], name: this.id.split("_")[1], column: []});
+                    siteList.push({ id: this.id.split("_")[0], name: this.id.split("_")[1], column: [] });
                 } else {
                     for (var i = 0; i < siteList.length; i++) {
                         if (this.id.indexOf(siteList[i].id) >= 0) {
@@ -1667,7 +1660,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     }
                 }
             })) : box.find(".push-column-btn").hide();
-        };
+        }
 
         var send = function () {
             var tocolum = {};
@@ -1734,7 +1727,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 });
             }
         }
-    };
+    }
     //动画人物按钮
     var AnimationBtn = function () {
         var _this = this;
@@ -1749,18 +1742,18 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             // initImgLoad();
             initEvent();
             return this;
-        };
+        }
 
         this.show = function () {
             box.show();
             current = 0;
             timer = setInterval(ani, 2000);
             return this;
-        };
+        }
 
         this.unlock = function () {
             messageLock = false;
-        };
+        }
 
         this.hide = function () {
             clearInterval(timer);
@@ -1773,7 +1766,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             box.find(".p2").fadeOut(200);
             box.find(".p1").fadeIn(200);
             hidePop();
-        };
+        }
 
         var ani = function () {
             var prev = 0;
@@ -1787,7 +1780,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             box.find("img:eq(" + (prev) + ")").fadeOut(800);
             box.find("img:eq(" + (next) + ")").fadeIn(800);
-        };
+        }
 
         var initImgLoad = function () {
             var name = "content-ani";
@@ -1804,7 +1797,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     }
                 }
             }
-        };
+        }
 
         var hidePop = function () {
             box.find(".messagebox").addClass("out");
@@ -1813,7 +1806,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 box.find(".messagebox").removeClass("out");
                 messageTimer = 0;
             }, 200);
-        };
+        }
 
         var getError = function (p, content) {
             bubble._call("content.check", bubble.replaceBase64(content)).success(function (v) {
@@ -1824,7 +1817,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 p.error = v;
                 $scope.save(true, p);
             });
-        };
+        }
 
         var initEvent = function () {
             box.unbind("click").click(function (e) {
@@ -1856,22 +1849,22 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     return;
                 }
                 if (idx == 1) {
-                    $scope.save(true, {type: "private", content: editor.html()});
+                    $scope.save(true, { type: "private", content: editor.html() });
                     return;
                 }
                 box.find(".p1").fadeOut(200);
                 box.find(".p2").fadeIn(200);
                 if (idx == 0) {
-                    getError({type: "error"}, editor.html());
+                    getError({ type: "error" }, editor.html());
                     return;
                 }
                 if (idx == 2) {
-                    getError({type: "all"}, editor.html());
-
+                    getError({ type: "all" }, editor.html());
+                    return;
                 }
             });
         }
-    };
+    }
 
     var Attachment = function () {
         var _this = this;
@@ -1881,7 +1874,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         this.init = function () {
             initUploader();
             return this;
-        };
+        }
 
         var initUploader = function () {
             uploader = WebUploader.create({
@@ -1905,12 +1898,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 if (!($scope.newItem.attrid instanceof Array)) {
                     $scope.newItem.attrid = [];
                 }
-                $scope.newItem.attrid.push({
-                    fileoldname: file.name,
-                    size: bubble.getSize(file.size),
-                    state: "上传中",
-                    _id: {$oid: ""}
-                });
+                $scope.newItem.attrid.push({ fileoldname: file.name, size: bubble.getSize(file.size), state: "上传中", _id: { $oid: "" } });
                 file.ele = $scope.newItem.attrid[$scope.newItem.attrid.length - 1];
                 bubble.updateScope($scope);
             };
@@ -1924,11 +1912,11 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 box.find(".process").width(0);
                 bubble.updateScope($scope);
             });
-        };
+        }
 
         this.download = function (v) {
             window.open(v.filepath);
-        };
+        }
 
         this.remove = function (v) {
             for (var i = 0; i < $scope.newItem.attrid.length; i++) {
@@ -1939,7 +1927,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }
             }
         }
-    };
+    }
 
     var ThirdParty = function () {
         var _this = this;
@@ -1950,7 +1938,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
 
         this.init = function () {
             return this;
-        };
+        }
         //隐藏
         this.hide = function (e, isSwitch) {
             if (isSwitch) {
@@ -1961,7 +1949,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 box.hide();
             }, 200);
             e && e.stopPropagation();
-        };
+        }
         //显示
         this.show = function (isSwitch) {
             if (isSwitch && !s) {
@@ -1969,20 +1957,20 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             box.show();
             box.css("opacity", 1);
-        };
+        }
         //最小化
         this.min = function (e) {
             box.addClass("min");
             box.find("small").fadeOut(100);
             box.find("i").fadeOut(100);
             e && e.stopPropagation();
-        };
+        }
         //最大化
         this.max = function () {
             box.removeClass("min");
             box.find("small").fadeIn(100);
             box.find("i").fadeIn(100);
-        };
+        }
         var registerEvent = function () {
             box.find(".itembtn .up").unbind("click").click(function () {
                 var index = $(this).parent().parent().index();
@@ -2017,7 +2005,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }
                 renderList();
             });
-        };
+        }
 
         var renderList = function () {
             box.find("#mCSB_1_container").html("");
@@ -2025,7 +2013,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 box.find("#mCSB_1_container").append(getItem(list[i], i + 1));
             }
             registerEvent();
-        };
+        }
 
         var getItem = function (v, i) {
             i = i ? i : list.length;
@@ -2036,7 +2024,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             var up = i == 1 ? "none" : "";
 
             return '<div id="witem_' + id + '" class="' + iclass + '"> <img src="' + v.image + '"> <div class="desc">' + desc + '</div><div class="itembtn"> <div class="up ' + up + '"> <i class="fa fa-arrow-up"></i> </div> <div class="down ' + down + '"> <i class="fa fa-arrow-down"></i> </div> <div class="remove"> <i class="glyphicon glyphicon-trash transition"></i> </div> </div></div>';
-        };
+        }
         //对象内容地址变更后替换原指针,防止数据无法同步
         this.replace = function (v) {
             for (var i = 0; i < list.length; i++) {
@@ -2048,7 +2036,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     return;
                 }
             }
-        };
+        }
         //添加
         this.add = function (v) {
             if (!current) {
@@ -2079,17 +2067,17 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }
             }
             box.find(".wechat-itembox").mCustomScrollbar("scrollTo", "bottom");
-        };
+        }
         //平台选择
         this.partyChose = function (item) {
             bubble.customModal("pushToWechatModal.html", "pushToWechatController", "lg", {}, function (v) {
                 current = v;
                 item && _this.add(item);
             });
-        };
+        }
         this.getSdkName = function () {
             return current.name;
-        };
+        }
         var getSymbolData = function () {
             var pushItem = [];
             var p = "";
@@ -2097,7 +2085,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 pushItem.push(list[i]._id);
             }
             return pushItem.join(",");
-        };
+        }
         //推送
         this.push = function () {
             if (!list.length) {
@@ -2121,7 +2109,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                         });
                     }
                 });
-        };
+        }
         //保存至库
         this.save = function () {
             if (!list.length) {
@@ -2133,7 +2121,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 swal(v.message ? v.message : v.data);
             });
         }
-    };
+    }
 
     //待渲染完成后初始化各个类
     $timeout(function () {
@@ -2158,12 +2146,12 @@ bubbleFrame.register("columnMoveController", function (bubble, items, $scope, $m
                 e.stopPropagation();
             }) : stop();
         }, 20);
-    };
+    }
     stop();
     $scope.data = bubble.getTreeData(items.colmun, "_id", false, function (v) {
         v.label = v.name;
     });
-    $scope.data = [{label: "根栏目", _id: {$oid: 0}, children: $scope.data}];
+    $scope.data = [{ label: "根栏目", _id: { $oid: 0 }, children: $scope.data }];
 
     $scope.onSelect = function (v) {
         if (!v.expanded && items.mode && items.mode === "picker" && v.label != "根栏目") {
@@ -2171,7 +2159,7 @@ bubbleFrame.register("columnMoveController", function (bubble, items, $scope, $m
             return;
         }
         v.label != "根栏目" && (current = v);
-    };
+    }
     $scope.tree = {};
 
     $scope.ok = function (e) {
@@ -2184,7 +2172,7 @@ bubbleFrame.register("columnMoveController", function (bubble, items, $scope, $m
             return;
         }
         bubble.toggleModalBtnLoading(e, true);
-        bubble._call("content.update", items.newItem._id, bubble.replaceBase64(JSON.stringify({ogid: current._id}))).success(function (v) {
+        bubble._call("content.update", items.newItem._id, bubble.replaceBase64(JSON.stringify({ ogid: current._id }))).success(function (v) {
             if (!v.errorcode) {
                 $modalInstance.close();
             } else {
@@ -2192,7 +2180,7 @@ bubbleFrame.register("columnMoveController", function (bubble, items, $scope, $m
                 swal("新闻移动失败");
             }
         });
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');
@@ -2219,14 +2207,14 @@ bubbleFrame.register("pushToWechatController", function (bubble, items, $scope, 
         $scope.step1 = true;
         $scope.step2 = false;
         $scope.ulist = [];
-    };
+    }
 
     $scope.push = function (v) {
         $modalInstance.close(v);
-    };
+    }
 
     $scope.getUser = function (v) {
-        bubble._call("wechatUser.pageBy", 1, 100, [{field: 'platid', logic: '==', value: v.id}]).success(function (v) {
+        bubble._call("wechatUser.pageBy", 1, 100, [{ field: 'platid', logic: '==', value: v.id }]).success(function (v) {
             if (!v.errorcode) {
                 $scope.ulist = v.data;
                 if (v.data.length) {
@@ -2240,7 +2228,7 @@ bubbleFrame.register("pushToWechatController", function (bubble, items, $scope, 
                 swal(v.message);
             }
         });
-    };
+    }
 
     $scope.ok = function (e) {
         bubble.toggleModalBtnLoading(e, true);
@@ -2260,7 +2248,7 @@ bubbleFrame.register("pushToWechatController", function (bubble, items, $scope, 
         } else {
             swal("请选中一个用户");
         }
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');

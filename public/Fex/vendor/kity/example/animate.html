@@ -29,29 +29,28 @@
             var paper = new Paper(document.body);
             paper.setViewBox(0, 0, 1200, 600).drag();
 
-            var bounce = new Animator(0, 400, function (target, y, timeline) {
+            var bounce = new Animator(0, 400, function(target, y, timeline) {
                 target.translate(0, timeline.getDelta());
             });
             var colorChanger = new Animator({
-                beginValue: function (target) {
+                beginValue: function(target) {
                     return target.color;
-                },
-                finishValue: function (target) {
+                }, 
+                finishValue: function(target) {
                     return target.color.inc('h', 90)
-                },
-                setter: function (target, color) {
+                }, 
+                setter: function(target, color) {
                     target.fill(color);
                 }
             });
-
+            
             function atternuate(e) {
                 //e.target.scale(0.6 + Math.random() * 0.6, e.target.getCenterX(), e.target.getCenterY());
             }
-
             //paper.addResource(rect);
-            for (var i = 0; i < 200; i++) {
+            for(var i = 0; i < 200; i++) {
                 var color = Color.createHSL(i * 30 % 360, 80, 50);
-                var copy = new Rect(5, 20, 0, 10).translate(i * 5, 0);
+                var copy = new Rect(5, 20, 0, 10).translate( i * 5, 0 );
                 copy.color = color;
                 copy.fill(color);
 
@@ -72,6 +71,6 @@
     </script>
 </head>
 <body>
-
+    
 </body>
 </html>

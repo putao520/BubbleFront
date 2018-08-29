@@ -7,7 +7,7 @@ bubbleFrame.register('wechatController', function ($scope, bubble) {
     $scope.ins = [];
     $scope.colors = ["bg-primary lter", "bg-info", "bg-success dk", "bg-warning dk", "bg-danger lter", "bg-primary dk"];
     $scope.tableControl = {
-        title: [{name: "实例", key: "sl", width: 30}],
+        title: [{ name: "实例", key: "sl", width: 30 }],
         html: ['<a class="btn btn-sm m-t-n-xs"><i class="fa fa-navicon"></i></a>'],
         onClick: function (key, v) {
             showIns(v);
@@ -16,7 +16,7 @@ bubbleFrame.register('wechatController', function ($scope, bubble) {
             delete v.wbid;
             bubble._call("wechat.add", v).success(cb);
         }
-    };
+    }
 
     $scope.tableControl1 = {
         addFn: function (v, cb) {
@@ -24,7 +24,7 @@ bubbleFrame.register('wechatController', function ($scope, bubble) {
             v.configstring = JSON.stringify(v.configstring);
             bubble._call("wechatUser.add", v).success(cb);
         }
-    };
+    }
 
     var showIns = function (rs) {
         $scope.currentApp = rs;
@@ -38,7 +38,7 @@ bubbleFrame.register('wechatController', function ($scope, bubble) {
         //     $scope.users = v.data;
         //     platid = rs.id;
         // });
-    };
+    }
 
     $scope.deleteIns = function (v, idx) {
         swal({
@@ -62,20 +62,20 @@ bubbleFrame.register('wechatController', function ($scope, bubble) {
                         });
                 }
             });
-    };
+    }
 
     $scope.tabChange = function () {
         tab === 0 ? infoBox.show() : infoBox.hide();
         box.css("transform", "translateX(" + (tab === 0 ? "-50%" : "0") + ")").css("overflow-y", tab === 0 ? "hidden" : "auto");
         tab = tab === 0 ? 1 : 0;
         $scope.users = [];
-    };
+    }
 
     $scope.create = function () {
-        bubble.customModal("wechatCreateModal.html", "wechatCreateController", "lg", {platid: platid}, function (v) {
+        bubble.customModal("wechatCreateModal.html", "wechatCreateController", "lg", { platid: platid }, function (v) {
             $scope.users.push(v);
         });
-    };
+    }
 
     $scope.edit = function (type, v, i) {
         bubble.customModal("wechatEditModal.html", "wechatEditController", "lg", v, function (v) {
@@ -111,7 +111,7 @@ bubbleFrame.register('wechatCreateController', function ($scope, $modalInstance,
 
 bubbleFrame.register('wechatEditController', function ($scope, $modalInstance, items, bubble) {
     var tmp = JSON.parse(JSON.stringify(items));
-    $scope.value = {configstring: {}};
+    $scope.value = { configstring: {} }
     $scope.value.name = tmp.name;
     $scope.value.configstring = tmp.configstring;
     $scope.ok = function (e) {

@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var Container = require('./container');
     var utils = require('../core/utils');
 
@@ -8,7 +8,7 @@ define(function (require, exports, module) {
         isShapeContainer: true,
 
         /* private */
-        handleAdd: function (shape, index) {
+        handleAdd: function(shape, index) {
             var parent = this.getShapeNode();
             parent.insertBefore(shape.node, parent.childNodes[index] || null);
             shape.trigger('add', {
@@ -20,7 +20,7 @@ define(function (require, exports, module) {
         },
 
         /* private */
-        handleRemove: function (shape, index) {
+        handleRemove: function(shape, index) {
             var parent = this.getShapeNode();
             parent.removeChild(shape.node);
             shape.trigger('remove', {
@@ -32,8 +32,8 @@ define(function (require, exports, module) {
         },
 
         /* private */
-        notifyTreeModification: function (type, container) {
-            this.eachItem(function (index, shape) {
+        notifyTreeModification: function(type, container) {
+            this.eachItem(function(index, shape) {
                 if (shape.notifyTreeModification) {
                     shape.notifyTreeModification(type, container);
                 }
@@ -44,29 +44,29 @@ define(function (require, exports, module) {
         },
 
         /* public */
-        getShape: function (index) {
+        getShape: function(index) {
             return this.getItem(index);
         },
 
         /* public */
-        addShape: function (shape, index) {
+        addShape: function(shape, index) {
             return this.addItem(shape, index);
         },
 
-        put: function (shape) {
+        put: function(shape) {
             this.addShape(shape);
             return shape;
         },
 
-        appendShape: function (shape) {
+        appendShape: function(shape) {
             return this.addShape(shape);
         },
 
-        prependShape: function (shape) {
+        prependShape: function(shape) {
             return this.addShape(shape, 0);
         },
 
-        replaceShape: function (replacer, origin) {
+        replaceShape: function(replacer, origin) {
             var index = this.indexOf(origin);
             if (index === -1) {
                 return;
@@ -76,31 +76,31 @@ define(function (require, exports, module) {
             return this;
         },
 
-        addShapeBefore: function (shape, refer) {
+        addShapeBefore: function(shape, refer) {
             var index = this.indexOf(refer);
             return this.addShape(shape, index);
         },
 
-        addShapeAfter: function (shape, refer) {
+        addShapeAfter: function(shape, refer) {
             var index = this.indexOf(refer);
             return this.addShape(shape, index === -1 ? undefined : index + 1);
         },
 
         /* public */
-        addShapes: function (shapes) {
+        addShapes: function(shapes) {
             return this.addItems(shapes);
         },
 
         /* public */
-        removeShape: function (index) {
+        removeShape: function(index) {
             return this.removeItem(index);
         },
 
-        getShapes: function () {
+        getShapes: function() {
             return this.getItems();
         },
 
-        getShapesByType: function (name) {
+        getShapesByType: function(name) {
             var shapes = [];
 
             function getShapes(shape) {
@@ -108,27 +108,26 @@ define(function (require, exports, module) {
                     shapes.push(shape);
                 }
                 if (shape.isShapeContainer) {
-                    utils.each(shape.getShapes(), function (n) {
+                    utils.each(shape.getShapes(), function(n) {
                         getShapes(n);
                     });
                 }
             }
-
             getShapes(this);
             return shapes;
         },
 
         /* public */
-        getShapeById: function (id) {
+        getShapeById: function(id) {
             return this.getShapeNode().getElementById(id).shape;
         },
 
-        arrangeShape: function (shape, index) {
+        arrangeShape: function(shape, index) {
             return this.removeShape(shape).addShape(shape, index);
         },
 
         /* protected */
-        getShapeNode: function () {
+        getShapeNode: function() {
             return this.shapeNode || this.node; // 最佳可能
         }
     });
@@ -136,24 +135,24 @@ define(function (require, exports, module) {
     var Shape = require('./shape');
 
     require('../core/class').extendClass(Shape, {
-        bringTo: function (index) {
+        bringTo: function(index) {
             this.container.arrangeShape(this, index);
             return this;
         },
-        bringFront: function () {
+        bringFront: function() {
             return this.bringTo(this.container.indexOf(this) + 1);
         },
-        bringBack: function () {
+        bringBack: function() {
             return this.bringTo(this.container.indexOf(this) - 1);
         },
-        bringTop: function () {
+        bringTop: function() {
             this.container.removeShape(this).addShape(this);
             return this;
         },
-        bringRear: function () {
+        bringRear: function() {
             return this.bringTo(0);
         },
-        bringRefer: function (referShape, offset) {
+        bringRefer: function(referShape, offset) {
             if (referShape.container) {
                 if (this.remove) {
                     this.remove();
@@ -162,13 +161,13 @@ define(function (require, exports, module) {
             }
             return this;
         },
-        bringAbove: function (referShape) {
+        bringAbove: function(referShape) {
             return this.bringRefer(referShape);
         },
-        bringBelow: function (referShape) {
+        bringBelow: function(referShape) {
             return this.bringRefer(referShape, 1);
         },
-        replaceBy: function (newShape) {
+        replaceBy: function(newShape) {
             if (this.container) {
                 newShape.bringAbove(this);
                 this.remove();

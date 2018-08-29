@@ -1,11 +1,11 @@
-define(function (require) {
+define(function(require) {
     var Group = require('graphic/group');
     var Path = require('graphic/path');
     var data;
 
     var ChinaMap = require('core/class').createClass('ChinaMap', {
         base: Group,
-        constructor: function () {
+        constructor: function() {
             this.callBase();
             this.provinces = {};
             for (var p in data.provinces) {
@@ -21,7 +21,7 @@ define(function (require) {
             this.height = data.height;
         },
 
-        setWidth: function (width) {
+        setWidth: function(width) {
             var ratio = this.width / this.height;
             this.width = width;
             this.height = width / ratio;
@@ -29,7 +29,7 @@ define(function (require) {
             return this;
         },
 
-        setHeight: function (height) {
+        setHeight: function(height) {
             var ratio = this.width / this.height;
             this.height = height;
             this.width = height * ratio;
@@ -37,15 +37,15 @@ define(function (require) {
             return this;
         },
 
-        getWidth: function () {
+        getWidth: function() {
             return this.width;
         },
 
-        getHeight: function () {
+        getHeight: function() {
             return this.height;
         },
 
-        getProvince: function (name) {
+        getProvince: function(name) {
             return this.provinces[name];
         }
     });

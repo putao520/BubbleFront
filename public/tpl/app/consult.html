@@ -30,8 +30,7 @@
             </div>
             <div class="col-xs-1">
                 <a class="report-modal-title-btn right hover-color">
-                    <h1 class="m-n font-thin h3 text-right text-dark" ng-click="next($event)"><i
-                        class="fa fa-angle-right"></i></h1>
+                    <h1 class="m-n font-thin h3 text-right text-dark" ng-click="next($event)"><i class="fa fa-angle-right"></i></h1>
                 </a>
             </div>
         </div>
@@ -41,8 +40,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">咨询内容</label>
                 <div class="col-sm-9">
-                    <textarea rows="" cols="" disabled="disabled" class="form-control"
-                              ng-model="data.content"></textarea>
+                    <textarea rows="" cols="" disabled="disabled" class="form-control" ng-model="data.content"></textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -61,15 +59,13 @@
                 <label class="col-sm-2 control-label">咨询状态</label>
                 <div class="col-sm-9">
                     <!--添加stateText-->
-                    <input type="text" disabled="disabled" class="form-control" ng-model="stateText[data.state]"
-                           placeholder="">
+                    <input type="text" disabled="disabled" class="form-control" ng-model="stateText[data.state]" placeholder="">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">反馈时间</label>
                 <div class="col-sm-9">
-                    <input type="text" disabled="disabled" class="form-control" ng-model="data.sreplyTime"
-                           placeholder="">
+                    <input type="text" disabled="disabled" class="form-control" ng-model="data.sreplyTime" placeholder="">
                 </div>
             </div>
             <div class="form-group" ng-show="data.reason">
@@ -89,33 +85,22 @@
                 <div class="col-sm-9">
                     <div class="input-group m-b">
                         <div class="report-modal-toolbox">
-                            <div class="item" tooltip="上一个视频"><i ng-click="videoleft()"
-                                                                 class="fa fa-arrow-left cursor-p"
-                                                                 ng-class="{disabled:videoCurrent == 0}"></i></div>
+                            <div class="item" tooltip="上一个视频"><i ng-click="videoleft()" class="fa fa-arrow-left cursor-p" ng-class="{disabled:videoCurrent == 0}"></i></div>
                             <div class="item"><i ng-click="deg = deg - 90" class="fa fa-rotate-left cursor-p"></i></div>
-                            <div class="item"><i ng-click="deg = deg + 90" class="fa fa-rotate-right cursor-p"></i>
-                            </div>
-                            <div class="item" tooltip="视频不支持在线播放?点我下载到本地播放"><i ng-click="download()"
-                                                                               class="fa fa-download cursor-p"></i>
-                            </div>
-                            <div class="item" tooltip="下一个视频"><i ng-click="videoright()"
-                                                                 class="fa fa-arrow-right cursor-p"
-                                                                 ng-class="{disabled:videoCurrent == data.video.length - 1}"></i>
-                            </div>
+                            <div class="item"><i ng-click="deg = deg + 90" class="fa fa-rotate-right cursor-p"></i></div>
+                            <div class="item" tooltip="视频不支持在线播放?点我下载到本地播放"><i ng-click="download()" class="fa fa-download cursor-p"></i></div>
+                            <div class="item" tooltip="下一个视频"><i ng-click="videoright()" class="fa fa-arrow-right cursor-p" ng-class="{disabled:videoCurrent == data.video.length - 1}"></i></div>
                         </div>
-                        <ui-video url="data.video[videoCurrent]" rotate="deg"
-                                  type="video/{{data.video[videoCurrent].split('.').pop()}}" width="350"
-                                  height="350"></ui-video>
+                        <ui-video url="data.video[videoCurrent]" rotate="deg" type="video/{{data.video[videoCurrent].split('.').pop()}}" width="350"
+                            height="350"></ui-video>
                     </div>
                 </div>
             </div>
             <div class="form-group" ng-if="data.image">
                 <label class="col-sm-2 control-label">咨询图片</label>
                 <div class="col-sm-9">
-                    <div class="ui-img-wrap pull-left m-r-sm m-b-sm cursor-p"
-                         ng-repeat="item in data.image track by $index">
-                        <img src="{{item}}" ui-img="popup" ui-width="100" ui-height="100"
-                             class="pull-left m-r-sm cursor-p"/>
+                    <div class="ui-img-wrap pull-left m-r-sm m-b-sm cursor-p" ng-repeat="item in data.image track by $index">
+                        <img src="{{item}}" ui-img="popup" ui-width="100" ui-height="100" class="pull-left m-r-sm cursor-p" />
                     </div>
                 </div>
             </div>
@@ -129,8 +114,7 @@
                         </tr>
                         <tr ng-repeat="item in files">
                             <td class="wrapper-sm b">{{item.name}}</td>
-                            <td class="wrapper-sm b cursor-p"><span class="text-info"
-                                                                    ng-click="downloadfile(item.path)">下载</span></td>
+                            <td class="wrapper-sm b cursor-p"><span class="text-info" ng-click="downloadfile(item.path)">下载</span></td>
                         </tr>
                     </table>
                 </div>
@@ -149,7 +133,6 @@
     <h1 class="m-n font-thin h3">{{title}}</h1>
 </div>
 <div class="wrapper">
-    <select-table ng-click="clickList()" multiple="true" editable="true" interface="suggest" title="咨询列表"
-                  control="tableControl" create-modal="" select-par="par"></select-table>
+    <select-table ng-click="clickList()" multiple="true" editable="true" interface="suggest" title="咨询列表" control="tableControl" create-modal="" select-par="par"></select-table>
 </div>
 </div>

@@ -1,23 +1,23 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var kity = require('./kity');
     var Minder = require('./minder');
     var MinderNode = require('./node');
 
     var Renderer = kity.createClass('Renderer', {
-        constructor: function (node) {
+        constructor: function(node) {
             this.node = node;
         },
 
-        create: function (node) {
+        create: function(node) {
             throw new Error('Not implement: Renderer.create()');
         },
 
-        shouldRender: function (node) {
+        shouldRender: function(node) {
             return true;
         },
 
-        watchChange: function (data) {
+        watchChange: function(data) {
             var changed;
 
             if (this.watchingData === undefined) {
@@ -31,28 +31,28 @@ define(function (require, exports, module) {
             this.watchingData = data;
         },
 
-        shouldDraw: function (node) {
+        shouldDraw: function(node) {
             return true;
         },
 
-        update: function (shape, node, box) {
+        update: function(shape, node, box) {
             if (this.shouldDraw()) this.draw(shape, node);
             return this.place(shape, node, box);
         },
 
-        draw: function (shape, node) {
+        draw: function(shape, node) {
             throw new Error('Not implement: Renderer.draw()');
         },
 
-        place: function (shape, node, box) {
+        place: function(shape, node, box) {
             throw new Error('Not implement: Renderer.place()');
         },
 
-        getRenderShape: function () {
+        getRenderShape: function() {
             return this._renderShape || null;
         },
 
-        setRenderShape: function (shape) {
+        setRenderShape: function(shape) {
             this._renderShape = shape;
         }
     });
@@ -62,7 +62,7 @@ define(function (require, exports, module) {
         function createRendererForNode(node, registered) {
             var renderers = [];
 
-            ['center', 'left', 'right', 'top', 'bottom', 'outline', 'outside'].forEach(function (section) {
+            ['center', 'left', 'right', 'top', 'bottom', 'outline', 'outside'].forEach(function(section) {
                 var before = 'before' + section;
                 var after = 'after' + section;
 
@@ -77,13 +77,13 @@ define(function (require, exports, module) {
                 }
             });
 
-            node._renderers = renderers.map(function (Renderer) {
+            node._renderers = renderers.map(function(Renderer) {
                 return new Renderer(node);
             });
         }
 
         return {
-            renderNodeBatch: function (nodes) {
+            renderNodeBatch: function(nodes) {
                 var rendererClasses = this._rendererClasses;
                 var lastBoxes = [];
                 var rendererCount = 0;
@@ -162,7 +162,7 @@ define(function (require, exports, module) {
                 }
             },
 
-            renderNode: function (node) {
+            renderNode: function(node) {
                 var rendererClasses = this._rendererClasses;
                 var i, latestBox, renderer;
 
@@ -176,7 +176,7 @@ define(function (require, exports, module) {
 
                 node._contentBox = new kity.Box();
 
-                node._renderers.forEach(function (renderer) {
+                node._renderers.forEach(function(renderer) {
 
                     // 判断当前上下文是否应该渲染
                     if (renderer.shouldRender(node)) {
@@ -223,21 +223,21 @@ define(function (require, exports, module) {
     kity.extendClass(Minder, createMinderExtension());
 
     kity.extendClass(MinderNode, {
-        render: function () {
+        render: function() {
             if (!this.attached) return;
             this.getMinder().renderNode(this);
             return this;
         },
-        renderTree: function () {
+        renderTree: function() {
             if (!this.attached) return;
             var list = [];
-            this.traverse(function (node) {
+            this.traverse(function(node) {
                 list.push(node);
             });
             this.getMinder().renderNodeBatch(list);
             return this;
         },
-        getRenderer: function (type) {
+        getRenderer: function(type) {
             var rs = this._renderers;
             if (!rs) return null;
             for (var i = 0; i < rs.length; i++) {
@@ -245,11 +245,11 @@ define(function (require, exports, module) {
             }
             return null;
         },
-        getContentBox: function () {
+        getContentBox: function() {
             //if (!this._contentBox) this.render();
             return this.parent && this.parent.isCollapsed() ? new kity.Box() : (this._contentBox || new kity.Box());
         },
-        getRenderBox: function (rendererType, refer) {
+        getRenderBox: function(rendererType, refer) {
             var renderer = rendererType && this.getRenderer(rendererType);
             var contentBox = renderer ? renderer.contentBox : this.getContentBox();
             var ctm = kity.Matrix.getCTM(this.getRenderContainer(), refer || 'paper');

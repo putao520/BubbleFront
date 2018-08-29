@@ -7,10 +7,10 @@
 
     <!-- Demo 的简要说明，必须要填写 -->
     <meta name="description" content="Kity 数据可视化 Demo">
-
+    
     <!-- Demo 的作者，建议填写 -->
     <meta name="author" content="kity@baidu.com">
-
+    
     <!-- Demo 的标题，必须填写 -->
     <title>数据可视化</title>
 
@@ -35,35 +35,35 @@
 
     <!--禁止电话号码和邮箱识别-->
     <meta content="telephone=no,email=no" name="format-detection"/>
-
+ 
     <!--TODO:添加一个ios用的icon-->
-    <link rel="apple-touch-icon-precomposed" href="favicon.png"/>
-    <link rel="apple-touch-icon" href="favicon.png"/>
+    <link rel="apple-touch-icon-precomposed" href="favicon.png" />
+    <link rel="apple-touch-icon" href="favicon.png" />
     <link rel="Shortcut Icon" href="favicon-precomposed.png" type="image/x-icon"/>
 </head>
 <body>
-<div class="chart-area-min" id="c1">
-
-</div>
-<div class="chart-area-min" id="c2">
-
-</div>
-<div class="chart-area-min" id="c3">
-
-</div>
-<div class="chart-area-min">
-    <div id="c4" class="quarter"></div>
-    <div id="c5" class="quarter"></div>
-    <div id="c6" class="quarter"></div>
-    <div id="c7" class="quarter"></div>
-</div>
+    <div class="chart-area-min" id="c1">
+        
+    </div>
+    <div class="chart-area-min" id="c2">
+        
+    </div>
+    <div class="chart-area-min" id="c3">
+        
+    </div>
+    <div class="chart-area-min">
+        <div id="c4" class="quarter"></div>
+        <div id="c5" class="quarter"></div>
+        <div id="c6" class="quarter"></div>
+        <div id="c7" class="quarter"></div>
+    </div>
 </body>
 <script>
-    var scatter = new KCScatterDiagram(dScatter, "c1");
-    var line = new KCLineChart(dLine, "c2");
-    var ubpmap = new KCUbpMap(dMap, "c3");
-    var genderchart = new KCGenderChart(genderData, "c4");
-    var genderchart = new KCGenderChart(genderData2, "c5");
+    var scatter = new KCScatterDiagram(dScatter,"c1");
+    var line = new KCLineChart(dLine,"c2");
+    var ubpmap = new KCUbpMap(dMap,"c3");
+    var genderchart = new KCGenderChart(genderData,"c4");
+    var genderchart = new KCGenderChart(genderData2,"c5");
     var poly = new KCPolyChart(dPoly, "c6", "haier");
     var poly2 = new KCPolyChart(dPoly, "c7", "siemens");
 </script>

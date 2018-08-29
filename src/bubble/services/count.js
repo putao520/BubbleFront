@@ -1,31 +1,12 @@
 import $ from "jquery";
-
 var BubbleCount = function (bubble) {
     var _this = this;
     var echarts = window.echarts;
     var siteid = "597ff7609c93690f5a54291b";
 
     var yaqtestdata = [
-        {
-            "webID": "312314",
-            "appId": "432423422r2",
-            "article": 12,
-            "view": 312,
-            "reported": 32,
-            "consulted": 21,
-            "time": 21341233,
-            "name": "企务公开"
-        },
-        {
-            "webID": "312314",
-            "appId": "432423422r2",
-            "article": 12,
-            "view": 312,
-            "reported": 32,
-            "consulted": 21,
-            "time": 21341233,
-            "name": "院务公开"
-        },
+        { "webID": "312314", "appId": "432423422r2", "article": 12, "view": 312, "reported": 32, "consulted": 21, "time": 21341233, "name": "企务公开" },
+        { "webID": "312314", "appId": "432423422r2", "article": 12, "view": 312, "reported": 32, "consulted": 21, "time": 21341233, "name": "院务公开" },
     ];
 
     var keymap = {
@@ -90,9 +71,9 @@ var BubbleCount = function (bubble) {
                             color: new echarts.graphic.LinearGradient(
                                 0, 0, 0, 1,
                                 [
-                                    {offset: 0, color: '#83bff6'},
-                                    {offset: 0.5, color: '#188df0'},
-                                    {offset: 1, color: '#188df0'}
+                                    { offset: 0, color: '#83bff6' },
+                                    { offset: 0.5, color: '#188df0' },
+                                    { offset: 1, color: '#188df0' }
                                 ]
                             )
                         },
@@ -101,9 +82,9 @@ var BubbleCount = function (bubble) {
                             color: new echarts.graphic.LinearGradient(
                                 0, 0, 0, 1,
                                 [
-                                    {offset: 0, color: '#2378f7'},
-                                    {offset: 0.7, color: '#2378f7'},
-                                    {offset: 1, color: '#83bff6'}
+                                    { offset: 0, color: '#2378f7' },
+                                    { offset: 0.7, color: '#2378f7' },
+                                    { offset: 1, color: '#83bff6' }
                                 ]
                             )
                         }
@@ -126,11 +107,11 @@ var BubbleCount = function (bubble) {
                     radius: '70%',
                     center: ['50%', '50%'],
                     data: [
-                        {value: 335, name: '直接访问'},
-                        {value: 310, name: '邮件营销'},
-                        {value: 234, name: '联盟广告'},
-                        {value: 135, name: '视频广告'},
-                        {value: 1548, name: '搜索引擎'}
+                        { value: 335, name: '直接访问' },
+                        { value: 310, name: '邮件营销' },
+                        { value: 234, name: '联盟广告' },
+                        { value: 135, name: '视频广告' },
+                        { value: 1548, name: '搜索引擎' }
                     ],
                     itemStyle: {
                         emphasis: {

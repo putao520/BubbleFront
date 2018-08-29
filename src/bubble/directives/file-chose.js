@@ -1,7 +1,6 @@
 import angular from "angular";
 import app from "../../main";
 import $ from "jquery";
-
 var swal = window.swal;
 
 app.directive('fileChosen', ['bubble', '$timeout', function (bubble, $timeout) {
@@ -27,7 +26,7 @@ app.directive('fileChosen', ['bubble', '$timeout', function (bubble, $timeout) {
             $scope.scrollControl = {
                 onload: function () {
                     scrollLoadPage++;
-                    scrollLoadEnable && ($scope.currentType == 0 ? initFileList(scrollLoadPage) : $scope.typeClick({type: $scope.currentType}));
+                    scrollLoadEnable && ($scope.currentType == 0 ? initFileList(scrollLoadPage) : $scope.typeClick({ type: $scope.currentType }));
                 }
             }
             $scope.control && ($scope.control.open = function () {
@@ -39,15 +38,7 @@ app.directive('fileChosen', ['bubble', '$timeout', function (bubble, $timeout) {
             $scope.fileList = [];
             $scope.currentType = 0;
             $scope.openBtnVisible = true;
-            $scope.btnEnable = {
-                delete: false,
-                add: false,
-                downLoad: false,
-                rename: false,
-                move: false,
-                addFolder: true,
-                upLoad: true
-            };
+            $scope.btnEnable = { delete: false, add: false, downLoad: false, rename: false, move: false, addFolder: true, upLoad: true };
 
             $scope.pathmap = [];
             $scope.icons = {
@@ -62,7 +53,7 @@ app.directive('fileChosen', ['bubble', '$timeout', function (bubble, $timeout) {
                 });
                 $scope.files = $scope.files.concat(d);
                 bubble.sortBy($scope.files, "filetype", true);
-                $scope.pathmap = ([[{fileoldname: "全部文件", _id: {$oid: 0}}, d]]);
+                $scope.pathmap = ([[{ fileoldname: "全部文件", _id: { $oid: 0 } }, d]]);
                 initFileBox();
             }
 
@@ -96,7 +87,7 @@ app.directive('fileChosen', ['bubble', '$timeout', function (bubble, $timeout) {
             var initFileList = function (p) {
                 $scope.currentType = 0;
                 scrollLoadEnable = false;
-                bubble._call("file.pageBy", scrollLoadPage, 60, {isdelete: 0}).success(function (v) {
+                bubble._call("file.pageBy", scrollLoadPage, 60, { isdelete: 0 }).success(function (v) {
                     if (!v.errorcode) {
                         scrollLoadEnable = !(v.data.length < 60);
                         initData(v);
@@ -155,7 +146,7 @@ app.directive('fileChosen', ['bubble', '$timeout', function (bubble, $timeout) {
                 }
                 $scope.currentType = v.type;
                 scrollLoadEnable = false;
-                bubble._call("file.pageBy", scrollLoadPage, 100, v.type === 7 ? {isdelete: 1} : {filetype: v.type}).success(function (v) {
+                bubble._call("file.pageBy", scrollLoadPage, 100, v.type === 7 ? { isdelete: 1 } : { filetype: v.type }).success(function (v) {
                     if (!v.errorcode) {
                         scrollLoadEnable = !(v.length < 100);
                         initData(v);
@@ -170,49 +161,49 @@ app.directive('fileChosen', ['bubble', '$timeout', function (bubble, $timeout) {
             switch ($scope.type) {
                 case undefined:
                     $scope.types = [
-                        {name: "全部", selected: true, type: 0},
-                        {name: "图片", selected: false, type: 1},
-                        {name: "视频", selected: false, type: 2},
-                        {name: "文档", selected: false, type: 3},
-                        {name: "音频", selected: false, type: 4},
-                        {name: "其他", selected: false, type: 5},
-                        {name: "回收站", selected: false, type: 6},
+                        { name: "全部", selected: true, type: 0 },
+                        { name: "图片", selected: false, type: 1 },
+                        { name: "视频", selected: false, type: 2 },
+                        { name: "文档", selected: false, type: 3 },
+                        { name: "音频", selected: false, type: 4 },
+                        { name: "其他", selected: false, type: 5 },
+                        { name: "回收站", selected: false, type: 6 },
                     ];
                     break;
                 case "image":
                     $scope.types = [
-                        {name: "图片", selected: true, type: 1},
+                        { name: "图片", selected: true, type: 1 },
                     ];
                     break;
                 case "video":
                     $scope.types = [
-                        {name: "视频", selected: true, type: 2},
+                        { name: "视频", selected: true, type: 2 },
                     ];
                     break;
                 case "doc":
                     $scope.types = [
-                        {name: "文档", selected: true, type: 3},
+                        { name: "文档", selected: true, type: 3 },
                     ];
                     break;
                 case "audio":
                     $scope.types = [
-                        {name: "音频", selected: true, type: 4},
+                        { name: "音频", selected: true, type: 4 },
                     ];
                     break;
                 case "other":
                     $scope.types = [
-                        {name: "其他", selected: true, type: 5},
+                        { name: "其他", selected: true, type: 5 },
                     ];
                     break;
                 default:
                     $scope.types = [
-                        {name: "全部", selected: true, type: 0},
-                        {name: "图片", selected: false, type: 1},
-                        {name: "视频", selected: false, type: 2},
-                        {name: "文档", selected: false, type: 3},
-                        {name: "音频", selected: false, type: 4},
-                        {name: "其他", selected: false, type: 5},
-                        {name: "回收站", selected: false, type: 6},
+                        { name: "全部", selected: true, type: 0 },
+                        { name: "图片", selected: false, type: 1 },
+                        { name: "视频", selected: false, type: 2 },
+                        { name: "文档", selected: false, type: 3 },
+                        { name: "音频", selected: false, type: 4 },
+                        { name: "其他", selected: false, type: 5 },
+                        { name: "回收站", selected: false, type: 6 },
                     ];
             }
 

@@ -4,7 +4,7 @@
  * 路径补间动画器，让图形从一个形状变为另一个形状
  */
 
-define(function (require) {
+define(function(require) {
     var Animator = require('./animator');
     var g = require('../graphic/geometry');
 
@@ -35,14 +35,14 @@ define(function (require) {
          * @param  {String|PathSegment} path 目标形状的路径数据
          *
          */
-        constructor: function (path) {
+        constructor: function(path) {
             this.callBase({
-                beginValue: function (target) {
+                beginValue: function(target) {
                     this.beginPath = target.getPathData();
                     return 0;
                 },
                 finishValue: 1,
-                setter: function (target, value) {
+                setter: function(target, value) {
                     target.setPathData(g.pathTween(this.beginPath, path, value));
                 }
             });
@@ -67,7 +67,7 @@ define(function (require) {
          * @param {String|Function}   easing   动画播放使用的缓动函数，如 'ease'、'linear'、'swing'
          * @param {Function}          callback 播放结束之后的回调函数
          */
-        fxPath: function (path, duration, easing, delay, callback) {
+        fxPath: function(path, duration, easing, delay, callback) {
             return this.animate(new PathAnimator(path), duration, easing, delay, callback);
         }
     });

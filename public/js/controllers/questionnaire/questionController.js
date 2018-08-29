@@ -30,7 +30,7 @@ bubbleFrame.register('questionController', function ($scope, bubble, $timeout, $
                 return false;
             }
         }
-    };
+    }
 
     $scope.modalConfirm = function () {
         var answers = [];
@@ -50,10 +50,7 @@ bubbleFrame.register('questionController', function ($scope, bubble, $timeout, $
             return;
         }
         bubble.loading(true);
-        bubble._call("question.update", $scope.current._id, bubble.replaceBase64(JSON.stringify({
-            options: JSON.stringify($scope.currentOption),
-            answer: answers.join(",")
-        }))).success(function (v) {
+        bubble._call("question.update", $scope.current._id, bubble.replaceBase64(JSON.stringify({ options: JSON.stringify($scope.currentOption), answer: answers.join(",") }))).success(function (v) {
             if (!v.errorcode) {
                 $scope.current.options = JSON.stringify($scope.currentOption);
                 $scope.current.answer = answers.join(",");
@@ -64,7 +61,7 @@ bubbleFrame.register('questionController', function ($scope, bubble, $timeout, $
             }
             bubble.loading(false);
         });
-    };
+    }
 
     $scope.moveup = function (v, i) {
         if (i == 0) {
@@ -73,7 +70,7 @@ bubbleFrame.register('questionController', function ($scope, bubble, $timeout, $
         var tmp = $scope.currentOption[i];
         $scope.currentOption[i] = $scope.currentOption[i - 1];
         $scope.currentOption[i - 1] = tmp;
-    };
+    }
 
     $scope.movedown = function (v, i) {
         if (i == $scope.currentOption - 1) {
@@ -82,7 +79,7 @@ bubbleFrame.register('questionController', function ($scope, bubble, $timeout, $
         var tmp = $scope.currentOption[i];
         $scope.currentOption[i] = $scope.currentOption[i + 1];
         $scope.currentOption[i + 1] = tmp;
-    };
+    }
 
     $scope.remove = function (v) {
         for (var i = 0; i < $scope.currentOption.length; i++) {
@@ -91,11 +88,11 @@ bubbleFrame.register('questionController', function ($scope, bubble, $timeout, $
                 $scope.currentOption.splice(i, 1);
             }
         }
-    };
+    }
 
     $scope.add = function () {
-        $scope.currentOption.push({id: $scope.currentOption.length, name: "选项" + $scope.currentOption.length});
-    };
+        $scope.currentOption.push({ id: $scope.currentOption.length, name: "选项" + $scope.currentOption.length });
+    }
 
     $scope.modalVisible = false;
 });

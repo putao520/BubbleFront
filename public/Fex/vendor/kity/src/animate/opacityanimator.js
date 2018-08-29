@@ -4,7 +4,7 @@
  * 透明度动画器，让图形动画过度到指定的透明度。
  */
 
-define(function (require) {
+define(function(require) {
     var Animator = require('./animator');
 
     /**
@@ -23,13 +23,13 @@ define(function (require) {
          *
          * @param  {Number} opacity 目标透明度，取值范围 0 - 1
          */
-        constructor: function (opacity) {
+        constructor: function(opacity) {
             this.callBase({
-                beginValue: function (target) {
+                beginValue: function(target) {
                     return target.getOpacity();
                 },
                 finishValue: opacity,
-                setter: function (target, value) {
+                setter: function(target, value) {
                     target.setOpacity(value);
                 }
             });
@@ -53,7 +53,7 @@ define(function (require) {
          * @param {String|Function}   easing   动画播放使用的缓动函数，如 'ease'、'linear'、'swing'
          * @param {Function}          callback 播放结束之后的回调函数
          */
-        fxOpacity: function (opacity, duration, easing, delay, callback) {
+        fxOpacity: function(opacity, duration, easing, delay, callback) {
             return this.animate(new OpacityAnimator(opacity), duration, easing, delay, callback);
         },
 
@@ -71,7 +71,7 @@ define(function (require) {
          * @param {String|Function}   easing   动画播放使用的缓动函数，如 'ease'、'linear'、'swing'
          * @param {Function}          callback 播放结束之后的回调函数
          */
-        fadeTo: function () {
+        fadeTo: function() {
             return this.fxOpacity.apply(this, arguments);
         },
 
@@ -88,7 +88,7 @@ define(function (require) {
          * @param {String|Function}   easing   动画播放使用的缓动函数，如 'ease'、'linear'、'swing'
          * @param {Function}          callback 播放结束之后的回调函数
          */
-        fadeIn: function () {
+        fadeIn: function() {
             return this.fxOpacity.apply(this, [1].concat([].slice.call(arguments)));
         },
 
@@ -105,7 +105,7 @@ define(function (require) {
          * @param {String|Function}   easing   动画播放使用的缓动函数，如 'ease'、'linear'、'swing'
          * @param {Function}          callback 播放结束之后的回调函数
          */
-        fadeOut: function () {
+        fadeOut: function() {
             return this.fxOpacity.apply(this, [0].concat([].slice.call(arguments)));
         }
     });

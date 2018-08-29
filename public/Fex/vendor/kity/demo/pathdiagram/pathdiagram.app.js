@@ -8,9 +8,9 @@ define(function (require, exports, module) {
 
     var paper = new Paper(document.body).drag();
 
-    paper.on('dragstart', function () {
+    paper.on('dragstart', function() {
         this.setStyle('cursor', '-webkit-grabbing');
-    }).on('dragend', function () {
+    }).on('dragend', function() {
         this.setStyle('cursor', '-webkit-grab');
     }).trigger('dragend');
 

@@ -1,6 +1,5 @@
 import $ from "jquery";
 import app from "../../main";
-
 var swal = window.swal;
 
 app.controller('modalJsonEditController', ["$scope", "$modalInstance", "items", "bubble", function ($scope, $modalInstance, items, bubble) {

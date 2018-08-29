@@ -1,10 +1,10 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     return require('../core/class').createClass('Line', {
 
         base: require('./path'),
 
-        constructor: function (x1, y1, x2, y2) {
+        constructor: function(x1, y1, x2, y2) {
             this.callBase();
 
             this.point1 = {
@@ -20,7 +20,7 @@ define(function (require, exports, module) {
             this.update();
         },
 
-        setPoint1: function (x, y) {
+        setPoint1: function(x, y) {
 
             this.point1.x = x;
             this.point1.y = y;
@@ -29,7 +29,7 @@ define(function (require, exports, module) {
 
         },
 
-        setPoint2: function (x, y) {
+        setPoint2: function(x, y) {
 
             this.point2.x = x;
             this.point2.y = y;
@@ -38,7 +38,7 @@ define(function (require, exports, module) {
 
         },
 
-        getPoint1: function () {
+        getPoint1: function() {
 
             return {
                 x: this.point1.x,
@@ -47,7 +47,7 @@ define(function (require, exports, module) {
 
         },
 
-        getPoint2: function () {
+        getPoint2: function() {
 
             return {
                 x: this.point2.x,
@@ -56,7 +56,7 @@ define(function (require, exports, module) {
 
         },
 
-        update: function () {
+        update: function() {
 
             var drawer = this.getDrawer();
 

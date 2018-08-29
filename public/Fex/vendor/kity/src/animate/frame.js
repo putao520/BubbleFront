@@ -4,7 +4,7 @@
  * 提供动画帧的基本支持
  */
 
-define(function (require, exports) {
+define(function(require, exports) {
 
     // 原生动画帧方法 polyfill
     var requestAnimationFrame =
@@ -12,7 +12,7 @@ define(function (require, exports) {
         window.mozRequestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
         window.msRequestAnimationFrame ||
-        function (fn) {
+        function(fn) {
             return setTimeout(fn, 1000 / 60);
         };
 
@@ -132,7 +132,7 @@ define(function (require, exports) {
             time: +new Date(),
             elapsed: 0,
             action: action,
-            next: function () {
+            next: function() {
                 pushFrame(frame);
             }
         };

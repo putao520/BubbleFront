@@ -1,7 +1,6 @@
 import angular from "angular";
 import app from "../../main";
 import $ from "jquery";
-
 var swal = window.swal;
 
 /**
@@ -204,7 +203,7 @@ app.directive('selectTable', ['$http', 'bubble', '$compile', '$timeout', functio
 
             $scope.replaceAjaxData = function (v, item, key) {
                 if (v.ajax) {
-                    ajaxReplacrList[key] || (ajaxReplacrList[key] = {result: ""});
+                    ajaxReplacrList[key] || (ajaxReplacrList[key] = { result: "" });
                     if (ajaxReplacrList[key].state == undefined) {
                         ajaxReplacrList[key].state = "process";
                         bubble._call(v.ajax + ".page", 1, 1000).success(function (rs) {
@@ -286,11 +285,7 @@ app.directive('selectTable', ['$http', 'bubble', '$compile', '$timeout', functio
                         $scope.getPage();
                         return;
                     }
-                    $scope.searchPar = [{
-                        field: $scope.searchColumn,
-                        logic: "like",
-                        value: $scope.field[$scope.searchColumn].base64 ? bubble.replaceBase64(typeof value === 'string' ? value : JSON.stringify(value)) : value
-                    }];
+                    $scope.searchPar = [{ field: $scope.searchColumn, logic: "like", value: $scope.field[$scope.searchColumn].base64 ? bubble.replaceBase64(typeof value === 'string' ? value : JSON.stringify(value)) : value }];
                     // $scope.searchPar = '{"' + $scope.searchColumn + '":"' + value + '"}';
                 } else {
                     start = $(".tableSearchBox .searchInput:eq(0)").val();
@@ -300,11 +295,7 @@ app.directive('selectTable', ['$http', 'bubble', '$compile', '$timeout', functio
                         $scope.getPage();
                         return;
                     }
-                    $scope.searchPar = [{
-                        field: $scope.searchColumn,
-                        logic: ">=",
-                        value: Date.parse(new Date(start))
-                    }, {field: $scope.searchColumn, logic: "<=", value: Date.parse(new Date(end))}];
+                    $scope.searchPar = [{ field: $scope.searchColumn, logic: ">=", value: Date.parse(new Date(start)) }, { field: $scope.searchColumn, logic: "<=", value: Date.parse(new Date(end)) }];
                 }
 
                 if ($scope.selectPar && $scope.selectPar != "null") {
@@ -388,8 +379,7 @@ app.directive('selectTable', ['$http', 'bubble', '$compile', '$timeout', functio
             $scope.edit = function (v, k, o, i, f) {
                 if ($scope.control && $scope.control.onColumnClick && $scope.control.onColumnClick(k, o, i, $scope.currentPage, $scope.pageSize, $scope.totalPages) === false) {
                     return;
-                }
-                ;
+                };
                 if (!f.edit) {
                     return;
                 }
@@ -452,12 +442,7 @@ app.directive('selectTable', ['$http', 'bubble', '$compile', '$timeout', functio
                         swal("删除失败");
                     }
                 }
-                bubble.openModal("deleteitem", "", {
-                    names: names,
-                    ids: ids,
-                    functionName: getFunctionName("delete"),
-                    hook: $scope.control && $scope.control.deleteFn
-                }, cb)
+                bubble.openModal("deleteitem", "", { names: names, ids: ids, functionName: getFunctionName("delete"), hook: $scope.control && $scope.control.deleteFn }, cb)
             };
 
             $scope.tableEdit = function (v) {
@@ -550,10 +535,7 @@ app.directive('selectTable', ['$http', 'bubble', '$compile', '$timeout', functio
                     $scope.control.onCreate();
                     return;
                 }
-                bubble.customModal($scope.createModal, $scope.createController ? $scope.createController : "selectTableCreate", "lg", {
-                    scope: $scope,
-                    hook: $scope.control && $scope.control.addFn
-                }, function (v) {
+                bubble.customModal($scope.createModal, $scope.createController ? $scope.createController : "selectTableCreate", "lg", { scope: $scope, hook: $scope.control && $scope.control.addFn }, function (v) {
                     console.log(v)
                     if (typeof v === 'string') {
                         $scope.list.length < $scope.pageSize ? $scope.getPage() : ($scope.totalItems + $scope.pageSize, $scope.currentPage++ , $scope.getPage());
@@ -588,7 +570,7 @@ app.directive('selectTable', ['$http', 'bubble', '$compile', '$timeout', functio
 }]);
 
 app.controller("selectTableCreate", ["$scope", "$modalInstance", "items", "bubble", function ($scope, $modalInstance, items, bubble) {
-    $scope.value = {};
+    $scope.value = { };
     if (items.scope.selectPar instanceof Array) {
         for (var i = 0; i < items.scope.selectPar.length; i++) {
             if (items.scope.selectPar[i].logic == "==") {
@@ -618,7 +600,7 @@ app.controller("selectTableCreate", ["$scope", "$modalInstance", "items", "bubbl
             var type = $scope.value.type
             delete $scope.value.type
             console.log($scope.value)
-            bubble._call(items.scope.interface + ".add", bubble.replaceBase64(JSON.stringify($scope.value)), type).success(function (v) {
+            bubble._call(items.scope.interface + ".add", bubble.replaceBase64(JSON.stringify($scope.value)),type).success(function(v){
                 if (!v.errorcode) {
                     swal("添加成功");
                     $modalInstance.dismiss('cancel');

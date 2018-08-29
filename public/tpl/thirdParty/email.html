@@ -116,8 +116,7 @@
                 <h1 class="m-n font-thin h3">Email管理</h1>
             </div>
             <div class="table-box wrapper">
-                <select-table multiple="true" editable="true" interface="email" title="Email列表" control="tableControl"
-                              create-modal="EmailCreate.html"></select-table>
+                <select-table multiple="true" editable="true" interface="email" title="Email列表" control="tableControl" create-modal="EmailCreate.html"></select-table>
             </div>
         </div>
         <div class="adv-item-box">
@@ -131,17 +130,14 @@
                 </div>
                 <div class="wrapper">
                     <div ng-if="!advs.length" class="tipsbox">暂无广告</div>
-                    <div class="m-b-md m-l-md w-xl animated fadeInUp pull-left" ng-repeat="item in advs"
-                         ng-if="advs.length">
+                    <div class="m-b-md m-l-md w-xl animated fadeInUp pull-left" ng-repeat="item in advs" ng-if="advs.length">
                         <div class="b-a">
                             <div class="panel-heading no-border hover-anchor" ng-class="colors[0]">
                                 <span class="text-lt">{{item.adname}}</span>
-                                <span class="pull-right hover-action cursor-p" ng-click="deleteAdv(item)"><i
-                                    class="fa fa-times"></i></span>
+                                <span class="pull-right hover-action cursor-p" ng-click="deleteAdv(item)"><i class="fa fa-times"></i></span>
                             </div>
                             <div class="item m-l-n-xxs m-r-n-xxs bg-white clear-b">
-                                <form
-                                    class="form-horizontal ng-pristine ng-valid ng-valid-date ng-valid-required ng-valid-parse ng-valid-date-disabled"
+                                <form class="form-horizontal ng-pristine ng-valid ng-valid-date ng-valid-required ng-valid-parse ng-valid-date-disabled"
                                     method="get">
                                     <div class="row padder-v-xs">
                                         <label class="col-sm-4 text-center">广告名称: </label>

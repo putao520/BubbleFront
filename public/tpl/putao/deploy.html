@@ -42,9 +42,8 @@
         <div class="deploy-box">
             <div class="servicebox h-full">
                 <div class="applistbox b">
-                    <div class="alert pull-left item {{item.select ? 'alert-danger':'alert-info'}}"
-                         ng-repeat="item in app" ng-show="item.desp"
-                         ng-click="appClick(item)">
+                    <div class="alert pull-left item {{item.select ? 'alert-danger':'alert-info'}}" ng-repeat="item in app" ng-show="item.desp"
+                        ng-click="appClick(item)">
                         <div>
                             <span class="ng-binding ng-scope">{{item.desp}}</span>
                         </div>
@@ -56,8 +55,7 @@
                     </div>
                     <div class="itembox">
                         <div class="item" ng-repeat="item in service" ng-show="item.serviceDescription">
-                            <span class="check padder-sm pull-left" ng-click="addSerivce(item)"
-                                  ng-class="{active: item.active}">
+                            <span class="check padder-sm pull-left" ng-click="addSerivce(item)" ng-class="{active: item.active}">
                                 <i class="fa fa-check-square"></i>
                             </span>
                             <span class="text pull-left">{{item.serviceDescription}}</span>
@@ -76,9 +74,8 @@
         <div class="config-box">
             <div class="applistbox b-r configitembox">
                 <p>服务列表</p>
-                <div class="alert item cursor-p {{item.select ? 'alert-danger':'alert-info'}}"
-                     ng-repeat="item in service" ng-show="item.serviceDescription"
-                     ng-click="serviceClick(item)">
+                <div class="alert item cursor-p {{item.select ? 'alert-danger':'alert-info'}}" ng-repeat="item in service" ng-show="item.serviceDescription"
+                    ng-click="serviceClick(item)">
                     <div>
                         <span class="ng-binding ng-scope">{{item.serviceDescription}}</span>
                     </div>
@@ -87,8 +84,7 @@
             <div class="configlist b-r configitembox">
                 <div class="tablelist">
                     <p>服务所含表</p>
-                    <div class="alert item cursor-p {{item.select ? 'alert-danger':'alert-info'}}"
-                         ng-repeat="item in serviceConfig" ng-click="serviceTableClick(item)">
+                    <div class="alert item cursor-p {{item.select ? 'alert-danger':'alert-info'}}" ng-repeat="item in serviceConfig" ng-click="serviceTableClick(item)">
                         <div>
                             <span class="ng-binding ng-scope">{{item}}</span>
                         </div>
@@ -102,8 +98,7 @@
                 <div class="line"></div>
                 <div class="fieldlist">
                     <p>当前表所含字段</p>
-                    <div class="alert item cursor-p {{item.select ? 'alert-danger':'alert-info'}}"
-                         ng-repeat="item in tableFields" ng-click="serviceFieldClick(item)">
+                    <div class="alert item cursor-p {{item.select ? 'alert-danger':'alert-info'}}" ng-repeat="item in tableFields" ng-click="serviceFieldClick(item)">
                         <div>
                             <span class="ng-binding ng-scope">{{item.fieldName}}</span>
                         </div>

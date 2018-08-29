@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var utils = require('../core/utils');
     var keymap = require('../core/keymap');
@@ -7,7 +7,7 @@ define(function (require, exports, module) {
     var Module = require('../core/module');
     var Renderer = require('../core/render');
 
-    Module.register('Expand', function () {
+    Module.register('Expand', function() {
         var minder = this;
         var EXPAND_STATE_DATA = 'expandState',
             STATE_EXPAND = 'expand',
@@ -20,7 +20,7 @@ define(function (require, exports, module) {
              * 展开节点
              * @param  {Policy} policy 展开的策略，默认为 KEEP_STATE
              */
-            expand: function () {
+            expand: function() {
                 this.setData(EXPAND_STATE_DATA, STATE_EXPAND);
                 return this;
             },
@@ -28,7 +28,7 @@ define(function (require, exports, module) {
             /**
              * 收起节点
              */
-            collapse: function () {
+            collapse: function() {
                 this.setData(EXPAND_STATE_DATA, STATE_COLLAPSE);
                 return this;
             },
@@ -36,7 +36,7 @@ define(function (require, exports, module) {
             /**
              * 判断节点当前的状态是否为展开
              */
-            isExpanded: function () {
+            isExpanded: function() {
                 var expanded = this.getData(EXPAND_STATE_DATA) !== STATE_COLLAPSE;
                 return expanded && (this.isRoot() || this.parent.isExpanded());
             },
@@ -44,7 +44,7 @@ define(function (require, exports, module) {
             /**
              * 判断节点当前的状态是否为收起
              */
-            isCollapsed: function () {
+            isCollapsed: function() {
                 return !this.isExpanded();
             }
         });
@@ -62,7 +62,7 @@ define(function (require, exports, module) {
         var ExpandCommand = kity.createClass('ExpandCommand', {
             base: Command,
 
-            execute: function (km, justParents) {
+            execute: function(km, justParents) {
                 var node = km.getSelectedNode();
                 if (!node) return;
                 if (justParents) {
@@ -76,7 +76,7 @@ define(function (require, exports, module) {
                 km.layout(100);
             },
 
-            queryState: function (km) {
+            queryState: function(km) {
                 var node = km.getSelectedNode();
                 return node && !node.isRoot() && !node.isExpanded() ? 0 : -1;
             }
@@ -91,8 +91,8 @@ define(function (require, exports, module) {
          */
         var ExpandToLevelCommand = kity.createClass('ExpandToLevelCommand', {
             base: Command,
-            execute: function (km, level) {
-                km.getRoot().traverse(function (node) {
+            execute: function(km, level) {
+                km.getRoot().traverse(function(node) {
                     if (node.getLevel() < level) node.expand();
                     if (node.getLevel() == level && !node.isLeaf()) node.collapse();
                 });
@@ -111,7 +111,7 @@ define(function (require, exports, module) {
         var CollapseCommand = kity.createClass('CollapseCommand', {
             base: Command,
 
-            execute: function (km) {
+            execute: function(km) {
                 var node = km.getSelectedNode();
                 if (!node) return;
 
@@ -120,7 +120,7 @@ define(function (require, exports, module) {
                 km.layout();
             },
 
-            queryState: function (km) {
+            queryState: function(km) {
                 var node = km.getSelectedNode();
                 return node && !node.isRoot() && node.isExpanded() ? 0 : -1;
             }
@@ -129,7 +129,7 @@ define(function (require, exports, module) {
         var Expander = kity.createClass('Expander', {
             base: kity.Group,
 
-            constructor: function (node) {
+            constructor: function(node) {
                 this.callBase();
                 this.radius = 6;
                 this.outline = new kity.Circle(this.radius).stroke('gray').fill('white');
@@ -140,8 +140,8 @@ define(function (require, exports, module) {
                 this.setStyle('cursor', 'pointer');
             },
 
-            initEvent: function (node) {
-                this.on('mousedown', function (e) {
+            initEvent: function(node) {
+                this.on('mousedown', function(e) {
                     minder.select([node], true);
                     if (node.isExpanded()) {
                         node.collapse();
@@ -153,13 +153,13 @@ define(function (require, exports, module) {
                     e.stopPropagation();
                     e.preventDefault();
                 });
-                this.on('dblclick click mouseup', function (e) {
+                this.on('dblclick click mouseup', function(e) {
                     e.stopPropagation();
                     e.preventDefault();
                 });
             },
 
-            setState: function (state) {
+            setState: function(state) {
                 if (state == 'hide') {
                     this.setVisible(false);
                     return;
@@ -176,7 +176,7 @@ define(function (require, exports, module) {
         var ExpanderRenderer = kity.createClass('ExpanderRenderer', {
             base: Renderer,
 
-            create: function (node) {
+            create: function(node) {
                 if (node.isRoot()) return;
                 this.expander = new Expander(node);
                 node.getRenderContainer().prependShape(this.expander);
@@ -185,11 +185,11 @@ define(function (require, exports, module) {
                 return this.expander;
             },
 
-            shouldRender: function (node) {
+            shouldRender: function(node) {
                 return !node.isRoot();
             },
 
-            update: function (expander, node, box) {
+            update: function(expander, node, box) {
                 if (!node.parent) return;
 
                 var visible = node.parent.isExpanded();
@@ -210,13 +210,13 @@ define(function (require, exports, module) {
                 'collapse': CollapseCommand
             },
             events: {
-                'layoutapply': function (e) {
+                'layoutapply': function(e) {
                     var r = e.node.getRenderer('ExpanderRenderer');
                     if (r.getRenderShape()) {
                         r.update(r.getRenderShape(), e.node);
                     }
                 },
-                'beforerender': function (e) {
+                'beforerender': function(e) {
                     var node = e.node;
                     var visible = !node.parent || node.parent.isExpanded();
                     var minder = this;
@@ -224,13 +224,13 @@ define(function (require, exports, module) {
                     node.getRenderContainer().setVisible(visible);
                     if (!visible) e.stopPropagation();
                 },
-                'normal.keydown': function (e) {
+                'normal.keydown': function(e) {
                     if (this.getStatus() == 'textedit') return;
                     if (e.originEvent.keyCode == keymap['/']) {
                         var node = this.getSelectedNode();
                         if (!node || node == this.getRoot()) return;
                         var expanded = node.isExpanded();
-                        this.getSelectedNodes().forEach(function (node) {
+                        this.getSelectedNodes().forEach(function(node) {
                             if (expanded) node.collapse();
                             else node.expand();
                             node.renderTree();
@@ -255,34 +255,34 @@ define(function (require, exports, module) {
             },
             contextmenu: [{
                 command: 'expandtoleaf',
-                query: function () {
+                query: function() {
                     return !minder.getSelectedNode();
                 },
-                fn: function (minder) {
+                fn: function(minder) {
                     minder.execCommand('expandtolevel', 9999);
                 }
             }, {
                 command: 'expandtolevel1',
-                query: function () {
+                query: function() {
                     return !minder.getSelectedNode();
                 },
-                fn: function (minder) {
+                fn: function(minder) {
                     minder.execCommand('expandtolevel', 1);
                 }
             }, {
                 command: 'expandtolevel2',
-                query: function () {
+                query: function() {
                     return !minder.getSelectedNode();
                 },
-                fn: function (minder) {
+                fn: function(minder) {
                     minder.execCommand('expandtolevel', 2);
                 }
-            }, {
+            },{
                 command: 'expandtolevel3',
-                query: function () {
+                query: function() {
                     return !minder.getSelectedNode();
                 },
-                fn: function (minder) {
+                fn: function(minder) {
                     minder.execCommand('expandtolevel', 3);
                 }
             }, {

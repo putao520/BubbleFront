@@ -19,23 +19,12 @@ bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
 
             });
         }
-    };
+    }
     $scope.btn = [
         {
             name: "新建根栏目",
             onClick: function () {
-                bubble.customModal("columnCreate.html", "columnCreateController", "lg", {
-                    value: {
-                        fatherid: 0,
-                        sort: 1,
-                        type: "1",
-                        wbid: window.localStorage.siteid,
-                        contentType: "0",
-                        timediff: 86400000,
-                        isreview: "0",
-                        slevel: "0"
-                    }, thumb: $scope.columnThumb
-                }, function (rs) {
+                bubble.customModal("columnCreate.html", "columnCreateController", "lg", { value: { fatherid: 0, sort: 1, type: "1", wbid: window.localStorage.siteid, contentType: "0", timediff: 86400000, isreview: "0", slevel: "0" }, thumb: $scope.columnThumb }, function (rs) {
                     rs && $scope.callback.addRoot(rs);
                 });
             }
@@ -45,18 +34,7 @@ bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
         {
             name: "新建子栏目",
             onClick: function (v) {
-                bubble.customModal("columnCreate.html", "columnCreateController", "lg", {
-                    value: {
-                        fatherid: v._id,
-                        sort: 1,
-                        type: "1",
-                        wbid: window.localStorage.siteid,
-                        contentType: "0",
-                        timediff: 86400000,
-                        isreview: "0",
-                        slevel: "0"
-                    }, thumb: $scope.columnThumb
-                }, function (rs) {
+                bubble.customModal("columnCreate.html", "columnCreateController", "lg", { value: { fatherid: v._id, sort: 1, type: "1", wbid: window.localStorage.siteid, contentType: "0", timediff: 86400000, isreview: "0", slevel: "0" }, thumb: $scope.columnThumb }, function (rs) {
                     rs && $scope.callback.addItem(rs);
                 });
             }
@@ -68,10 +46,7 @@ bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
                 v.slevel == undefined && (v.slevel = "0");
                 v.slevel += "";
                 v.Contant = false;
-                bubble.customModal("columnCreate.html", "columnEditController", "lg", {
-                    value: v,
-                    thumb: $scope.columnThumb
-                }, function (rs) {
+                bubble.customModal("columnCreate.html", "columnEditController", "lg", { value: v, thumb: $scope.columnThumb }, function (rs) {
                     rs && $scope.callback.update(rs, v);
                 });
             }
@@ -81,10 +56,7 @@ bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
                 return v.linkOgid && v.linkOgid != "" && v.linkOgid != "0" ? "<span class='text-info'>更该绑定</span>" : "绑定本站栏目";
             },
             onClick: function (v, BtnTextChange) {
-                bubble.customModal("columnBind.html", "columnBindController", "lg", {
-                    list: $scope.gropuList,
-                    curr: v
-                }, function (rs) {
+                bubble.customModal("columnBind.html", "columnBindController", "lg", { list: $scope.gropuList, curr: v }, function (rs) {
                     v.linkOgid = rs.ids;
                     v.MixMode = rs.mode;
                     $scope.callback.update(v);
@@ -95,10 +67,7 @@ bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
         {
             name: "批量文章移动",
             onClick: function (v, BtnTextChange) {
-                bubble.customModal("articleBind.html", "articleBindController", "lg", {
-                    list: $scope.gropuList,
-                    curr: v
-                }, function (rs) {
+                bubble.customModal("articleBind.html", "articleBindController", "lg", { list: $scope.gropuList, curr: v }, function (rs) {
 
                 });
             }
@@ -139,7 +108,7 @@ bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
         var uploader = null;
         $scope.modalConfirm = function () {
             $scope.modalVisible = false;
-        };
+        }
 
         this.init = function (v) {
             currentData = JSON.parse(JSON.stringify(v));
@@ -149,17 +118,17 @@ bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
                 currentData[key] = currentData[key].split(",");
             }
             return this;
-        };
+        }
 
         this.getCurrentData = function () {
             return currentData[key];
-        };
+        }
 
         this.getList = function () {
             if ($scope.thumbList) {
                 return;
             }
-            bubble._call("file.pageBy", 1, 1000, {isThumbnail: 1}).success(function (v) {
+            bubble._call("file.pageBy", 1, 1000, { isThumbnail: 1 }).success(function (v) {
                 $scope.thumbList = v.data;
                 for (var i = 0; i < v.data.length; i++) {
                     v.data[i].ThumbnailImage = bubble.getInterface("upload.visible") + v.data[i].ThumbnailImage;
@@ -168,7 +137,7 @@ bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
                     this.initUpload();
                 }.bind(this));
             }.bind(this));
-        };
+        }
 
         this.onclick = function (v) {
             var t = true;
@@ -183,7 +152,7 @@ bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
             } else {
                 this.remove(v, t);
             }
-        };
+        }
 
         this.deleteThumb = function (item) {
             swal({
@@ -197,10 +166,7 @@ bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
             }).then(
                 function (s) {
                     if (s) {
-                        bubble._call("file.batchDelete", [{
-                            _id: item._id,
-                            size: parseInt(item.size)
-                        }]).success(function (v) {
+                        bubble._call("file.batchDelete", [{ _id: item._id, size: parseInt(item.size) }]).success(function (v) {
                             if (!v.errorcode) {
                                 swal("删除成功");
                                 $scope.thumbList.splice($scope.thumbList.indexOf(item), 1);
@@ -210,12 +176,12 @@ bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
                         });
                     }
                 });
-        };
+        }
 
         this.show = function () {
             $scope.modalVisible = true;
             this.getList();
-        };
+        }
 
         this.initUpload = function () {
             if (uploader) {
@@ -241,7 +207,7 @@ bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
                 $(".column-thumb-upload-process").width(0);
                 bubble.updateScope($scope);
             });
-        };
+        }
 
         this.remove = function (v, i) {
             currentData[key].splice(i, 1);
@@ -270,7 +236,7 @@ bubbleFrame.register("columnBindController", function (bubble, items, $scope, $m
                 }
             }
             box.find(".item").unbind("click").click($scope.onSelect);
-        };
+        }
 
         bubble._call("column.page", 1, 10000).success(function (v) {
             initTree(bubble.getTreeData(v.data, "_id"));
@@ -289,20 +255,20 @@ bubbleFrame.register("columnBindController", function (bubble, items, $scope, $m
             current.push(this.id);
             $(this).addClass("cur");
         }
-    };
+    }
     $scope.tree = {};
 
     $scope.ok = function (e) {
         bubble.toggleModalBtnLoading(e, true);
         bubble._call("column.SetLinkOgid", currentId, current.join(","), parseInt($scope.isinlude)).success(function (v) {
             if (!v.errorcode) {
-                $modalInstance.close({ids: current.join(","), mode: parseInt($scope.isinlude)});
+                $modalInstance.close({ ids: current.join(","), mode: parseInt($scope.isinlude) });
             } else {
                 bubble.toggleModalBtnLoading(e, false);
                 swal("新闻移动失败");
             }
         });
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');
@@ -328,7 +294,7 @@ bubbleFrame.register('articleBindController', function (bubble, items, $scope, $
                 }
             }
             box.find(".articleItem").unbind("click").click($scope.onSelect);
-        };
+        }
 
         $scope.onSelect = function (v) {
             if ($(this).hasClass("disabled")) {
@@ -343,7 +309,7 @@ bubbleFrame.register('articleBindController', function (bubble, items, $scope, $
                 $($(this).siblings('.articleItem')).removeClass('curr');
                 current = $('.curr')[0].id
             }
-        };
+        }
 
         bubble._call("column.page", 1, 10000).success(function (v) {
             initTree(bubble.getTreeData(v.data, "_id"));
@@ -351,14 +317,14 @@ bubbleFrame.register('articleBindController', function (bubble, items, $scope, $
     }, 20);
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');
-    };
+    }
     $scope.ok = function (e) {
         if (current.length > 0) {
             bubble.toggleModalBtnLoading(e, true);
             bubble._call("content.contentBind", webId, currentId, current).success(function (v) {
                 if (!v.errorcode) {
                     swal(v.message);
-                    $modalInstance.close({ids: current, mode: parseInt($scope.isinlude)});
+                    $modalInstance.close({ ids: current, mode: parseInt($scope.isinlude) });
                 } else {
                     bubble.toggleModalBtnLoading(e, false);
                     swal("内容移动失败");
@@ -366,10 +332,10 @@ bubbleFrame.register('articleBindController', function (bubble, items, $scope, $
             });
         } else {
             swal('请选择一个目标栏目');
-
+            return;
         }
     }
-});
+})
 bubbleFrame.register("columnEditController", function (bubble, items, $scope, $modalInstance, $timeout) {
     $scope.value = JSON.parse(JSON.stringify(items.value));
     delete $scope.value.children;
@@ -399,7 +365,7 @@ bubbleFrame.register("columnEditController", function (bubble, items, $scope, $m
                 swal("修改失败");
             }
         });
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');
@@ -431,7 +397,7 @@ bubbleFrame.register("columnCreateController", function (bubble, items, $scope, 
                 swal("修改失败");
             }
         });
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');

@@ -2,7 +2,7 @@
  * 调色板
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     //标准color
     var StandardColor = require('./standardcolor'),
@@ -13,7 +13,7 @@ define(function (require, exports, module) {
 
     var Palette = require('../core/class').createClass('Palette', {
 
-        constructor: function () {
+        constructor: function() {
             this.color = {};
         },
 
@@ -22,7 +22,7 @@ define(function (require, exports, module) {
          * @param name 需要获取的颜色名称
          * @return 对应颜色名称的color对象， 如果未找到对应的名称， 则返回null
          */
-        get: function (name) {
+        get: function(name) {
 
             var colorValue = this.color[name] ||
                 StandardColor.EXTEND_STANDARD[name] ||
@@ -41,7 +41,7 @@ define(function (require, exports, module) {
          * @param name 需要获取的颜色名称
          * @return 如果找到对应的名称， 则返回该名称所对应的hex格式的值， 否则， 返回一个空字符串
          */
-        getColorValue: function (name) {
+        getColorValue: function(name) {
 
             return this.color[name] || StandardColor.EXTEND_STANDARD[name] || StandardColor.COLOR_STANDARD[name] || '';
 
@@ -53,7 +53,7 @@ define(function (require, exports, module) {
          * @param value 新添加的颜色名称所对应的值， 可以是一个合法的颜色字符串或者是一个color对象
          * @return 新添加的颜色的值
          */
-        add: function (name, value) {
+        add: function(name, value) {
 
             if (typeof value === 'string') {
                 this.color[name] = new Color(value).toRGBA();
@@ -70,7 +70,7 @@ define(function (require, exports, module) {
          * @param name 需要删除的颜色名称
          * @return 删除是否成功的bool值
          */
-        remove: function (name) {
+        remove: function(name) {
 
             if (this.color.hasOwnProperty(name)) {
                 delete this.color[name];
@@ -85,7 +85,7 @@ define(function (require, exports, module) {
 
     Utils.extend(Palette, {
 
-        getColor: function (name) {
+        getColor: function(name) {
 
             var colorValue = StandardColor.EXTEND_STANDARD[name] || StandardColor.COLOR_STANDARD[name];
 
@@ -101,7 +101,7 @@ define(function (require, exports, module) {
          * @param name 需要获取的标准颜色名称
          * @return 名字所对应的颜色值的hex表示， 如果未找到对应名称的值， 则返回一个空字符串
          */
-        getColorValue: function (name) {
+        getColorValue: function(name) {
 
             return StandardColor.EXTEND_STANDARD[name] || StandardColor.COLOR_STANDARD[name] || '';
 
@@ -114,7 +114,7 @@ define(function (require, exports, module) {
          * @param value 新添加的颜色名称所对于的值， 应该是一个hex格式的颜色字符串， 如： ”#ff0000“
          * @return 新添加的颜色的值
          */
-        addColor: function (name, value) {
+        addColor: function(name, value) {
 
             if (typeof value === 'string') {
                 StandardColor.EXTEND_STANDARD[name] = new Color(value).toRGBA();
@@ -131,7 +131,7 @@ define(function (require, exports, module) {
          * @param name 需要删除的颜色名称
          * @return 删除是否成功的bool值
          */
-        removeColor: function (name) {
+        removeColor: function(name) {
 
             if (StandardColor.EXTEND_STANDARD.hasOwnProperty(name)) {
                 delete StandardColor.EXTEND_STANDARD[name];

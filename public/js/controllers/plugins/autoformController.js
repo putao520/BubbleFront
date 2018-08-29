@@ -14,7 +14,7 @@ bubbleFrame.register('autoformController', function ($scope, bubble, $timeout) {
     var watchFn = function (n, o) {
         if (Object.getOwnPropertyNames(n).length)
             $scope.text = JSON.stringify(n, null, 4);
-    };
+    }
 
     $scope.visible = false;
     $scope.value = {};
@@ -27,7 +27,7 @@ bubbleFrame.register('autoformController', function ($scope, bubble, $timeout) {
         } catch (e) {
             $scope.visible = false;
         }
-    };
+    }
 
     $scope.field = {
         name: {

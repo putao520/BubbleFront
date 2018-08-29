@@ -1,7 +1,6 @@
 import angular from "angular";
 import screenfull from "screenfull";
 import $ from "jquery";
-
 angular.module('app')
     .directive('uiFullscreen', ['uiLoad', '$document', '$window', function (uiLoad, $document, $window) {
         return {

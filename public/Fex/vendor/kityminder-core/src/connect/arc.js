@@ -7,11 +7,11 @@
  * @copyright: Baidu FEX, 2014
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var connect = require('../core/connect');
 
-    var connectMarker = new kity.Marker().pipe(function () {
+    var connectMarker = new kity.Marker().pipe(function() {
         var r = 7;
         var dot = new kity.Circle(r - 1);
         this.addShape(dot);
@@ -20,7 +20,7 @@ define(function (require, exports, module) {
         this.node.setAttribute('markerUnits', 'userSpaceOnUse');
     });
 
-    connect.register('arc', function (node, parent, connection, width, color) {
+    connect.register('arc', function(node, parent, connection, width, color) {
 
         var box = node.getLayoutBox(),
             pBox = parent.getLayoutBox();

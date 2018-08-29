@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var svg = require('./svg');
     var utils = require('../core/utils');
     var EventHandler = require('./eventhandler');
@@ -22,17 +22,17 @@ define(function (require, exports, module) {
             };
             this.callMixin();
         },
-        getId: function () {
+        getId: function() {
             return this.node.id;
         },
-        setId: function (id) {
+        setId: function(id) {
             this.node.id = id;
             return this;
         },
-        getNode: function () {
+        getNode: function() {
             return this.node;
         },
-        getBoundaryBox: function () {
+        getBoundaryBox: function() {
             var box;
             try {
                 box = this.node.getBBox();
@@ -46,32 +46,32 @@ define(function (require, exports, module) {
             }
             return new Box(box);
         },
-        getRenderBox: function (refer) {
+        getRenderBox: function(refer) {
             var box = this.getBoundaryBox();
             var matrix = this.getTransform(refer);
             return matrix.transformBox(box);
         },
-        getWidth: function () {
+        getWidth: function() {
             return this.getRenderBox().width;
         },
-        getHeight: function () {
+        getHeight: function() {
             return this.getRenderBox().height;
         },
-        getSize: function () {
+        getSize: function() {
             var box = this.getRenderBox();
             delete box.x;
             delete box.y;
             return box;
         },
-        setOpacity: function (value) {
+        setOpacity: function(value) {
             this.node.setAttribute('opacity', value);
             return this;
         },
-        getOpacity: function () {
+        getOpacity: function() {
             var opacity = this.node.getAttribute('opacity');
             return opacity ? +opacity : 1;
         },
-        setVisible: function (value) {
+        setVisible: function(value) {
             if (value) {
                 this.node.removeAttribute('display');
             } else {
@@ -79,10 +79,10 @@ define(function (require, exports, module) {
             }
             return this;
         },
-        getVisible: function () {
+        getVisible: function() {
             this.node.getAttribute('display');
         },
-        hasAncestor: function (node) {
+        hasAncestor: function(node) {
             var parent = this.container;
             while (parent) {
                 if (parent === node) {
@@ -92,10 +92,10 @@ define(function (require, exports, module) {
             }
             return false;
         },
-        getTransform: function (refer) {
+        getTransform: function(refer) {
             return Matrix.getCTM(this, refer);
         },
-        clearTransform: function () {
+        clearTransform: function() {
             this.node.removeAttribute('transform');
             this.transform = {
                 translate: null,
@@ -108,7 +108,7 @@ define(function (require, exports, module) {
             });
             return this;
         },
-        _applyTransform: function () {
+        _applyTransform: function() {
             var t = this.transform,
                 result = [];
             if (t.translate) {
@@ -126,23 +126,23 @@ define(function (require, exports, module) {
             this.node.setAttribute('transform', utils.flatten(result).join(' '));
             return this;
         },
-        setMatrix: function (m) {
+        setMatrix: function(m) {
             this.transform.matrix = m;
             return this._applyTransform();
         },
-        setTranslate: function (t) {
+        setTranslate: function(t) {
             this.transform.translate = t !== null && slice.call(arguments) || null;
             return this._applyTransform();
         },
-        setRotate: function (r) {
+        setRotate: function(r) {
             this.transform.rotate = r !== null && slice.call(arguments) || null;
             return this._applyTransform();
         },
-        setScale: function (s) {
+        setScale: function(s) {
             this.transform.scale = s !== null && slice.call(arguments) || null;
             return this._applyTransform();
         },
-        translate: function (dx, dy) {
+        translate: function(dx, dy) {
             var m = this.transform.matrix || new Matrix();
             if (dy === undefined) {
                 dy = 0;
@@ -150,12 +150,12 @@ define(function (require, exports, module) {
             this.transform.matrix = m.translate(dx, dy);
             return this._applyTransform();
         },
-        rotate: function (deg) {
+        rotate: function(deg) {
             var m = this.transform.matrix || new Matrix();
             this.transform.matrix = m.rotate(deg);
             return this._applyTransform();
         },
-        scale: function (sx, sy) {
+        scale: function(sx, sy) {
             var m = this.transform.matrix || new Matrix();
             if (sy === undefined) {
                 sy = sx;
@@ -163,7 +163,7 @@ define(function (require, exports, module) {
             this.transform.matrix = m.scale(sx, sy);
             return this._applyTransform();
         },
-        skew: function (sx, sy) {
+        skew: function(sx, sy) {
             var m = this.transform.matrix || new Matrix();
             if (sy === undefined) {
                 sy = sx;
@@ -171,7 +171,7 @@ define(function (require, exports, module) {
             this.transform.matrix = m.skew(sx, sy);
             return this._applyTransform();
         },
-        stroke: function (pen, width) {
+        stroke: function(pen, width) {
             if (pen && pen.stroke) {
                 pen.stroke(this);
             } else if (pen) {
@@ -185,7 +185,7 @@ define(function (require, exports, module) {
             }
             return this;
         },
-        fill: function (brush) {
+        fill: function(brush) {
             // 字符串或重写了 toString 的对象
             if (brush) {
                 this.node.setAttribute('fill', brush.toString());
@@ -195,10 +195,10 @@ define(function (require, exports, module) {
             }
             return this;
         },
-        setAttr: function (a, v) {
+        setAttr: function(a, v) {
             var me = this;
             if (utils.isObject(a)) {
-                utils.each(a, function (val, key) {
+                utils.each(a, function(val, key) {
                     me.setAttr(key, val);
                 });
             }
@@ -209,7 +209,7 @@ define(function (require, exports, module) {
             }
             return this;
         },
-        getAttr: function (a) {
+        getAttr: function(a) {
             return this.node.getAttribute(a);
         }
     });

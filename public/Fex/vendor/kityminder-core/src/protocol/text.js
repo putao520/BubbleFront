@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var data = require('../core/data');
     var Browser = require('../core/kity').Browser;
 
@@ -9,17 +9,17 @@ define(function (require, exports, module) {
      */
     var LINE_ENDING = '\r',
         LINE_ENDING_SPLITER = /\r\n|\r|\n/,
-        TAB_CHAR = (function (Browser) {
+        TAB_CHAR = (function(Browser) {
             if (Browser.gecko) {
                 return {
-                    REGEXP: new RegExp('^(\t|' + String.fromCharCode(160, 160, 32, 160) + ')'),
-                    DELETE: new RegExp('^(\t|' + String.fromCharCode(160, 160, 32, 160) + ')+')
+                    REGEXP: new RegExp('^(\t|'+ String.fromCharCode(160,160,32,160) +')'),
+                    DELETE: new RegExp('^(\t|'+ String.fromCharCode(160,160,32,160) +')+')
                 }
             } else if (Browser.ie || Browser.edge) {
                 // ie系列和edge比较特别，\t在div中会被直接转义成SPACE故只好使用SPACE来做处理
                 return {
-                    REGEXP: new RegExp('^(' + String.fromCharCode(32) + '|' + String.fromCharCode(160) + ')'),
-                    DELETE: new RegExp('^(' + String.fromCharCode(32) + '|' + String.fromCharCode(160) + ')+')
+                    REGEXP: new RegExp('^('+ String.fromCharCode(32) +'|'+ String.fromCharCode(160) +')'),
+                    DELETE: new RegExp('^('+ String.fromCharCode(32) +'|'+ String.fromCharCode(160) +')+')
                 }
             } else {
                 return {
@@ -67,7 +67,7 @@ define(function (require, exports, module) {
                     break;
                 }
                 case 1: {
-                    textArr.push(nodeText[i - 1], nodeText[i]);
+                    textArr.push(nodeText[i-1], nodeText[i]);
                 }
             }
             j = 0;
@@ -106,16 +106,16 @@ define(function (require, exports, module) {
                     if (text[i] === 'n') {
                         textArr.push('\n');
                     } else {
-                        textArr.push(text[i - 1], text[i]);
+                        textArr.push(text[i-1], text[i]);
                     }
                     j = 0;
                     break;
                 }
                 case 2: {
-                    textArr.push(text[i - 2]);
+                    textArr.push(text[i-2]);
                     if (text[i] !== '\\') {
                         j = 0;
-                        textArr.push(text[i - 1], text[i]);
+                        textArr.push(text[i-1], text[i]);
                     }
                     break;
                 }
@@ -130,7 +130,7 @@ define(function (require, exports, module) {
         local += repeat('\t', level);
         local += encodeWrap(json.data.text) + LINE_ENDING;
         if (json.children) {
-            json.children.forEach(function (child) {
+            json.children.forEach(function(child) {
                 local += encode(child, level + 1);
             });
         }
@@ -209,7 +209,6 @@ define(function (require, exports, module) {
             }
             return exported;
         }
-
         if (!node) return;
         if (/^\s*$/.test(node.data.text)) {
             node.data.text = "分支主题";
@@ -223,15 +222,15 @@ define(function (require, exports, module) {
         dataType: 'text',
         mineType: 'text/plain',
 
-        encode: function (json) {
+        encode: function(json) {
             return encode(json.root, 0);
         },
 
-        decode: function (local) {
+        decode: function(local) {
             return decode(local);
         },
 
-        Node2Text: function (node) {
+        Node2Text: function(node) {
             return Node2Text(node);
         }
     });

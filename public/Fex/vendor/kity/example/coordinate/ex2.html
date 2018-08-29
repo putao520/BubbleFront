@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!DOCTYPE html> 
+<html> 
+<head> 
     <title> 坐标系 </title>
     <script src="../../dist/kity.min.js"></script>
     <script src="coordinate.js"></script>
@@ -16,16 +16,16 @@
 
 </body>
 <script>
-    function boxString(box) {
+    function boxString (box) {
         return [box.x, box.y, box.width, box.height].join(', ');
     }
 
-    var paper = new kity.Paper(document.body).pipe(function () {
+    var paper = new kity.Paper(document.body).pipe(function() {
         var width = 800, height = 800;
         this.setWidth(width).setHeight(height);
-        this.setViewBox(-140.5, -140.5, width, height);
+        this.setViewBox(-140.5, -140.5, width, height)
 
-        this.addShape(new Coordinate('black', [-13, 49], [-13, 49]).pipe(function () {
+        this.addShape(new Coordinate('black', [-13, 49], [-13, 49]).pipe(function() {
             this.addShape(new kity.Text('参照坐标系')
                 .setVerticalAlign('bottom')
                 .setX(5).setY(-5));
@@ -33,7 +33,7 @@
     });
 
 
-    var rect = new Coordinate('red', [-2, 10], [-2, 10]).pipe(function () {
+    var rect = new Coordinate('red', [-2, 10], [-2, 10]).pipe(function() {
         this.addShape(new kity.Text('自身坐标系')
             .fill('red')
             .setVerticalAlign('bottom')
@@ -65,12 +65,12 @@
         downposition = e.getPosition(rect);
     });
     paper.on('mousemove', function (e) {
-        if (!downposition) return;
+        if(!downposition) return;
         rect.setTranslate(e.getPosition().offset(-downposition.x, -downposition.y));
         rect.text.setContent("getBoundaryBox: " + boxString(rect.body.getBoundaryBox()));
         paper.text.setContent("getRenderBox: " + boxString(rect.body.getRenderBox(paper)));
     });
-    paper.on('mouseup', function () {
+    paper.on('mouseup', function() {
         downposition = null;
     });
 </script>

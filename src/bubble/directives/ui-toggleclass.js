@@ -21,7 +21,10 @@ app.directive('uiToggleClass', ['$timeout', '$document', function ($timeout, $do
 
                 function magic(_class, target) {
                     var patt = new RegExp('\\s' +
-                        _class.replace(/\*/g, '[A-Za-z0-9-_]+').split(' ').join('\\s|\\s') +
+                        _class.
+                            replace(/\*/g, '[A-Za-z0-9-_]+').
+                            split(' ').
+                            join('\\s|\\s') +
                         '\\s', 'g');
                     var cn = ' ' + $(target)[0].className + ' ';
                     while (patt.test(cn)) {

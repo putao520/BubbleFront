@@ -20,9 +20,7 @@ function ckcpt() {
     var cpt = '';
     return cpt;
 }
-
 var ActiveXObject = window.ActiveXObject;
-
 /*
 插件的定义结束
 以下是对播放器功能进行配置
@@ -259,10 +257,9 @@ function ckstyle() { //定义总的风格
         /*
         ckcpt()是本文件最上方的定义插件的函数
         */
-    };
+    }
     return ck;
 }
-
 /*
 html5部分开始
 以下代码是支持html5的，如果你不需要，可以删除。
@@ -270,9 +267,7 @@ html5代码块的代码可以随意更改以适合你的应用，欢迎到论坛
 */
 (function () {
     var CKobject = {
-        _K_: function (d) {
-            return document.getElementById(d);
-        },
+        _K_: function (d) { return document.getElementById(d); },
         getVideo: function (s) {
             var v = '';
             if (s) {
@@ -313,7 +308,7 @@ html5代码块的代码可以随意更改以适合你的应用，欢迎到论坛
         },
         browser: function () {
             var m = (function (ua) {
-                var a = {};
+                var a = new Object();
                 var b = {
                     msie: /msie/.test(ua) && !/opera/.test(ua),
                     opera: /opera/.test(ua),
@@ -323,10 +318,7 @@ html5代码块的代码可以随意更改以适合你的应用，欢迎到论坛
                 };
                 var vMark = '';
                 for (var i in b) {
-                    if (b[i]) {
-                        vMark = 'safari' == i ? 'version' : i;
-                        break;
-                    }
+                    if (b[i]) { vMark = 'safari' == i ? 'version' : i; break; }
                 }
                 b.version = vMark && RegExp('(?:' + vMark + ')[\\/: ]([\\d.]+)').test(ua) ? RegExp.$1 : '0';
                 b.ie = b.msie;
@@ -411,8 +403,7 @@ html5代码块的代码可以随意更改以适合你的应用，欢迎到论坛
                     var z = s.GetVariable('$version');
                     v = parseInt(z.split(' ')[1].split(',')[0]);
                 }
-                catch (e) {
-                }
+                catch (e) { }
             }
             else {
                 if (navigator.plugins && navigator.plugins.length > 0) {
@@ -427,7 +418,7 @@ html5代码块的代码可以随意更改以适合你的应用，欢迎到论坛
                     }
                 }
             }
-            return {f: f, v: v};
+            return { f: f, v: v };
         },
         embedHTML5: function (C, P, W, H, V, A, S) {
             var v = '',
@@ -514,7 +505,7 @@ html5代码块的代码可以随意更改以适合你的应用，欢迎到论坛
                 v += '<param name="' + e + '" value="' + o[e] + '" />';
             }
             w = w.replace('movie=', 'src=');
-            return {w: w, v: v};
+            return { w: w, v: v };
         },
         getObjectById: function (s) {
             var X = null,
@@ -533,12 +524,8 @@ html5代码块的代码可以随意更改以适合你的应用，欢迎到论坛
             return X;
         },
         embedSWF: function (C, D, N, W, H, V, P) {
-            if (!N) {
-                N = 'ckplayer_a1'
-            }
-            if (!P) {
-                P = {};
-            }
+            if (!N) { N = 'ckplayer_a1' }
+            if (!P) { P = {}; }
             var u = 'undefined',
                 j = document,
                 r = 'http://www.macromedia.com/go/getflashplayer',
@@ -588,6 +575,6 @@ html5代码块的代码可以随意更改以适合你的应用，欢迎到论坛
                 this._K_(D).style.color = '#FFDD00';
             }
         }
-    };
+    }
     window.CKobject = CKobject;
 })();

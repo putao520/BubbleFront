@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var Group = require('graphic/group');
     var Circle = require('graphic/circle');
@@ -12,7 +12,7 @@ define(function (require, exports, module) {
     return require('core/class').createClass({
         base: Group,
         mixins: [Draggable],
-        constructor: function (innerRadius, outerRadius, trackCount, trackPieCount, initSaturation) {
+        constructor: function(innerRadius, outerRadius, trackCount, trackPieCount, initSaturation) {
             this.callBase();
             this.innerRadius = innerRadius || 200;
             this.outerRadius = outerRadius || 400;
@@ -25,25 +25,25 @@ define(function (require, exports, module) {
             this.callMixin();
             this.drag();
         },
-        generate: function () {
+        generate: function() {
             this.generateCircle();
             this.generateTracks();
             this.generateLabels();
         },
-        generateCircle: function () {
+        generateCircle: function() {
             this.circle = new Circle(this.innerRadius);
             this.circle.stroke(new Pen('white', 5));
             this.circle.setStyle('cursor', 'move');
             this.addShape(this.circle);
         },
-        generateTracks: function () {
+        generateTracks: function() {
             this.pies = new Group();
             for (var trackNumber = 0; trackNumber < this.trackCount; trackNumber++) {
                 this.pies.addShapes(this.generateTrackPies(trackNumber));
             }
             this.addShape(this.pies.rotate(0));
         },
-        generateTrackPies: function (trackNumber) {
+        generateTrackPies: function(trackNumber) {
             var trackInnerRadius = this.innerRadius + this.trackHeight * trackNumber,
                 trackOuterRadius = trackInnerRadius + this.trackHeight;
             var h,
@@ -61,21 +61,21 @@ define(function (require, exports, module) {
             }
             return trackPies;
         },
-        getTrackLightness: function (trackNumber) {
+        getTrackLightness: function(trackNumber) {
             var lMin = 20,
                 lMax = 95;
             return lMin + trackNumber / this.trackCount * (lMax - lMin);
         },
-        generateLabels: function () {
+        generateLabels: function() {
             var fontSize = this.innerRadius / 6;
             this.rgbLabel = new Text().setTextAnchor('middle').setSize(fontSize).setY(-this.innerRadius / 8);
             this.hslLabel = new Text().setTextAnchor('middle').setSize(fontSize).setY(this.innerRadius / 4);
             this.addShape(this.rgbLabel);
             this.addShape(this.hslLabel);
         },
-        control: function () {
+        control: function() {
             var ring = this;
-            this.on('mouseover', function (e) {
+            this.on('mouseover', function(e) {
                 var pie = e.targetShape;
                 if (pie.getClass() == Pie) {
                     var color = pie.color;
@@ -89,7 +89,7 @@ define(function (require, exports, module) {
                 e.stopPropagation();
                 e.preventDefault();
             });
-            this.on('mouseout', function (e) {
+            this.on('mouseout', function(e) {
                 var pie = e.targetShape;
                 if (pie.getClass() == Pie) {
                     pie.setScale(1).setTranslate(0, 0);
@@ -97,20 +97,20 @@ define(function (require, exports, module) {
                     ring.showSelected();
                 }
             });
-            this.on('click', function (e) {
+            this.on('click', function(e) {
                 var pie = e.targetShape;
                 if (pie.getClass() == Pie) {
                     ring.selectedPie(pie);
                 }
             });
         },
-        selectedPie: function (pie) {
+        selectedPie: function(pie) {
             if (this.selected) {
                 this.selected.stroke('none');
             }
             this.selected = pie;
         },
-        showSelected: function () {
+        showSelected: function() {
             var pie = this.selected,
                 pen;
             if (pie) {
@@ -120,7 +120,7 @@ define(function (require, exports, module) {
                 this.setCircleColor(pie.color);
             }
         },
-        setCircleColor: function (color) {
+        setCircleColor: function(color) {
             this.circle.color = color;
             this.circle.fill(color);
             var labelColor = color.get('l') >= 50 ?
@@ -129,19 +129,19 @@ define(function (require, exports, module) {
             this.rgbLabel.setContent(color.toRGB()).fill(labelColor);
             this.hslLabel.setContent(color.toHSL()).fill(labelColor);
         },
-        bringFront: function (obj) {
+        bringFront: function(obj) {
             obj.container.removeShape(obj).addShape(obj);
         },
-        updateSaturation: function (s) {
+        updateSaturation: function(s) {
             this.s = s;
-            this.pies.eachItem(function (index, pie) {
+            this.pies.eachItem(function(index, pie) {
                 pie.fill(pie.color.set('s', s));
             });
             if (this.circle.color) {
                 this.setCircleColor(this.circle.color.set('s', s));
             }
         },
-        getPan: function () {
+        getPan: function() {
             this.pan = this.pan || {
                 min: -this.outerRadius * 0.8,
                 max: this.outerRadius * 0.8,
@@ -150,10 +150,10 @@ define(function (require, exports, module) {
             };
             return this.pan;
         },
-        drag: function () {
+        drag: function() {
             return this.callMixin({
                 target: this.circle,
-                move: function (e) {
+                move: function(e) {
                     var pan = this.getPan();
                     pan.value += e.delta.x;
                     pan.value = Math.min(pan.value, pan.max);
@@ -163,7 +163,7 @@ define(function (require, exports, module) {
                 }
             });
         },
-        updatePosition: function (x) {
+        updatePosition: function(x) {
             this.setTranslate(x, 0);
         }
     });

@@ -23,27 +23,27 @@
 
         window.onload = function () {
 
-            var paper = new kity.Paper(document.body),
-                circle = new kity.Circle(100, 200, 200),
-                circleMask = new kity.Circle(100, 200, 200),
+            var paper = new kity.Paper( document.body ),
+                circle = new kity.Circle( 100, 200, 200 ),
+                circleMask = new kity.Circle( 100, 200, 200 ),
                 mask = new kity.Mask(),
                 brush = new kity.LinearGradientBrush(),
-                rect = new kity.Rect(200, 100, 100, 100);
+                rect = new kity.Rect( 200, 100, 100, 100 );
 
-            brush.addStop('0', "white");
-            brush.addStop('1', "black");
+            brush.addStop( '0', "white" );
+            brush.addStop( '1', "black" );
 
-            circleMask.fill(brush);
+            circleMask.fill( brush );
 
-            mask.addShape(circleMask);
+            mask.addShape( circleMask );
 
-            circle.maskWith(mask);
-            circle.fill('red');
+            circle.maskWith( mask );
+            circle.fill( 'red' );
 
-            paper.addResource(brush);
-            paper.addResource(mask);
+            paper.addResource( brush );
+            paper.addResource( mask );
 
-            paper.addShape(circle);
+            paper.addShape( circle );
 
         };
 

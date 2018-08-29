@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var utils = require('../core/utils');
 
@@ -8,97 +8,16 @@ define(function (require, exports, module) {
     var Module = require('../core/module');
     var Renderer = require('../core/render');
 
-    Module.register('Resource', function () {
+    Module.register('Resource', function() {
 
         // String Hash
         // https://github.com/drostie/sha3-js/edit/master/blake32.min.js
-        var blake32 = (function () {
-            var k, g, r, l, m, o, p, q, t, w, x;
-            x = 4 * (1 << 30);
-            k = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19];
-            m = [0x243F6A88, 0x85A308D3, 0x13198A2E, 0x03707344, 0xA4093822, 0x299F31D0, 0x082EFA98, 0xEC4E6C89, 0x452821E6, 0x38D01377, 0xBE5466CF, 0x34E90C6C, 0xC0AC29B7, 0xC97C50DD, 0x3F84D5B5, 0xB5470917];
-            w = function (i) {
-                if (i < 0) {
-                    i += x
-                }
-                return ("00000000" + i.toString(16)).slice(-8)
-            };
-            o = [[16, 50, 84, 118, 152, 186, 220, 254], [174, 132, 249, 109, 193, 32, 123, 53], [139, 12, 37, 223, 234, 99, 23, 73], [151, 19, 205, 235, 98, 165, 4, 143], [9, 117, 66, 250, 30, 203, 134, 211], [194, 166, 176, 56, 212, 87, 239, 145], [92, 241, 222, 164, 112, 54, 41, 184], [189, 231, 28, 147, 5, 79, 104, 162], [246, 158, 59, 128, 44, 125, 65, 90], [42, 72, 103, 81, 191, 233, 195, 13]];
-            p = function (a, b, n) {
-                var s = q[a] ^ q[b];
-                q[a] = (s >>> n) | (s << (32 - n))
-            };
-            g = function (i, a, b, c, d) {
-                var u = l + o[r][i] % 16, v = l + (o[r][i] >> 4);
-                a %= 4;
-                b = 4 + b % 4;
-                c = 8 + c % 4;
-                d = 12 + d % 4;
-                q[a] += q[b] + (t[u] ^ m[v % 16]);
-                p(d, a, 16);
-                q[c] += q[d];
-                p(b, c, 12);
-                q[a] += q[b] + (t[v] ^ m[u % 16]);
-                p(d, a, 8);
-                q[c] += q[d];
-                p(b, c, 7)
-            };
-            return function (a, b) {
-                if (!(b instanceof Array && b.length === 4)) {
-                    b = [0, 0, 0, 0]
-                }
-                var c, d, e, L, f, h, j, i;
-                d = k.slice(0);
-                c = m.slice(0, 8);
-                for (r = 0; r < 4; r += 1) {
-                    c[r] ^= b[r]
-                }
-                e = a.length * 16;
-                f = (e % 512 > 446 || e % 512 === 0) ? 0 : e;
-                if (e % 512 === 432) {
-                    a += "\u8001"
-                } else {
-                    a += "\u8000";
-                    while (a.length % 32 !== 27) {
-                        a += "\u0000"
-                    }
-                    a += "\u0001"
-                }
-                t = [];
-                for (i = 0; i < a.length; i += 2) {
-                    t.push(a.charCodeAt(i) * 65536 + a.charCodeAt(i + 1))
-                }
-                t.push(0);
-                t.push(e);
-                h = t.length - 16;
-                j = 0;
-                for (l = 0; l < t.length; l += 16) {
-                    j += 512;
-                    L = (l === h) ? f : Math.min(e, j);
-                    q = d.concat(c);
-                    q[12] ^= L;
-                    q[13] ^= L;
-                    for (r = 0; r < 10; r += 1) {
-                        for (i = 0; i < 8; i += 1) {
-                            if (i < 4) {
-                                g(i, i, i, i, i)
-                            } else {
-                                g(i, i, i + 1, i + 2, i + 3)
-                            }
-                        }
-                    }
-                    for (i = 0; i < 8; i += 1) {
-                        d[i] ^= b[i % 4] ^ q[i] ^ q[i + 8]
-                    }
-                }
-                return d.map(w).join("")
-            }
-        }());
+        var blake32=(function(){var k,g,r,l,m,o,p,q,t,w,x;x=4*(1<<30);k=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];m=[0x243F6A88,0x85A308D3,0x13198A2E,0x03707344,0xA4093822,0x299F31D0,0x082EFA98,0xEC4E6C89,0x452821E6,0x38D01377,0xBE5466CF,0x34E90C6C,0xC0AC29B7,0xC97C50DD,0x3F84D5B5,0xB5470917];w=function(i){if(i<0){i+=x}return("00000000"+i.toString(16)).slice(-8)};o=[[16,50,84,118,152,186,220,254],[174,132,249,109,193,32,123,53],[139,12,37,223,234,99,23,73],[151,19,205,235,98,165,4,143],[9,117,66,250,30,203,134,211],[194,166,176,56,212,87,239,145],[92,241,222,164,112,54,41,184],[189,231,28,147,5,79,104,162],[246,158,59,128,44,125,65,90],[42,72,103,81,191,233,195,13]];p=function(a,b,n){var s=q[a]^q[b];q[a]=(s>>>n)|(s<<(32-n))};g=function(i,a,b,c,d){var u=l+o[r][i]%16,v=l+(o[r][i]>>4);a%=4;b=4+b%4;c=8+c%4;d=12+d%4;q[a]+=q[b]+(t[u]^m[v%16]);p(d,a,16);q[c]+=q[d];p(b,c,12);q[a]+=q[b]+(t[v]^m[u%16]);p(d,a,8);q[c]+=q[d];p(b,c,7)};return function(a,b){if(!(b instanceof Array&&b.length===4)){b=[0,0,0,0]}var c,d,e,L,f,h,j,i;d=k.slice(0);c=m.slice(0,8);for(r=0;r<4;r+=1){c[r]^=b[r]}e=a.length*16;f=(e%512>446||e%512===0)?0:e;if(e%512===432){a+="\u8001"}else{a+="\u8000";while(a.length%32!==27){a+="\u0000"}a+="\u0001"}t=[];for(i=0;i<a.length;i+=2){t.push(a.charCodeAt(i)*65536+a.charCodeAt(i+1))}t.push(0);t.push(e);h=t.length-16;j=0;for(l=0;l<t.length;l+=16){j+=512;L=(l===h)?f:Math.min(e,j);q=d.concat(c);q[12]^=L;q[13]^=L;for(r=0;r<10;r+=1){for(i=0;i<8;i+=1){if(i<4){g(i,i,i,i,i)}else{g(i,i,i+1,i+2,i+3)}}}for(i=0;i<8;i+=1){d[i]^=b[i%4]^q[i]^q[i+8]}}return d.map(w).join("")}}());
 
         /**
          * 自动使用的颜色序列
          */
-        var RESOURCE_COLOR_SERIES = [51, 303, 75, 200, 157, 0, 26, 254].map(function (h) {
+        var RESOURCE_COLOR_SERIES = [51, 303, 75, 200, 157, 0, 26, 254].map(function(h) {
             return kity.Color.createHSL(h, 100, 85);
         });
 
@@ -113,14 +32,14 @@ define(function (require, exports, module) {
              * @param {String} str
              * @return {Number} hashCode
              */
-            getHashCode: function (str) {
+            getHashCode: function(str) {
                 str = blake32(str);
                 var hash = 1315423911, i, ch;
                 for (i = str.length - 1; i >= 0; i--) {
                     ch = str.charCodeAt(i);
                     hash ^= ((hash << 5) + ch + (hash >> 2));
                 }
-                return (hash & 0x7FFFFFFF);
+                return  (hash & 0x7FFFFFFF);
             },
 
             /**
@@ -133,7 +52,7 @@ define(function (require, exports, module) {
              * @param {String} resource 资源名称
              * @return {Color}
              */
-            getResourceColor: function (resource) {
+            getResourceColor: function(resource) {
                 var colorMapping = this._getResourceColorIndexMapping();
                 var nextIndex;
 
@@ -152,7 +71,7 @@ define(function (require, exports, module) {
              *
              * @return {Array}
              */
-            getUsedResource: function () {
+            getUsedResource: function() {
                 var mapping = this._getResourceColorIndexMapping();
                 var used = [],
                     resource;
@@ -171,7 +90,7 @@ define(function (require, exports, module) {
              *
              * @return {int}
              */
-            _getNextResourceColorIndex: function () {
+            _getNextResourceColorIndex: function() {
                 // 获取现有颜色映射
                 //     resource => color_index
                 var colorMapping = this._getResourceColorIndexMapping();
@@ -198,7 +117,7 @@ define(function (require, exports, module) {
 
             // 获取现有颜色映射
             //     resource => color_index
-            _getResourceColorIndexMapping: function () {
+            _getResourceColorIndexMapping: function() {
                 return this._resourceColorMapping || (this._resourceColorMapping = {});
             }
 
@@ -225,30 +144,30 @@ define(function (require, exports, module) {
 
             base: Command,
 
-            execute: function (minder, resource) {
+            execute: function(minder, resource) {
                 var nodes = minder.getSelectedNodes();
 
                 if (typeof(resource) == 'string') {
                     resource = [resource];
                 }
 
-                nodes.forEach(function (node) {
+                nodes.forEach(function(node) {
                     node.setData('resource', resource).render();
                 });
 
                 minder.layout(200);
             },
 
-            queryValue: function (minder) {
+            queryValue: function(minder) {
                 var nodes = minder.getSelectedNodes();
                 var resource = [];
 
-                nodes.forEach(function (node) {
+                nodes.forEach(function(node) {
                     var nodeResource = node.getData('resource');
 
                     if (!nodeResource) return;
 
-                    nodeResource.forEach(function (name) {
+                    nodeResource.forEach(function(name) {
                         if (!~resource.indexOf(name)) {
                             resource.push(name);
                         }
@@ -258,7 +177,7 @@ define(function (require, exports, module) {
                 return resource;
             },
 
-            queryState: function (km) {
+            queryState: function(km) {
                 return km.getSelectedNode() ? 0 : -1;
             }
         });
@@ -271,7 +190,7 @@ define(function (require, exports, module) {
         var ResourceOverlay = kity.createClass('ResourceOverlay', {
             base: kity.Group,
 
-            constructor: function () {
+            constructor: function() {
                 this.callBase();
 
                 var text, rect;
@@ -285,7 +204,7 @@ define(function (require, exports, module) {
                 this.addShapes([rect, text]);
             },
 
-            setValue: function (resourceName, color) {
+            setValue: function(resourceName, color) {
                 var paddingX = 8,
                     paddingY = 4,
                     borderRadius = 4;
@@ -324,16 +243,16 @@ define(function (require, exports, module) {
         var ResourceRenderer = kity.createClass('ResourceRenderer', {
             base: Renderer,
 
-            create: function (node) {
+            create: function(node) {
                 this.overlays = [];
                 return new kity.Group();
             },
 
-            shouldRender: function (node) {
+            shouldRender: function(node) {
                 return node.getData('resource') && node.getData('resource').length;
             },
 
-            update: function (container, node, box) {
+            update: function(container, node, box) {
                 var spaceRight = node.getStyle('space-right');
 
                 var overlays = this.overlays;
@@ -342,7 +261,7 @@ define(function (require, exports, module) {
                  *  @Author zhangbobell
                  *  @date 2016-01-15
                  */
-                var resource = node.getData("resource").filter(function (ele) {
+                var resource = node.getData("resource").filter(function(ele) {
                     return ele !== null;
                 });
                 if (resource.length === 0) {

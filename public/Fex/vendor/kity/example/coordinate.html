@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!DOCTYPE html> 
+<html> 
+<head> 
     <title>Coordinate Example</title>
 
     <!-- 正式发布的时候， 只需替换掉相应的脚本文件即可 -->
@@ -22,7 +22,7 @@
 
 </head>
 <body>
-
+    
 </body>
 <script>
     var paper = new kity.Paper(document.body);
@@ -30,7 +30,7 @@
 
     paper.setWidth(280).setHeight(150);
 
-    paper.addShape(new kity.Path().pipe(function () {
+    paper.addShape(new kity.Path().pipe(function() {
         var d = this.getDrawer();
         d.moveTo(-10000, 0).lineTo(20000, 0);
         d.moveTo(0, -10000).lineTo(0, 20000);

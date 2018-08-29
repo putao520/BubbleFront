@@ -45,10 +45,10 @@ app.directive('asyncSelect', ['$http', 'bubble', '$compile', function ($http, bu
                         return r
                     });
                     if (!scope.list.length) {
-                        scope.list.push({id: "0", text: "暂无数据"});
+                        scope.list.push({ id: "0", text: "暂无数据" });
                         return;
                     }
-                    !scope.btn && !scope.textinput && !isexist(scope.ngModel, scope.list) && (scope.ngModel1 = scope.textinput ? {text: ""} : scope.list[0].id);
+                    !scope.btn && !scope.textinput && !isexist(scope.ngModel, scope.list) && (scope.ngModel1 = scope.textinput ? { text: "" } : scope.list[0].id);
                     scope.width && element.find("select").width(scope.width);
                     scope.ngModel = attr.output ? scope.ngModel1[attr.output] : scope.ngModel1;
                     render();

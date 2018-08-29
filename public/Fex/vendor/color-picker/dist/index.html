@@ -24,8 +24,7 @@
 <font-color></font-color>
 
 <div ng-controller="demoCtrl">
-    <div color-picker set-color="dynamicSetColor()" class="font-color"
-         ng-style="{'background-color': selectedForeColor}"></div>
+    <div color-picker set-color="dynamicSetColor()" class="font-color" ng-style="{'background-color': selectedForeColor}"></div>
 </div>
 
 
@@ -33,36 +32,36 @@
 <script src="color-picker.min.js"></script>
 <script>
     angular.module('colorpickerDemo', ['ui.colorpicker'])
-        .directive('fontColor', function () {
-            return {
-                restrict: 'E',
-                scope: {},
-                replace: false,
-                template: '<div color-picker default-color="#ff0000" class="font-color" ng-style="{\'background-color\': selectedFontColor}"></div>',
-                link: function (scope) {
-                    scope.selectedFontColor = '#f00';
+            .directive('fontColor', function() {
+                return {
+                    restrict: 'E',
+                    scope:{},
+                    replace: false,
+                    template: '<div color-picker default-color="#ff0000" class="font-color" ng-style="{\'background-color\': selectedFontColor}"></div>',
+                    link: function(scope) {
+                        scope.selectedFontColor = '#f00';
 
-                    scope.$on('colorPicked', function (event, color) {
-                        scope.selectedFontColor = color;
-                    });
+                        scope.$on('colorPicked', function(event, color) {
+                            scope.selectedFontColor = color;
+                        });
+                    }
                 }
-            }
-        })
-        .controller('demoCtrl', function ($scope) {
-            $scope.selectedForeColor = dynamicSetColor();
+            })
+            .controller('demoCtrl', function($scope) {
+                $scope.selectedForeColor = dynamicSetColor();
 
-            $scope.$on('colorPicked', function (event, color) {
-                $scope.selectedForeColor = color;
+                $scope.$on('colorPicked', function(event, color) {
+                    $scope.selectedForeColor = color;
+                });
+
+                // 动态设置默认颜色
+                $scope.dynamicSetColor = dynamicSetColor;
+
+                function dynamicSetColor() {
+                    return '#0f0';
+                }
+
             });
-
-            // 动态设置默认颜色
-            $scope.dynamicSetColor = dynamicSetColor;
-
-            function dynamicSetColor() {
-                return '#0f0';
-            }
-
-        });
 </script>
 </body>
 </html>

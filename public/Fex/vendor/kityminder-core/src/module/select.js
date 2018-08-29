@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var utils = require('../core/utils');
 
@@ -8,12 +8,12 @@ define(function (require, exports, module) {
     var Module = require('../core/module');
     var Renderer = require('../core/render');
 
-    Module.register('Select', function () {
+    Module.register('Select', function() {
         var minder = this;
         var rc = minder.getRenderContainer();
 
         // 在实例上渲染框选矩形、计算框选范围的对象
-        var marqueeActivator = (function () {
+        var marqueeActivator = (function() {
 
             // 记录选区的开始位置（mousedown的位置）
             var startPosition = null;
@@ -27,7 +27,7 @@ define(function (require, exports, module) {
             var MARQUEE_MODE_THRESHOLD = 10;
 
             return {
-                selectStart: function (e) {
+                selectStart: function(e) {
                     // 只接受左键
                     if (e.originEvent.button || e.originEvent.altKey) return;
 
@@ -38,7 +38,7 @@ define(function (require, exports, module) {
 
                     startPosition = e.getPosition(rc).round();
                 },
-                selectMove: function (e) {
+                selectMove: function(e) {
                     if (minder.getStatus() == 'textedit') {
                         return;
                     }
@@ -71,7 +71,7 @@ define(function (require, exports, module) {
                     marquee.bottom = Math.round(marquee.bottom);
 
                     // 选区形状更新
-                    marqueeShape.getDrawer().pipe(function () {
+                    marqueeShape.getDrawer().pipe(function() {
                         this.clear();
                         this.moveTo(marquee.left, marquee.top);
                         this.lineTo(marquee.right, marquee.top);
@@ -81,7 +81,7 @@ define(function (require, exports, module) {
                     });
 
                     // 计算选中范围
-                    minder.getRoot().traverse(function (node) {
+                    minder.getRoot().traverse(function(node) {
                         var renderBox = node.getLayoutBox();
                         if (!renderBox.intersect(marquee).isEmpty()) {
                             selectedNodes.push(node);
@@ -94,12 +94,12 @@ define(function (require, exports, module) {
                     // 清除多余的东西
                     window.getSelection().removeAllRanges();
                 },
-                selectEnd: function (e) {
+                selectEnd: function(e) {
                     if (startPosition) {
                         startPosition = null;
                     }
                     if (marqueeMode) {
-                        marqueeShape.fadeOut(200, 'ease', 0, function () {
+                        marqueeShape.fadeOut(200, 'ease', 0, function() {
                             if (marqueeShape.remove) marqueeShape.remove();
                         });
                         marqueeMode = false;
@@ -111,13 +111,13 @@ define(function (require, exports, module) {
         var lastDownNode = null,
             lastDownPosition = null;
         return {
-            'init': function () {
-                window.addEventListener('mouseup', function () {
+            'init': function() {
+                window.addEventListener('mouseup', function() {
                     marqueeActivator.selectEnd();
                 });
             },
             'events': {
-                'mousedown': function (e) {
+                'mousedown': function(e) {
 
                     var downNode = e.getTargetNode();
 
@@ -151,7 +151,7 @@ define(function (require, exports, module) {
                     }
                 },
                 'mousemove': marqueeActivator.selectMove,
-                'mouseup': function (e) {
+                'mouseup': function(e) {
                     var upNode = e.getTargetNode();
 
                     // 如果 mouseup 发生在 lastDownNode 外，是无需理会的
@@ -166,12 +166,12 @@ define(function (require, exports, module) {
                     marqueeActivator.selectEnd(e);
                 },
                 //全选操作
-                'normal.keydown': function (e) {
+                'normal.keydown': function(e) {
 
                     if (e.isShortcutKey('ctrl+a')) {
                         var selectedNodes = [];
 
-                        this.getRoot().traverse(function (node) {
+                        this.getRoot().traverse(function(node) {
                             selectedNodes.push(node);
                         });
                         this.select(selectedNodes, true);

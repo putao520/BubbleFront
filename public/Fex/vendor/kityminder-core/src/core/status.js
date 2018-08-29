@@ -7,25 +7,25 @@
  * @copyright: Baidu FEX, 2014
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('./kity');
     var Minder = require('./minder');
 
     var sf = ~window.location.href.indexOf('status');
     var tf = ~window.location.href.indexOf('trace');
 
-    Minder.registerInitHook(function () {
+    Minder.registerInitHook(function() {
         this._initStatus();
     });
 
     kity.extendClass(Minder, {
 
-        _initStatus: function () {
+        _initStatus: function() {
             this._status = 'normal';
             this._rollbackStatus = 'normal';
         },
 
-        setStatus: function (status, force) {
+        setStatus: function(status, force) {
             // 在 readonly 模式下，只有 force 为 true 才能切换回来
             if (this._status == 'readonly' && !force) return this;
             if (status != this._status) {
@@ -46,13 +46,13 @@ define(function (require, exports, module) {
             return this;
         },
 
-        rollbackStatus: function () {
+        rollbackStatus: function() {
             this.setStatus(this._rollbackStatus);
         },
-        getRollbackStatus: function () {
+        getRollbackStatus:function(){
             return this._rollbackStatus;
         },
-        getStatus: function () {
+        getStatus: function() {
             return this._status;
         }
     });

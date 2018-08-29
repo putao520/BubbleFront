@@ -13,7 +13,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">分类编号</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" ng-model="value.number" placeholder="请输入编号">
+                        <input type="text" class="form-control" ng-model="value.number" placeholder="请输入编号">
                 </div>
             </div>
         </form>
@@ -30,7 +30,6 @@
     <h1 class="m-n font-thin h3">活动分类管理</h1>
 </div>
 <div class="wrapper">
-    <select-table multiple="true" editable="true" interface="acttype" title="分类列表" create-modal="acttypeCreate.html"
-                  create-controller="acttypeCreate"
-                  control="tableControl"></select-table>
+    <select-table multiple="true" editable="true" interface="acttype" title="分类列表" create-modal="acttypeCreate.html" create-controller="acttypeCreate"
+        control="tableControl"></select-table>
 </div>

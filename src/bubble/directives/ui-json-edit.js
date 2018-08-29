@@ -1,7 +1,6 @@
 import angular from "angular";
 import app from "../../main";
 import $ from "jquery";
-
 var swal = window.swal;
 
 app.directive('jsonEdit', ['$http', 'bubble', '$compile', function ($http, bubble, $compile) {
@@ -236,7 +235,7 @@ app.controller('jsonEditController', ["$scope", "bubble", "$compile", function (
                 rs = getTimeHtml(d, k, f, i);
                 break;
             case "date":
-                $scope.dateList[i] = {open: false};
+                $scope.dateList[i] = { open: false };
                 rs = getDateHtml(d, k, f, i);
                 break;
             case "ajaxselect":

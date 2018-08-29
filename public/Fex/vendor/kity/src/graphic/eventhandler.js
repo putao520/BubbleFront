@@ -1,9 +1,9 @@
 /*
  * kity event 实现
  */
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     // polyfill
-    (function () {
+    (function() {
 
         function CustomEvent(event, params) {
             params = params || {
@@ -40,7 +40,7 @@ define(function (require, exports, module) {
             type = type.match(/\S+/g);
         }
 
-        Utils.each(type, function (currentType) {
+        Utils.each(type, function(currentType) {
             listen.call(this, this.node, currentType, handler, isOnce);
 
         }, this);
@@ -236,55 +236,55 @@ define(function (require, exports, module) {
     // 对外接口
     return require('../core/class').createClass('EventHandler', {
 
-        constructor: function () {
+        constructor: function() {
 
             this._EVNET_UID = ++guid;
 
         },
 
-        addEventListener: function (type, handler) {
+        addEventListener: function(type, handler) {
 
             return _addEvent.call(this, type, handler, false);
 
         },
 
-        addOnceEventListener: function (type, handler) {
+        addOnceEventListener: function(type, handler) {
 
             return _addEvent.call(this, type, handler, true);
 
         },
 
-        removeEventListener: function (type, handler) {
+        removeEventListener: function(type, handler) {
 
             return _removeEvent.call(this, type, handler);
 
         },
 
-        on: function (type, handler) {
+        on: function(type, handler) {
 
             return this.addEventListener.apply(this, arguments);
 
         },
 
-        once: function (type, handler) {
+        once: function(type, handler) {
 
             return this.addOnceEventListener.apply(this, arguments);
 
         },
 
-        off: function () {
+        off: function() {
 
             return this.removeEventListener.apply(this, arguments);
 
         },
 
-        fire: function (type, params) {
+        fire: function(type, params) {
 
             return this.trigger.apply(this, arguments);
 
         },
 
-        trigger: function (type, params) {
+        trigger: function(type, params) {
 
             sendMessage(this, type, params);
 

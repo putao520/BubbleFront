@@ -5,9 +5,7 @@
     </div>
     <div class="modal-body" json-edit="" for-json="configjsonlist" for-return="jsonReturn" for-field="field">
         <form role="form" class="ng-pristine ng-valid">
-            <div class="form-group config-json-content config-json-content-0" ng-repeat="(key, value) in configjsonlist"
-                 ng-if="field[key] ? field[key].mark != 'hide' : true"
-                 ng-init="getJsonHtml(configjsonlist, key, field[key], $index, 0)">
+            <div class="form-group config-json-content config-json-content-0" ng-repeat="(key, value) in configjsonlist" ng-if="field[key] ? field[key].mark != 'hide' : true" ng-init="getJsonHtml(configjsonlist, key, field[key], $index, 0)">
                 <label>{{field[key] && field[key].mark ? field[key].mark : key}}</label>
             </div>
         </form>

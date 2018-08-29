@@ -5,9 +5,8 @@
             <h3 class="modal-title">选择文件夹</h3>
         </div>
         <div class="modal-body">
-            <abn-tree tree-data="data" tree-control="tree" on-select="onSelect(branch)" initial-selection=""
-                      icon-leaf="fa fa-folder-open-o"
-                      icon-expand="fa fa-plus" icon-collapse="fa fa-minus">
+            <abn-tree tree-data="data" tree-control="tree" on-select="onSelect(branch)" initial-selection="" icon-leaf="fa fa-folder-open-o"
+                icon-expand="fa fa-plus" icon-collapse="fa fa-minus">
             </abn-tree>
         </div>
         <div class="modal-footer">
@@ -45,45 +44,34 @@
     <!--新建文件夹弹窗END-->
     <div class="col w w-auto-xs bg-light lter b-r navbox">
         <div class="subnav-top b-b">文件分类</div>
-        <a class="subnav-item hover-color" ng-class="item.selected ? 'active' : ''" ng-click="typeClick(item)"
-           ng-repeat="item in types">{{item.name}}</a>
+        <a class="subnav-item hover-color" ng-class="item.selected ? 'active' : ''" ng-click="typeClick(item)" ng-repeat="item in types">{{item.name}}</a>
     </div>
     <div class="col pos-rlt filebox w-full b-l">
         <div class="wrapper bg-light lt b-b filelisttitle">
             <span class="text-muted">
-                <button class="btn m-b-xs btn-sm btn-info m-r-md" id="fileUploadPicker"
-                        style="width: 50px;height: 30px;" ng-show="btnEnable.upLoad">上传</button>
-                <button class="btn m-b-xs btn-sm btn-default" ng-click="previewFile()"
-                        ng-show="btnEnable.preview">预览</button>
-                <button class="btn m-b-xs btn-sm btn-default" ng-click="deleteFile()"
-                        ng-show="btnEnable.delete">删除</button>
-                <button class="btn m-b-xs btn-sm btn-default" ng-click="downloadFile()"
-                        ng-show="btnEnable.downLoad">下载</button>
-                <button class="btn m-b-xs btn-sm btn-default" ng-click="renameFile()"
-                        ng-show="btnEnable.rename">重命名</button>
-                <button class="btn m-b-xs btn-sm btn-default" ng-click="moveFile()"
-                        ng-show="btnEnable.move">移动到</button>
+                <button class="btn m-b-xs btn-sm btn-info m-r-md" id="fileUploadPicker" style="width: 50px;height: 30px;" ng-show="btnEnable.upLoad">上传</button>
+                <button class="btn m-b-xs btn-sm btn-default" ng-click="previewFile()" ng-show="btnEnable.preview">预览</button>
+                <button class="btn m-b-xs btn-sm btn-default" ng-click="deleteFile()" ng-show="btnEnable.delete">删除</button>
+                <button class="btn m-b-xs btn-sm btn-default" ng-click="downloadFile()" ng-show="btnEnable.downLoad">下载</button>
+                <button class="btn m-b-xs btn-sm btn-default" ng-click="renameFile()" ng-show="btnEnable.rename">重命名</button>
+                <button class="btn m-b-xs btn-sm btn-default" ng-click="moveFile()" ng-show="btnEnable.move">移动到</button>
                 <button class="btn m-b-xs btn-sm btn-default" ng-click="createFolder()" ng-show="btnEnable.addFolder">新建文件夹</button>
             </span>
             <ul class="breadcrumb m-b-none no-padder" ng-show="currentType == 0">
                 <li ng-repeat="item in pathmap">
-                    <span ng-click="breadcrumbClick($index)"
-                          ng-class="{'cursor-p': $index != pathmap.length - 1,'text-info': $index != pathmap.length - 1}">{{item[0].fileoldname}}</span>
+                    <span ng-click="breadcrumbClick($index)" ng-class="{'cursor-p': $index != pathmap.length - 1,'text-info': $index != pathmap.length - 1}">{{item[0].fileoldname}}</span>
                 </li>
             </ul>
         </div>
         <div class="filelistbox">
-            <div class="wrapper-sm h-full pos-rlt overflow-auto" ng-mousedown="darw.start($event)"
-                 ng-mousemove="darw.move($event)" ui-scroll-load=".fileitembox" control="scrollControl">
+            <div class="wrapper-sm h-full pos-rlt overflow-auto" ng-mousedown="darw.start($event)" ng-mousemove="darw.move($event)" ui-scroll-load=".fileitembox" control="scrollControl">
                 <div class="select-box"></div>
                 <div class="fileitembox">
 
                 </div>
             </div>
-            <div class="b text-info cursor-p" ng-show="openBtnVisible"
-                 style="position: absolute;right: 0;bottom: 0;width: 90px;height: 30px;line-height: 30px;text-align: center;border-radius: 5px 0 0 0;background: #ececec;font-size: 12px;"
-                 ng-click="openUpload()">打开上传窗口
-            </div>
+            <div class="b text-info cursor-p" ng-show="openBtnVisible" style="position: absolute;right: 0;bottom: 0;width: 90px;height: 30px;line-height: 30px;text-align: center;border-radius: 5px 0 0 0;background: #ececec;font-size: 12px;"
+                ng-click="openUpload()">打开上传窗口</div>
         </div>
     </div>
     <div class="dialog dialog-web-uploader dialog-blue h5-uploader animated fadeInRight">

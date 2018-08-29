@@ -4,7 +4,7 @@
  * 提供 Kity 的 OOP 支持
  */
 
-define(function (require, exports) {
+define(function(require, exports) {
 
     /**
      * @class kity.Class
@@ -12,8 +12,7 @@ define(function (require, exports) {
      * @description 所有 kity 类的基类
      * @abstract
      */
-    function Class() {
-    }
+    function Class() {}
 
     exports.Class = Class;
 
@@ -50,7 +49,7 @@ define(function (require, exports) {
      * })
      * ```
      */
-    Class.prototype.base = function (name) {
+    Class.prototype.base = function(name) {
         var caller = arguments.callee.caller;
         var method = caller.__KityMethodClass.__KityBaseClass.prototype[name];
         return method.apply(this, Array.prototype.slice.call(arguments, 1));
@@ -89,13 +88,13 @@ define(function (require, exports) {
      * console.log(dog.toString()); // "I am an animal name Dummy, a dog";
      * ```
      */
-    Class.prototype.callBase = function () {
+    Class.prototype.callBase = function() {
         var caller = arguments.callee.caller;
         var method = caller.__KityMethodClass.__KityBaseClass.prototype[caller.__KityMethodName];
         return method.apply(this, arguments);
     };
 
-    Class.prototype.mixin = function (name) {
+    Class.prototype.mixin = function(name) {
         var caller = arguments.callee.caller;
         var mixins = caller.__KityMethodClass.__KityMixins;
         if (!mixins) {
@@ -105,7 +104,7 @@ define(function (require, exports) {
         return method.apply(this, Array.prototype.slice.call(arguments, 1));
     };
 
-    Class.prototype.callMixin = function () {
+    Class.prototype.callMixin = function() {
         var caller = arguments.callee.caller;
         var methodName = caller.__KityMethodName;
         var mixins = caller.__KityMethodClass.__KityMixins;
@@ -139,7 +138,7 @@ define(function (require, exports) {
      * });
      * ```
      */
-    Class.prototype.pipe = function (fn) {
+    Class.prototype.pipe = function(fn) {
         if (typeof(fn) == 'function') {
             fn.call(this, this);
         }
@@ -162,7 +161,7 @@ define(function (require, exports) {
      * console.log(rect.getType()); // "Circle"
      * ```
      */
-    Class.prototype.getType = function () {
+    Class.prototype.getType = function() {
         return this.__KityClassName;
     };
 
@@ -181,7 +180,7 @@ define(function (require, exports) {
      * console.log(rect instanceof kity.Rect); // true
      * ```
      */
-    Class.prototype.getClass = function () {
+    Class.prototype.getClass = function() {
         return this.constructor;
     };
 
@@ -339,7 +338,7 @@ define(function (require, exports) {
      * dog.walk();
      * ```
      */
-    exports.createClass = function (classname, defines) {
+    exports.createClass = function(classname, defines) {
         var constructor, NewClass, BaseClass;
 
         if (arguments.length === 1) {
@@ -355,7 +354,7 @@ define(function (require, exports) {
                 checkBaseConstructorCall(constructor, classname);
             }
         } else {
-            constructor = function () {
+            constructor = function() {
                 this.callBase.apply(this, arguments);
                 this.callMixin.apply(this, arguments);
             };

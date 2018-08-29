@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var Class = require('../core/class');
     var utils = require('../core/utils');
     var svg = require('./svg');
@@ -13,7 +13,7 @@ define(function (require, exports, module) {
 
         mixins: [ShapeContainer, EventHandler, Styled, ViewBox],
 
-        constructor: function (container) {
+        constructor: function(container) {
             this.callBase();
 
             this.node = this.createSVGNode();
@@ -31,7 +31,7 @@ define(function (require, exports, module) {
             this.callMixin();
         },
 
-        renderTo: function (container) {
+        renderTo: function(container) {
             if (utils.isString(container)) {
                 container = document.getElementById(container);
             }
@@ -39,7 +39,7 @@ define(function (require, exports, module) {
             container.appendChild(this.node);
         },
 
-        createSVGNode: function () {
+        createSVGNode: function() {
             var node = svg.createNode('svg');
             node.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
             node.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
@@ -47,33 +47,33 @@ define(function (require, exports, module) {
             return node;
         },
 
-        getNode: function () {
+        getNode: function() {
             return this.node;
         },
 
-        getContainer: function () {
+        getContainer: function() {
             return this.container;
         },
 
-        getWidth: function () {
+        getWidth: function() {
             return this.node.clientWidth;
         },
 
-        setWidth: function (width) {
+        setWidth: function(width) {
             this.node.setAttribute('width', width);
             return this;
         },
 
-        getHeight: function () {
+        getHeight: function() {
             return this.node.clientHeight;
         },
 
-        setHeight: function (height) {
+        setHeight: function(height) {
             this.node.setAttribute('height', height);
             return this;
         },
 
-        setViewPort: function (cx, cy, zoom) {
+        setViewPort: function(cx, cy, zoom) {
             var viewport, box;
             if (arguments.length == 1) {
                 viewport = arguments[0];
@@ -107,7 +107,7 @@ define(function (require, exports, module) {
             return this;
         },
 
-        getViewPort: function () {
+        getViewPort: function() {
             if (!this.viewport) {
                 var box = this.getViewBox();
                 return {
@@ -125,20 +125,20 @@ define(function (require, exports, module) {
             return this.viewport;
         },
 
-        getViewPortMatrix: function () {
+        getViewPortMatrix: function() {
             return Matrix.parse(this.shapeNode.getAttribute('transform'));
         },
 
-        getViewPortTransform: function () {
+        getViewPortTransform: function() {
             var m = this.shapeNode.getCTM();
             return new Matrix(m.a, m.b, m.c, m.d, m.e, m.f);
         },
 
-        getTransform: function () {
+        getTransform: function() {
             return this.getViewPortTransform().reverse();
         },
 
-        addResource: function (resource) {
+        addResource: function(resource) {
             this.resources.appendItem(resource);
 
             if (resource.node) {
@@ -148,7 +148,7 @@ define(function (require, exports, module) {
             return this;
         },
 
-        removeResource: function (resource) {
+        removeResource: function(resource) {
             if (resource.remove) {
                 resource.remove();
             }
@@ -158,24 +158,24 @@ define(function (require, exports, module) {
             return this;
         },
 
-        getPaper: function () {
+        getPaper: function() {
             return this;
         }
     });
 
     var Shape = require('./shape');
     Class.extendClass(Shape, {
-        getPaper: function () {
+        getPaper: function() {
             var parent = this.container;
             while (parent && parent instanceof Paper === false) {
                 parent = parent.container;
             }
             return parent;
         },
-        isAttached: function () {
+        isAttached: function() {
             return !!this.getPaper();
         },
-        whenPaperReady: function (fn) {
+        whenPaperReady: function(fn) {
             var me = this;
 
             function check() {

@@ -2,15 +2,11 @@ bubbleFrame.register('reportController', function ($scope, $timeout, bubble, $ht
     $scope.circulation = null;
     $scope.gkList = [];
     $scope.title = $state.params.type == "5" ? "全部举报" : $state.params.type == "0" ? "待处理举报" : $state.params.type == "1" ? "处理中举报" : $state.params.type == "2" ? "已完成举报" : "已拒绝举报";
-    $scope.par = $state.params.type == "5" ? "" : [{
-        "field": "state",
-        "logic": "==",
-        "value": parseInt($state.params.type)
-    }];
+    $scope.par = $state.params.type == "5" ? "" : [{ "field": "state", "logic": "==", "value": parseInt($state.params.type) }];
     $scope.column_tree_data = [];
     $scope.list = [];
     $scope.tableControl = {
-        title: [{name: "转发", key: "gk", width: 60}],
+        title: [{ name: "转发", key: "gk", width: 60 }],
         html: [$sce.trustAsHtml('<a class="btn btn-sm m-t-n-xs"><label class="i-checks"><input type="checkbox" value=""><i></i></label></a>')],
         onClick: function (key, v, i, e, p, s, t) {
             var o = $(e.currentTarget).find("input")[0];
@@ -31,7 +27,7 @@ bubbleFrame.register('reportController', function ($scope, $timeout, bubble, $ht
             $scope.list = v;
             $scope.gkList = [];
         }
-    };
+    }
 
     $scope.publicReport = function () {
         var ids = $scope.gkList.join(",");
@@ -40,23 +36,13 @@ bubbleFrame.register('reportController', function ($scope, $timeout, bubble, $ht
         // bubble._call("report.circulation", "", "").success(function (v) {
 
         // });
-    };
+    }
 
     var showReport = function (v, i, p, s, t, b) {
-        bubble.customModal("replyReportModal.html", "replyReportController", "lg", {
-            data: v,
-            list: $scope.list,
-            scope: $scope,
-            idx: i,
-            page: p,
-            size: s,
-            total: t,
-            currentState: $state.params.type,
-            finish: b
-        }, function () {
+        bubble.customModal("replyReportModal.html", "replyReportController", "lg", { data: v, list: $scope.list, scope: $scope, idx: i, page: p, size: s, total: t, currentState: $state.params.type, finish: b }, function () {
 
         });
-    };
+    }
 
     var CirculationConfig = function () {
         var _this = this;
@@ -68,16 +54,16 @@ bubbleFrame.register('reportController', function ($scope, $timeout, bubble, $ht
             this.initEvent();
             this.initList();
             return this;
-        };
+        }
 
         this.show = function (v) {
             box.fadeIn(200);
-        };
+        }
 
         this.initList = function () {
             initSite();
             // initSdk();
-        };
+        }
 
         var initListHtml = function (v, name, key, fn) {
             var title = '<div class="subtitle">' + name + '</div>';
@@ -89,12 +75,12 @@ bubbleFrame.register('reportController', function ($scope, $timeout, bubble, $ht
             t.find(".item").click(fn);
             box.find(".content-box").append(t);
             box.find(".tipsbox").hide();
-        };
+        }
 
         $scope.ctree = {};
         $scope.treeSelect = function (v) {
             selectSite = v._id;
-        };
+        }
 
         var initSite = function () {
             bubble._call("site.getall", 1, 1000, window.localStorage.siteid).success(function (v) {
@@ -103,13 +89,13 @@ bubbleFrame.register('reportController', function ($scope, $timeout, bubble, $ht
                 });
                 $scope.column_tree_data.length && box.find(".tipsbox").hide();
             });
-        };
+        }
 
         this.hide = function () {
             box.fadeOut(200);
             box.find(".cur").removeClass("cur");
             pushItem = [];
-        };
+        }
 
         this.push = function () {
             if (!selectSite) {
@@ -123,7 +109,7 @@ bubbleFrame.register('reportController', function ($scope, $timeout, bubble, $ht
             bubble._call("report.circulation", $scope.gkList.join(","), selectSite).success(function (v) {
 
             });
-        };
+        }
 
         this.initEvent = function () {
             box.unbind("click").click(function (e) {
@@ -132,7 +118,7 @@ bubbleFrame.register('reportController', function ($scope, $timeout, bubble, $ht
                 }
             });
         }
-    };
+    }
     $timeout(function () {
         $scope.circulation = new CirculationConfig().init();
     });
@@ -152,7 +138,7 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
             $(e.currentTarget).find("i").remove();
             $(e.currentTarget).append('<i class="fa fa-angle-' + type + '"></i>');
         }
-    };
+    }
 
     var getUrlData = function () {
         var data = $scope.data;
@@ -175,11 +161,11 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
             var imgs = [];
             list.map(function (v) {
                 imgs.push('<img src="' + v + '" ui-img="popup" ui-width="100" ui-height="100" class="pull-left m-r-sm cursor-p" />');
-            });
+            })
             $(".reportaudiobox").append($compile(html.replace("@imgs", imgs.join("")))($scope));
         }
 
-    };
+    }
 
     var getFiles = function () {
         var list = items.data.file ? items.data.file.split(",") : [];
@@ -187,7 +173,7 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
             var n = 0;
             while (items.data["attrFile" + n]) {
                 if (list[i] == items.data["attrFile" + n].filepath) {
-                    list[i] = {name: items.data["attrFile" + n].fileoldname, path: items.data["attrFile" + n].filepath};
+                    list[i] = { name: items.data["attrFile" + n].fileoldname, path: items.data["attrFile" + n].filepath };
                     break;
                 }
                 n++;
@@ -195,12 +181,12 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
         }
 
         return list;
-    };
+    }
     $scope.files = getFiles();
 
     $scope.downloadfile = function (v) {
         window.open(v.replace(/\\/g, "/"));
-    };
+    }
 
     var refresh = function () {
         $scope.refresh = false;
@@ -211,7 +197,7 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
             $scope.imgs = $scope.data.image ? $scope.data.image.split(",") : [];
             $scope.refresh = true;
         })
-    };
+    }
 
     var getNextItem = function (i, type, async) {
         if (!async) {
@@ -220,7 +206,7 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
                 return;
             }
         }
-        var t = null;
+        var t = null
         for (; type ? i < dateList.length : i >= 0; type ? i++ : i--) {
             t = dateList[i];
             idx = i;
@@ -237,9 +223,9 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
         }
         if (i == dateList.length) {
             pageNext();
-
+            return;
         }
-    };
+    }
 
     var pageNext = function () {
         if (items.page < items.total) {
@@ -257,7 +243,7 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
             return false;
         }
         refresh();
-    };
+    }
 
     var pagePrev = function () {
         if (items.page > 1) {
@@ -273,7 +259,7 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
             return false;
         }
         refresh();
-    };
+    }
 
     $scope.deg = 0;
 
@@ -283,7 +269,7 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
             if (dateList.length != 1) {
                 items.scope.tableControl.reload(function (v) {
                     dateList = v;
-                    dateList[idx] || (idx = dateList.length - 1);
+                    dateList[idx] || (idx = dateList.length - 1)
                     v.length ? getNextItem(idx, true, true) : swal("已经是最后一条数据了");
                 });
             } else {
@@ -293,21 +279,21 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
             getNextItem(idx, true);
         }
         refresh();
-    };
+    }
 
     $scope.prev = function (e) {
         if (!e && items.currentState != "5") {
             $scope.data = {};
             items.scope.tableControl.reload(function (v) {
                 dateList = v;
-                dateList[idx] || (idx = dateList.length - 1);
+                dateList[idx] || (idx = dateList.length - 1)
                 v.length ? getNextItem(idx, false) : swal("已经是最后一条数据了");
             });
         } else {
             getNextItem(idx, false);
         }
         refresh();
-    };
+    }
 
     $scope.refresh = true;
     $scope.refreshVideo = true;
@@ -317,14 +303,14 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
     $scope.data.completetime = $scope.data.completetime && !isNaN($scope.data.completetime) ? new Date(parseInt($scope.data.completetime)).Format("yyyy-MM-dd hh:mm") : "暂无";
     $scope.data.refusetime = $scope.data.refusetime && $scope.data.refusetime.indexOf("1970") < 0 ? new Date(parseInt($scope.data.refusetime)).Format("yyyy-MM-dd hh:mm") : "暂无";
     $scope.imgs = $scope.data.image ? $scope.data.image.split(",") : [];
-    $scope.value = {state: "0"};
+    $scope.value = { state: "0" };
     $scope.mode = true;
     $scope.videoCurrent = 0;
     $scope.videoList = $scope.data.video ? $scope.data.video.split(",") : [];
     $scope.modeChange = function (e) {
         if (!$scope.mode) {
             if (!!$scope.value.newContent) {
-                bubble._call("reportReply.add", {"Rcontent": $scope.value.newContent}).success(function (v) {
+                bubble._call("reportReply.add", { "Rcontent": $scope.value.newContent }).success(function (v) {
                     $scope.mode = !$scope.mode;
                     swal(!v.errorcode ? "添加成功" : "添加失败");
                     $(e.currentTarget).parent().parent().find("select").show();
@@ -339,7 +325,7 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
             $(e.currentTarget).parent().parent().find("select").hide();
             $(e.currentTarget).parent().parent().find("input").show();
         }
-    };
+    }
     $scope.ok = function (e, type) {
         if ($scope.data.time === undefined) {
             return
@@ -350,7 +336,7 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
                 return;
             }
             $(e.currentTarget).addClass("data-loading");
-            bubble._call(type == "0" ? "report.complete" : "report.refuse", dateList[idx]._id, {reason: rs})
+            bubble._call(type == "0" ? "report.complete" : "report.refuse", dateList[idx]._id, { reason: rs })
                 .success(function (v) {
                     $(e.currentTarget).removeClass("data-loading");
                     if (v.errorcode) {
@@ -367,9 +353,9 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
     };
 
     $scope.kill = function (e) {
-        bubble.customModal("replyReportContentModal.html", "replyReportContentController", "lg", {kick: true}, function (rs, t) {
+        bubble.customModal("replyReportContentModal.html", "replyReportContentController", "lg", { kick: true }, function (rs, t) {
             $(e.currentTarget).addClass("data-loading");
-            bubble._call("report.kick", dateList[idx].userid, {"kickTime": t, _id: dateList[idx]._id, reason: rs})
+            bubble._call("report.kick", dateList[idx].userid, { "kickTime": t, _id: dateList[idx]._id, reason: rs })
                 .success(function (v) {
                     $(e.currentTarget).removeClass("data-loading");
                     if (v.errorcode) {
@@ -383,14 +369,14 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
                     $scope.next();
                 });
         });
-    };
+    }
 
     $scope.proces = function (e) {
         if ($scope.data.time === undefined) {
             return
         }
         $(e.currentTarget).addClass("data-loading");
-        bubble._call("report.handle", dateList[idx]._id, {state: 1})
+        bubble._call("report.handle", dateList[idx]._id, { state: 1 })
             .success(function (v) {
                 $(e.currentTarget).removeClass("data-loading");
                 if (v.errorcode) {
@@ -409,19 +395,19 @@ bubbleFrame.register('replyReportController', function ($scope, $modalInstance, 
         $timeout(function () {
             $scope.refreshVideo = true;
         })
-    };
+    }
 
     $scope.download = function () {
         window.open($scope.videoList[$scope.videoCurrent]);
-    };
+    }
 
     $scope.videoleft = function () {
         $scope.videoCurrent > 0 && ($scope.videoCurrent-- , refreshVideo());
-    };
+    }
 
     $scope.videoright = function () {
         $scope.videoCurrent < $scope.videoList.length - 1 && ($scope.videoCurrent++ , refreshVideo());
-    };
+    }
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');

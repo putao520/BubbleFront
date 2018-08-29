@@ -9,37 +9,37 @@
 
         window.onload = function () {
 
-            var paper = new kity.Paper(document.body),
-                operand = new kity.Text('∫'),
-                osup = new kity.Text('N'),
-                osub = new kity.Text('-N'),
-                right = new kity.Text('e'),
-                right2 = new kity.Text('dx'),
-                rightSub = new kity.Text('x');
+            var paper = new kity.Paper( document.body ),
+                operand = new kity.Text( '∫'),
+                osup = new kity.Text( 'N' ),
+                osub = new kity.Text( '-N' ),
+                right = new kity.Text( 'e' ),
+                right2 = new kity.Text( 'dx' ),
+                rightSub = new kity.Text( 'x' );
 
 
-            operand.setX(97).setY(100);
-            operand.setStyle("font-size", 40);
-            right.setStyle("font-size", 20);
-            right.setX(133).setY(96);
-            rightSub.setStyle("font-size", 12);
-            rightSub.setX(143).setY(90);
+            operand.setX( 97 ).setY( 100 );
+            operand.setStyle( "font-size", 40 );
+            right.setStyle( "font-size", 20 );
+            right.setX( 133 ).setY( 96 );
+            rightSub.setStyle( "font-size", 12 );
+            rightSub.setX( 143 ).setY( 90 );
 
-            right2.setStyle("font-size", 20);
-            right2.setX(153).setY(96);
+            right2.setStyle( "font-size", 20 );
+            right2.setX( 153 ).setY( 96 );
 
-            osup.setStyle('font-size', 13);
-            osup.setX(112).setY(76);
+            osup.setStyle( 'font-size', 13 );
+            osup.setX( 112 ).setY( 76 );
 
-            osub.setStyle('font-size', 13);
-            osub.setX(104).setY(113);
+            osub.setStyle( 'font-size', 13 );
+            osub.setX( 104 ).setY( 113 );
 
-            paper.addShape(right2);
-            paper.addShape(osup);
-            paper.addShape(osub);
-            paper.addShape(rightSub);
-            paper.addShape(right);
-            paper.addShape(operand);
+            paper.addShape( right2 );
+            paper.addShape( osup );
+            paper.addShape( osub );
+            paper.addShape( rightSub );
+            paper.addShape( right );
+            paper.addShape( operand );
 
         };
 

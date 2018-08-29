@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var utils = require('../core/utils');
 
@@ -13,7 +13,7 @@ define(function (require, exports, module) {
         return node.getData(name) || node.getStyle(name);
     }
 
-    TextRenderer.registerStyleHook(function (node, textGroup) {
+    TextRenderer.registerStyleHook(function(node, textGroup) {
         var dataColor = node.getData('color');
         var selectedColor = node.getStyle('selected-color');
         var styleColor = node.getStyle('color');
@@ -24,7 +24,7 @@ define(function (require, exports, module) {
 
         textGroup.fill(foreColor);
 
-        textGroup.eachItem(function (index, item) {
+        textGroup.eachItem(function(index, item) {
             item.setFont({
                 'family': fontFamily,
                 'size': fontSize
@@ -46,17 +46,17 @@ define(function (require, exports, module) {
              */
             'forecolor': kity.createClass('fontcolorCommand', {
                 base: Command,
-                execute: function (km, color) {
+                execute: function(km, color) {
                     var nodes = km.getSelectedNodes();
-                    nodes.forEach(function (n) {
+                    nodes.forEach(function(n) {
                         n.setData('color', color);
                         n.render();
                     });
                 },
-                queryState: function (km) {
+                queryState: function(km) {
                     return km.getSelectedNodes().length === 0 ? -1 : 0;
                 },
-                queryValue: function (km) {
+                queryValue: function(km) {
                     if (km.getSelectedNodes().length == 1) {
                         return km.getSelectedNodes()[0].getData('color');
                     }
@@ -76,17 +76,17 @@ define(function (require, exports, module) {
             'background': kity.createClass('backgroudCommand', {
                 base: Command,
 
-                execute: function (km, color) {
+                execute: function(km, color) {
                     var nodes = km.getSelectedNodes();
-                    nodes.forEach(function (n) {
+                    nodes.forEach(function(n) {
                         n.setData('background', color);
                         n.render();
                     });
                 },
-                queryState: function (km) {
+                queryState: function(km) {
                     return km.getSelectedNodes().length === 0 ? -1 : 0;
                 },
-                queryValue: function (km) {
+                queryValue: function(km) {
                     if (km.getSelectedNodes().length == 1) {
                         return km.getSelectedNodes()[0].getData('background');
                     }
@@ -107,25 +107,25 @@ define(function (require, exports, module) {
             'fontfamily': kity.createClass('fontfamilyCommand', {
                 base: Command,
 
-                execute: function (km, family) {
+                execute: function(km, family) {
                     var nodes = km.getSelectedNodes();
-                    nodes.forEach(function (n) {
+                    nodes.forEach(function(n) {
                         n.setData('font-family', family);
                         n.render();
                         km.layout();
                     });
                 },
-                queryState: function (km) {
+                queryState: function(km) {
                     return km.getSelectedNodes().length === 0 ? -1 : 0;
                 },
-                queryValue: function (km) {
+                queryValue: function(km) {
                     var node = km.getSelectedNode();
                     if (node) return node.getData('font-family');
                     return null;
                 }
             }),
 
-            /**
+             /**
              * @command FontSize
              * @description 设置选中节点的字体大小
              * @param {number} size 字体大小（px）
@@ -137,18 +137,18 @@ define(function (require, exports, module) {
             'fontsize': kity.createClass('fontsizeCommand', {
                 base: Command,
 
-                execute: function (km, size) {
+                execute: function(km, size) {
                     var nodes = km.getSelectedNodes();
-                    nodes.forEach(function (n) {
+                    nodes.forEach(function(n) {
                         n.setData('font-size', size);
                         n.render();
                         km.layout(300);
                     });
                 },
-                queryState: function (km) {
+                queryState: function(km) {
                     return km.getSelectedNodes().length === 0 ? -1 : 0;
                 },
-                queryValue: function (km) {
+                queryValue: function(km) {
                     var node = km.getSelectedNode();
                     if (node) return node.getData('font-size');
                     return null;

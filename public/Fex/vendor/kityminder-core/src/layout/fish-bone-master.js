@@ -7,14 +7,14 @@
  * @copyright: Baidu FEX, 2014
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var Layout = require('../core/layout');
 
     Layout.register('fish-bone-master', kity.createClass('FishBoneMasterLayout', {
         base: Layout,
 
-        doLayout: function (parent, children, round) {
+        doLayout: function(parent, children, round) {
 
             var upPart = [],
                 downPart = [];
@@ -33,7 +33,7 @@ define(function (require, exports, module) {
             var cMarginTop = child.getStyle('margin-top');
             var cMarginBottom = child.getStyle('margin-bottom');
 
-            children.forEach(function (child, index) {
+            children.forEach(function(child, index) {
                 child.setLayoutTransform(new kity.Matrix());
                 var cBox = child.getContentBox();
 

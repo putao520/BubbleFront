@@ -4,7 +4,7 @@
  * 贝塞尔曲线
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     /**
      * @class kity.Bezier
@@ -35,7 +35,7 @@ define(function (require, exports, module) {
          * ]);
          * ```
          */
-        constructor: function (bezierPoints) {
+        constructor: function(bezierPoints) {
 
             this.callBase();
 
@@ -54,7 +54,7 @@ define(function (require, exports, module) {
          * @grammar getBezierPoints() => {kity.BezierPoints[]}
          *
          */
-        getBezierPoints: function () {
+        getBezierPoints: function() {
             return this.getPoints();
         },
 
@@ -67,12 +67,12 @@ define(function (require, exports, module) {
          *
          * @param {kity.BezierPoint[]} bezierPoints 贝塞尔点集合
          */
-        setBezierPoints: function (bezierPoints) {
+        setBezierPoints: function(bezierPoints) {
             return this.setPoints(bezierPoints);
         },
 
         //当点集合发生变化时采取的动作
-        onContainerChanged: function () {
+        onContainerChanged: function() {
 
             if (this.changeable) {
                 this.update();
@@ -80,7 +80,7 @@ define(function (require, exports, module) {
 
         },
 
-        update: function () {
+        update: function() {
 
             var drawer = null,
                 bezierPoints = this.getBezierPoints();

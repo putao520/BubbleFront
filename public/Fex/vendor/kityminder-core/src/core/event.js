@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('./kity');
     var utils = require('./utils');
     var Minder = require('./minder');
@@ -8,7 +8,7 @@ define(function (require, exports, module) {
      * @description 表示一个脑图中发生的事件
      */
     var MinderEvent = kity.createClass('MindEvent', {
-        constructor: function (type, params, canstop) {
+        constructor: function(type, params, canstop) {
             params = params || {};
             if (params.getType && params.getType() == 'ShapeEvent') {
 
@@ -57,7 +57,7 @@ define(function (require, exports, module) {
          *     `"minder"` - （默认）以脑图画布为参照坐标系
          *     `{kity.Shape}` - 指定以某个 kity 图形为参照坐标系
          */
-        getPosition: function (refer) {
+        getPosition: function(refer) {
             if (!this.kityEvent) return;
             if (!refer || refer == 'minder') {
                 return this.kityEvent.getPosition(this.minder.getRenderContainer());
@@ -72,7 +72,7 @@ define(function (require, exports, module) {
          *
          * @grammar getTargetNode() => {MinderNode}
          */
-        getTargetNode: function () {
+        getTargetNode: function() {
             var findShape = this.kityEvent && this.kityEvent.targetShape;
             if (!findShape) return null;
             while (!findShape.minderNode && findShape.container) {
@@ -90,26 +90,26 @@ define(function (require, exports, module) {
          *
          * @grammar getTargetNode() => {MinderNode}
          */
-        stopPropagation: function () {
+        stopPropagation: function() {
             this._stoped = true;
         },
 
-        stopPropagationImmediately: function () {
+        stopPropagationImmediately: function() {
             this._immediatelyStoped = true;
             this._stoped = true;
         },
 
-        shouldStopPropagation: function () {
+        shouldStopPropagation: function() {
             return this._canstop && this._stoped;
         },
 
-        shouldStopPropagationImmediately: function () {
+        shouldStopPropagationImmediately: function() {
             return this._canstop && this._immediatelyStoped;
         },
-        preventDefault: function () {
+        preventDefault: function() {
             this.originEvent.preventDefault();
         },
-        isRightMB: function () {
+        isRightMB: function() {
             var isRightMB = false;
             if (!this.originEvent) {
                 return false;
@@ -120,28 +120,28 @@ define(function (require, exports, module) {
                 isRightMB = this.originEvent.button == 2;
             return isRightMB;
         },
-        getKeyCode: function () {
+        getKeyCode: function() {
             var evt = this.originEvent;
             return evt.keyCode || evt.which;
         }
     });
 
-    Minder.registerInitHook(function (option) {
+    Minder.registerInitHook(function(option) {
         this._initEvents();
     });
 
     kity.extendClass(Minder, {
 
-        _initEvents: function () {
+        _initEvents: function() {
             this._eventCallbacks = {};
         },
 
-        _resetEvents: function () {
+        _resetEvents: function() {
             this._initEvents();
             this._bindEvents();
         },
 
-        _bindEvents: function () {
+        _bindEvents: function() {
             /* jscs:disable maximumLineLength */
             this._paper.on('click dblclick mousedown contextmenu mouseup mousemove mouseover mousewheel DOMMouseScroll touchstart touchmove touchend dragenter dragleave drop', this._firePharse.bind(this));
             if (window) {
@@ -155,11 +155,11 @@ define(function (require, exports, module) {
          * @grammar dispatchKeyEvent(e) => {this}
          * @param  {Event} e 原生的 Dom 事件对象
          */
-        dispatchKeyEvent: function (e) {
+        dispatchKeyEvent: function(e) {
             this._firePharse(e);
         },
 
-        _firePharse: function (e) {
+        _firePharse: function(e) {
             var beforeEvent, preEvent, executeEvent;
 
             if (e.type == 'DOMMouseScroll') {
@@ -181,22 +181,22 @@ define(function (require, exports, module) {
                 this._fire(new MinderEvent('after' + e.type, e, false));
         },
 
-        _interactChange: function (e) {
+        _interactChange: function(e) {
             var me = this;
             if (me._interactScheduled) return;
-            setTimeout(function () {
+            setTimeout(function() {
                 me._fire(new MinderEvent('interactchange'));
                 me._interactScheduled = false;
             }, 100);
             me._interactScheduled = true;
         },
 
-        _listen: function (type, callback) {
+        _listen: function(type, callback) {
             var callbacks = this._eventCallbacks[type] || (this._eventCallbacks[type] = []);
             callbacks.push(callback);
         },
 
-        _fire: function (e) {
+        _fire: function(e) {
             /**
              * @property minder
              * @description 产生事件的 Minder 对象
@@ -229,15 +229,15 @@ define(function (require, exports, module) {
             return e.shouldStopPropagation();
         },
 
-        on: function (name, callback) {
+        on: function(name, callback) {
             var km = this;
-            name.split(/\s+/).forEach(function (n) {
+            name.split(/\s+/).forEach(function(n) {
                 km._listen(n.toLowerCase(), callback);
             });
             return this;
         },
 
-        off: function (name, callback) {
+        off: function(name, callback) {
 
             var types = name.split(/\s+/);
             var i, j, callbacks, removeIndex;
@@ -258,7 +258,7 @@ define(function (require, exports, module) {
             }
         },
 
-        fire: function (type, params) {
+        fire: function(type, params) {
             var e = new MinderEvent(type, params);
             this._fire(e);
             return this;

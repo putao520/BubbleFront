@@ -7,7 +7,7 @@
  * @copyright: Baidu FEX, 2014
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('./kity');
     var Minder = require('./minder');
 
@@ -16,14 +16,14 @@ define(function (require, exports, module) {
         var vrect;
 
         Object.defineProperty(kity.Box.prototype, 'visualization', {
-            get: function () {
+            get: function() {
                 if (!vrect) return null;
                 return vrect.setBox(this);
             }
         });
 
-        Minder.registerInitHook(function () {
-            this.on('paperrender', function () {
+        Minder.registerInitHook(function() {
+            this.on('paperrender', function() {
                 vrect = new kity.Rect();
                 vrect.fill('rgba(200, 200, 200, .5)');
                 vrect.stroke('orange');

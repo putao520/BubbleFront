@@ -3,18 +3,16 @@
 <head>
     <script src="bower_components/seajs/dist/sea.js"></script>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="hotbox.css"/>
+    <link rel="stylesheet" href="hotbox.css" />
     <style>
         html, body {
             margin: 0;
             padding: 0;
         }
-
         .message {
             text-align: center;
             margin: 20px 0;
         }
-
         .editor {
             width: 1200px;
             height: 750px;
@@ -36,7 +34,7 @@
         base: './src'
     });
 
-    define('start', function (require) {
+    define('start', function(require) {
         var HotBox = require('hotbox');
 
         var hotbox = new HotBox('.editor');
@@ -55,7 +53,7 @@
         });
 
         var ringButtons = '前移:Alt+Up|下级:Tab|同级:Enter|后移:Alt+Down|删除:Delete|归纳:Shift+Tab'.split('|');
-        ringButtons.forEach(function (button) {
+        ringButtons.forEach(function(button) {
             main.button({
                 position: 'ring',
                 label: button.split(':')[0],
@@ -64,7 +62,7 @@
         });
 
         var topButtons = '超链接:H|图片:I|备注:N|优先级:P|进度:G|资源:R'.split('|');
-        topButtons.forEach(function (button) {
+        topButtons.forEach(function(button) {
             main.button({
                 position: 'top',
                 label: button.split(':')[0],
@@ -74,7 +72,7 @@
         });
 
         var bottomButtons = '模板:T|布局:L|样式:S|展开:/|选择:M'.split('|');
-        bottomButtons.forEach(function (button) {
+        bottomButtons.forEach(function(button) {
             main.button({
                 position: 'bottom',
                 label: button.split(':')[0],
@@ -83,7 +81,7 @@
         });
 
         var priority = hotbox.state('priority');
-        '123456789'.split('').forEach(function (p) {
+        '123456789'.split('').forEach(function(p) {
             priority.button({
                 position: 'ring',
                 label: 'P' + p,

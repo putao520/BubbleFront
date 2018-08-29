@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var keymap = require('./keymap');
 
     var CTRL_MASK = 0x1000;
@@ -11,11 +11,9 @@ define(function (require, exports, module) {
         }
         return hashKeyEvent(unknown);
     }
-
     function is(a, b) {
         return a && b && hash(a) == hash(b);
     }
-
     exports.hash = hash;
     exports.is = is;
 
@@ -40,8 +38,8 @@ define(function (require, exports, module) {
 
     function hashKeyExpression(keyExpression) {
         var hashCode = 0;
-        keyExpression.toLowerCase().split(/\s*\+\s*/).forEach(function (name) {
-            switch (name) {
+        keyExpression.toLowerCase().split(/\s*\+\s*/).forEach(function(name) {
+            switch(name) {
                 case 'ctrl':
                 case 'cmd':
                     hashCode |= CTRL_MASK;

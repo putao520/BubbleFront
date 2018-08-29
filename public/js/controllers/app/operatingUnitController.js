@@ -10,11 +10,11 @@ bubbleFrame.register('operatingUnitController', function ($scope, bubble) {
 
         this.next = function () {
             this.slideTo(++current);
-        };
+        }
 
         this.prev = function () {
             this.slideTo(--current);
-        };
+        }
 
         this.slideTo = function (i) {
             var f = current > i;    //true <-  false ->
@@ -23,17 +23,10 @@ bubbleFrame.register('operatingUnitController', function ($scope, bubble) {
                 : (box.find(".offset-navbox,.static-box:first").hide(), box.find(".offset-navbox:eq(" + (f ? i - 1 : i + 1) + ")").show());
             box.css("transform", "translateX(-" + current + "00%)");
         }
-    };
+    }
 
     var slide = new Slide();
-    $scope.gropuList = [{
-        name: "",
-        id: 6,
-        fatherid: 0,
-        selected: false,
-        ownid: 0,
-        children: [{name: "财政局C1", id: 7, fatherid: 6, selected: true, ownid: 0},]
-    }];
+    $scope.gropuList = [{ name: "", id: 6, fatherid: 0, selected: false, ownid: 0, children: [{ name: "财政局C1", id: 7, fatherid: 6, selected: true, ownid: 0 },] }];
 
     $scope.mode = false;
 
@@ -43,17 +36,17 @@ bubbleFrame.register('operatingUnitController', function ($scope, bubble) {
         if ($scope.current && v._id == $scope.current._id) {
             return;
         }
-        bubble._call("column.find", {_id: v._id}).success(function (v) {
+        bubble._call("column.find", { _id: v._id }).success(function (v) {
             $scope.current = v[0];
         });
-    };
+    }
     /**
      * 站群切换部分
      */
     $scope.breadcrumbClick = function (idx) {
         $scope.treeNav.slideTo(idx);
         sortGropu.initCollapse();
-    };
+    }
 
     $scope.treeNav = {
         onModeChange: function () {
@@ -64,7 +57,7 @@ bubbleFrame.register('operatingUnitController', function ($scope, bubble) {
             sortGropu.initCollapse();
         },
         onChange: groupChange
-    };
+    }
 
     /*--------------------------------------------------------------------------------------*/
 
@@ -84,7 +77,7 @@ bubbleFrame.register('operatingUnitController', function ($scope, bubble) {
                 wrap = wrap.children("ol").children("li:eq(" + idxs[i] + ")");
                 _this.expandItem(wrap);
             }
-        };
+        }
 
         var initHtml = function (v, i) {
             var idx = i ? i : "";
@@ -98,13 +91,13 @@ bubbleFrame.register('operatingUnitController', function ($scope, bubble) {
                     .replace("@c", data[i].children ? initHtml(data[i].children, idx ? idx + "-" + i : i) : "").replace("@btn", btn);
             }
             return '<ol class="dd-list">' + html + '</ol>';
-        };
+        }
 
         var initBtnEvent = function () {
             box.find(".fa.fa-times").click(_this.delete);
             box.find(".fa.fa-plus").click(_this.create);
             box.find(".fa.fa-pencil").click(_this.edit);
-        };
+        }
 
         var initLinster = function () {
             try {
@@ -115,7 +108,7 @@ bubbleFrame.register('operatingUnitController', function ($scope, bubble) {
             } catch (e) {
 
             }
-        };
+        }
 
         var getEventObject = function (e) {
             var t = $(e.target);
@@ -132,7 +125,7 @@ bubbleFrame.register('operatingUnitController', function ($scope, bubble) {
             }
 
             return [d, p, n];
-        };
+        }
 
         this.init = function () {
             // box.html('<div ui-jq="nestable" ui-options="{maxDepth: 10}" class="dd max-w-full"></div>' + initHtml() + '</div>');
@@ -140,27 +133,27 @@ bubbleFrame.register('operatingUnitController', function ($scope, bubble) {
             initBtnEvent();
             initLinster();
             return this;
-        };
+        }
 
         this.expandItem = function (v) {
             box.nestable("expandItem", v);
-        };
+        }
 
         this.expandAll = function () {
             box.nestable("expandAll");
-        };
+        }
 
         this.collapseAll = function () {
             box.nestable("collapseAll");
-        };
+        }
 
         this.change = function (e) {
             var r = $('.dd').nestable('serialize');
-        };
+        }
 
         this.getCurrentInfo = function () {
 
-        };
+        }
 
         this.delete = function (e) {
             var o = getEventObject(e);
@@ -186,17 +179,17 @@ bubbleFrame.register('operatingUnitController', function ($scope, bubble) {
                             });
                     }
                 });
-        };
+        }
 
         this.create = function (e) {
             bubble.openModal("create", "columnCreate.html", {
-                value: {fatherid: 0, sort: 1},
+                value: { fatherid: 0, sort: 1 },
                 functionName: "config.update",
                 key: "name"
             }, function (rs) {
 
             });
-        };
+        }
 
         this.edit = function (e) {
             var o = getEventObject(e);
@@ -209,17 +202,17 @@ bubbleFrame.register('operatingUnitController', function ($scope, bubble) {
 
             });
         }
-    };
+    }
 
     $scope.createRoot = function () {
         bubble.openModal("create", "columnCreate.html", {
-            value: {fatherid: 0, sort: 1},
+            value: { fatherid: 0, sort: 1 },
             functionName: "config.update",
             key: "name"
         }, function (rs) {
 
         });
-    };
+    }
 
     //初始化数据
     bubble._call("column.page", 1, 100).success(function (v) {

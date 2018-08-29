@@ -4,7 +4,7 @@
  * 提供浏览器判断的一些字段
  */
 
-define(function () {
+define(function() {
 
     /**
      * @class kity.Browser
@@ -12,8 +12,8 @@ define(function () {
      * @static
      * @description 提供浏览器信息
      */
-    var browser = function () {
-        var agent = navigator.userAgent.toLowerCase(),
+    var browser = function() {
+        var agent = navigator.userAgent.toLowerCase(), 
             opera = window.opera,
             browser;
 
@@ -24,7 +24,7 @@ define(function () {
              * @description 获取浏览器所在系统,"Win"->Windows;"Mac"->Mac;"Lux"->Linux
              * @type {String}
              */
-            platform: (function (navigator) {
+            platform: (function(navigator) {
                 var _p = {
                     "win32": "Win",
                     "macintel": "Mac"
@@ -35,7 +35,7 @@ define(function () {
             /**
              * 猎豹,区分两种不同内核
              */
-            lb: (function (agent) {
+            lb: (function(agent) {
                 if (~agent.indexOf("lbbrowser")) {
                     return ~agent.indexOf("msie") ? "ie" : "chrome";
                 }
@@ -56,7 +56,7 @@ define(function () {
              * edge浏览器
              */
             edge: !!(~agent.indexOf("edge")),
-
+            
             /**
              * chrome初始化为false
              * @type {Boolean}
@@ -149,15 +149,15 @@ define(function () {
         // 猎豹版本号无从得知
 
         // 百度
-        if (browser.bd)
+        if (browser.bd) 
             version = parseFloat(agent.match(/bidubrowser\/(\d+)/)[1]);
-
+        
         // Opera 9.50+
-        if (browser.opera)
+        if (browser.opera) 
             version = parseFloat(agent.match(/opr\/(\d+)/)[1]);
-
+        
         // edge
-        if (browser.edge)
+        if (browser.edge) 
             version = parseFloat(agent.match(/edge\/(\d+)/)[1]);
         /**
          * @property version

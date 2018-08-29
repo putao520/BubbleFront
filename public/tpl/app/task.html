@@ -56,19 +56,11 @@
                     <i class="fa fa-bars"></i> {{mode == 'calendar' ? '任务列表' : '任务概况'}}
                 </button>
                 <div class="pull-right">
-                    <button type="button" class="btn btn-sm btn-default" ng-show="mode == 'calendar'"
-                            ng-click="today()">转到今天
-                    </button>
+                    <button type="button" class="btn btn-sm btn-default" ng-show="mode == 'calendar'" ng-click="today()">转到今天</button>
                     <div class="btn-group m-l-xs">
-                        <button class="btn btn-sm btn-default" ng-show="mode == 'calendar'"
-                                ng-click="changeView('agendaDay')">日
-                        </button>
-                        <button class="btn btn-sm btn-default" ng-show="mode == 'calendar'"
-                                ng-click="changeView('agendaWeek')">周
-                        </button>
-                        <button class="btn btn-sm btn-default" ng-show="mode == 'calendar'"
-                                ng-click="changeView('month')">月
-                        </button>
+                        <button class="btn btn-sm btn-default" ng-show="mode == 'calendar'" ng-click="changeView('agendaDay')">日</button>
+                        <button class="btn btn-sm btn-default" ng-show="mode == 'calendar'" ng-click="changeView('agendaWeek')">周</button>
+                        <button class="btn btn-sm btn-default" ng-show="mode == 'calendar'" ng-click="changeView('month')">月</button>
                     </div>
                 </div>
             </div>
@@ -79,20 +71,14 @@
                         <div class="h4 font-thin m-b-sm">{{event.title}}</div>
                         <div class="line b-b b-light"></div>
                         <div><i class="icon-calendar text-muted m-r-xs"></i> {{event.show_start}}</div>
-                        <div class="ng-hide" ng-show='event.end'><i class="icon-clock text-muted m-r-xs"></i>
-                            {{event.end | date:'medium'}}
-                        </div>
-                        <div class="ng-hide" ng-show='event.location'><i class="icon-pointer text-muted m-r-xs"></i>
-                            {{event.location}}
-                        </div>
+                        <div class="ng-hide" ng-show='event.end'><i class="icon-clock text-muted m-r-xs"></i> {{event.end | date:'medium'}}</div>
+                        <div class="ng-hide" ng-show='event.location'><i class="icon-pointer text-muted m-r-xs"></i> {{event.location}}</div>
                         <div class="m-t-sm">{{event.info}}</div>
                         <div class="m-t-sm">{{event.url}}</div>
                     </div>
                 </div>
-                <div class="calendar" ng-model="eventSources" ui-calendar="uiConfig.calendar"
-                     ng-if="refresh && eventSources && eventSources.length" ng-show="mode == 'calendar'"></div>
-                <select-table multiple="false" editable="true" interface="task" title="任务列表" ng-show="mode == 'table'"
-                              control="tableControl"></select-table>
+                <div class="calendar" ng-model="eventSources" ui-calendar="uiConfig.calendar" ng-if="refresh && eventSources && eventSources.length" ng-show="mode == 'calendar'"></div>
+                <select-table multiple="false" editable="true" interface="task" title="任务列表" ng-show="mode == 'table'" control="tableControl" ></select-table>
             </div>
         </div>
     </div>

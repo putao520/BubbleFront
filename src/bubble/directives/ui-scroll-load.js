@@ -1,7 +1,6 @@
 import angular from "angular";
 import $ from "jquery";
 import app from "../../main";
-
 angular.module('app')
     .directive('uiScrollLoad', ['$location', '$anchorScroll', function ($location, $anchorScroll) {
         return {

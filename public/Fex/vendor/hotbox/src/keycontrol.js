@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var key = require('./key');
     var FOCUS_CLASS = 'hotbox-focus';
@@ -30,14 +30,12 @@ define(function (require, exports, module) {
             _receiver.onfocus = _active;
             _receiver.onblur = _deactive;
             if (_receiverIsSelfCreated) {
-                _receiver.oninput = function (e) {
-                    _receiver.value = null;
-                };
+                _receiver.oninput = function(e) { _receiver.value = null; };
             }
         }
 
         function _bindContainer() {
-            $container.onmousedown = function (e) {
+            $container.onmousedown = function(e) {
                 _active();
                 e.preventDefault();
             };

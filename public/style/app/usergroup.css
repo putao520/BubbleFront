@@ -1,7 +1,8 @@
+
 /*************************************
  * usergroup
  */
-.usergroupbox {
+ .usergroupbox {
     position: absolute;
     width: 100%;
     top: 60px;
@@ -9,28 +10,23 @@
     margin-bottom: 60px;
     overflow: auto;
 }
-
 .usergroupitembox {
     position: relative;
     min-height: 200px;
 }
-
 .usergroupitembox .item-tr {
     height: 40px;
     line-height: 40px;
 }
-
 .usergroupitembox .item-tr .item-td {
     height: 100%;
     float: left;
     text-align: center;
     width: 80px;
 }
-
 .usergroupitembox .itembox {
     margin-right: 150px;
 }
-
 .usergroupitembox .checkitembox {
     position: absolute;
     width: 150px;
@@ -38,7 +34,6 @@
     right: 0;
     top: 0;
 }
-
 .usergroupitembox .checkitembox .checkbox {
     margin-bottom: 25px;
     text-align: center;

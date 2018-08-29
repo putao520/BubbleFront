@@ -25,16 +25,16 @@
 
         window.onload = function () {
 
-            var rect = new kity.Rect(100, 100, 200, 50),
-                use1 = new kity.Use(rect),
-                use2 = new kity.Use(rect);
-            paper = new kity.Paper(document.body);
+            var rect = new kity.Rect( 100, 100, 200, 50 ),
+                use1 = new kity.Use( rect ),
+                use2 = new kity.Use( rect )
+                paper = new kity.Paper( document.body );
 
-            paper.addResource(rect);
+            paper.addResource( rect );
 
             use1.fill('blue');
             use2.fill('red').translate(500, 0);
-            paper.addShapes([use1, use2]);
+            paper.addShapes( [use1, use2] );
 
         };
 

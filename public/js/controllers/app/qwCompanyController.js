@@ -4,15 +4,12 @@ bubbleFrame.register('qwCompanyController', function ($scope, bubble, $timeout) 
      */
     $scope.control = {
         create: function (o, fn) {
-            bubble.customModal("qwCreate.html", "qwCreateController", "lg", {
-                wbgid: window.localStorage.sitewbgid,
-                fatherid: o[0]._id
-            }, function (rs) {
+            bubble.customModal("qwCreate.html", "qwCreateController", "lg", { wbgid: window.localStorage.sitewbgid, fatherid: o[0]._id }, function (rs) {
                 rs && fn(rs);
             });
         },
         createRoot: function (fn) {
-            bubble.customModal("qwCreate.html", "qwCreateController", "lg", {wbgid: window.localStorage.sitewbgid}, function (rs) {
+            bubble.customModal("qwCreate.html", "qwCreateController", "lg", { wbgid: window.localStorage.sitewbgid }, function (rs) {
                 rs && fn(rs);
             });
         },
@@ -49,7 +46,7 @@ bubbleFrame.register('qwCompanyController', function ($scope, bubble, $timeout) 
                     }
                 });
         },
-    };
+    }
 
     $scope.treebtn = [
         {
@@ -60,18 +57,18 @@ bubbleFrame.register('qwCompanyController', function ($scope, bubble, $timeout) 
                 return v.vwState && v.vwState == 1 ? '<a title="虚站点"><i class="fa fa-link m-r-xs text-info"></i></a>' : '<a></a>';
             }
         }
-    ];
+    ]
 
     var initData = function () {
         $scope.shower = false;
-        bubble._call("site.pageBy", 1, 1000, {"wbgid": window.localStorage.sitewbgid}).success(function (v) {
+        bubble._call("site.pageBy", 1, 1000, { "wbgid": window.localStorage.sitewbgid }).success(function (v) {
             v = v.data;
             $scope.gropuList = v.length ? bubble.getTreeData(v, "_id", true, null, true) : [];
             $timeout(function () {
                 $scope.shower = true;
             });
         });
-    };
+    }
     initData();
 });
 
@@ -79,10 +76,7 @@ bubbleFrame.register("qwEditModalController", function ($scope, $modalInstance, 
     $scope.value = items;
     $scope.ok = function (e) {
         $(e.currentTarget).addClass("data-loading");
-        bubble._call("site.update", $scope.value._id, {
-            title: $scope.value.title,
-            desp: $scope.value.desp
-        }).success(function (v) {
+        bubble._call("site.update", $scope.value._id, { title: $scope.value.title, desp: $scope.value.desp }).success(function (v) {
             if (!v.errorcode) {
                 $modalInstance.close(v);
             } else {
@@ -95,7 +89,7 @@ bubbleFrame.register("qwEditModalController", function ($scope, $modalInstance, 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
-});
+})
 
 bubbleFrame.register("qwCreateController", function (bubble, items, $scope, $modalInstance, $timeout) {
     $scope.value = items;
@@ -109,7 +103,7 @@ bubbleFrame.register("qwCreateController", function (bubble, items, $scope, $mod
                 v.label = v.title;
             });
         });
-    };
+    }
 
     $scope.treeSelect = function (v) {
         $scope.value.linkId = v._id;
@@ -125,11 +119,11 @@ bubbleFrame.register("qwCreateController", function (bubble, items, $scope, $mod
         //         $(".qwCompany-loading").fadeOut(200);
         //     }
         // });
-    };
+    }
 
     $scope.typeChange = function () {
         if ($scope.value.type == 1) {
-            box = $(".qwCompany-sitebox");
+            box = $(".qwCompany-sitebox")
             $(".qwCompany-infobox").hide();
             box.fadeIn(200);
             initSite();
@@ -137,7 +131,7 @@ bubbleFrame.register("qwCreateController", function (bubble, items, $scope, $mod
             $(".qwCompany-infobox").fadeIn(200);
             box.hide();
         }
-    };
+    }
 
     $scope.ok = function (e) {
         if ($scope.value.type == 1) {
@@ -154,7 +148,7 @@ bubbleFrame.register("qwCreateController", function (bubble, items, $scope, $mod
                 swal("添加失败");
             }
         });
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');

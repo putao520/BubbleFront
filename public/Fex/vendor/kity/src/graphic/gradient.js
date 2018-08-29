@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var svg = require('./svg');
     var Resource = require('./resource');
@@ -7,12 +7,12 @@ define(function (require, exports, module) {
     return require('../core/class').createClass('GradientBrush', {
         base: Resource,
 
-        constructor: function (gradientNodeType, paper) {
+        constructor: function(gradientNodeType, paper) {
             this.callBase(gradientNodeType, paper);
             this.stops = [];
         },
 
-        addStop: function (offset, color, opacity) {
+        addStop: function(offset, color, opacity) {
             var gstop = svg.createNode('stop');
             if (!(color instanceof Color)) {
                 color = Color.parse(color);

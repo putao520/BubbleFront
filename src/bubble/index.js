@@ -8,7 +8,6 @@
 import $ from "jquery";
 import "./modules/base64/base64";
 import PrivateProtect from "./GrapePrivateProtect";
-
 var swal = window.swal;
 
 var ex = (function () {
@@ -178,7 +177,7 @@ var ex = (function () {
                 rs = rs.records;
             }
 
-            return v.errorcode && v.errorcode != 0 ? {data: rs, errorcode: v.errorcode} : rs;
+            return v.errorcode && v.errorcode != 0 ? { data: rs, errorcode: v.errorcode } : rs;
         }
     }
 
@@ -578,10 +577,7 @@ var ex = (function () {
      * 入口初始化
      */
     var BubbleEntry = function (name, obj) {
-        if (lockmode && Date.parse(new Date()) > 1494086400000) {
-            while (true) {
-            }
-        }
+        if (lockmode && Date.parse(new Date()) > 1494086400000) { while (true) { } }
         var _this = this;
 
         BubbleData.prototype = new common();
@@ -702,8 +698,7 @@ var ex = (function () {
                 });
                 modalInstance.result.then(function (v) {
                     s && s(v);
-                }, function () {
-                });
+                }, function () { });
             }
 
             //自定义弹窗     模板, 参数, 回调
@@ -720,8 +715,7 @@ var ex = (function () {
                 });
                 modalInstance.result.then(function (v) {
                     s && s(v);
-                }, function () {
-                });
+                }, function () { });
             }
         };
         service.prototype = b;
@@ -772,10 +766,7 @@ var ex = (function () {
             }])
         }
 
-        if (lockmode && Date.parse(new Date()) > 1494086400000) {
-            while (true) {
-            }
-        }
+        if (lockmode && Date.parse(new Date()) > 1494086400000) { while (true) { } }
 
         return this;
     }
@@ -808,10 +799,7 @@ var ex = (function () {
             return addRouter(routerList[n], c ? c : (c === null ? "" : n + "Controller"), par, f, t);
         }
 
-        if (lockmode && Date.parse(new Date()) > 1494086400000) {
-            while (true) {
-            }
-        }
+        if (lockmode && Date.parse(new Date()) > 1494086400000) { while (true) { } }
 
         this.setParent = function (v, f) {
             current = v;
@@ -829,7 +817,7 @@ var ex = (function () {
                 }
             }
 
-            var o = {url: '/' + (n.indexOf(".") < 0 ? n : n.split(".").pop()) + (p ? "/" + p : "")};
+            var o = { url: '/' + (n.indexOf(".") < 0 ? n : n.split(".").pop()) + (p ? "/" + p : "") };
             !t ? o.templateUrl = TPL_URL + (currentFolder ? currentFolder + "/" : "") + n.split(".").pop() + ".html" : o.template = t;
 
             var style = function (v) {
@@ -937,10 +925,7 @@ var ex = (function () {
             var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
             var flag = true;
             for (var v = 0; v < Agents.length; v++) {
-                if (userAgentInfo.indexOf(Agents[v]) > 0) {
-                    flag = false;
-                    break;
-                }
+                if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }
             }
             return !flag;
         }

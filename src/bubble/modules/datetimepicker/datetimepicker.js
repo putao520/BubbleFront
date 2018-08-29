@@ -54,7 +54,7 @@ var DateFormatter;
             monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             meridiem: ['AM', 'PM'],
             ordinal: function (number) {
-                var n = number % 10, suffixes = {1: 'st', 2: 'nd', 3: 'rd'};
+                var n = number % 10, suffixes = { 1: 'st', 2: 'nd', 3: 'rd' };
                 return Math.floor(number % 100 / 10) === 1 || !suffixes[n] ? 'th' : suffixes[n];
             }
         },
@@ -80,7 +80,7 @@ var DateFormatter;
         parseDate: function (vDate, vFormat) {
             var self = this, vFormatParts, vDateParts, i, vDateFlag = false, vTimeFlag = false, vDatePart, iDatePart,
                 vSettings = self.dateSettings, vMonth, vMeriIndex, vMeriOffset, len, mer,
-                out = {date: null, year: null, month: null, day: null, hour: 0, min: 0, sec: 0};
+                out = { date: null, year: null, month: null, day: null, hour: 0, min: 0, sec: 0 };
             if (!vDate) {
                 return undefined;
             }
@@ -574,14 +574,13 @@ var DateFormatter;
             return '';
         }
     };
-})();
-/**
+})();/**
  * @preserve jQuery DateTimePicker plugin v2.5.3
  * @homepage http://xdsoft.net/jqplugins/datetimepicker/
  * @author Chupurnov Valeriy (<chupurnov@gmail.com>)
  */
 /*global DateFormatter, document,window,jQuery,setTimeout,clearTimeout,HighlightedDate,getCurrentValue*/
-;(function (factory) {
+; (function (factory) {
     factory(jQuery);
 }(function ($) {
     'use strict';
@@ -1129,24 +1128,15 @@ var DateFormatter;
         inline: false,
         theme: '',
 
-        onSelectDate: function () {
-        },
-        onSelectTime: function () {
-        },
-        onChangeMonth: function () {
-        },
-        onGetWeekOfYear: function () {
-        },
-        onChangeYear: function () {
-        },
-        onChangeDateTime: function () {
-        },
-        onShow: function () {
-        },
-        onClose: function () {
-        },
-        onGenerate: function () {
-        },
+        onSelectDate: function () { },
+        onSelectTime: function () { },
+        onChangeMonth: function () { },
+        onGetWeekOfYear: function () { },
+        onChangeYear: function () { },
+        onChangeDateTime: function () { },
+        onShow: function () { },
+        onClose: function () { },
+        onGenerate: function () { },
 
         withoutCopyright: true,
         inverseButton: false,
@@ -1207,9 +1197,7 @@ var DateFormatter;
                 days: locale.dayOfWeek,
                 daysShort: locale.dayOfWeekShort,
                 months: locale.months,
-                monthsShort: $.map(locale.months, function (n) {
-                    return n.substring(0, 3)
-                }),
+                monthsShort: $.map(locale.months, function (n) { return n.substring(0, 3) }),
             };
 
         dateHelper = new DateFormatter({
@@ -1267,9 +1255,7 @@ var DateFormatter;
         Array.prototype.indexOf = function (obj, start) {
             var i, j;
             for (i = (start || 0), j = this.length; i < j; i += 1) {
-                if (this[i] === obj) {
-                    return i;
-                }
+                if (this[i] === obj) { return i; }
             }
             return -1;
         };
@@ -1281,7 +1267,7 @@ var DateFormatter;
         return this.each(function () {
             var timeboxparent = $(this),
                 pointerEventToXY = function (e) {
-                    var out = {x: 0, y: 0},
+                    var out = { x: 0, y: 0 },
                         touch;
                     if (e.type === 'touchstart' || e.type === 'touchmove' || e.type === 'touchend' || e.type === 'touchcancel') {
                         touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
@@ -1305,8 +1291,7 @@ var DateFormatter;
                 h1 = 0,
                 touchStart = false,
                 startTopScroll = 0,
-                calcOffset = function () {
-                };
+                calcOffset = function () { };
             if (percent === 'hide') {
                 timeboxparent.find('.xdsoft_scrollbar').hide();
                 return;
@@ -2017,22 +2002,22 @@ var DateFormatter;
                     _xdsoft_datetime.setCurrentTime(0);
                     datetimepicker.trigger('afterOpen.xdsoft');
                 }).on('dblclick.xdsoft', function () {
-                var currentDate = _xdsoft_datetime.getCurrentTime(), minDate, maxDate;
-                currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-                minDate = _xdsoft_datetime.strToDate(options.minDate);
-                minDate = new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate());
-                if (currentDate < minDate) {
-                    return;
-                }
-                maxDate = _xdsoft_datetime.strToDate(options.maxDate);
-                maxDate = new Date(maxDate.getFullYear(), maxDate.getMonth(), maxDate.getDate());
-                if (currentDate > maxDate) {
-                    return;
-                }
-                input.val(_xdsoft_datetime.str());
-                input.trigger('change');
-                datetimepicker.trigger('close.xdsoft');
-            });
+                    var currentDate = _xdsoft_datetime.getCurrentTime(), minDate, maxDate;
+                    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+                    minDate = _xdsoft_datetime.strToDate(options.minDate);
+                    minDate = new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate());
+                    if (currentDate < minDate) {
+                        return;
+                    }
+                    maxDate = _xdsoft_datetime.strToDate(options.maxDate);
+                    maxDate = new Date(maxDate.getFullYear(), maxDate.getMonth(), maxDate.getDate());
+                    if (currentDate > maxDate) {
+                        return;
+                    }
+                    input.val(_xdsoft_datetime.str());
+                    input.trigger('change');
+                    datetimepicker.trigger('close.xdsoft');
+                });
             mounth_picker
                 .find('.xdsoft_prev,.xdsoft_next')
                 .on('touchend mousedown.xdsoft', function () {
@@ -2085,7 +2070,7 @@ var DateFormatter;
                          * jquery timebox.css('marginTop') will return the original value which is before you clicking the next/prev button,
                          * meanwhile the timebox[0].style.marginTop will return the right value which is after you clicking the
                          * next/prev button.
-                         *
+                         * 
                          * What we should do:
                          * Replace timebox.css('marginTop') with timebox[0].style.marginTop.
                          */
@@ -2491,15 +2476,15 @@ var DateFormatter;
 
             current_time_index = 0;
 
-            /**
-             * Runs the callback for each of the specified node's ancestors.
-             *
-             * Return FALSE from the callback to stop ascending.
-             *
-             * @param {DOMNode} node
-             * @param {Function} callback
-             * @returns {undefined}
-             */
+			/**
+			 * Runs the callback for each of the specified node's ancestors.
+			 *
+			 * Return FALSE from the callback to stop ascending.
+			 *
+			 * @param {DOMNode} node
+			 * @param {Function} callback
+			 * @returns {undefined}
+			 */
             forEachAncestorOf = function (node, callback) {
                 do {
                     node = node.parentNode;
@@ -2510,11 +2495,11 @@ var DateFormatter;
                 } while (node.nodeName !== 'HTML');
             };
 
-            /**
-             * Sets the position of the picker.
-             *
-             * @returns {undefined}
-             */
+			/**
+			 * Sets the position of the picker.
+			 *
+			 * @returns {undefined}
+			 */
             setPos = function () {
                 var dateInputOffset,
                     dateInputElem,
@@ -2696,14 +2681,14 @@ var DateFormatter;
             function setMask(options) {
 
                 var isValidValue = function (mask, value) {
-                        var reg = mask
-                            .replace(/([\[\]\/\{\}\(\)\-\.\+]{1})/g, '\\$1')
-                            .replace(/_/g, '{digit+}')
-                            .replace(/([0-9]{1})/g, '{digit$1}')
-                            .replace(/\{digit([0-9]{1})\}/g, '[0-$1_]{1}')
-                            .replace(/\{digit[\+]\}/g, '[0-9_]{1}');
-                        return (new RegExp(reg)).test(value);
-                    },
+                    var reg = mask
+                        .replace(/([\[\]\/\{\}\(\)\-\.\+]{1})/g, '\\$1')
+                        .replace(/_/g, '{digit+}')
+                        .replace(/([0-9]{1})/g, '{digit$1}')
+                        .replace(/\{digit([0-9]{1})\}/g, '[0-$1_]{1}')
+                        .replace(/\{digit[\+]\}/g, '[0-9_]{1}');
+                    return (new RegExp(reg)).test(value);
+                },
                     getCaretPos = function (input) {
                         try {
                             if (document.selection && document.selection.createRange) {
@@ -3046,18 +3031,10 @@ var DateFormatter;
         event.type = 'mousewheel';
 
         // Old school scrollwheel delta
-        if ('detail' in orgEvent) {
-            deltaY = orgEvent.detail * -1;
-        }
-        if ('wheelDelta' in orgEvent) {
-            deltaY = orgEvent.wheelDelta;
-        }
-        if ('wheelDeltaY' in orgEvent) {
-            deltaY = orgEvent.wheelDeltaY;
-        }
-        if ('wheelDeltaX' in orgEvent) {
-            deltaX = orgEvent.wheelDeltaX * -1;
-        }
+        if ('detail' in orgEvent) { deltaY = orgEvent.detail * -1; }
+        if ('wheelDelta' in orgEvent) { deltaY = orgEvent.wheelDelta; }
+        if ('wheelDeltaY' in orgEvent) { deltaY = orgEvent.wheelDeltaY; }
+        if ('wheelDeltaX' in orgEvent) { deltaX = orgEvent.wheelDeltaX * -1; }
 
         // Firefox < 17 horizontal scrolling related to DOMMouseScroll event
         if ('axis' in orgEvent && orgEvent.axis === orgEvent.HORIZONTAL_AXIS) {
@@ -3075,15 +3052,11 @@ var DateFormatter;
         }
         if ('deltaX' in orgEvent) {
             deltaX = orgEvent.deltaX;
-            if (deltaY === 0) {
-                delta = deltaX * -1;
-            }
+            if (deltaY === 0) { delta = deltaX * -1; }
         }
 
         // No change actually happened, no reason to go any further
-        if (deltaY === 0 && deltaX === 0) {
-            return;
-        }
+        if (deltaY === 0 && deltaX === 0) { return; }
 
         // Need to convert lines and pages to pixels if we aren't already in pixels
         // There are three delta modes:
@@ -3152,9 +3125,7 @@ var DateFormatter;
         // handle multiple device types that give different
         // a different lowestDelta
         // Ex: trackpad = 3 and mouse wheel = 120
-        if (nullLowestDeltaTimeout) {
-            clearTimeout(nullLowestDeltaTimeout);
-        }
+        if (nullLowestDeltaTimeout) { clearTimeout(nullLowestDeltaTimeout); }
         nullLowestDeltaTimeout = setTimeout(nullLowestDelta, 200);
 
         return ($.event.dispatch || $.event.handle).apply(this, args);

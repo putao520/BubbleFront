@@ -31,21 +31,21 @@
 
         window.onload = function () {
 
-            var paper = new kity.Paper("container"),
-                effect = new kity.ConvolveMatrixEffect(),
-                filter = new kity.Filter(),
-                image = new kity.Image("../1.jpg", 300, 500, 50, 50);
+            var paper = new kity.Paper( "container" ),
+                    effect = new kity.ConvolveMatrixEffect(),
+                    filter = new kity.Filter(),
+                    image = new kity.Image( "../1.jpg", 300, 500, 50, 50 );
 
             // 边缘增强效果
-            effect.set('kernelMatrix', '-1 -1 -1 -1 8 -1 -1 -1 -1');
-            effect.set('preserveAlpha', true);
+            effect.set( 'kernelMatrix', '-1 -1 -1 -1 8 -1 -1 -1 -1' );
+            effect.set( 'preserveAlpha', true );
 
-            filter.addEffect(effect);
+            filter.addEffect( effect );
 
-            paper.addResource(filter);
-            image.applyFilter(filter);
+            paper.addResource( filter );
+            image.applyFilter( filter );
 
-            paper.addShape(image);
+            paper.addShape( image );
 
 
         };

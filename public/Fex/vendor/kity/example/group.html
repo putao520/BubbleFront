@@ -26,14 +26,14 @@
 
             paper.setWidth(600).setHeight(400);
 
-            var flower = new kity.Group().pipe(function () {
-                for (var i = 0; i < 12; i++) {
+            var flower = new kity.Group().pipe(function() {
+                for(var i = 0; i < 12; i++) {
                     var color = new kity.Color();
                     color.set('h', 30 * i);
                     color.set('s', 80);
                     color.set('l', 50);
                     color.set('a', .5);
-                    this.addShape(new kity.Ellipse(50, 0, 80, 15).rotate(30 * i).fill(color));
+                    this.addShape(new kity.Ellipse(50, 0, 80, 15).rotate( 30 * i ).fill(color));
                 }
                 this.scale(1.5).translate(300, 200);
             });
@@ -43,6 +43,6 @@
     </script>
 </head>
 <body>
-
+    
 </body>
 </html>

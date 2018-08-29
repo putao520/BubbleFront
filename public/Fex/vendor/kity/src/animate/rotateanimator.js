@@ -4,7 +4,7 @@
  * 提供支持目标旋转的动画器
  */
 
-define(function (require) {
+define(function(require) {
     var Animator = require('./animator');
 
     /**
@@ -23,11 +23,11 @@ define(function (require) {
          *
          * @param  {Number} deg 要旋转的角度
          */
-        constructor: function (deg) {
+        constructor: function(deg) {
             this.callBase({
                 beginValue: 0,
                 finishValue: deg,
-                setter: function (target, value, timeline) {
+                setter: function(target, value, timeline) {
                     var delta = timeline.getDelta();
                     target.rotate(delta, ax, ay);
                 }
@@ -51,7 +51,7 @@ define(function (require) {
          * @param {String|Function}   easing   动画播放使用的缓动函数，如 'ease'、'linear'、'swing'
          * @param {Function}          callback 播放结束之后的回调函数
          */
-        fxRotate: function (deg, duration, easing, delay, callback) {
+        fxRotate: function(deg, duration, easing, delay, callback) {
             return this.animate(new RotateAnimator(deg), duration, easing, delay, callback);
         }
     });

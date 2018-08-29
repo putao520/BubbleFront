@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var Group = require('graphic/group');
     var Rect = require('graphic/rect');
     var Text = require('graphic/text');
@@ -7,11 +7,11 @@ define(function (require, exports, module) {
 
     return require('core/class').createClass({
         base: Group,
-        constructor: function (x, y, width, height, data, bold) {
+        constructor: function(x, y, width, height, data, bold) {
             this.callBase();
             this.data = data;
             this.rect = new Rect(width, height, x, y, 5);
-            this.text = new Text().pipe(function () {
+            this.text = new Text().pipe(function() {
                 this.setSize(14);
                 this.setX(x + width / 2);
                 this.setY(y + height / 2 + 6);
@@ -25,11 +25,11 @@ define(function (require, exports, module) {
             this.setStyle('cursor', 'pointer');
             this.bold = bold;
         },
-        unselect: function () {
+        unselect: function() {
             this.rect.fill(colors.get('node-fill'));
             this.rect.stroke(colors.get('node-stroke'));
         },
-        select: function () {
+        select: function() {
             this.rect.fill(colors.get('node-fill-active'));
             this.rect.stroke(colors.get('node-stroke-active'), this.bold ? 3 : 1);
         }

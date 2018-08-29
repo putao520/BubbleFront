@@ -2,7 +2,7 @@
  * 投影滤镜
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var GaussianblurEffect = require('./effect/gaussianblureffect'),
         Effect = require('./effect/effect'),
@@ -16,7 +16,7 @@ define(function (require, exports, module) {
 
         base: require('./filter'),
 
-        constructor: function (stdDeviation, dx, dy) {
+        constructor: function(stdDeviation, dx, dy) {
 
             this.callBase();
 
@@ -42,7 +42,7 @@ define(function (require, exports, module) {
         },
 
         // 设置投影颜色
-        setColor: function (color) {
+        setColor: function(color) {
 
             var matrix = null,
                 originMatrix = null,
@@ -81,7 +81,7 @@ define(function (require, exports, module) {
         },
 
         // 设置投影透明度
-        setOpacity: function (opacity) {
+        setOpacity: function(opacity) {
 
             var matrix = this.colorMatrixEffect.get('values').split(' ');
 
@@ -94,26 +94,26 @@ define(function (require, exports, module) {
         },
 
         // 设置阴影偏移量
-        setOffset: function (dx, dy) {
+        setOffset: function(dx, dy) {
 
             this.setOffsetX(dx);
             this.setOffsetY(dy);
 
         },
 
-        setOffsetX: function (dx) {
+        setOffsetX: function(dx) {
 
             this.offsetEffect.set('dx', dx);
 
         },
 
-        setOffsetY: function (dy) {
+        setOffsetY: function(dy) {
 
             this.offsetEffect.set('dy', dy);
 
         },
 
-        setDeviation: function (deviation) {
+        setDeviation: function(deviation) {
 
             this.gaussianblurEffect.set('stdDeviation', deviation);
 

@@ -1,7 +1,6 @@
 import angular from "angular";
 import app from "../../main";
 import $ from "jquery";
-
 var swal = window.swal;
 
 app.directive('minScroll', ['bubble', function (bubble) {

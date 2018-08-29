@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('./kity');
     var utils = require('./utils');
     var Minder = require('./minder');
@@ -6,18 +6,18 @@ define(function (require, exports, module) {
     /* 已注册的模块 */
     var _modules = {};
 
-    exports.register = function (name, module) {
+    exports.register = function(name, module) {
         _modules[name] = module;
     };
 
     /* 模块初始化 */
-    Minder.registerInitHook(function () {
+    Minder.registerInitHook(function() {
         this._initModules();
     });
 
     // 模块声明周期维护
     kity.extendClass(Minder, {
-        _initModules: function () {
+        _initModules: function() {
             var modulesPool = _modules;
             var modulesToLoad = this._options.modules || utils.keys(modulesPool);
 
@@ -67,7 +67,7 @@ define(function (require, exports, module) {
                 // if (name === 'ClipboardModule' && this.supportClipboardEvent  && !kity.Browser.gecko) {
                 //     var on = function () {
                 //         var clipBoardReceiver = this.clipBoardReceiver || document;
-
+                        
                 //         if (document.addEventListener) {
                 //             clipBoardReceiver.addEventListener.apply(this, arguments);
                 //         } else {
@@ -117,7 +117,7 @@ define(function (require, exports, module) {
             }
         },
 
-        _garbage: function () {
+        _garbage: function() {
             this.clearSelect();
 
             while (this._root.getChildren().length) {
@@ -125,7 +125,7 @@ define(function (require, exports, module) {
             }
         },
 
-        destroy: function () {
+        destroy: function() {
             var modules = this._modules;
 
             this._resetEvents();
@@ -137,7 +137,7 @@ define(function (require, exports, module) {
             }
         },
 
-        reset: function () {
+        reset: function() {
             var modules = this._modules;
 
             this._garbage();

@@ -22,14 +22,14 @@
         },
         isreview: {
             data: "select:允许|禁止",
-            dictionaries: {"1": "允许", "0": "禁止"},
+            dictionaries: { "1": "允许", "0": "禁止" },
             mark: "审核权限",
             visible: true,
             edit: true
         },
         isvisble: {
             data: "select:是|否",
-            dictionaries: {"1": "是", "0": "否"},
+            dictionaries: { "1": "是", "0": "否" },
             mark: "是否显示",
             visible: false,
             edit: true
@@ -48,7 +48,7 @@
         },
         sex: {
             data: "select:男|女",
-            dictionaries: {"1": "男", "0": "女"},
+            dictionaries: { "1": "男", "0": "女" },
             mark: "性别",
             visible: true,
             edit: true
@@ -67,7 +67,7 @@
         },
         state: {
             data: "select:开启|关闭",
-            dictionaries: {"1": "开启", "0": "关闭"},
+            dictionaries: { "1": "开启", "0": "关闭" },
             mark: "状态",
             visible: true,
             edit: true
@@ -175,7 +175,7 @@
         },
         ismulti: {
             data: "select:是|否",
-            dictionaries: {"1": "是", "0": "否"},
+            dictionaries: { "1": "是", "0": "否" },
             mark: "是否多选",
             visible: true,
             edit: true
@@ -207,7 +207,7 @@
         },
         adtype: {
             data: "select:横幅|图片轮播图",
-            dictionaries: {"2": "横幅", "0": "图片轮播图"},
+            dictionaries: { "2": "横幅", "0": "图片轮播图" },
             mark: "广告类型",
             visible: true,
             edit: true
@@ -258,7 +258,7 @@
         },
         isvisble: {
             data: "select:是|否",
-            dictionaries: {"1": "是", "0": "否"},
+            dictionaries: { "1": "是", "0": "否" },
             mark: "是否显示",
             visible: true,
             edit: true,
@@ -446,7 +446,7 @@
         },
         type: {
             data: "select:类型1|类型2|类型3",
-            dictionaries: {"1": "类型1", "2": "类型2", "3": "类型3"},
+            dictionaries: { "1": "类型1", "2": "类型2", "3": "类型3" },
             mark: "任务类型",
             init: "1",
             visible: true,
@@ -460,7 +460,7 @@
         },
         state: {
             data: "select:未开始|已开始|已完成",
-            dictionaries: {"0": "未开始", "1": "已开始", "2": "已完成"},
+            dictionaries: { "0": "未开始", "1": "已开始", "2": "已完成" },
             mark: "任务状态",
             visible: true,
             edit: false
@@ -574,7 +574,7 @@
         },
         state: {
             data: "select:未激活|激活",
-            dictionaries: {"0": "未激活", "1": "激活"},
+            dictionaries: { "0": "未激活", "1": "激活" },
             mark: "状态",
             visible: true,
             edit: false
@@ -600,14 +600,14 @@
         },
         WrongdoerSex: {
             data: "select:男|女",
-            dictionaries: {"0": "男", "1": "女"},
+            dictionaries: { "0": "男", "1": "女" },
             mark: "被举报性别",
             visible: true,
             edit: false
         },
         WrongdoerSex: {
             data: "select:公开|非公开",
-            dictionaries: {"0": "公开", "1": "非公开"},
+            dictionaries: { "0": "公开", "1": "非公开" },
             mark: "公开",
             visible: true,
             edit: false
@@ -628,7 +628,7 @@
         },
         state: {
             data: "select:待处理|处理中|已处理|被拒绝",
-            dictionaries: {"0": "待处理", "1": "处理中", "2": "已处理", "3": "被拒绝"},
+            dictionaries: { "0": "待处理", "1": "处理中", "2": "已处理", "3": "被拒绝" },
             mark: "举报状态",
             visible: true,
             edit: false,
@@ -719,7 +719,7 @@
         },
         isvisble: {
             data: "select:是|否",
-            dictionaries: {"1": "是", "0": "否"},
+            dictionaries: { "1": "是", "0": "否" },
             mark: "是否显示",
             visible: false,
             edit: true
@@ -738,7 +738,7 @@
         },
         sex: {
             data: "select:男|女",
-            dictionaries: {"1": "男", "0": "女"},
+            dictionaries: { "1": "男", "0": "女" },
             mark: "性别",
             visible: true,
             edit: true
@@ -751,7 +751,7 @@
         },
         state: {
             data: "select:开启|关闭",
-            dictionaries: {"1": "开启", "0": "关闭"},
+            dictionaries: { "1": "开启", "0": "关闭" },
             mark: "状态",
             visible: true,
             edit: true
@@ -789,7 +789,7 @@
         },
         mode: {
             data: "select:匿名|实名",
-            dictionaries: {"1": "匿名", "0": "实名"},
+            dictionaries: { "1": "匿名", "0": "实名" },
             mark: "咨询方式",
             visible: true,
             edit: false
@@ -814,14 +814,14 @@
         },
         state: {
             data: "select:已受理|已提交|已回复",
-            dictionaries: {"1": "已受理", "0": "已提交", "2": "已回复"},
+            dictionaries: { "1": "已受理", "0": "已提交", "2": "已回复" },
             mark: "咨询状态",
             visible: true,
             edit: false
         },
         slevel: {
             data: "select:公开|非公开",
-            dictionaries: {"0": "公开", "1": "非公开"},
+            dictionaries: { "0": "公开", "1": "非公开" },
             mark: "公开状态",
             visible: true,
             edit: false,
@@ -836,7 +836,7 @@
         },
         reviewstate: {
             data: "select:审核不通过|审核通过",
-            dictionaries: {"1": "审核不通过", "0": "审核通过"},
+            dictionaries: { "1": "审核不通过", "0": "审核通过" },
             mark: "审核状态",
             visible: true,
             edit: false
@@ -880,7 +880,7 @@
         },
         state: {
             data: "select:待审核|已审核|审核拒绝",
-            dictionaries: {"1": "待审核", "0": "已审核", "4": "审核拒绝"},
+            dictionaries: { "1": "待审核", "0": "已审核", "4": "审核拒绝" },
             mark: "投稿状态",
             visible: true,
             edit: true
@@ -948,7 +948,7 @@
         },
         state: {
             data: "select:待审核|已审核|审核拒绝",
-            dictionaries: {"1": "待审核", "0": "已审核", "4": "审核拒绝"},
+            dictionaries: { "1": "待审核", "0": "已审核", "4": "审核拒绝" },
             mark: "活动状态",
             visible: true,
             edit: true
@@ -1022,7 +1022,7 @@
         },
         state: {
             data: "select:待审核|已审核|审核拒绝",
-            dictionaries: {"1": "待审核", "0": "已审核", "4": "审核拒绝"},
+            dictionaries: { "1": "待审核", "0": "已审核", "4": "审核拒绝" },
             mark: "活动状态",
             visible: true,
             edit: true
@@ -1104,7 +1104,7 @@
         },
         state: {
             data: "select:开启|关闭",
-            dictionaries: {"0": "开启", "1": "关闭"},
+            dictionaries: { "0": "开启", "1": "关闭" },
             mark: "监控状态",
             visible: true,
             edit: false,
@@ -1218,7 +1218,7 @@
         },
         type: {
             data: "select:单选|多选|简答题|问答",
-            dictionaries: {"0": "单选", "1": "多选", "4": "简答题", "3": "问答"},
+            dictionaries: { "0": "单选", "1": "多选", "4": "简答题", "3": "问答" },
             mark: "题目类型",
             visible: true,
             edit: true,
@@ -1352,6 +1352,13 @@
             visible: true,
             edit: false,
         }
+    }).registerFields('link', {
+        name: {
+            data: 's:',
+            mark: '站点名称',
+            visible: true,
+            edit: false,
+        }
     }).registerFields("powerContent", {
         name: {
             data: "s:",
@@ -1369,44 +1376,125 @@
         isvisble: {
             data: "select:是|否",
             mark: "是否可见",
-            dictionaries: {"0": "是", "1": "否"},
+            dictionaries: { "0": "是", "1": "否" },
             visible: true,
             edit: false
         },
         slevel: {
             data: "select:完全公开|部分公开",
             mark: "是否公开",
-            dictionaries: {"0": "完全公开", "1": "部分公开"},
+            dictionaries: { "0": "完全公开", "1": "部分公开" },
             visible: true,
             edit: false
         },
         isCheck: {
             data: "select:不开启|开启",
             mark: "是否强制隐私检测",
-            dictionaries: {"0": "不开启", "1": "开启"},
+            dictionaries: { "0": "不开启", "1": "开启" },
             visible: true,
             edit: false
         },
         type: {
             data: "select:普通栏目|导航栏目",
             mark: "栏目类型",
-            dictionaries: {"0": "普通栏目", "2": "导航栏目"},
+            dictionaries: { "0": "普通栏目", "2": "导航栏目" },
             visible: true,
             edit: false
         },
         contentType: {
             data: "select:常规图文新闻|纯图片新闻|视频新闻|咨询新闻|公开新闻|超链接新闻",
             mark: "文章类型",
-            dictionaries: {"0": "常规图文新闻", "1": "纯图片新闻", "2": "视频新闻", "3": "咨询新闻", "4": "公开新闻", "5": "超链接新闻"},
+            dictionaries: { "0": "常规图文新闻", "1": "纯图片新闻", "2": "视频新闻", "3": "咨询新闻", "4": "公开新闻", "5": "超链接新闻" },
             visible: true,
             edit: false
         },
         ColumnProperty: {
             data: "select:长期公开|定期公开|及时公开|无后缀",
             mark: "栏目后缀",
-            dictionaries: {"0": "长期公开", "1": "定期公开", "2": "及时公开", "3": "无后缀"},
+            dictionaries: { "0": "长期公开", "1": "定期公开", "2": "及时公开", "3": "无后缀" },
             visible: true,
             edit: false
         },
+    }).registerFields('service', {
+        url: {
+            data: "s:",
+            mark: 'url',
+            visible: true,
+            edit: true,
+        },
+        serviceDescription: {
+            data: "s:",
+            mark: '服务描述',
+            visible: true,
+            edit: true,
+        },
+        serviceName: {
+            data: "s:",
+            mark: '服务名称',
+            visible: true,
+            edit: true,
+        },
+        state: {
+            data: "int:",
+            mark: '状态',
+            visible: true,
+            edit: true,
+        },
+    }).registerFields("filter", {
+        name: {
+            data: "s:",
+            mark: "app名称",
+            visible: true,
+            edit: false,
+        },
+        callback: {
+            data: 's:',
+            mark: "回调RPC字符串",
+            edit: false,
+            visible: true
+        },
+        filter: {
+            data: "s:",
+            mark: "过滤器字符串",
+            visible: true,
+            edit: false
+        },
+        ctime:{
+            data:"data:",
+            mark: "创建时间",
+            visible: true,
+            edit: false,
+            onRender: function (v) {
+                return v.$numberLong ? new Date(v.$numberLong).Format("yyyy-MM-dd hh:mm:ss") : new Date(v).Format("yyyy-MM-dd hh:mm:ss");
+            }
+        }
+    }).registerFields("filter1", {
+        name: {
+            data: "s:",
+            mark: "app名称",
+            visible: true,
+            edit: false,    
+        },
+        callback: {
+            data: 's:',
+            mark: "回调RPC字符串",
+            edit: false,
+            visible: true
+        },
+        filter: {
+            data: "s:",
+            mark: "过滤器字符串",
+            visible: true,
+            edit: false
+        },
+        ctime:{
+            data:"data:",
+            mark: "创建时间",
+            visible: true,
+            edit: false,
+            onRender: function (v) {
+                return v.$numberLong ? new Date(v.$numberLong).Format("yyyy-MM-dd hh:mm:ss") : new Date(v).Format("yyyy-MM-dd hh:mm:ss");
+            }
+        }
     });
 })();

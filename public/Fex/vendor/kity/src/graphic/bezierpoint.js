@@ -4,7 +4,7 @@
  * 表示一个贝塞尔点
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var ShapePoint = require('./shapepoint');
     var Vector = require('./vector');
@@ -27,7 +27,7 @@ define(function (require, exports, module) {
          * @param  {Number}  y        顶点的 y 坐标
          * @param  {Boolean} isSmooth 指示当前贝塞尔点是否光滑，光滑会约束顶点和两个控制点共线
          */
-        constructor: function (x, y, isSmooth) {
+        constructor: function(x, y, isSmooth) {
 
             //顶点
             this.vertex = new ShapePoint(x, y);
@@ -50,7 +50,7 @@ define(function (require, exports, module) {
          *
          * @grammar clone() => {kity.BezierPoint}
          */
-        clone: function () {
+        clone: function() {
 
             var newPoint = new BezierPoint(),
                 tmp = null;
@@ -81,7 +81,7 @@ define(function (require, exports, module) {
          * @param {Number} x 顶点的 x 坐标
          * @param {Number} y 顶点的 y 坐标
          */
-        setVertex: function (x, y) {
+        setVertex: function(x, y) {
 
             this.vertex.setPoint(x, y);
 
@@ -102,7 +102,7 @@ define(function (require, exports, module) {
          * @param  {Number} y 顶点的目标 y 坐标
          *
          */
-        moveTo: function (x, y) {
+        moveTo: function(x, y) {
 
             var oldForward = this.forward.getPoint(),
                 oldBackward = this.backward.getPoint(),
@@ -133,7 +133,7 @@ define(function (require, exports, module) {
          * @param {Number} x 前方控制点的 x 坐标
          * @param {Number} y 前方控制点的 y 坐标
          */
-        setForward: function (x, y) {
+        setForward: function(x, y) {
 
             this.forward.setPoint(x, y);
 
@@ -157,7 +157,7 @@ define(function (require, exports, module) {
          * @param {Number} x 后方控制点的 x 坐标
          * @param {Number} y 后方控制点的 y 坐标
          */
-        setBackward: function (x, y) {
+        setBackward: function(x, y) {
 
             this.backward.setPoint(x, y);
 
@@ -181,7 +181,7 @@ define(function (require, exports, module) {
          *
          * @param {boolean} value 如果设置为 true，且贝塞尔点光滑，两个控制点离顶点的距离相等
          */
-        setSymReflaction: function (value) {
+        setSymReflaction: function(value) {
             this.symReflaction = value;
             if (this.smooth) this.setSmooth(true);
             return this;
@@ -194,7 +194,7 @@ define(function (require, exports, module) {
          *
          * @grammar isSymReflaction() => {boolean}
          */
-        isSymReflaction: function () {
+        isSymReflaction: function() {
             return this.symReflaction;
         },
 
@@ -203,7 +203,7 @@ define(function (require, exports, module) {
          *
          * 根据前方控制点或后方控制点更新另一方
          */
-        updateAnother: function (p, q) {
+        updateAnother: function(p, q) {
             var v = this.getVertex(),
                 pv = Vector.fromPoints(p.getPoint(), v),
                 vq = Vector.fromPoints(v, q.getPoint());
@@ -219,7 +219,7 @@ define(function (require, exports, module) {
          *
          * @param {Boolean} isSmooth 设置为 true 让贝塞尔点光滑
          */
-        setSmooth: function (isSmooth) {
+        setSmooth: function(isSmooth) {
             var lc;
 
             this.smooth = !!isSmooth;
@@ -239,7 +239,7 @@ define(function (require, exports, module) {
          *
          * @grammar isSmooth() => {boolean}
          */
-        isSmooth: function () {
+        isSmooth: function() {
             return this.smooth;
         },
 
@@ -250,7 +250,7 @@ define(function (require, exports, module) {
          *
          * @grammar getVertex() => {kity.ShapePoint}
          */
-        getVertex: function () {
+        getVertex: function() {
 
             return this.vertex.getPoint();
 
@@ -263,7 +263,7 @@ define(function (require, exports, module) {
          *
          * @grammar getForward() => {kity.ShapePoint}
          */
-        getForward: function () {
+        getForward: function() {
 
             return this.forward.getPoint();
 
@@ -277,7 +277,7 @@ define(function (require, exports, module) {
          *
          * @grammar getBackward() => {kity.ShapePoint}
          */
-        getBackward: function () {
+        getBackward: function() {
 
             return this.backward.getPoint();
 
@@ -288,7 +288,7 @@ define(function (require, exports, module) {
          *
          * 联动更新相关的贝塞尔曲线
          */
-        update: function () {
+        update: function() {
 
             if (!this.container) {
                 return this;

@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var utils = require('../core/utils');
     var Box = require('./box');
     var mPattern = /matrix\s*\((.+)\)/i;
@@ -21,7 +21,7 @@ define(function (require, exports, module) {
     }
 
     var Matrix = require('../core/class').createClass('Matrix', {
-        constructor: function () {
+        constructor: function() {
             if (arguments.length) {
                 this.setMatrix.apply(this, arguments);
             } else {
@@ -29,7 +29,7 @@ define(function (require, exports, module) {
             }
         },
 
-        translate: function (x, y) {
+        translate: function(x, y) {
             this.m = mergeMatrixData(this.m, {
                 a: 1,
                 c: 0,
@@ -41,7 +41,7 @@ define(function (require, exports, module) {
             return this;
         },
 
-        rotate: function (deg) {
+        rotate: function(deg) {
             var rad = d2r(deg);
             var sin = Math.sin(rad),
                 cos = Math.cos(rad);
@@ -56,7 +56,7 @@ define(function (require, exports, module) {
             return this;
         },
 
-        scale: function (sx, sy) {
+        scale: function(sx, sy) {
             if (sy === undefined) {
                 sy = sx;
             }
@@ -71,7 +71,7 @@ define(function (require, exports, module) {
             return this;
         },
 
-        skew: function (degX, degY) {
+        skew: function(degX, degY) {
             if (degY === undefined) {
                 degY = degX;
             }
@@ -93,7 +93,7 @@ define(function (require, exports, module) {
          *
          * 这是我解方程算出来的
          */
-        inverse: function () {
+        inverse: function() {
             var m = this.m,
                 a = m.a,
                 b = m.b,
@@ -112,7 +112,7 @@ define(function (require, exports, module) {
             return new Matrix(aa, bb, cc, dd, ee, ff);
         },
 
-        setMatrix: function (a, b, c, d, e, f) {
+        setMatrix: function(a, b, c, d, e, f) {
             if (arguments.length === 1) {
                 this.m = utils.clone(arguments[0]);
             } else {
@@ -128,11 +128,11 @@ define(function (require, exports, module) {
             return this;
         },
 
-        getMatrix: function () {
+        getMatrix: function() {
             return utils.clone(this.m);
         },
 
-        getTranslate: function () {
+        getTranslate: function() {
             var m = this.m;
             return {
                 x: m.e / m.a,
@@ -140,24 +140,24 @@ define(function (require, exports, module) {
             };
         },
 
-        mergeMatrix: function (matrix) {
+        mergeMatrix: function(matrix) {
             return new Matrix(mergeMatrixData(this.m, matrix.m));
         },
 
-        merge: function (matrix) {
+        merge: function(matrix) {
             return this.mergeMatrix(matrix);
         },
 
-        toString: function () {
+        toString: function() {
             return this.valueOf().join(' ');
         },
 
-        valueOf: function () {
+        valueOf: function() {
             var m = this.m;
             return [m.a, m.b, m.c, m.d, m.e, m.f];
         },
 
-        equals: function (matrix) {
+        equals: function(matrix) {
             var m1 = this.m,
                 m2 = matrix.m;
             return m1.a == m2.a &&
@@ -168,20 +168,20 @@ define(function (require, exports, module) {
                 m1.f == m2.f;
         },
 
-        transformPoint: function () {
+        transformPoint: function() {
             return Matrix.transformPoint.apply(null, [].slice.call(arguments).concat([this.m]));
         },
 
-        transformBox: function (box) {
+        transformBox: function(box) {
             return Matrix.transformBox(box, this.m);
         },
 
-        clone: function () {
+        clone: function() {
             return new Matrix(this.m);
         }
     });
 
-    Matrix.parse = function (str) {
+    Matrix.parse = function(str) {
         var match;
         var f = parseFloat;
         if (str instanceof Array) {
@@ -211,7 +211,7 @@ define(function (require, exports, module) {
         return new Matrix();
     };
 
-    Matrix.transformPoint = function (x, y, m) {
+    Matrix.transformPoint = function(x, y, m) {
         if (arguments.length === 2) {
             m = y;
             y = x.y;
@@ -223,7 +223,7 @@ define(function (require, exports, module) {
         );
     };
 
-    Matrix.transformBox = function (box, matrix) {
+    Matrix.transformBox = function(box, matrix) {
         var xMin = Number.MAX_VALUE,
             xMax = -Number.MAX_VALUE,
             yMin = Number.MAX_VALUE,
@@ -256,7 +256,7 @@ define(function (require, exports, module) {
     };
 
     // 获得从 node 到 refer 的变换矩阵
-    Matrix.getCTM = function (target, refer) {
+    Matrix.getCTM = function(target, refer) {
         var ctm = {
             a: 1,
             b: 0,
@@ -268,7 +268,6 @@ define(function (require, exports, module) {
         var node = target.shapeNode || target.node;
 
         refer = refer || 'parent';
-
         /**
          * 由于新版chrome(dev 48.0)移除了getTransformToElement这个方法可能导致报错，这里做兼容处理
          * @Date 2015-11-12
@@ -278,7 +277,7 @@ define(function (require, exports, module) {
             var matrix;
             try {
                 matrix = source.getScreenCTM().inverse();
-            } catch (e) {
+            } catch(e) {
                 throw new Error('Can not inverse source element\' ctm.');
             }
             return matrix.multiply(target.getScreenCTM());
@@ -286,37 +285,37 @@ define(function (require, exports, module) {
 
         // 根据参照坐标系选区的不一样，返回不同的结果
         switch (refer) {
-            case "screen":
-                // 以浏览器屏幕为参照坐标系
-                ctm = node.getScreenCTM();
-                break;
+          case "screen":
+            // 以浏览器屏幕为参照坐标系
+            ctm = node.getScreenCTM();
+            break;
 
-            case "doc":
-            case "paper":
-                // 以文档（Paper）为参照坐标系
-                ctm = node.getCTM();
-                break;
+          case "doc":
+          case "paper":
+            // 以文档（Paper）为参照坐标系
+            ctm = node.getCTM();
+            break;
 
-            case "view":
-            case "top":
-                // 以顶层绘图容器（视野）为参照坐标系
-                if (target.getPaper()) {
-                    ctm = node.getTransformToElement !== undefined ? node.getTransformToElement(target.getPaper().shapeNode) : getTransformToElement(node, target.getPaper().shapeNode);
-                }
-                break;
+          case "view":
+          case "top":
+            // 以顶层绘图容器（视野）为参照坐标系
+            if (target.getPaper()) {
+                ctm = node.getTransformToElement !== undefined ? node.getTransformToElement(target.getPaper().shapeNode) : getTransformToElement(node, target.getPaper().shapeNode);
+            }
+            break;
 
-            case "parent":
-                // 以父容器为参照坐标系
-                if (target.node.parentNode) {
-                    ctm = node.getTransformToElement !== undefined ? node.getTransformToElement(target.node.parentNode) : getTransformToElement(node, target.node.parentNode);
-                }
-                break;
+          case "parent":
+            // 以父容器为参照坐标系
+            if (target.node.parentNode) {
+                ctm = node.getTransformToElement !== undefined ? node.getTransformToElement(target.node.parentNode) : getTransformToElement(node, target.node.parentNode);
+            }
+            break;
 
-            default:
-                // 其他情况，指定参照物
-                if (refer.node) {
-                    ctm = node.getTransformToElement !== undefined ? node.getTransformToElement(refer.shapeNode || refer.node) : getTransformToElement(node, refer.shapeNode || refer.node);
-                }
+          default:
+            // 其他情况，指定参照物
+            if (refer.node) {
+                ctm = node.getTransformToElement !== undefined ? node.getTransformToElement(refer.shapeNode || refer.node) : getTransformToElement(node, refer.shapeNode || refer.node);
+            }
         }
         return ctm ? new Matrix(ctm.a, ctm.b, ctm.c, ctm.d, ctm.e, ctm.f) : new Matrix();
     };

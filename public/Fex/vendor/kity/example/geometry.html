@@ -7,7 +7,7 @@
         seajs.config({
             base: '../src'
         });
-        define('start', function (require) {
+        define('start', function(require) {
             var Paper = require('graphic/paper');
             var Path = require('graphic/path');
             require('animate/pathanimator');
@@ -33,14 +33,12 @@
             path1.fxPath(pathData2, 3000, 'easeInOutElastic');
 
             var t = 0.1;
-
             function update() {
                 t += 0.003;
                 var sub = g.subPath(pathData2, t, t - 0.05).concat(g.subPath(pathData2, t + 0.55, t + 0.5));
                 path2.setPathData(sub);
                 requestAnimationFrame(update);
             }
-
             update();
 
             var triangle = new Path().setPathData('M0,-15L15,0,0,15Z').fill('green');
@@ -56,6 +54,6 @@
     </script>
 </head>
 <body>
-
+    
 </body>
 </html>

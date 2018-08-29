@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var theme = require('../core/theme');
 
     theme.register('fish', {
@@ -52,6 +52,6 @@ define(function (require, exports, module) {
         'order-hint-path-width': 1,
 
         'text-selection-color': 'rgb(27,171,255)',
-        'line-height': 1.5
+        'line-height':1.5
     });
 });

@@ -5,12 +5,12 @@ bubbleFrame.register('applicationController', function ($scope, bubble, $modal, 
     $scope.ins = [];
     $scope.colors = ["bg-primary lter", "bg-info", "bg-success dk", "bg-warning dk", "bg-danger lter", "bg-primary dk"];
     $scope.tableControl = {
-        title: [{name: "实例", key: "sl", width: 30}],
+        title: [{ name: "实例", key: "sl", width: 30 }],
         html: ['<a class="btn btn-sm m-t-n-xs"><i class="fa fa-navicon"></i></a>'],
         onClick: function (key, v) {
             showIns(v);
         }
-    };
+    }
 
     $timeout(function () {
         $(".grid-box").height($(".info-box").height() - 102);
@@ -21,7 +21,7 @@ bubbleFrame.register('applicationController', function ($scope, bubble, $modal, 
             columnWidth: 340,
             itemSelector: '.grid-item'
         });
-    };
+    }
 
     var initInsData = function () {
         $scope.ins.map(function (v) {
@@ -29,12 +29,12 @@ bubbleFrame.register('applicationController', function ($scope, bubble, $modal, 
             v.configName = JSON.parse(v.configName);
             v.state = 0;
         });
-    };
+    }
 
     var showIns = function (v) {
         $scope.currentApp = v;
         $scope.ins = [];
-        bubble._call("ins.pageBy", 1, 1000, [{"field": "sysid", "logic": "==", "value": v.id}]).success(function (v) {
+        bubble._call("ins.pageBy", 1, 1000, [{ "field": "sysid", "logic": "==", "value": v.id }]).success(function (v) {
             $scope.ins = v.data;
             initInsData();
         });
@@ -42,13 +42,13 @@ bubbleFrame.register('applicationController', function ($scope, bubble, $modal, 
             $scope.service = v.data;
         });
         $scope.tabChange();
-    };
+    }
 
     $scope.tabChange = function () {
         tab === 0 ? infoBox.show() : infoBox.hide();
         box.css("transform", "translateX(" + (tab === 0 ? "-50%" : "0") + ")").css("overflow-y", tab === 0 ? "hidden" : "auto");
         tab = tab === 0 ? 1 : 0;
-    };
+    }
 
     $scope.addIns = function (v) {
         var insList = $scope.ins;
@@ -58,11 +58,7 @@ bubbleFrame.register('applicationController', function ($scope, bubble, $modal, 
                 return;
             }
         }
-        bubble._call("ins.add", {
-            sid: v.id,
-            configName: {db: "", cache: "", other: ""},
-            sysid: $scope.currentApp.id
-        }).success(function (v) {
+        bubble._call("ins.add", { sid: v.id, configName: { db: "", cache: "", other: "" }, sysid: $scope.currentApp.id }).success(function (v) {
             if (!v.errorcode) {
                 $scope.ins.push(v);
                 initInsData();
@@ -70,7 +66,7 @@ bubbleFrame.register('applicationController', function ($scope, bubble, $modal, 
                 swal("添加失败");
         });
 
-    };
+    }
 
     $scope.deleteIns = function (v, idx) {
         swal({
@@ -94,7 +90,7 @@ bubbleFrame.register('applicationController', function ($scope, bubble, $modal, 
                         });
                 }
             });
-    };
+    }
 
     $scope.editConfig = function (v) {
         if (v.state == 1) {
@@ -119,7 +115,7 @@ bubbleFrame.register('applicationController', function ($scope, bubble, $modal, 
             field: field
         }, function (rs) {
             v.state = 1;
-            bubble._call("ins.update", v.id, {configName: rs}).success(function (x) {
+            bubble._call("ins.update", v.id, { configName: rs }).success(function (x) {
                 if (!x.errorcode) {
                     v.configName = rs;
                 } else {
@@ -128,7 +124,7 @@ bubbleFrame.register('applicationController', function ($scope, bubble, $modal, 
                 v.state = 0;
             })
         })
-    };
+    }
 
     infoBox.hide();
 });

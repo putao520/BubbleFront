@@ -13,27 +13,16 @@
                         <div class="datebox wrapper">
                             <form class="form-inline w-full" ng-submit="searchRepoer()">
                                 <div class="btn-group m-r">
-                                    <button type="button"
-                                            class="btn {{type2 == 'month' ? 'btn-success' :  'btn-default'}}"
-                                            ng-click="changetype2('month')">本月
-                                    </button>
-                                    <button type="button"
-                                            class="btn {{type2 == 'week' ? 'btn-success' :  'btn-default'}}"
-                                            ng-click="changetype2('week')">本周
-                                    </button>
-                                    <button type="button"
-                                            class="btn {{type2 == 'day' ? 'btn-success' :  'btn-default'}}"
-                                            ng-click="changetype2('day')">今日
-                                    </button>
+                                    <button type="button" class="btn {{type2 == 'month' ? 'btn-success' :  'btn-default'}}" ng-click="changetype2('month')">本月</button>
+                                    <button type="button" class="btn {{type2 == 'week' ? 'btn-success' :  'btn-default'}}" ng-click="changetype2('week')">本周</button>
+                                    <button type="button" class="btn {{type2 == 'day' ? 'btn-success' :  'btn-default'}}" ng-click="changetype2('day')">今日</button>
                                 </div>
                                 <div class="form-group">
-                                    <datetimepicker type="text" time="false" value="stime2" class="form-control"
-                                                    placeholder="开始时间"></datetimepicker>
+                                    <datetimepicker type="text" time="false" value="stime2" class="form-control" placeholder="开始时间"></datetimepicker>
                                 </div>
                                 至
                                 <div class="form-group">
-                                    <datetimepicker type="text" time="false" value="etime2" class="form-control"
-                                                    placeholder="结束时间"></datetimepicker>
+                                    <datetimepicker type="text" time="false" value="etime2" class="form-control" placeholder="结束时间"></datetimepicker>
                                 </div>
                                 <button type="submit" class="btn btn-sm btn-primary">确定</button>
                             </form>
@@ -74,35 +63,22 @@
                 <div class="panel panel-default">
                     <div class="panel-heading font-bold">
                         发布统计
-                        <button class="btn btn-xs btn-info pull-right" ng-show="path.length" ng-click="returnS()">
-                            返回上一级
-                        </button>
+                        <button class="btn btn-xs btn-info pull-right" ng-show="path.length" ng-click="returnS()">返回上一级</button>
                     </div>
                     <div class="panel-body pos-rlt">
                         <div class="datebox wrapper">
                             <form class="form-inline w-full" ng-submit="searchContent()">
                                 <div class="btn-group m-r">
-                                    <button type="button"
-                                            class="btn {{type1 == 'month' ? 'btn-success' :  'btn-default'}}"
-                                            ng-click="changetype1('month')">本月
-                                    </button>
-                                    <button type="button"
-                                            class="btn {{type1 == 'week' ? 'btn-success' :  'btn-default'}}"
-                                            ng-click="changetype1('week')">本周
-                                    </button>
-                                    <button type="button"
-                                            class="btn {{type1 == 'day' ? 'btn-success' :  'btn-default'}}"
-                                            ng-click="changetype1('day')">今日
-                                    </button>
+                                    <button type="button" class="btn {{type1 == 'month' ? 'btn-success' :  'btn-default'}}" ng-click="changetype1('month')">本月</button>
+                                    <button type="button" class="btn {{type1 == 'week' ? 'btn-success' :  'btn-default'}}" ng-click="changetype1('week')">本周</button>
+                                    <button type="button" class="btn {{type1 == 'day' ? 'btn-success' :  'btn-default'}}" ng-click="changetype1('day')">今日</button>
                                 </div>
                                 <div class="form-group">
-                                    <datetimepicker type="text" value="stime1" class="form-control"
-                                                    placeholder="开始时间"></datetimepicker>
+                                    <datetimepicker type="text" value="stime1" class="form-control" placeholder="开始时间"></datetimepicker>
                                 </div>
                                 至
                                 <div class="form-group">
-                                    <datetimepicker type="text" value="etime1" class="form-control"
-                                                    placeholder="结束时间"></datetimepicker>
+                                    <datetimepicker type="text" value="etime1" class="form-control" placeholder="结束时间"></datetimepicker>
                                 </div>
                                 <button type="submit" class="btn btn-sm btn-primary">确定</button>
                             </form>

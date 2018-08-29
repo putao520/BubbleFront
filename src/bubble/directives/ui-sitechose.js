@@ -106,11 +106,7 @@ app.directive('uiSitechose', ['$http', 'bubble', function ($http, bubble) {
                         });
                     },
                     right: function (id) {
-                        bubble._call("content.pageBy", 1, 100, [{
-                            "field": "ogid",
-                            "logic": "=",
-                            "value": id
-                        }]).success(function (v) {
+                        bubble._call("content.pageBy", 1, 100, [{ "field": "ogid", "logic": "=", "value": id }]).success(function (v) {
                             initRight(v, "mainName");
                         });
                     }
@@ -122,7 +118,7 @@ app.directive('uiSitechose', ['$http', 'bubble', function ($http, bubble) {
                         });
                     },
                     right: function (id) {
-                        bubble._call("wechatUser.pageBy", 1, 100, {platid: id}).success(function (v) {
+                        bubble._call("wechatUser.pageBy", 1, 100, { platid: id }).success(function (v) {
                             initRight(v, "name", "id");
                         });
                     }
@@ -170,7 +166,7 @@ app.directive('uiSitechose', ['$http', 'bubble', function ($http, bubble) {
                 $(".contentbatchMask").fadeOut(200);
             }
 
-            var initGovColumn = function (v, key) {
+            var initGovColumn = function(v, key){
                 var initTree = function (v) {
                     for (var i = 0; i < v.length; i++) {
                         if (v[i].Child && v[i].Child.length) {
@@ -290,11 +286,7 @@ app.directive('uiSitechose', ['$http', 'bubble', function ($http, bubble) {
                     }
                     var v = getObjByIdMap(this.id, scope.data[1]);
                     $(this).addClass("cur");
-                    scope.config.items.push({
-                        id: v[0].Id ? v[0].Id : (v[0]._id ? v[0]._id : v[0].id),
-                        path: current1 + " > " + v[1].join(" > "),
-                        value: v[0]
-                    });
+                    scope.config.items.push({ id: v[0].Id ? v[0].Id : (v[0]._id ? v[0]._id : v[0].id), path: current1 + " > " + v[1].join(" > "), value: v[0] });
                     if (!scope.config.multiple && scope.config.closeOnSelected) {
                         config.onConfirm && config.onConfirm(config.items);
                         scope.config.closeOnSelected && scope.config.method.hide();

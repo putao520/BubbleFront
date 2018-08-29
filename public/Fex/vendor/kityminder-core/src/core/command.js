@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('./kity');
     var utils = require('./utils');
     var Minder = require('./minder');
@@ -13,40 +13,40 @@ define(function (require, exports, module) {
      * 表示一个命令，包含命令的查询及执行
      */
     var Command = kity.createClass('Command', {
-        constructor: function () {
+        constructor: function() {
             this._isContentChange = true;
             this._isSelectionChange = false;
         },
 
-        execute: function (minder, args) {
+        execute: function(minder, args) {
             throw new Error('Not Implement: Command.execute()');
         },
 
-        setContentChanged: function (val) {
+        setContentChanged: function(val) {
             this._isContentChange = !!val;
         },
 
-        isContentChanged: function () {
+        isContentChanged: function() {
             return this._isContentChange;
         },
 
-        setSelectionChanged: function (val) {
+        setSelectionChanged: function(val) {
             this._isSelectionChange = !!val;
         },
 
-        isSelectionChanged: function () {
+        isSelectionChanged: function() {
             return this._isContentChange;
         },
 
-        queryState: function (km) {
+        queryState: function(km) {
             return COMMAND_STATE_NORMAL;
         },
 
-        queryValue: function (km) {
+        queryValue: function(km) {
             return 0;
         },
 
-        isNeedUndo: function () {
+        isNeedUndo: function() {
             return true;
         }
     });
@@ -56,11 +56,11 @@ define(function (require, exports, module) {
     Command.STATE_DISABLED = COMMAND_STATE_DISABLED;
 
     kity.extendClass(Minder, {
-        _getCommand: function (name) {
+        _getCommand: function(name) {
             return this._commands[name.toLowerCase()];
         },
 
-        _queryCommand: function (name, type, args) {
+        _queryCommand: function(name, type, args) {
             var cmd = this._getCommand(name);
             if (cmd) {
                 var queryCmd = cmd['query' + type];
@@ -84,7 +84,7 @@ define(function (require, exports, module) {
          *    0: 命令可用
          *    1: 命令当前可用并且已经执行过
          */
-        queryCommandState: function (name) {
+        queryCommandState: function(name) {
             return this._queryCommand(name, 'State', [].slice.call(arguments, 1));
         },
 
@@ -101,7 +101,7 @@ define(function (require, exports, module) {
          *    如果命令不存在，返回 undefined
          *    不同命令具有不同返回值，具体请查看 [Command](command) 章节
          */
-        queryCommandValue: function (name) {
+        queryCommandValue: function(name) {
             return this._queryCommand(name, 'Value', [].slice.call(arguments, 1));
         },
 
@@ -115,7 +115,7 @@ define(function (require, exports, module) {
          * @param {string} name 要执行的命令名称
          * @param {argument} args 要传递给命令的其它参数
          */
-        execCommand: function (name) {
+        execCommand: function(name) {
             if (!name) return null;
 
             name = name.toLowerCase();

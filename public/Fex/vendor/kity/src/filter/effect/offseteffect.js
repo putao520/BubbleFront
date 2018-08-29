@@ -2,7 +2,7 @@
  * 偏移效果封装
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var Effect = require('./effect'),
         Utils = require('../../core/utils');
@@ -11,7 +11,7 @@ define(function (require, exports, module) {
 
         base: Effect,
 
-        constructor: function (dx, dy, input) {
+        constructor: function(dx, dy, input) {
 
             this.callBase(Effect.NAME_OFFSET);
 

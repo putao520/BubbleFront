@@ -1,7 +1,7 @@
 'use strict';
 bubbleFrame.register('voteController', function ($scope, bubble) {
     $scope.tableControl = {
-        title: [{name: "投票详情", key: "vote", width: 90}],
+        title: [{ name: "投票详情", key: "vote", width: 90 }],
         html: [""],
         onClick: function (key, v) {
             bubble.customModal("voteInfoModal.html", "voteInfoController", "", v, function (v) {
@@ -50,15 +50,15 @@ bubbleFrame.register('voteCreate', function ($scope, $modalInstance, items, bubb
     }
 
     $scope.value.ismulti = "0";
-    $scope.value.vote = [{itemName: "", count: "0", itemid: ""}];
+    $scope.value.vote = [{ itemName: "", count: "0", itemid: "" }];
 
     $scope.addItem = function () {
-        $scope.value.vote.length < 5 && $scope.value.vote.push({itemName: "", count: "0", itemid: ""});
-    };
+        $scope.value.vote.length < 5 && $scope.value.vote.push({ itemName: "", count: "0", itemid: "" });
+    }
 
     $scope.removeItem = function (i) {
         $scope.value.vote.length > 1 && $scope.value.vote.splice(i, 1);
-    };
+    }
 
     var check = function () {
         for (var i = 0; i < $scope.value.vote.length; i++) {
@@ -67,7 +67,7 @@ bubbleFrame.register('voteCreate', function ($scope, $modalInstance, items, bubb
                 return false;
         }
         return true;
-    };
+    }
 
     $scope.ok = function (e) {
         $(e.currentTarget).addClass("data-loading");
@@ -83,7 +83,7 @@ bubbleFrame.register('voteCreate', function ($scope, $modalInstance, items, bubb
                 $modalInstance.close(v.message);
             }
         })
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');

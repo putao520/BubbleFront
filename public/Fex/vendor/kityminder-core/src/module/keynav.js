@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var utils = require('../core/utils');
     var keymap = require('../core/keymap');
@@ -9,7 +9,7 @@ define(function (require, exports, module) {
     var Module = require('../core/module');
     var Renderer = require('../core/render');
 
-    Module.register('KeyboardModule', function () {
+    Module.register('KeyboardModule', function() {
         var min = Math.min,
             max = Math.max,
             abs = Math.abs,
@@ -19,7 +19,7 @@ define(function (require, exports, module) {
         function buildPositionNetwork(root) {
             var pointIndexes = [],
                 p;
-            root.traverse(function (node) {
+            root.traverse(function(node) {
                 p = node.getLayoutBox();
 
                 // bugfix: 不应导航到收起的节点（判断其尺寸是否存在）
@@ -152,13 +152,13 @@ define(function (require, exports, module) {
         var lastFrame;
         return {
             'events': {
-                'layoutallfinish': function () {
+                'layoutallfinish': function() {
                     var root = this.getRoot();
                     buildPositionNetwork(root);
                 },
-                'normal.keydown readonly.keydown': function (e) {
+                'normal.keydown readonly.keydown': function(e) {
                     var minder = this;
-                    ['left', 'right', 'up', 'down'].forEach(function (key) {
+                    ['left', 'right', 'up', 'down'].forEach(function(key) {
                         if (e.isShortcutKey(key)) {
                             navigateTo(minder, key == 'up' ? 'top' : key);
                             e.preventDefault();

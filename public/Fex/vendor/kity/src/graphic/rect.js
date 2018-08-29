@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var RectUtils = {},
         Utils = require('../core/utils'),
@@ -9,7 +9,7 @@ define(function (require, exports, module) {
 
         //根据传递进来的width、height和radius属性，
         //获取最适合的radius值
-        formatRadius: function (width, height, radius) {
+        formatRadius: function(width, height, radius) {
 
             var minValue = Math.floor(Math.min(width / 2, height / 2));
 
@@ -38,7 +38,7 @@ define(function (require, exports, module) {
          * @param  {Number} y      矩形的初始化 y 坐标
          * @param  {Number} radius 矩形的初始化圆角大小
          */
-        constructor: function (width, height, x, y, radius) {
+        constructor: function(width, height, x, y, radius) {
 
             this.callBase();
 
@@ -52,7 +52,7 @@ define(function (require, exports, module) {
 
         },
 
-        update: function () {
+        update: function() {
             var x = this.x,
                 y = this.y,
                 w = this.width,
@@ -106,7 +106,7 @@ define(function (require, exports, module) {
          * rect.setWidth(300);
          * ```
          */
-        setWidth: function (width) {
+        setWidth: function(width) {
             this.width = width;
 
             return this.update();
@@ -124,7 +124,7 @@ define(function (require, exports, module) {
          * rect.setHeight(200);
          * ```
          */
-        setHeight: function (height) {
+        setHeight: function(height) {
             this.height = height;
 
             return this.update();
@@ -143,7 +143,7 @@ define(function (require, exports, module) {
          * rect.setSize(300, 200);
          * ```
          */
-        setSize: function (width, height) {
+        setSize: function(width, height) {
             this.width = width;
             this.height = height;
 
@@ -157,7 +157,7 @@ define(function (require, exports, module) {
          * @description 使用一个 kity 的盒子数据，
          * @param {kity.Box} box 盒子数据
          */
-        setBox: function (box) {
+        setBox: function(box) {
             this.x = box.x;
             this.y = box.y;
             this.width = box.width;
@@ -166,27 +166,27 @@ define(function (require, exports, module) {
             return this.update();
         },
 
-        getBox: function () {
+        getBox: function() {
             return new Box(this.x, this.y, this.width, this.height);
         },
 
-        getRadius: function () {
+        getRadius: function() {
             return this.radius;
         },
 
-        setRadius: function (radius) {
+        setRadius: function(radius) {
             this.radius = RectUtils.formatRadius(this.width, this.height, radius || 0);
             return this.update();
         },
 
-        getPosition: function () {
+        getPosition: function() {
             return new Point(
                 this.x,
                 this.y
             );
         },
 
-        setPosition: function (x, y) {
+        setPosition: function(x, y) {
             if (arguments.length == 1) {
                 var p = Point.parse(arguments[0]);
                 y = p.y;
@@ -198,28 +198,28 @@ define(function (require, exports, module) {
             return this.update();
         },
 
-        getWidth: function () {
+        getWidth: function() {
             return this.width;
         },
 
-        getHeight: function () {
+        getHeight: function() {
             return this.height;
         },
 
-        getPositionX: function () {
+        getPositionX: function() {
             return this.x;
         },
 
-        getPositionY: function () {
+        getPositionY: function() {
             return this.y;
         },
 
-        setPositionX: function (x) {
+        setPositionX: function(x) {
             this.x = x;
             return this.update();
         },
 
-        setPositionY: function (y) {
+        setPositionY: function(y) {
             this.y = y;
             return this.update();
         }

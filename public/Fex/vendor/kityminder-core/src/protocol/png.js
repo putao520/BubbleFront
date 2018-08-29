@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var data = require('../core/data');
     var Promise = require('../core/promise');
@@ -6,9 +6,9 @@ define(function (require, exports, module) {
     var DomURL = window.URL || window.webkitURL || window;
 
     function loadImage(info, callback) {
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
             var image = document.createElement("img");
-            image.onload = function () {
+            image.onload = function() {
                 resolve({
                     element: this,
                     x: info.x,
@@ -17,7 +17,7 @@ define(function (require, exports, module) {
                     height: info.height
                 });
             };
-            image.onerror = function (err) {
+            image.onerror = function(err) {
                 reject(err);
             };
 
@@ -25,7 +25,6 @@ define(function (require, exports, module) {
             image.src = info.url;
         });
     }
-
     function getSVGInfo(minder) {
         var paper = minder.getPaper(),
             paperTransform,
@@ -84,7 +83,7 @@ define(function (require, exports, module) {
         var allNodes = minder.getAllNode();
         var imagesInfo = [];
 
-        for (var i = 0; i < allNodes.length; i++) {
+        for(var i = 0; i < allNodes.length; i++) {
             var nodeData = allNodes[i].data;
 
             if (nodeData.image) {
@@ -139,8 +138,8 @@ define(function (require, exports, module) {
         var svgInfo = getSVGInfo(minder);
         var width = option && option.width && option.width > svgInfo.width ? option.width : svgInfo.width;
         var height = option && option.height && option.height > svgInfo.height ? option.height : svgInfo.height;
-        var offsetX = option && option.width && option.width > svgInfo.width ? (option.width - svgInfo.width) / 2 : 0;
-        var offsetY = option && option.height && option.height > svgInfo.height ? (option.height - svgInfo.height) / 2 : 0;
+        var offsetX = option && option.width && option.width > svgInfo.width ? (option.width - svgInfo.width)/2 : 0;
+        var offsetY = option && option.height && option.height > svgInfo.height ? (option.height - svgInfo.height)/2 : 0;
         var svgDataUrl = svgInfo.dataUrl;
         var imagesInfo = svgInfo.imagesInfo;
 
@@ -171,7 +170,7 @@ define(function (require, exports, module) {
 
         // 加载节点上的图片
         function loadImages(imagesInfo) {
-            var imagePromises = imagesInfo.map(function (imageInfo) {
+            var imagePromises = imagesInfo.map(function(imageInfo) {
                 return loadImage(imageInfo);
             });
 
@@ -181,18 +180,18 @@ define(function (require, exports, module) {
         function drawSVG() {
             var svgData = {url: svgDataUrl};
 
-            return loadImage(svgData).then(function ($image) {
+            return loadImage(svgData).then(function($image) {
                 drawImage(ctx, $image.element, offsetX, offsetY, $image.width, $image.height);
                 return loadImages(imagesInfo);
-            }).then(function ($images) {
-                for (var i = 0; i < $images.length; i++) {
+            }).then(function($images) {
+                for(var i = 0; i < $images.length; i++) {
                     drawImage(ctx, $images[i].element, $images[i].x, $images[i].y, $images[i].width, $images[i].height);
                 }
 
                 DomURL.revokeObjectURL(svgDataUrl);
                 document.body.appendChild(canvas);
                 return generateDataUrl(canvas);
-            }, function (err) {
+            }, function(err) {
                 // 这里处理 reject，出错基本上是因为跨域，
                 // 出错后依然导出，只不过没有图片。
                 alert('脑图的节点中包含跨域图片，导出的 png 中节点图片不显示，你可以替换掉这些跨域的图片并重试。');
@@ -204,7 +203,7 @@ define(function (require, exports, module) {
 
         if (bgUrl) {
             var bgInfo = {url: bgUrl[1]};
-            return loadImage(bgInfo).then(function ($image) {
+            return loadImage(bgInfo).then(function($image) {
                 fillBackground(ctx, ctx.createPattern($image.element, "repeat"));
                 return drawSVG();
             });
@@ -213,7 +212,6 @@ define(function (require, exports, module) {
             return drawSVG();
         }
     }
-
     data.registerProtocol("png", module.exports = {
         fileDescription: "PNG 图片",
         fileExtension: ".png",

@@ -1,7 +1,7 @@
 'use strict';
 bubbleFrame.register('messageController', function ($scope, bubble) {
     $scope.tableControl = {
-        title: [{name: "回复", key: "hf", width: 60}, {name: "查看回复", key: "view", width: 90}],
+        title: [{ name: "回复", key: "hf", width: 60 }, { name: "查看回复", key: "view", width: 90 }],
         html: ['<a class="btn btn-sm m-t-n-xs"><i class="fa fa-comment-o"></i></a>', "123123"],
         onClick: function (key, v) {
             if (key == "hf") {
@@ -27,7 +27,7 @@ bubbleFrame.register('replyMessageController', function ($scope, bubble, items, 
 
     $scope.ok = function (e) {
         $(e.currentTarget).addClass("data-loading");
-        bubble._call("message.add", {fatherid: items._id, messageContent: $scope.value}).success(function (v) {
+        bubble._call("message.add", { fatherid: items._id, messageContent: $scope.value }).success(function (v) {
             if (!v.errorcode) {
                 $modalInstance.close(v);
             } else {
@@ -35,7 +35,7 @@ bubbleFrame.register('replyMessageController', function ($scope, bubble, items, 
                 $(e.currentTarget).removeClass("data-loading");
             }
         });
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');
@@ -49,10 +49,10 @@ bubbleFrame.register('messageViewController', function ($scope, bubble, items, $
             rs[v[i]._id] = v[i];
         }
         return rs;
-    };
+    }
     $scope.list = "";
 
-    bubble._call("message.pageBy", 1, 1000, {fatherid: items}).success(function (v) {
+    bubble._call("message.pageBy", 1, 1000, { fatherid: items }).success(function (v) {
         if (!v.errorcode) {
             $scope.list = initData(v.data);
             for (var tmp in $scope.list) {
@@ -72,7 +72,7 @@ bubbleFrame.register('messageViewController', function ($scope, bubble, items, $
     $scope.ok = function (e) {
         $(e.currentTarget).addClass("data-loading");
 
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');

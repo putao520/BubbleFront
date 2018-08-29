@@ -1,16 +1,15 @@
 .webuploader-container {
-    position: relative;
+	position: relative;
 }
-
 .webuploader-element-invisible {
-    position: absolute !important;
-    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
-    clip: rect(1px, 1px, 1px, 1px);
+	position: absolute !important;
+	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px,1px,1px,1px);
 }
 
 .webuploader-pick-disable {
-    opacity: 0.6;
-    pointer-events: none;
+	opacity: 0.6;
+	pointer-events:none;
 }
 
 .dialog {
@@ -19,19 +18,19 @@
     background: #fff;
     box-shadow: 0 0 9px #999;
     overflow: hidden;
-    font: 12px/1.5 tahoma, arial, 宋体 !important;
-    width: 633px;
+	font: 12px/1.5 tahoma, arial, 宋体 !important;
+	width: 633px;
     display: block;
     visibility: visible;
     z-index: 2000;
-    bottom: 5px;
+	bottom: 5px;
     right: 20px;
-    display: none;
+	display:none;
     transition: bottom .2s;
     -webkit-transition: bottom .2s;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 767px){
     .dialog {
         width: 100%;
         bottom: 5px;
@@ -39,22 +38,20 @@
     }
 }
 
-.dialog-min {
-    animation: dialogmin .3s forwards;
-    -moz-animation: dialogmin .3s forwards;
-    -webkit-animation: dialogmin .3s forwards;
-    -o-animation: dialogmin .3s forwards;
+.dialog-min{
+	animation: dialogmin .3s forwards;
+	-moz-animation: dialogmin .3s forwards;
+	-webkit-animation: dialogmin .3s forwards;
+	-o-animation: dialogmin .3s forwards;
 }
 
 .dialog-web-uploader .file-operate {
     height: 16px;
 }
-
-.dialog-web-uploader .file-operate .cur {
-    display: block;
+.dialog-web-uploader .file-operate .cur{
+	display:block;
 }
-
-.dialog-web-uploader .file-operate em.operate-pause, .dialog-web-uploader .status-locked .file-operate em.operate-pause:hover {
+.dialog-web-uploader .file-operate em.operate-pause,.dialog-web-uploader .status-locked .file-operate em.operate-pause:hover {
     background-position: 0 0
 }
 
@@ -62,7 +59,7 @@
     background-position: -21px 0
 }
 
-.dialog-web-uploader .file-operate em.operate-continue, .dialog-web-uploader .status-locked .file-operate em.operate-continue:hover {
+.dialog-web-uploader .file-operate em.operate-continue,.dialog-web-uploader .status-locked .file-operate em.operate-continue:hover {
     background-position: 0 -17px
 }
 
@@ -70,7 +67,7 @@
     background-position: -21px -17px
 }
 
-.dialog-web-uploader .file-operate em.operate-remove, .dialog-web-uploader .status-locked .file-operate em.operate-remove:hover {
+.dialog-web-uploader .file-operate em.operate-remove,.dialog-web-uploader .status-locked .file-operate em.operate-remove:hover {
     background-position: 0 -34px
 }
 
@@ -78,7 +75,7 @@
     background-position: -21px -34px
 }
 
-.dialog-web-uploader .file-operate em.operate-retry, .dialog-web-uploader .status-locked .file-operate em.operate-retry:hover {
+.dialog-web-uploader .file-operate em.operate-retry,.dialog-web-uploader .status-locked .file-operate em.operate-retry:hover {
     background-position: 0 -53px
 }
 
@@ -101,7 +98,7 @@
     *border: 1px solid #999
 }
 
-.dialog .dialog-min-header h3, .dialog .dialog-header h3 {
+.dialog .dialog-min-header h3,.dialog .dialog-header h3 {
     position: relative;
     display: block;
     height: 42px;
@@ -146,7 +143,7 @@
     line-height: 24px
 }
 
-.dialog .dialog-min-header, .dialog .dialog-header {
+.dialog .dialog-min-header,.dialog .dialog-header {
     position: relative;
     color: #333;
     background: #eee url(http://s1.pan.bdstatic.com/box-static/system-core-cdn/system/uiService/dialog/img/dialog-head_e30ee50.png) repeat-x 0 0;
@@ -162,12 +159,12 @@
     display: none
 }
 
-.dialog .dialog-min-header .hasicon, .dialog .dialog-header .hasicon {
+.dialog .dialog-min-header .hasicon,.dialog .dialog-header .hasicon {
     padding-left: 35px;
     text-indent: 0
 }
 
-.dialog .dialog-min-header .hasicon i, .dialog .dialog-header .hasicon i {
+.dialog .dialog-min-header .hasicon i,.dialog .dialog-header .hasicon i {
     position: absolute;
     width: 22px;
     height: 22px;
@@ -210,7 +207,7 @@
     background-position: -20px 0
 }
 
-.dialog-blue .dialog-min-header, .dialog-blue .dialog-header {
+.dialog-blue .dialog-min-header,.dialog-blue .dialog-header {
     color: #fff;
     background: #4190e7 url(http://s1.pan.bdstatic.com/box-static/system-core-cdn/system/uiService/dialog/img/dialog-head_e30ee50.png) repeat-x 0 -53px
 }
@@ -223,7 +220,7 @@
     background-position: -60px 0
 }
 
-.dialog-blue .dialog-max, .dialog-blue .dialog-back {
+.dialog-blue .dialog-max,.dialog-blue .dialog-back {
     background-position: -40px 0
 }
 
@@ -259,7 +256,7 @@
     *height: 40px;
     background: #87c4fb;
     transition: width .2s;
-    display: none;
+	display:none;
 }
 
 .dialog-web-uploader .file-name {
@@ -291,7 +288,7 @@
     left: 14px;
     width: 16px;
     height: 16px;
-    background-image: url(http://s1.pan.bdstatic.com/box-static/file-widget-1-cdn/common/listIcon_cb54a24.png);
+	background-image: url(http://s1.pan.bdstatic.com/box-static/file-widget-1-cdn/common/listIcon_cb54a24.png);
     background-position: -624px 0;
 }
 
@@ -375,7 +372,7 @@
     opacity: .8
 }
 
-.dialog-web-uploader .resident-caution .arrow-outer, .dialog-web-uploader .resident-caution .arrow-inner {
+.dialog-web-uploader .resident-caution .arrow-outer,.dialog-web-uploader .resident-caution .arrow-inner {
     width: 0;
     height: 0;
     line-height: 0;
@@ -392,11 +389,11 @@
     border-color: transparent transparent #FFF
 }
 
-.dialog-web-uploader .tips .icon, .dialog-web-uploader .tips .text, .dialog-web-uploader .tips .g-button, .dialog-web-uploader .resident-caution .arrow-outer, .dialog-web-uploader .resident-caution .arrow-inner, .dialog-web-uploader .resident-caution .caution-title {
+.dialog-web-uploader .tips .icon,.dialog-web-uploader .tips .text,.dialog-web-uploader .tips .g-button,.dialog-web-uploader .resident-caution .arrow-outer,.dialog-web-uploader .resident-caution .arrow-inner,.dialog-web-uploader .resident-caution .caution-title {
     display: none
 }
 
-.dialog-web-uploader .tips.has-error .icon, .dialog-web-uploader .tips.has-error .text, .dialog-web-uploader .tips.has-error .g-button, .dialog-web-uploader .has-error .resident-caution .caution-title {
+.dialog-web-uploader .tips.has-error .icon,.dialog-web-uploader .tips.has-error .text,.dialog-web-uploader .tips.has-error .g-button,.dialog-web-uploader .has-error .resident-caution .caution-title {
     display: block
 }
 
@@ -407,7 +404,7 @@
     _display: none
 }
 
-.dialog-web-uploader .has-error .resident-caution:hover .caution-text, .dialog-web-uploader .has-error .resident-caution:hover .arrow-outer, .dialog-web-uploader .has-error .resident-caution:hover .arrow-inner {
+.dialog-web-uploader .has-error .resident-caution:hover .caution-text,.dialog-web-uploader .has-error .resident-caution:hover .arrow-outer,.dialog-web-uploader .has-error .resident-caution:hover .arrow-inner {
     display: block
 }
 
@@ -487,7 +484,7 @@
     height: 340px
 }
 
-@media (max-width: 767px) {
+@media (max-width: 767px){
     .dialog-web-uploader .uploader-list {
         height: 200px
     }
@@ -532,11 +529,11 @@
     display: none
 }
 
-.dialog-web-uploader .file-list em, .dialog-web-uploader .file-list i {
+.dialog-web-uploader .file-list em,.dialog-web-uploader .file-list i {
     font-style: normal
 }
 
-.dialog-web-uploader .file-list .success em, .dialog-web-uploader .file-list .exist em {
+.dialog-web-uploader .file-list .success em,.dialog-web-uploader .file-list .exist em{
     position: absolute;
     top: 14px;
     left: 0;
@@ -546,8 +543,8 @@
     background: url(http://s1.pan.bdstatic.com/box-static/disk-system-cdn/widget/plugin/uploader/images/operate-icon_799c133.png) 1px -80px no-repeat
 }
 
-.dialog-web-uploader .file-list .error em {
-    position: absolute;
+.dialog-web-uploader .file-list .error em{
+	position: absolute;
     top: 14px;
     left: 0;
     display: block;
@@ -556,8 +553,8 @@
     background: url(http://s1.pan.bdstatic.com/box-static/disk-system-cdn/widget/plugin/uploader/images/operate-icon_799c133.png) -21px -80px no-repeat
 }
 
-.dialog-web-uploader .file-list .success i, .dialog-web-uploader .file-list .error i, .dialog-web-uploader .file-list .exist i {
-    padding-left: 20px;
+.dialog-web-uploader .file-list .success i,.dialog-web-uploader .file-list .error i,.dialog-web-uploader .file-list .exist i{
+	padding-left:20px;
 }
 
 .dialog-web-uploader .file-operate .error-link {

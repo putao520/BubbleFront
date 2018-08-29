@@ -6,6 +6,6 @@
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     module.exports = window.kity;
 });

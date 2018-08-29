@@ -52,8 +52,7 @@
                 <div class="col-sm-9">
                     <div class="input-group m-b">
                         <input type="text" class="form-control" ng-model="list[$index]" placeholder="请输入主机地址">
-                        <span class="input-group-addon cursor-p" ng-click="removeItem(item, $index)"><i
-                            class="fa fa-remove"></i></span>
+                        <span class="input-group-addon cursor-p" ng-click="removeItem(item, $index)"><i class="fa fa-remove"></i></span>
                     </div>
                 </div>
             </div>
@@ -74,7 +73,6 @@
     <h1 class="m-n font-thin h3">API监控管理</h1>
 </div>
 <div class="wrapper">
-    <select-table multiple="true" editable="true" interface="api" title="API监控列表" select-par="par"
-                  create-modal="monitorCreate.html"
-                  control="tableControl"></select-table>
+    <select-table multiple="true" editable="true" interface="api" title="API监控列表" select-par="par" create-modal="monitorCreate.html"
+        control="tableControl"></select-table>
 </div>

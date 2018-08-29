@@ -1,15 +1,15 @@
-define(function (require, exports, module) {
-    var Paper = require('graphic/paper');
+define( function ( require, exports, module ) {
+    var Paper = require( 'graphic/paper' );
 
     var touchable = window.ontouchstart !== undefined;
     var DRAG_START_EVENT = touchable ? 'touchstart' : 'mousedown',
         DRAG_MOVE_EVENT = touchable ? 'touchmove' : 'mousemove',
         DRAG_END_EVENT = touchable ? 'touchend' : 'mouseup';
 
-    return require('core/class').createClass({
-        drag: function (opt) {
+    return require( 'core/class' ).createClass( {
+        drag: function ( opt ) {
 
-            if (this.dragEnabled) {
+            if ( this.dragEnabled ) {
                 return;
             }
 
@@ -22,13 +22,13 @@ define(function (require, exports, module) {
             this.dragEnabled = true;
             this.dragTarget = dragTarget;
 
-            function bindEvents(paper) {
+            function bindEvents( paper ) {
 
                 var startPosition, lastPosition, dragging = false;
 
-                var dragFn = function (e) {
-                    if (!dragging) {
-                        paper.off(DRAG_MOVE_EVENT, dragFn);
+                var dragFn = function ( e ) {
+                    if ( !dragging ) {
+                        paper.off( DRAG_MOVE_EVENT, dragFn );
                     }
 
                     var currentPosition = e.getPosition();
@@ -47,25 +47,25 @@ define(function (require, exports, module) {
                     };
                     lastPosition = currentPosition;
 
-                    if (dragMove) {
-                        dragMove.call(me, dragInfo);
-                    } else if (me instanceof Paper) {
+                    if ( dragMove ) {
+                        dragMove.call( me, dragInfo );
+                    } else if ( me instanceof Paper ) {
                         // treate paper drag different
                         var view = me.getViewPort();
                         view.center.x -= movement.x;
                         view.center.y -= movement.y;
-                        me.setViewPort(view);
+                        me.setViewPort( view );
                     } else {
-                        me.translate(delta.x, delta.y);
+                        me.translate( delta.x, delta.y );
                     }
 
-                    dragTarget.trigger('dragmove', dragInfo);
+                    dragTarget.trigger( 'dragmove', dragInfo );
                     e.stopPropagation();
                     e.preventDefault();
                 };
 
-                dragTarget.on(DRAG_START_EVENT, dragTarget._dragStartHandler = function (e) {
-                    if (e.originEvent.button) {
+                dragTarget.on( DRAG_START_EVENT, dragTarget._dragStartHandler = function ( e ) {
+                    if ( e.originEvent.button ) {
                         return;
                     }
                     dragging = true;
@@ -74,53 +74,53 @@ define(function (require, exports, module) {
                         position: lastPosition = startPosition = e.getPosition()
                     };
 
-                    if (dragStart) {
-                        var cancel = dragStart.call(me, dragInfo) === false;
-                        if (cancel) {
+                    if ( dragStart ) {
+                        var cancel = dragStart.call( me, dragInfo ) === false;
+                        if ( cancel ) {
                             return;
                         }
                     }
 
-                    paper.on(DRAG_MOVE_EVENT, dragFn);
+                    paper.on( DRAG_MOVE_EVENT, dragFn );
 
-                    dragTarget.trigger('dragstart', dragInfo);
+                    dragTarget.trigger( 'dragstart', dragInfo );
 
                     e.stopPropagation();
                     e.preventDefault();
-                });
+                } );
 
-                paper.on(DRAG_END_EVENT, dragTarget._dragEndHandler = function (e) {
-                    if (dragging) {
+                paper.on( DRAG_END_EVENT, dragTarget._dragEndHandler = function ( e ) {
+                    if ( dragging ) {
                         dragging = false;
                         var dragInfo = {
                             position: e.getPosition()
                         };
-                        if (dragEnd) {
-                            dragEnd.call(me, dragInfo);
+                        if ( dragEnd ) {
+                            dragEnd.call( me, dragInfo );
                         }
 
-                        paper.off(DRAG_MOVE_EVENT, dragFn);
-                        dragTarget.trigger('dragend', dragInfo);
+                        paper.off( DRAG_MOVE_EVENT, dragFn );
+                        dragTarget.trigger( 'dragend', dragInfo );
 
                         e.stopPropagation();
                         e.preventDefault();
                     }
-                });
+                } );
             }
 
-            if (me instanceof Paper) {
-                bindEvents(me);
-            } else if (me.getPaper()) {
-                bindEvents(me.getPaper());
+            if ( me instanceof Paper ) {
+                bindEvents( me );
+            } else if ( me.getPaper() ) {
+                bindEvents( me.getPaper() );
             } else {
-                var listener = function (e) {
-                    if (e.target.getPaper()) {
-                        bindEvents(e.target.getPaper());
-                        me.off('add', listener);
-                        me.off('treeadd', listener);
+                var listener = function ( e ) {
+                    if ( e.target.getPaper() ) {
+                        bindEvents( e.target.getPaper() );
+                        me.off( 'add', listener );
+                        me.off( 'treeadd', listener );
                     }
-                };
-                me.on('add treeadd', listener);
+                }
+                me.on( 'add treeadd', listener );
             }
             return this;
         }, // end of drag
@@ -128,12 +128,12 @@ define(function (require, exports, module) {
 
         undrag: function () {
             var target = this.dragTarget;
-            target.off(DRAG_START_EVENT, target._dragStartHandler);
-            target.getPaper().off(DRAG_END_EVENT, target._dragEndHandler);
+            target.off( DRAG_START_EVENT, target._dragStartHandler );
+            target.getPaper().off( DRAG_END_EVENT, target._dragEndHandler );
             delete target._dragStartHandler;
             delete target._dragEndHandler;
             this.dragEnabled = false;
             return this;
         }
-    });
-});
+    } );
+} );

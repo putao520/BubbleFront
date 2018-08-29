@@ -9,7 +9,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">留言内容</label>
                     <div class="col-sm-9">
-                        <textarea class="form-control" ng-model="value" rows="3"></textarea>
+                        <textarea class="form-control" ng-model="value" rows="3"></textarea> 
                     </div>
                 </div>
             </form>
@@ -36,8 +36,7 @@
                     <div class="item">
                         <span class="name text-info">{{item.oid}}:</span>
                         <span class="content m-l-sm">{{item.messageContent}}</span>
-                        <span
-                            class="time text-muted pull-right">{{item.messageDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="time text-muted pull-right">{{item.messageDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </div>
                     <div class="line line-dashed b-b line-lg"></div>
                 </div>
@@ -58,8 +57,7 @@
                 <h1 class="m-n font-thin h3">留言管理</h1>
             </div>
             <div class="table-box wrapper">
-                <select-table multiple="true" editable="true" interface="message" title="留言列表" helper="点击蓝色数字查看回复详情"
-                              control="tableControl"></select-table>
+                <select-table multiple="true" editable="true" interface="message" title="留言列表" helper="点击蓝色数字查看回复详情" control="tableControl"></select-table>
             </div>
         </div>
     </div>

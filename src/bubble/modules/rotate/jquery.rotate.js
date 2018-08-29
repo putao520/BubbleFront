@@ -6,11 +6,11 @@
  */
 import jQuery from "jquery";
 
-(function ($) {
+(function($) {
     function getTransformProperty(element) {
         var properties = ['transform', 'WebkitTransform',
-            'MozTransform', 'msTransform',
-            'OTransform'];
+                          'MozTransform', 'msTransform',
+                          'OTransform'];
         var p;
         while (p = properties.shift()) {
             if (element.style[p] !== undefined) {
@@ -19,9 +19,8 @@ import jQuery from "jquery";
         }
         return false;
     }
-
     $.cssHooks['rotate'] = {
-        get: function (elem, computed, extra) {
+        get: function(elem, computed, extra){
             var property = getTransformProperty(elem);
             if (property) {
                 return elem.style[property].replace(/.*rotate\((.*)deg\).*/, '$1');
@@ -29,7 +28,7 @@ import jQuery from "jquery";
                 return '';
             }
         },
-        set: function (elem, value) {
+        set: function(elem, value){
             var property = getTransformProperty(elem);
             if (property) {
                 value = parseInt(value);
@@ -37,14 +36,14 @@ import jQuery from "jquery";
                 if (value == 0) {
                     elem.style[property] = '';
                 } else {
-                    elem.style[property] = 'rotate(' + value % 360 + 'deg)';
+                    elem.style[property] = 'rotate(' + value%360 + 'deg)';
                 }
             } else {
                 return '';
             }
         }
     };
-    $.fx.step['rotate'] = function (fx) {
+    $.fx.step['rotate'] = function(fx){
         $.cssHooks['rotate'].set(fx.elem, fx.now);
     };
 })(jQuery);

@@ -42,22 +42,19 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">appid</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" ng-model="value.configstring.appid"
-                               placeholder="请输入字段名">
+                        <input type="text" class="form-control" ng-model="value.configstring.appid" placeholder="请输入字段名">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">appsecret</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" ng-model="value.configstring.appsecret"
-                               placeholder="请输入字段名">
+                        <input type="text" class="form-control" ng-model="value.configstring.appsecret" placeholder="请输入字段名">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">token</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" ng-model="value.configstring.token"
-                               placeholder="请输入字段名">
+                        <input type="text" class="form-control" ng-model="value.configstring.token" placeholder="请输入字段名">
                     </div>
                 </div>
             </form>
@@ -85,22 +82,19 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">appid</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" ng-model="value.configstring.appid"
-                               placeholder="请输入字段名">
+                        <input type="text" class="form-control" ng-model="value.configstring.appid" placeholder="请输入字段名">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">appsecret</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" ng-model="value.configstring.appsecret"
-                               placeholder="请输入字段名">
+                        <input type="text" class="form-control" ng-model="value.configstring.appsecret" placeholder="请输入字段名">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">token</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" ng-model="value.configstring.token"
-                               placeholder="请输入字段名">
+                        <input type="text" class="form-control" ng-model="value.configstring.token" placeholder="请输入字段名">
                     </div>
                 </div>
             </form>
@@ -120,12 +114,8 @@
                     <h1 class="m-n font-thin h3">平台实例</h1>
                 </div>
                 <div class="wrapper">
-                    <select-table multiple="true" editable="true" interface="wechat" title="第三方平台"
-                                  control="tableControl" create-modal="wechatCreate.html"></select-table>
-                    <select-table multiple="true" editable="true" interface="wechatUser" title="第三方平台用户"
-                                  control="tableControl1" create-modal="wechatCreateModal.html"
-                                  select-par="[{field: 'platid', logic: '==', value: ssid}]"
-                                  ng-if="users"></select-table>
+                    <select-table multiple="true" editable="true" interface="wechat" title="第三方平台" control="tableControl" create-modal="wechatCreate.html"></select-table>
+                    <select-table multiple="true" editable="true" interface="wechatUser" title="第三方平台用户" control="tableControl1" create-modal="wechatCreateModal.html" select-par="[{field: 'platid', logic: '==', value: ssid}]" ng-if="users"></select-table>
                 </div>
             </div>
         </div>

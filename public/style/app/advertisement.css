@@ -4,7 +4,8 @@
 
 .adv-box .adv-item-box {
     position: fixed;
-    top: 0px;;
+    top: 0px;
+    ;
     left: 0;
     width: 100%;
     height: 100%;
@@ -68,7 +69,7 @@
     position: relative;
 }
 
-.adv-box .adv-item-box .item-wrap .picitem.uploadbtn > div {
+.adv-box .adv-item-box .item-wrap .picitem.uploadbtn>div {
     color: #58666e;
     width: 100% !important;
     height: 100% !important;

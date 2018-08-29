@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('./kity');
     var utils = require('./utils');
     var Minder = require('./minder');
@@ -11,37 +11,36 @@ define(function (require, exports, module) {
     function register(name, supports) {
         _templates[name] = supports;
     }
-
     exports.register = register;
 
     utils.extend(Minder, {
-        getTemplateList: function () {
+        getTemplateList: function() {
             return _templates;
         }
     });
 
-    kity.extendClass(Minder, (function () {
+    kity.extendClass(Minder, (function() {
         var originGetTheme = Minder.prototype.getTheme;
         return {
-            useTemplate: function (name, duration) {
+            useTemplate: function(name, duration) {
                 this.setTemplate(name);
                 this.refresh(duration || 800);
             },
 
-            getTemplate: function () {
+            getTemplate: function() {
                 return this._template || 'default';
             },
 
-            setTemplate: function (name) {
+            setTemplate: function(name) {
                 this._template = name || null;
             },
 
-            getTemplateSupport: function (method) {
+            getTemplateSupport: function(method) {
                 var supports = _templates[this.getTemplate()];
                 return supports && supports[method];
             },
 
-            getTheme: function (node) {
+            getTheme: function(node) {
                 var support = this.getTemplateSupport('getTheme') || originGetTheme;
                 return support.call(this, node);
             }
@@ -49,16 +48,16 @@ define(function (require, exports, module) {
     })());
 
 
-    kity.extendClass(MinderNode, (function () {
+    kity.extendClass(MinderNode, (function() {
         var originGetLayout = MinderNode.prototype.getLayout;
         var originGetConnect = MinderNode.prototype.getConnect;
         return {
-            getLayout: function () {
+            getLayout: function() {
                 var support = this.getMinder().getTemplateSupport('getLayout') || originGetLayout;
                 return support.call(this, this);
             },
 
-            getConnect: function () {
+            getConnect: function() {
                 var support = this.getMinder().getTemplateSupport('getConnect') || originGetConnect;
                 return support.call(this, this);
             }
@@ -79,12 +78,12 @@ define(function (require, exports, module) {
             'template': kity.createClass('TemplateCommand', {
                 base: Command,
 
-                execute: function (minder, name) {
+                execute: function(minder, name) {
                     minder.useTemplate(name);
                     minder.execCommand('camera');
                 },
 
-                queryValue: function (minder) {
+                queryValue: function(minder) {
                     return minder.getTemplate() || 'default';
                 }
             })

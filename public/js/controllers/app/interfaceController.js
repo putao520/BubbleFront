@@ -6,8 +6,8 @@ bubbleFrame.register('interfaceController', function ($scope, bubble, $modal, $h
     var initCurrent = function (v) {
         $scope.currentClass = v;
         $scope.tmpClass = JSON.parse(JSON.stringify(v));
-        $scope.tablePar = {appclsid: v.id};
-    };
+        $scope.tablePar = { appclsid: v.id };
+    }
 
     $scope.classClick = function (v) {
         for (var i = 0; i < $scope.classList.length; i++) {
@@ -16,7 +16,7 @@ bubbleFrame.register('interfaceController', function ($scope, bubble, $modal, $h
         v.selected = true;
         initCurrent(v);
 
-    };
+    }
 
     bubble._call("appClass.page", 1, 1000).success(function (v) {
         $scope.classList = v.data;
@@ -24,14 +24,14 @@ bubbleFrame.register('interfaceController', function ($scope, bubble, $modal, $h
 
     $scope.deleteClass = function (v, idx) {
         swal({
-                title: "确定要删除该项吗?",
-                text: "该项会被立即删除并无法撤销该操作",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "删除",
-                cancelButtonText: "取消",
-            },
+            title: "确定要删除该项吗?",
+            text: "该项会被立即删除并无法撤销该操作",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "删除",
+            cancelButtonText: "取消",
+        },
             function () {
                 bubble._call("appClass.delete", v.id)
                     .success(function (x) {
@@ -44,7 +44,7 @@ bubbleFrame.register('interfaceController', function ($scope, bubble, $modal, $h
                         initCurrent($scope.classList[0]);
                     });
             });
-    };
+    }
 
     $scope.openEdit = function (v) {
         bubble.openModal("edit", "", {
@@ -55,14 +55,11 @@ bubbleFrame.register('interfaceController', function ($scope, bubble, $modal, $h
         }, function (rs) {
             v.classname = rs;
         });
-    };
+    }
 
     $scope.classEdit = function (e) {
         $(e.currentTarget).addClass("data-loading").attr("disabled", "disabled");
-        bubble._call("appClass.update", $scope.currentClass.id, {
-            classname: $scope.currentClass.classname,
-            sid: $scope.currentClass.sid
-        }).success(function (v) {
+        bubble._call("appClass.update", $scope.currentClass.id, { classname: $scope.currentClass.classname, sid: $scope.currentClass.sid }).success(function (v) {
             if (v.errorcode) {
                 swal("修改失败");
                 $scope.currentClass.classname = tmpClass.classname;
@@ -70,10 +67,10 @@ bubbleFrame.register('interfaceController', function ($scope, bubble, $modal, $h
             }
             $(e.currentTarget).removeClass("data-loading").removeAttr("disabled");
         })
-    };
+    }
 
     $scope.createClass = function () {
-        bubble.customModal("classCreate.html", "classCreateController", "lg", {scope: $scope}, function (v) {
+        bubble.customModal("classCreate.html", "classCreateController", "lg", { scope: $scope }, function (v) {
             v
         });
     }
@@ -92,9 +89,9 @@ bubbleFrame.register("classCreateController", function (bubble, items, $scope, $
                 $modalInstance.close(v.message);
             }
         })
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');
     }
-});
+})

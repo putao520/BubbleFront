@@ -4,7 +4,7 @@
  * 支持图形裁切
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var Class = require('../core/class');
     var Shape = require('./shape');
 
@@ -37,7 +37,7 @@ define(function (require, exports, module) {
          * clip.clip(circle);
          * ```
          */
-        constructor: function (paper) {
+        constructor: function(paper) {
 
             this.callBase('clipPath', paper);
 
@@ -52,7 +52,7 @@ define(function (require, exports, module) {
          *
          * @param  {kity.Shape} shape 要应用裁切的图形
          */
-        clip: function (shape) {
+        clip: function(shape) {
 
             shape.getNode().setAttribute('clip-path', this);
             return this;
@@ -81,7 +81,7 @@ define(function (require, exports, module) {
          * circle.clipWidth(rect);
          * ```
          */
-        clipWith: function (clip) {
+        clipWith: function(clip) {
             if (clip instanceof Shape) {
                 clip = new Clip(clip.getPaper()).addShape(clip);
             }

@@ -6,13 +6,13 @@
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('./kity');
     var Minder = require('./minder');
 
     function insertNode(minder, info, parent, index) {
         parent = minder.createNode(info.data, parent, index);
-        info.children.forEach(function (childInfo, index) {
+        info.children.forEach(function(childInfo, index) {
             insertNode(minder, childInfo, parent, index);
         });
         return parent;
@@ -93,11 +93,11 @@ define(function (require, exports, module) {
                 minder.layout();
         }
 
-        minder.fire('patch', {'patch': patch});
+        minder.fire('patch', { 'patch' : patch } );
     }
 
     kity.extendClass(Minder, {
-        applyPatches: function (patches) {
+        applyPatches: function(patches) {
             for (var i = 0; i < patches.length; i++) {
                 applyPatch(this, patches[i]);
             }

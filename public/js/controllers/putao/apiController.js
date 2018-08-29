@@ -1,6 +1,6 @@
 bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $stateParams, $timeout) {
-    $scope.process = {show: false, content: "", type: ""};
-    $scope.newpar = {type: "s", value: ""};
+    $scope.process = { show: false, content: "", type: "" }
+    $scope.newpar = { type: "s", value: "" };
     $scope.header = "";
     var ParameType = {
         JSON: "JSON",
@@ -16,7 +16,7 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
         search: ["int", "int", "s"],
         batchDelete: ["s"],
         updateBatch: ["s", "s"],
-    };
+    }
     $scope.oneAtATime = true;
 
     $scope.groups = window.localStorage.apitester ? JSON.parse(window.localStorage.apitester) : {};
@@ -41,13 +41,13 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
         class: "",
         func: "",
         par: []
-    };
+    }
 
     $scope.save = function () {
         bubble.customModal("ApiSaveModal.html", "ApiSaveController", "lg", $scope, function (v) {
             $scope.groups = v;
         });
-    };
+    }
 
     $scope.userClick = function (v) {
         $scope.header = v.header;
@@ -55,7 +55,7 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
         $scope.type = v.type;
         $scope.req.isGrape = v.isGrape;
         initReq();
-    };
+    }
 
     $scope.systemClick = function (v, name) {
         if (typeof v == "string") {
@@ -66,7 +66,7 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
         if (v.length < 4) {
             par = ParameType[name];
         } else {
-            par = v[3];
+            par = v[3] ? v[3] : [];
         }
 
         var url = "http://" + ($scope.req.host ? ($scope.req.port ? $scope.req.host + ":" + $scope.req.port : $scope.req.host) : "") + "/" + ($scope.req.appid ? $scope.req.appid : "") + "/" + ins[v[0]] + "/" + v[1] + "/" + v[2];
@@ -76,7 +76,7 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
         $scope.url = url;
         $scope.req.isGrape = true;
         initReq();
-    };
+    }
 
     var initReq = function () {
         var url = $scope.url.split("/");
@@ -89,11 +89,11 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
         $scope.req.par = [];
         for (var i = 7; i < url.length; i++) {
             if (url[i].indexOf(":") >= 0)
-                $scope.req.par.push({type: url[i].split(":")[0], value: url[i].split(":")[1]});
+                $scope.req.par.push({ type: url[i].split(":")[0], value: url[i].split(":")[1] });
             else
-                $scope.req.par.push({type: "s", value: url[i]});
+                $scope.req.par.push({ type: "s", value: url[i] });
         }
-    };
+    }
 
     initReq();
 
@@ -123,21 +123,21 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
             $scope.result = true;
             initProcess(o.status);
             bubble.updateScope($scope);
-        };
+        }
         p.error = function (v) {
             $scope.result = false;
             initProcess(v.status);
             bubble.updateScope($scope);
-        };
+        }
         $scope.process.type = "info";
         $scope.process.content = "请求正在处理中";
         $scope.process.show = true;
         $.ajax(p);
-    };
+    }
 
     var initProcess = function (status) {
         $scope.process.type = status == 200 ? "success" : "danger";
-        $scope.process.content = status == 200 ? "<p>请求已完成</p>" : "<p>请求发生错误</p>";
+        $scope.process.content = status == 200 ? "<p>请求已完成</p>" : "<p>请求发生错误</p>";;
         if ($scope.req.isGrape) {
             if ($scope.header) {
                 $scope.process.content += "<p>请求头部 : " + $scope.header + "</p>";
@@ -150,7 +150,7 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
             }
         }
         $scope.process.content += "<p>请求返回码 : " + status + "</p>";
-    };
+    }
 
     $scope.changeHost = function (v) {
         $scope.req.host = v ? v : $scope.req.host;
@@ -163,7 +163,7 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
             url[2] = $scope.req.host;
         }
         $scope.url = url.join("/");
-    };
+    }
 
     $scope.changePort = function (v) {
         $scope.req.port = v ? v : $scope.req.port;
@@ -176,20 +176,20 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
             url[2] = url[2] + ":" + $scope.req.port;
         }
         $scope.url = url.join("/");
-    };
+    }
 
     $scope.changeReq = function (v, i, name) {
         $scope.req[name] = v ? v : $scope.req[name];
         var url = $scope.url.split("/");
         url[i] = $scope.req[name];
         $scope.url = url.join("/");
-    };
+    }
 
     $scope.changePar = function (v, i) {
         var url = $scope.url.split("/");
         url[url.length - $scope.req.par.length + i] = v.type + ":" + v.value;
         $scope.url = url.join("/");
-    };
+    }
 
     $scope.addPar = function () {
         if (!$scope.url) {
@@ -201,27 +201,23 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
             return;
         }
         $scope.url += "/" + $scope.newpar.type + ":" + $scope.newpar.value;
-        $scope.newpar = {type: "s", value: ""};
+        $scope.newpar = { type: "s", value: "" };
         initReq();
-    };
+    }
 
     $scope.changeUrl = function () {
         if ($scope.url.split("/").length < 7) {
             $scope.req.isGrape = false;
         } else
             initReq();
-    };
+    }
 
     var Json = function () {
         window.SINGLE_TAB = "  ";
         window.ImgCollapsed = "./img/Collapsed.gif";
         window.ImgExpanded = "./img/Expanded.gif";
         window.QuoteKeys = true;
-
-        function $id(id) {
-            return document.getElementById(id);
-        }
-
+        function $id(id) { return document.getElementById(id); }
         function IsArray(obj) {
             return obj &&
                 typeof obj === 'object' &&
@@ -231,19 +227,19 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
 
         this.runder = function (v) {
             Process(v);
-        };
+        }
 
         this.coll = function () {
             CollapseAllClicked();
-        };
+        }
 
         this.level = function (i) {
             CollapseLevel(i);
-        };
+        }
 
         this.ex = function () {
             ExpandAllClicked();
-        };
+        }
 
         function Process(v) {
             SetTab();
@@ -267,10 +263,8 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
                 $id("Canvas").innerHTML = v;
             }
         }
-
         window._dateObj = new Date();
         window._regexpObj = new RegExp();
-
         function ProcessObject(obj, indent, addComma, isArray, isPropertyContent) {
             var html = "";
             var comma = (addComma) ? "<span class='Comma'>,</span> " : "";
@@ -415,6 +409,7 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
         }
 
 
+
         function QuoteKeysClicked() {
 
             window.QuoteKeys = $id("QuoteKeys").checked;
@@ -422,6 +417,7 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
             Process();
 
         }
+
 
 
         function CollapseAllClicked() {
@@ -563,6 +559,7 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
         function SelectAllClicked() {
 
 
+
             if (!!document.selection && !!document.selection.empty) {
 
                 document.selection.empty();
@@ -580,6 +577,7 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
             }
 
 
+
             var range =
 
                 (!!document.body && !!document.body.createTextRange)
@@ -589,6 +587,7 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
                     : document.createRange();
 
 
+
             if (!!range.selectNode)
 
                 range.selectNode($id("Canvas"));
@@ -596,6 +595,7 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
             else if (range.moveToElementText)
 
                 range.moveToElementText($id("Canvas"));
+
 
 
             if (!!range.select)
@@ -619,7 +619,7 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
             $id("InvisibleLink").submit();
 
         }
-    };
+    }
 
     $scope.json = new Json();
 });
@@ -642,14 +642,14 @@ bubbleFrame.register('ApiSaveController', function ($scope, bubble, $timeout, it
         var o = window.localStorage.apitester ? JSON.parse(window.localStorage.apitester) : {};
         s.name = $scope.name;
         if ($scope.type == -1) {
-            o[$scope.newtype] = {name: $scope.newtype, data: []};
+            o[$scope.newtype] = { name: $scope.newtype, data: [] };
             o[$scope.newtype].data.push(s);
         } else {
             o[$scope.list[$scope.type].name].data.push(s);
         }
         window.localStorage.apitester = JSON.stringify(o);
         $modalInstance.close(o);
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');

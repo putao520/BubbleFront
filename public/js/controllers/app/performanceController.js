@@ -53,7 +53,7 @@ bubbleFrame.register('performanceController', function ($scope, bubble) {
                 ]
             }
         ]
-    };
+    }
 
     var bartime = {
         color: ['#3398DB'],
@@ -77,9 +77,10 @@ bubbleFrame.register('performanceController', function ($scope, bubble) {
                 data: [],
             }
         ],
-        xAxis: [{type: 'value'}],
-        series: []
-    };
+        xAxis: [{ type: 'value' }],
+        series: [
+        ]
+    }
 
     var barsize = {
         color: ['#3398DB'],
@@ -103,9 +104,10 @@ bubbleFrame.register('performanceController', function ($scope, bubble) {
                 data: [],
             }
         ],
-        xAxis: [{type: 'value'}],
-        series: []
-    };
+        xAxis: [{ type: 'value' }],
+        series: [
+        ]
+    }
 
     $scope.list = [];
     var color = ["#27c24c", "#55c3e6", "#958dc6", "#f7de69", "#f18282", "#C3BED4", "#376956", "#C7FFEC", "#EEE8AB", "#FD5B78"];
@@ -118,7 +120,7 @@ bubbleFrame.register('performanceController', function ($scope, bubble) {
         for (var i = 0; i < l.length; i++) {
             var t = l[i];
             for (var tmp in v[t]) {
-                data.push({value: v[t][tmp], itemStyle: {normal: {color: color[count % 9]}}});
+                data.push({ value: v[t][tmp], itemStyle: { normal: { color: color[count % 9] } } });
                 ydata.push(tmp);
                 count++;
             }
@@ -131,7 +133,7 @@ bubbleFrame.register('performanceController', function ($scope, bubble) {
             data: data
         }];
         return o;
-    };
+    }
 
     var time = "";
     var times = [];
@@ -222,4 +224,4 @@ bubbleFrame.register('performanceController', function ($scope, bubble) {
             });
         })(times[i])
     }
-});
+})

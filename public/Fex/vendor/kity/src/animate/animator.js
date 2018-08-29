@@ -4,7 +4,7 @@
  * 提供基本的动画支持
  */
 
-define(function (require) {
+define(function(require) {
 
     function parseTime(str) {
         var value = parseFloat(str, 10);
@@ -51,7 +51,7 @@ define(function (require) {
          *         value    {any}           动画的当前值
          *         timeline {kity.Timeline} 动画当前的时间线对象
          */
-        constructor: function (beginValue, finishValue, setter) {
+        constructor: function(beginValue, finishValue, setter) {
             if (arguments.length == 1) {
                 var opt = arguments[0];
                 this.beginValue = opt.beginValue;
@@ -102,7 +102,7 @@ define(function (require) {
          * });
          * ```
          */
-        start: function (target, duration, easing, delay, callback) {
+        start: function(target, duration, easing, delay, callback) {
             if (arguments.length === 2 && typeof(duration) == 'object') {
                 easing = duration.easing;
                 delay = duration.delay;
@@ -116,7 +116,7 @@ define(function (require) {
             var timeline = this.create(target, duration, easing, callback);
             delay = parseTime(delay);
             if (delay > 0) {
-                setTimeout(function () {
+                setTimeout(function() {
                     timeline.play();
                 }, delay);
             } else {
@@ -157,7 +157,7 @@ define(function (require) {
          * timeline.repeat(3).play();
          * ```
          */
-        create: function (target, duration, easing, callback) {
+        create: function(target, duration, easing, callback) {
             var timeline;
 
             duration = duration && parseTime(duration) || Animator.DEFAULT_DURATION;
@@ -187,7 +187,7 @@ define(function (require) {
          * var turnYellow = turnRed.reverse();
          * ```
          */
-        reverse: function () {
+        reverse: function() {
             return new Animator(this.finishValue, this.beginValue, this.setter);
         }
 
@@ -218,7 +218,7 @@ define(function (require) {
          * rect.animate(expand, 500);  // turnRect 播放结束后播放 expand
          * ```
          */
-        animate: function (animator, duration, easing, delay, callback) {
+        animate: function(animator, duration, easing, delay, callback) {
             var queue = this._KityAnimateQueue = this._KityAnimateQueue || [];
             var timeline = animator.create(this, duration, easing, callback);
 
@@ -228,7 +228,6 @@ define(function (require) {
                     setTimeout(queue[0].t.play.bind(queue[0].t), queue[0].d);
                 }
             }
-
             timeline.on('finish', dequeue);
             queue.push({
                 t: timeline,
@@ -253,7 +252,7 @@ define(function (require) {
          * rect.timeline().repeat(2);
          * ```
          */
-        timeline: function () {
+        timeline: function() {
             return this._KityAnimateQueue[0].t;
         },
 
@@ -270,7 +269,7 @@ define(function (require) {
          * rect.stop(); // 停止 rect 上的动画
          * ```
          */
-        stop: function () {
+        stop: function() {
             var queue = this._KityAnimateQueue;
             if (queue) {
                 while (queue.length) {

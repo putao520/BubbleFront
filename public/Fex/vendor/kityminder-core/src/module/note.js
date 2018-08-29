@@ -6,7 +6,7 @@
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var utils = require('../core/utils');
 
@@ -16,7 +16,7 @@ define(function (require, exports, module) {
     var Module = require('../core/module');
     var Renderer = require('../core/render');
 
-    Module.register('NoteModule', function () {
+    Module.register('NoteModule', function() {
 
         var NOTE_PATH = 'M9,9H3V8h6L9,9L9,9z M9,7H3V6h6V7z M9,5H3V4h6V5z M8.5,11H2V2h8v7.5 M9,12l2-2V1H1v11';
 
@@ -32,18 +32,18 @@ define(function (require, exports, module) {
         var NoteCommand = kity.createClass('NoteCommand', {
             base: Command,
 
-            execute: function (minder, note) {
+            execute: function(minder, note) {
                 var node = minder.getSelectedNode();
                 node.setData('note', note);
                 node.render();
                 node.getMinder().layout(300);
             },
 
-            queryState: function (minder) {
+            queryState: function(minder) {
                 return minder.getSelectedNodes().length === 1 ? 0 : -1;
             },
 
-            queryValue: function (minder) {
+            queryValue: function(minder) {
                 var node = minder.getSelectedNode();
                 return node && node.getData('note');
             }
@@ -52,7 +52,7 @@ define(function (require, exports, module) {
         var NoteIcon = kity.createClass('NoteIcon', {
             base: kity.Group,
 
-            constructor: function () {
+            constructor: function() {
                 this.callBase();
                 this.width = 16;
                 this.height = 17;
@@ -60,9 +60,9 @@ define(function (require, exports, module) {
                 this.path = new kity.Path().setPathData(NOTE_PATH).setTranslate(2.5, -6.5);
                 this.addShapes([this.rect, this.path]);
 
-                this.on('mouseover', function () {
+                this.on('mouseover', function() {
                     this.rect.fill('rgba(255, 255, 200, .8)');
-                }).on('mouseout', function () {
+                }).on('mouseout', function() {
                     this.rect.fill('transparent');
                 });
 
@@ -73,26 +73,26 @@ define(function (require, exports, module) {
         var NoteIconRenderer = kity.createClass('NoteIconRenderer', {
             base: Renderer,
 
-            create: function (node) {
+            create: function(node) {
                 var icon = new NoteIcon();
-                icon.on('mousedown', function (e) {
+                icon.on('mousedown', function(e) {
                     e.preventDefault();
                     node.getMinder().fire('editnoterequest');
                 });
-                icon.on('mouseover', function () {
+                icon.on('mouseover', function() {
                     node.getMinder().fire('shownoterequest', {node: node, icon: icon});
                 });
-                icon.on('mouseout', function () {
+                icon.on('mouseout', function() {
                     node.getMinder().fire('hidenoterequest', {node: node, icon: icon});
                 });
                 return icon;
             },
 
-            shouldRender: function (node) {
+            shouldRender: function(node) {
                 return node.getData('note');
             },
 
-            update: function (icon, node, box) {
+            update: function(icon, node, box) {
                 var x = box.right + node.getStyle('space-left');
                 var y = box.cy;
 

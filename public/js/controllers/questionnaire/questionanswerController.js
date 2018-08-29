@@ -1,5 +1,5 @@
 bubbleFrame.register('questionanswerController', function ($scope, bubble, $timeout, $compile, $state) {
-    $scope.par = $state.params.qid ? [{field: "qid", logic: "=", value: $state.params.qid}] : "";
+    $scope.par = $state.params.qid ? [{ field: "qid", logic: "=", value: $state.params.qid }] : "";
     $scope.tableControl = {
         onPage: function (v) {
             for (var i = 0; i < v.length; i++) {

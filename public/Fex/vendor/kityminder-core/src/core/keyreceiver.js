@@ -1,27 +1,27 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('./kity');
     var utils = require('./utils');
     var Minder = require('./minder');
 
     function listen(element, type, handler) {
-        type.split(' ').forEach(function (name) {
+        type.split(' ').forEach(function(name) {
             element.addEventListener(name, handler, false);
         });
     }
 
-    Minder.registerInitHook(function (option) {
+    Minder.registerInitHook(function(option) {
         this.setDefaultOptions({
             enableKeyReceiver: true
         });
         if (this.getOption('enableKeyReceiver')) {
-            this.on('paperrender', function () {
+            this.on('paperrender', function() {
                 this._initKeyReceiver();
             });
         }
     });
 
     kity.extendClass(Minder, {
-        _initKeyReceiver: function () {
+        _initKeyReceiver: function() {
 
             if (this._keyReceiver) return;
 
@@ -33,7 +33,7 @@ define(function (require, exports, module) {
 
             var minder = this;
 
-            listen(receiver, 'keydown keyup keypress copy paste blur focus input', function (e) {
+            listen(receiver, 'keydown keyup keypress copy paste blur focus input', function(e) {
                 switch (e.type) {
                     case 'blur':
                         minder.blur();
@@ -49,11 +49,11 @@ define(function (require, exports, module) {
                 e.preventDefault();
             });
 
-            this.on('focus', function () {
+            this.on('focus', function() {
                 receiver.select();
                 receiver.focus();
             });
-            this.on('blur', function () {
+            this.on('blur', function() {
                 receiver.blur();
             });
 

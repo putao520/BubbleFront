@@ -22,8 +22,7 @@
             <div class="form-group" ng-show="type == 'content'">
                 <label class="col-sm-2 control-label">投稿内容</label>
                 <div class="col-sm-9">
-                    <textarea type="text" class="form-control" ng-model="value.attr.content"
-                              placeholder="请输入内容,不超过200字"></textarea>
+                    <textarea type="text" class="form-control" ng-model="value.attr.content" placeholder="请输入内容,不超过200字"></textarea>
                 </div>
             </div>
             <div class="form-group" ng-show="type == 'video'">
@@ -82,7 +81,6 @@
     <h1 class="m-n font-thin h3">投稿管理</h1>
 </div>
 <div class="wrapper">
-    <select-table multiple="true" editable="true" interface="actobj" title="投稿列表" create-modal="actobjCreate.html"
-                  create-controller="actobjCreate"
-                  control="tableControl"></select-table>
+    <select-table multiple="true" editable="true" interface="actobj" title="投稿列表" create-modal="actobjCreate.html" create-controller="actobjCreate"
+        control="tableControl"></select-table>
 </div>

@@ -65,7 +65,7 @@ app.directive('treenav', [function () {
             $scope.level = [];
             $scope.mode = false;
 
-            if ($scope.btn) {
+            if($scope.btn){
                 $(".navbox.iconbox .subnav-top").append($compile($scope.btn)($scope));
             }
 

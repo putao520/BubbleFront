@@ -6,7 +6,7 @@ bubbleFrame.register('acteventController', function ($scope, bubble, $modal, $st
             });
         },
         deleteFn: function (ids, cb) {
-            bubble._call("actevent.delete", ids).success(function (v) {
+            bubble._call("actevent.delete",ids).success(function (v) {
                 cb(v);
             });
         },
@@ -24,10 +24,10 @@ bubbleFrame.register('acteventController', function ($scope, bubble, $modal, $st
             });
         },
         title: [
-            {name: "查看对象", key: "sl", width: 90},
-            {name: "投票详情", key: "vote", width: 90},
-            {name: "活动类型", key: "type", width: 90},
-            {name: "活动规则", key: "key", width: 90}
+            { name: "查看对象", key: "sl", width: 90 },
+            { name: "投票详情", key: "vote", width: 90 },
+            { name: "活动类型", key: "type", width: 90 },
+            { name: "活动规则", key: "key", width: 90 }
         ],
         html: [
             '<a class="btn btn-sm m-t-n-xs"><i class="fa fa-navicon"></i></a>',
@@ -37,15 +37,15 @@ bubbleFrame.register('acteventController', function ($scope, bubble, $modal, $st
         ],
         onClick: function (key, v) {
             if (key == "sl") {
-                $state.go("app.activity.actobj", {eid: v._id});
+                $state.go("app.activity.actobj", { eid: v._id });
             } else if (key == "key") {
                 bubble.customModal("actRule.html", "actRuleController", "lg", v, function (v) {
 
                 })
             } else if (key == "type") {
-                $state.go("app.activity.acttype", {eid: v._id});
+                $state.go("app.activity.acttype", { eid: v._id });
             } else {
-                $state.go("app.activity.actlog", {eid: v._id});
+                $state.go("app.activity.actlog", { eid: v._id });
             }
         }
     }
@@ -74,17 +74,13 @@ bubbleFrame.register('actRuleController', function ($scope, $modalInstance, item
                 swal("请输入正确的数值");
                 return;
             }
-            bubble._call("actrule.update", tmp._id, bubble.replaceBase64(JSON.stringify({
-                timeCD: parseInt($scope.timeCD),
-                repeatNo: parseInt($scope.repeatNo),
-                ownNo: parseInt($scope.ownNo)
-            }))).success(function (v) {
+            bubble._call("actrule.update", tmp._id, bubble.replaceBase64(JSON.stringify({ timeCD: parseInt($scope.timeCD), repeatNo: parseInt($scope.repeatNo), ownNo: parseInt($scope.ownNo) }))).success(function (v) {
                 $modalInstance.close(v);
             });
         } else {
             $modalInstance.dismiss('cancel');
         }
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');
@@ -101,7 +97,7 @@ bubbleFrame.register('acteventCreate', function ($scope, $modalInstance, items, 
         } else {
             $modalInstance.close(v.message ? v.message : v);
         }
-    };
+    }
 
     $scope.ok = function (e) {
         $(e.currentTarget).addClass("data-loading");
@@ -110,7 +106,7 @@ bubbleFrame.register('acteventCreate', function ($scope, $modalInstance, items, 
         bubble._call("actevent.add", $scope.value).success(function (v) {
             cb(v);
         });
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');

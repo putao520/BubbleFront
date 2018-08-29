@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var data = require('../core/data');
 
     data.registerProtocol('json', module.exports = {
@@ -7,11 +7,11 @@ define(function (require, exports, module) {
         dataType: 'text',
         mineType: 'application/json',
 
-        encode: function (json) {
+        encode: function(json) {
             return JSON.stringify(json);
         },
 
-        decode: function (local) {
+        decode: function(local) {
             return JSON.parse(local);
         }
     });

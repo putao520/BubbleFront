@@ -1,11 +1,12 @@
-define(function (require, exports, module) {
+
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var MinderNode = require('../core/node');
     var Command = require('../core/command');
     var Module = require('../core/module');
 
     kity.extendClass(MinderNode, {
-        arrange: function (index) {
+        arrange: function(index) {
             var parent = this.parent;
             if (!parent) return;
             var sibling = parent.children;
@@ -20,7 +21,6 @@ define(function (require, exports, module) {
     function asc(nodeA, nodeB) {
         return nodeA.getIndex() - nodeB.getIndex();
     }
-
     function desc(nodeA, nodeB) {
         return -asc(nodeA, nodeB);
     }
@@ -42,19 +42,19 @@ define(function (require, exports, module) {
     var ArrangeUpCommand = kity.createClass('ArrangeUpCommand', {
         base: Command,
 
-        execute: function (km) {
+        execute: function(km) {
             var nodes = km.getSelectedNodes();
             nodes.sort(asc);
-            var lastIndexes = nodes.map(function (node) {
+            var lastIndexes = nodes.map(function(node) {
                 return node.getIndex();
             });
-            nodes.forEach(function (node, index) {
+            nodes.forEach(function(node, index) {
                 node.arrange(lastIndexes[index] - 1);
             });
             km.layout(300);
         },
 
-        queryState: function (km) {
+        queryState: function(km) {
             var selected = km.getSelectedNode();
             return selected ? 0 : -1;
         }
@@ -71,19 +71,19 @@ define(function (require, exports, module) {
     var ArrangeDownCommand = kity.createClass('ArrangeUpCommand', {
         base: Command,
 
-        execute: function (km) {
+        execute: function(km) {
             var nodes = km.getSelectedNodes();
             nodes.sort(desc);
-            var lastIndexes = nodes.map(function (node) {
+            var lastIndexes = nodes.map(function(node) {
                 return node.getIndex();
             });
-            nodes.forEach(function (node, index) {
+            nodes.forEach(function(node, index) {
                 node.arrange(lastIndexes[index] + 1);
             });
             km.layout(300);
         },
 
-        queryState: function (km) {
+        queryState: function(km) {
             var selected = km.getSelectedNode();
             return selected ? 0 : -1;
         }
@@ -100,7 +100,7 @@ define(function (require, exports, module) {
     var ArrangeCommand = kity.createClass('ArrangeCommand', {
         base: Command,
 
-        execute: function (km, index) {
+        execute: function(km, index) {
             var nodes = km.getSelectedNodes().slice();
 
             if (!nodes.length) return;
@@ -109,29 +109,27 @@ define(function (require, exports, module) {
 
             if (ancestor != nodes[0].parent) return;
 
-            var indexed = nodes.map(function (node) {
+            var indexed = nodes.map(function(node) {
                 return {
                     index: node.getIndex(),
                     node: node
                 };
             });
 
-            var asc = Math.min.apply(Math, indexed.map(function (one) {
-                return one.index;
-            })) >= index;
+            var asc = Math.min.apply(Math, indexed.map(function(one) { return one.index; })) >= index;
 
-            indexed.sort(function (a, b) {
+            indexed.sort(function(a, b) {
                 return asc ? (b.index - a.index) : (a.index - b.index);
             });
 
-            indexed.forEach(function (one) {
+            indexed.forEach(function(one) {
                 one.node.arrange(index);
             });
 
             km.layout(300);
         },
 
-        queryState: function (km) {
+        queryState: function(km) {
             var selected = km.getSelectedNode();
             return selected ? 0 : -1;
         }

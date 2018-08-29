@@ -2,7 +2,7 @@
  * 像素级别的矩阵卷积运算效果封装
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var Effect = require('./effect'),
         Utils = require('../../core/utils');
@@ -11,7 +11,7 @@ define(function (require, exports, module) {
 
         base: Effect,
 
-        constructor: function (edgeMode, input) {
+        constructor: function(edgeMode, input) {
 
             this.callBase(Effect.NAME_CONVOLVE_MATRIX);
 

@@ -2,4 +2,4 @@
 # blacklist the bower branch
 branches:
   only:
-  - master
+    - master

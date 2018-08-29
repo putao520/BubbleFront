@@ -2,11 +2,7 @@ bubbleFrame.register('consultController', function ($scope, bubble, $modal, $htt
     // 
     $scope.gkList = [];
     $scope.title = $state.params.type == "3" ? "全部咨询" : $state.params.type == "0" ? "已提交咨询" : $state.params.type == "1" ? "待处理咨询" : "已回复咨询";
-    $scope.par = $state.params.type == "3" ? undefined : [{
-        field: "state",
-        logic: "==",
-        value: parseInt($state.params.type)
-    }];
+    $scope.par = $state.params.type == "3" ? undefined : [{ field: "state", logic: "==", value: parseInt($state.params.type) }];
     //
     $scope.tableControl = {
         // title: [{ name: "公开", key: "gk", width: 60 }],
@@ -26,8 +22,8 @@ bubbleFrame.register('consultController', function ($scope, bubble, $modal, $htt
         onColumnClick: function (key, v, i, p, s, t) {
             if (key == "slevel") {
                 $scope.tableControl.loading(true);
-                var slevel = v.slevel == 0 ? 1 : 0;
-                bubble._call("suggest.slevel", v._id, {state: slevel}).success(function (rs) {
+                var slevel = v.slevel == 0 ? 1 : 0
+                bubble._call("suggest.slevel", v._id, { state: slevel }).success(function (rs) {
                     $scope.tableControl.loading(false);
                     if (rs.errorcode) {
                         swal("更新失败");
@@ -43,12 +39,9 @@ bubbleFrame.register('consultController', function ($scope, bubble, $modal, $htt
             $scope.list = v;
             $scope.gkList = [];
         }
-    };
+    }
     var openMessage = function (i) {
-        bubble.customModal("consultInfoModal.html", "consultInfoController", "lg", {
-            data: $scope.list,
-            index: i
-        }, function (v) {
+        bubble.customModal("consultInfoModal.html", "consultInfoController", "lg", { data: $scope.list, index: i }, function (v) {
 
         });
     }
@@ -76,10 +69,7 @@ bubbleFrame.register("consultInfoController", function (bubble, items, $scope, $
             var n = 0;
             while (items.data[idx]["attrFile" + n]) {
                 if (list[i] == items.data[idx]["attrFile" + n].filepath) {
-                    list[i] = {
-                        name: items.data[idx]["attrFile" + n].fileoldname,
-                        path: items.data[idx]["attrFile" + n].filepath
-                    };
+                    list[i] = { name: items.data[idx]["attrFile" + n].fileoldname, path: items.data[idx]["attrFile" + n].filepath };
                     break;
                 }
                 n++;
@@ -87,7 +77,7 @@ bubbleFrame.register("consultInfoController", function (bubble, items, $scope, $
         }
 
         return list;
-    };
+    }
     $scope.files = getFiles();
     //
     $scope.data.sreplyTime = $scope.data.sreplyTime && $scope.data.sreplyTime.indexOf("1970") < 0 ? new Date(parseInt($scope.data.replyTime)).Format("yyyy-MM-dd hh:mm:ss") : "";
@@ -98,19 +88,19 @@ bubbleFrame.register("consultInfoController", function (bubble, items, $scope, $
         $timeout(function () {
             $scope.refreshVideo = true;
         })
-    };
+    }
 
     $scope.download = function () {
         window.open($scope.data.video[$scope.videoCurrent]);
-    };
+    }
 
     $scope.videoleft = function () {
         $scope.videoCurrent > 0 && ($scope.videoCurrent-- , refreshVideo());
-    };
+    }
 
     $scope.videoright = function () {
         $scope.videoCurrent < $scope.data.video.length - 1 && ($scope.videoCurrent++ , refreshVideo());
-    };
+    }
 
     $scope.prev = function () {
         if (idx > 0) {
@@ -122,7 +112,7 @@ bubbleFrame.register("consultInfoController", function (bubble, items, $scope, $
         } else {
             swal("这是最后一条咨询记录了");
         }
-    };
+    }
 
     $scope.next = function () {
         if (idx < items.data.length - 1) {
@@ -134,10 +124,10 @@ bubbleFrame.register("consultInfoController", function (bubble, items, $scope, $
         } else {
             swal("这是最后一条咨询记录了");
         }
-    };
+    }
 
     $scope.ok = function () {
-        bubble.customModal("replyConsultInfoModal.html", "replyConsultInfoController", "lg", {_id: $scope.data._id}, function (v) {
+        bubble.customModal("replyConsultInfoModal.html", "replyConsultInfoController", "lg", { _id: $scope.data._id }, function (v) {
             $scope.data.state = "已反馈";
             $scope.data.reason = v[0];
             $scope.data.reasonTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
@@ -146,7 +136,7 @@ bubbleFrame.register("consultInfoController", function (bubble, items, $scope, $
             swal("反馈成功");
             idx < items.data.length - 1 ? $scope.next() : $modalInstance.close("123");
         });
-    };
+    }
 
     $scope.cancel = function () {
         $modalInstance.dismiss("");
@@ -184,27 +174,27 @@ bubbleFrame.register('replyConsultInfoController', function ($scope, $modalInsta
                 uploader.on("uploadProgress", this.uploadProgress);
                 uploader.on("uploadSuccess", this.uploadSuccess);
                 return this;
-            };
+            }
 
             this.fileQueued = function (file) {
 
-            };
+            }
 
             this.uploadProgress = function (file, percentage) {
                 $(".reportImgUploadBox .h-full").width(percentage.toFixed(2) * 100 + "%");
-            };
+            }
 
             this.uploadSuccess = function (file, v) {
                 $(".reportImgUploadBox .h-full").width(0);
                 !v.errorcode ? editor.appendHtml("<img src='" + bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/") + "' />") : swal("上传失败");
                 bubble.updateScope($scope);
-            };
+            }
 
             this.uploadError = function (file, msg) {
                 $(".reportImgUploadBox .h-full").width(0);
                 swal("上传失败");
             }
-        };
+        }
 
         editor = KindEditor.create('#editor_id', {
             uploadJson: bubble.getUploadServer(),
@@ -222,7 +212,7 @@ bubbleFrame.register('replyConsultInfoController', function ($scope, $modalInsta
         $timeout(function () {
             var upload = new Upload().init();
         })
-    });
+    })
 
 
     $scope.ok = function (e) {
@@ -235,19 +225,19 @@ bubbleFrame.register('replyConsultInfoController', function ($scope, $modalInsta
         bubble.toggleModalBtnLoading(e, true);
         //
         html = bubble.replaceBase64(html);
-        bubble._call("suggest.reply", items._id, {replyContent: html}).success(function (v) {
+        bubble._call("suggest.reply", items._id, { replyContent: html }).success(function (v) {
             if (!v.errorcode) {
                 $modalInstance.close([html, $scope.rate]);
-
+                return;
             } else {
                 bubble.toggleModalBtnLoading(e, false);
                 swal("回复失败");
             }
         })
         // $modalInstance.close([html, $scope.rate]);
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');
     }
-});
+})

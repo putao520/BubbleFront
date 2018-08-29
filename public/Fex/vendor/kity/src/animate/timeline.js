@@ -4,7 +4,7 @@
  * 动画时间线的实现
  */
 
-define(function (require) {
+define(function(require) {
 
     var EventHandler = require('../graphic/eventhandler');
     var utils = require('../core/utils');
@@ -12,13 +12,13 @@ define(function (require) {
     var frame = require('./frame');
 
     function getPercentValue(b, f, p) {
-        return utils.paralle(b, f, function (b, f) {
+        return utils.paralle(b, f, function(b, f) {
             return b + (f - b) * p;
         });
     }
 
     function getDelta(v1, v2) {
-        return utils.paralle(v1, v2, function (v1, v2) {
+        return utils.paralle(v1, v2, function(v1, v2) {
             return v2 - v1;
         });
     }
@@ -51,7 +51,7 @@ define(function (require) {
          * @description 时间线应该由动画器进行构造，不应手动创建
          *
          */
-        constructor: function (animator, target, duration, easing) {
+        constructor: function(animator, target, duration, easing) {
             this.callMixin();
 
             this.target = target;
@@ -73,7 +73,7 @@ define(function (require) {
          *
          * 让时间线进入下一帧
          */
-        nextFrame: function (frame) {
+        nextFrame: function(frame) {
             if (this.status != 'playing') {
                 return;
             }
@@ -95,7 +95,7 @@ define(function (require) {
          * @grammar getPlayTime() => {Number}
          * @description 获得当前播放的时间，取值区间为 [0, duration]
          */
-        getPlayTime: function () {
+        getPlayTime: function() {
             return this.rollbacking ? this.duration - this.time : this.time;
         },
 
@@ -105,7 +105,7 @@ define(function (require) {
          * @grammar getTimeProportion() => {Number}
          * @description 获得当前播放时间的比例，取值区间为 [0, 1]
          */
-        getTimeProportion: function () {
+        getTimeProportion: function() {
             return this.getPlayTime() / this.duration;
         },
 
@@ -115,7 +115,7 @@ define(function (require) {
          * @grammar getValueProportion() => {Number}
          * @description 获得当前播放时间对应值的比例，取值区间为 [0, 1]；该值实际上是时间比例值经过缓动函数计算之后的值。
          */
-        getValueProportion: function () {
+        getValueProportion: function() {
             return this.easing(this.getPlayTime(), 0, 1, this.duration);
         },
 
@@ -125,7 +125,7 @@ define(function (require) {
          * @grammar getValue() => {any}
          * @description 返回当前播放时间对应的值。
          */
-        getValue: function () {
+        getValue: function() {
             var b = this.beginValue;
             var f = this.finishValue;
             var p = this.getValueProportion();
@@ -137,7 +137,7 @@ define(function (require) {
          *
          * 把值通过动画器的 setter 设置到目标上
          */
-        setValue: function (value) {
+        setValue: function(value) {
             this.lastValue = this.currentValue;
             this.currentValue = value;
             this.setter.call(this.target, this.target, value, this);
@@ -149,7 +149,7 @@ define(function (require) {
          * @grammar getDelta() => {any}
          * @description 返回当前值和上一帧的值的差值
          */
-        getDelta: function () {
+        getDelta: function() {
             this.lastValue = this.lastValue === undefined ? this.beginValue : this.lastValue;
             return getDelta(this.lastValue, this.currentValue);
         },
@@ -160,7 +160,7 @@ define(function (require) {
          * @grammar play() => {this}
          * @description 让时间线播放，如果时间线还没开始，或者已停止、已结束，则重头播放；如果是已暂停，从暂停的位置继续播放
          */
-        play: function () {
+        play: function() {
             var lastStatus = this.status;
             this.status = 'playing';
 
@@ -210,7 +210,7 @@ define(function (require) {
          *
          * @grammar pause() => {this}
          */
-        pause: function () {
+        pause: function() {
             this.status = 'paused';
 
             /**
@@ -230,7 +230,7 @@ define(function (require) {
          *
          * @grammar stop() => {this}
          */
-        stop: function () {
+        stop: function() {
             this.status = 'stoped';
             this.setValue(this.finishValue);
             this.rollbacking = false;
@@ -250,7 +250,7 @@ define(function (require) {
          *
          * 播放结束之后的处理
          */
-        timeUp: function () {
+        timeUp: function() {
             if (this.repeatOption) {
                 this.time = 0;
                 if (this.rollback) {
@@ -289,7 +289,7 @@ define(function (require) {
          *
          * 决定播放结束的处理
          */
-        finish: function () {
+        finish: function() {
             this.setValue(this.finishValue);
             this.status = 'finished';
             /**
@@ -305,7 +305,7 @@ define(function (require) {
          *
          *  循环次数递减
          */
-        decreaseRepeat: function () {
+        decreaseRepeat: function() {
             if (this.repeatOption !== true) {
                 this.repeatOption--;
             }
@@ -325,7 +325,7 @@ define(function (require) {
          *     如果设置为真，一次事件到 duration 则一个来回算一次循环次数，否则播放完成一次算一次循环次数
          *
          */
-        repeat: function (repeat, rollback) {
+        repeat: function(repeat, rollback) {
             this.repeatOption = repeat;
             this.rollback = rollback;
             return this;

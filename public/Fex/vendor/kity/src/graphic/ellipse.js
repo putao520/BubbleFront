@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var Utils = require('../core/utils'),
         Point = require('./point');
@@ -7,7 +7,7 @@ define(function (require, exports, module) {
 
         base: require('./path'),
 
-        constructor: function (rx, ry, cx, cy) {
+        constructor: function(rx, ry, cx, cy) {
             this.callBase();
             this.rx = rx || 0;
             this.ry = ry || 0;
@@ -16,7 +16,7 @@ define(function (require, exports, module) {
             this.update();
         },
 
-        update: function () {
+        update: function() {
             var rx = this.rx,
                 ry = this.ry,
                 x1 = this.cx + rx,
@@ -30,53 +30,53 @@ define(function (require, exports, module) {
             return this;
         },
 
-        getRadius: function () {
+        getRadius: function() {
             return {
                 x: this.rx,
                 y: this.ry
             };
         },
 
-        getRadiusX: function () {
+        getRadiusX: function() {
             return this.rx;
         },
 
-        getRadiusY: function () {
+        getRadiusY: function() {
             return this.ry;
         },
 
-        getCenter: function () {
+        getCenter: function() {
             return new Point(
                 this.cx,
                 this.cy
             );
         },
 
-        getCenterX: function () {
+        getCenterX: function() {
             return this.cx;
         },
 
-        getCenterY: function () {
+        getCenterY: function() {
             return this.cy;
         },
 
-        setRadius: function (rx, ry) {
+        setRadius: function(rx, ry) {
             this.rx = rx;
             this.ry = ry;
             return this.update();
         },
 
-        setRadiusX: function (rx) {
+        setRadiusX: function(rx) {
             this.rx = rx;
             return this.update();
         },
 
-        setRadiusY: function (ry) {
+        setRadiusY: function(ry) {
             this.ry = ry;
             return this.update();
         },
 
-        setCenter: function (cx, cy) {
+        setCenter: function(cx, cy) {
             if (arguments.length == 1) {
                 var p = Point.parse(arguments[0]);
                 cx = p.x;
@@ -87,12 +87,12 @@ define(function (require, exports, module) {
             return this.update();
         },
 
-        setCenterX: function (cx) {
+        setCenterX: function(cx) {
             this.cx = cx;
             return this.update();
         },
 
-        setCenterY: function (cy) {
+        setCenterY: function(cy) {
             this.cy = cy;
             return this.update();
         }

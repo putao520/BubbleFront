@@ -5,7 +5,7 @@ bubbleFrame.register('monitorController', function ($scope, bubble, $timeout) {
             if (key == "state") {
                 var s = v.state == 1 ? 0 : 1;
                 $scope.tableControl.loading(true);
-                bubble._call("api.update", v._id, bubble.replaceBase64(JSON.stringify({state: s}))).success(function (rs) {
+                bubble._call("api.update", v._id, bubble.replaceBase64(JSON.stringify({ state: s }))).success(function (rs) {
                     $scope.tableControl.loading(false);
                     if (!rs.errorcode) {
                         v.state = s;
@@ -39,7 +39,7 @@ bubbleFrame.register('monitorInfoController', function ($scope, bubble, $timeout
 
     $scope.addItem = function () {
         $scope.list.push("");
-    };
+    }
 
     $scope.removeItem = function (v, i) {
         if ($scope.list.length == 1) {
@@ -47,7 +47,7 @@ bubbleFrame.register('monitorInfoController', function ($scope, bubble, $timeout
             return;
         }
         $scope.list.splice(i, 1);
-    };
+    }
 
     $scope.ok = function (e) {
         var tmp = JSON.parse(JSON.stringify($scope.list));
@@ -61,7 +61,7 @@ bubbleFrame.register('monitorInfoController', function ($scope, bubble, $timeout
             swal("请至少输入一个主机地址!");
             return;
         }
-        bubble._call("api.update", items._id, bubble.replaceBase64(JSON.stringify({host: tmp.join(",")}))).success(function (v) {
+        bubble._call("api.update", items._id, bubble.replaceBase64(JSON.stringify({ host: tmp.join(",") }))).success(function (v) {
             if (v.errorcode) {
                 swal("修改失败");
             } else {
@@ -69,7 +69,7 @@ bubbleFrame.register('monitorInfoController', function ($scope, bubble, $timeout
                 $modalInstance.close(v);
             }
         });
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');

@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var utils = require('../core/utils');
 
@@ -129,11 +129,11 @@ define(function (require, exports, module) {
     var TextRenderer = kity.createClass('TextRenderer', {
         base: Renderer,
 
-        create: function () {
+        create: function() {
             return new kity.Group().setId(utils.uuid('node_text'));
         },
 
-        update: function (textGroup, node) {
+        update: function(textGroup, node) {
 
             function getDataOrStyle(name) {
                 return node.getData(name) || node.getStyle(name);
@@ -152,7 +152,7 @@ define(function (require, exports, module) {
             var Browser = kity.Browser;
             var adjust;
 
-            if (Browser.chrome || Browser.opera || Browser.bd || Browser.lb === "chrome") {
+            if (Browser.chrome || Browser.opera || Browser.bd ||Browser.lb === "chrome") {
                 adjust = FONT_ADJUST['chrome'][Browser.platform][fontFamily];
             } else if (Browser.gecko) {
                 adjust = FONT_ADJUST['firefox'][Browser.platform][fontFamily];
@@ -201,7 +201,7 @@ define(function (require, exports, module) {
             }
 
             for (i = 0, text, textShape;
-                 (text = textArr[i], textShape = textGroup.getItem(i)); i++) {
+                (text = textArr[i], textShape = textGroup.getItem(i)); i++) {
                 textShape.setContent(text);
                 if (kity.Browser.ie || kity.Browser.edge) {
                     textShape.fixPosition();
@@ -217,8 +217,8 @@ define(function (require, exports, module) {
 
             node._currentTextHash = textHash;
 
-            return function () {
-                textGroup.eachItem(function (i, textShape) {
+            return function() {
+                textGroup.eachItem(function(i, textShape) {
                     var y = yStart + i * fontSize * lineHeight;
 
                     textShape.setY(y);
@@ -234,9 +234,9 @@ define(function (require, exports, module) {
 
         },
 
-        setTextStyle: function (node, text) {
+        setTextStyle: function(node, text) {
             var hooks = TextRenderer._styleHooks;
-            hooks.forEach(function (hook) {
+            hooks.forEach(function(hook) {
                 hook(node, text);
             });
         }
@@ -244,7 +244,7 @@ define(function (require, exports, module) {
 
     var TextCommand = kity.createClass({
         base: Command,
-        execute: function (minder, text) {
+        execute: function(minder, text) {
             var node = minder.getSelectedNode();
             if (node) {
                 node.setText(text);
@@ -252,10 +252,10 @@ define(function (require, exports, module) {
                 minder.layout();
             }
         },
-        queryState: function (minder) {
+        queryState: function(minder) {
             return minder.getSelectedNodes().length == 1 ? 0 : -1;
         },
-        queryValue: function (minder) {
+        queryValue: function(minder) {
             var node = minder.getSelectedNode();
             return node ? node.getText() : null;
         }
@@ -264,13 +264,13 @@ define(function (require, exports, module) {
     utils.extend(TextRenderer, {
         _styleHooks: [],
 
-        registerStyleHook: function (fn) {
+        registerStyleHook: function(fn) {
             TextRenderer._styleHooks.push(fn);
         }
     });
 
     kity.extendClass(MinderNode, {
-        getTextGroup: function () {
+        getTextGroup: function() {
             return this.getRenderer('TextRenderer').getRenderShape();
         }
     });

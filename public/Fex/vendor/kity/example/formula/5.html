@@ -9,27 +9,28 @@
 
         window.onload = function () {
 
-            var paper = new kity.Paper(document.body),
-                operand = new kity.Text('∏'),
-                bottom = new kity.Text('i=1'),
-                right = new kity.Text('x'),
-                rightSub = new kity.Text('i'),
-                up = new kity.Text('N');
+            var paper = new kity.Paper( document.body ),
+                operand = new kity.Text( '∏'),
+                bottom = new kity.Text( 'i=1' ),
+                right = new kity.Text( 'x' ),
+                rightSub = new kity.Text( 'i' ),
+                up = new kity.Text( 'N' );
 
 
-            operand.setX(97).setY(100);
-            operand.setStyle("font-size", 40);
-            up.setX(108).setY(70);
-            bottom.setX(104).setY(125);
-            right.setStyle("font-size", 30);
-            right.setX(130).setY(100);
-            rightSub.setX(146).setY(107);
 
-            paper.addShape(up);
-            paper.addShape(rightSub);
-            paper.addShape(right);
-            paper.addShape(bottom);
-            paper.addShape(operand);
+            operand.setX( 97 ).setY( 100 );
+            operand.setStyle( "font-size", 40 );
+            up.setX( 108 ).setY( 70 );
+            bottom.setX( 104 ).setY( 125 );
+            right.setStyle( "font-size", 30 );
+            right.setX( 130 ).setY( 100 );
+            rightSub.setX( 146 ).setY( 107 );
+
+            paper.addShape( up );
+            paper.addShape( rightSub );
+            paper.addShape( right );
+            paper.addShape( bottom );
+            paper.addShape( operand );
 
         };
 

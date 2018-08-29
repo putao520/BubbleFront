@@ -1,10 +1,10 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     return require('../core/class').createClass('Image', {
 
         base: require('./shape'),
 
-        constructor: function (url, width, height, x, y) {
+        constructor: function(url, width, height, x, y) {
 
             this.callBase('image');
             this.url = url;
@@ -17,7 +17,7 @@ define(function (require, exports, module) {
 
         },
 
-        update: function () {
+        update: function() {
 
             this.node.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', this.url);
             this.node.setAttribute('x', this.x);
@@ -29,7 +29,7 @@ define(function (require, exports, module) {
 
         },
 
-        setUrl: function (url) {
+        setUrl: function(url) {
 
             this.url = url === '' ? null : url;
 
@@ -37,13 +37,13 @@ define(function (require, exports, module) {
 
         },
 
-        getUrl: function () {
+        getUrl: function() {
 
             return this.url;
 
         },
 
-        setWidth: function (width) {
+        setWidth: function(width) {
 
             this.width = width;
 
@@ -51,13 +51,13 @@ define(function (require, exports, module) {
 
         },
 
-        getWidth: function () {
+        getWidth: function() {
 
             return this.width;
 
         },
 
-        setHeight: function (height) {
+        setHeight: function(height) {
 
             this.height = height;
 
@@ -65,13 +65,13 @@ define(function (require, exports, module) {
 
         },
 
-        getHeight: function () {
+        getHeight: function() {
 
             return this.height;
 
         },
 
-        setX: function (x) {
+        setX: function(x) {
 
             this.x = x;
 
@@ -79,13 +79,13 @@ define(function (require, exports, module) {
 
         },
 
-        getX: function () {
+        getX: function() {
 
             return this.x;
 
         },
 
-        setY: function (y) {
+        setY: function(y) {
 
             this.y = y;
 
@@ -93,7 +93,7 @@ define(function (require, exports, module) {
 
         },
 
-        getY: function () {
+        getY: function() {
 
             return this.y;
 

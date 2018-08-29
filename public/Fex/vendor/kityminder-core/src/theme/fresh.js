@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var theme = require('../core/theme');
 
@@ -57,7 +57,7 @@ define(function (require, exports, module) {
             'order-hint-path-width': 1,
 
             'text-selection-color': hsl(h, 100, 20),
-            'line-height': 1.5
+            'line-height':1.5
         };
     }
 

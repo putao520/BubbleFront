@@ -50,16 +50,14 @@
             <tab heading="系统API">
                 <accordion>
                     <accordion-group heading="{{key}}" ng-repeat="(key, value) in interfaceList">
-                        <p class="cursor-p text-info m-b b-b" ng-repeat="(key1, value1) in value"
-                           ng-click="systemClick(value1, key1)">{{key1}}</p>
+                        <p class="cursor-p text-info m-b b-b" ng-repeat="(key1, value1) in value" ng-click="systemClick(value1, key1)">{{key1}}</p>
                     </accordion-group>
                 </accordion>
             </tab>
             <tab heading="用户API">
                 <accordion>
                     <accordion-group heading="{{group.name}}" ng-repeat="group in groups">
-                        <p class="cursor-p text-info m-b b-b" ng-repeat="item in group.data" ng-click="userClick(item)">
-                            {{item.name}}</p>
+                        <p class="cursor-p text-info m-b b-b" ng-repeat="item in group.data" ng-click="userClick(item)">{{item.name}}</p>
                     </accordion-group>
                 </accordion>
             </tab>
@@ -87,11 +85,8 @@
             <div class="line line-dashed b-b line-lg pull-in" ng-show="req.isGrape"></div>
             <div class="m-b" ng-show="req.isGrape">
                 <p>常用主机</p>
-                <button type="button" class="btn btn-sm btn-default" ng-click="changeHost('60.173.0.46')">60.173.0.46
-                </button>
-                <button type="button" class="btn btn-sm btn-default" ng-click="changeHost('123.57.214.226')">
-                    123.57.214.226
-                </button>
+                <button type="button" class="btn btn-sm btn-default" ng-click="changeHost('60.173.0.46')">60.173.0.46</button>
+                <button type="button" class="btn btn-sm btn-default" ng-click="changeHost('123.57.214.226')">123.57.214.226</button>
             </div>
             <div class="m-b" ng-show="req.isGrape">
                 <p>常用端口</p>
@@ -194,8 +189,7 @@
         <button ng-show="result" type="button" class="btn btn-sm btn-default" ng-click="json.level(8)">折叠等级8</button>
         <button ng-show="result" type="button" class="btn btn-sm btn-default" ng-click="json.level(9)">折叠等级8</button>
         <button ng-show="result" type="button" class="btn btn-sm btn-default" ng-click="json.level(10)">折叠等级10</button>
-        <div ng-show="result" id="Canvas" class="m-t w-full"
-             style="overflow:auto;max-height:500px;margin-bottom: 10px;"></div>
+        <div ng-show="result" id="Canvas" class="m-t w-full" style="overflow:auto;max-height:500px;margin-bottom: 10px;"></div>
     </div>
 </div>
 </div>

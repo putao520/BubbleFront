@@ -1,7 +1,9 @@
+
+
 /**
  * 开发版本的文件导入
  */
-(function () {
+(function() {
     /* 可能的文件路径，已按照依赖关系排序 */
     var pathInfo = [
         /* 核心代码 */
@@ -21,7 +23,7 @@
         'src/core/readonly.js',
         'src/core/layout.js',
         'src/core/theme.js',
-
+        
         'src/core/compatibility.js',
         'src/core/render.js',
         'src/core/connect.js',
@@ -88,7 +90,7 @@
 
     if (typeof(module) === 'object' && module.exports) {
         module.exports = pathInfo;
-    }
+    } 
 
     else if (document) {
         while (pathInfo.length) {

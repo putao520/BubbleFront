@@ -1,4 +1,4 @@
-define(function (require) {
+define(function(require) {
     var utils = require('../core/utils');
     var Point = require('./point');
     var Vector = require('./vector');
@@ -62,7 +62,6 @@ define(function (require) {
             cache[args] = f.apply(scope, arg);
             return postprocessor ? postprocessor(cache[args]) : cache[args];
         }
-
         return newf;
     }
 
@@ -83,7 +82,7 @@ define(function (require) {
      *     var pathString = kity.g.pathToString(pathSegment);
      *     // 返回 'M0,0L10,10'
      */
-    g.pathToString = function (pathSegment) {
+    g.pathToString = function(pathSegment) {
         pathSegment = pathSegment || this;
         if (typeof(pathSegment) == 'string') return pathSegment;
         if (pathSegment instanceof Array) {
@@ -107,13 +106,13 @@ define(function (require) {
      * @param  {String} pathString Path 字符串
      * @return {Array}
      */
-    g.parsePathString = cacher(function (pathString) {
+    g.parsePathString = cacher(function(pathString) {
         var data = [];
-        pathString.replace(pathCommand, function (a, b, c) {
+        pathString.replace(pathCommand, function(a, b, c) {
             var params = [],
                 name = b.toLowerCase();
 
-            c.replace(pathValues, function (a, b) {
+            c.replace(pathValues, function(a, b) {
                 if (b) params.push(+b);
             });
 
@@ -157,7 +156,7 @@ define(function (require) {
      *     var absPath = kity.g.pathToAbsolute(path);
      *     // 返回 [['M', 10, 10], ['L', 60, 60]]
      */
-    g.pathToAbsolute = cacher(function (path) {
+    g.pathToAbsolute = cacher(function(path) {
         var pathArray = path.isUniform ? path : g.parsePathString(g.pathToString(path));
         var res = [],
             x = 0,
@@ -249,7 +248,7 @@ define(function (require) {
             rad = PI / 180 * (+angle || 0),
             res = [],
             xy,
-            rotate = function (x, y, rad) {
+            rotate = function(x, y, rad) {
                 var X = x * math.cos(rad) - y * math.sin(rad),
                     Y = x * math.sin(rad) + y * math.cos(rad);
                 return {
@@ -366,7 +365,7 @@ define(function (require) {
      * @return {Array}
      *     转换后的 PathSegment，每一段都是 'C'
      */
-    g.pathToCurve = cacher(function (path) {
+    g.pathToCurve = cacher(function(path) {
 
         var i, j, command, param;
         var initPoint, currentPoint, endPoint, shouldClose, lastControlPoint, aussumedControlPoint;
@@ -490,11 +489,10 @@ define(function (require) {
      */
     function cutBezier(bezierArray, t) {
         function __(t) {
-            return function (p, q) {
+            return function(p, q) {
                 return p + t * (q - p);
             };
         }
-
         var _ = __(t || 0.5),
             ba = bezierArray,
             ax = ba[0],
@@ -559,7 +557,7 @@ define(function (require) {
      * @return {Array}
      *     长度为 8 的数组，表示给定贝塞尔曲线的子段
      */
-    g.subBezier = function (bezierArray, t, t0) {
+    g.subBezier = function(bezierArray, t, t0) {
         var b2t = cutBezier(bezierArray, t)[0];
         return t0 ? cutBezier(b2t, t0 / t)[1] : b2t;
     };
@@ -578,7 +576,7 @@ define(function (require) {
      *     p.y: y 坐标
      *     p.tan: 在 t 处的切线方向（类型为 kity.Vector，模为 1）
      */
-    g.pointAtBezier = function (bezierArray, t) {
+    g.pointAtBezier = function(bezierArray, t) {
         var b2t = cutBezier(bezierArray, t)[0];
         var p = Point.parse(b2t.slice(6)),
             c = Point.parse(b2t.slice(4, 2)),
@@ -643,9 +641,10 @@ define(function (require) {
     });
 
 
+
     // 计算一个 pathSegment 中每一段的在整体中所占的长度范围，以及总长度
     // 方法要求每一段都是贝塞尔曲线
-    var getBezierPathSegmentRanges = cacher(function (pathSegment) {
+    var getBezierPathSegmentRanges = cacher(function(pathSegment) {
         var i, ii, segment, position, bezierLength, segmentRanges, totalLength;
 
         segmentRanges = [];
@@ -693,7 +692,7 @@ define(function (require) {
      * @return {Array}
      *     子路径的 PathSegment
      */
-    g.subPath = function (path, t1, t0) {
+    g.subPath = function(path, t1, t0) {
         var dt;
 
         t0 = t0 || 0;
@@ -823,7 +822,7 @@ define(function (require) {
      *     p.y: y 坐标
      *     p.tan: 在 t 处的切线方向（类型为 kity.Vector，模为 1）
      */
-    g.pointAtPath = function (path, t) {
+    g.pointAtPath = function(path, t) {
         if (!path.isCurve) {
             path = g.pathToCurve(path);
         }
@@ -852,7 +851,7 @@ define(function (require) {
      * @return {Number}
      *     路径的长度
      */
-    g.pathLength = cacher(function (path) {
+    g.pathLength = cacher(function(path) {
         if (!path.isCurve) {
             path = g.pathToCurve(path);
         }
@@ -870,7 +869,7 @@ define(function (require) {
      * @return {Array}
      *     关键点的集合
      */
-    g.pathKeyPoints = cacher(function (path) {
+    g.pathKeyPoints = cacher(function(path) {
         var i, ii, command, keyPoints;
 
         if (!path.isCurve) {
@@ -889,7 +888,7 @@ define(function (require) {
 
     // 对比两个路径的关键位置，在合适的位置切割合适的路径，使得两个路径的段数一致
     // TODO: 使用插值算法，使对应点更合理
-    var alignCurve = cacher(function (path1, path2) {
+    var alignCurve = cacher(function(path1, path2) {
 
         if (!path1.isCurve) path1 = g.pathToCurve(path1);
         if (!path2.isCurve) path2 = g.pathToCurve(path2);
@@ -995,7 +994,7 @@ define(function (require) {
      * @return {PathSegment}
      *     补间的结果
      */
-    g.pathTween = function (path1, path2, t) {
+    g.pathTween = function(path1, path2, t) {
         if (t === 0) return path1;
         if (t === 1) return path2;
 
@@ -1030,7 +1029,7 @@ define(function (require) {
      * @return {Array}
      *     变换后的路径
      */
-    g.transformPath = cacher(function (path, matrix) {
+    g.transformPath = cacher(function(path, matrix) {
         var i, ii, j, result, seg, pair;
 
         if (!path.isCurve) {
@@ -1053,7 +1052,7 @@ define(function (require) {
 
     // entend
     require('../core/class').extendClass(Matrix, {
-        transformPath: function (path) {
+        transformPath: function(path) {
             return g.transformPath(path, this);
         }
     });

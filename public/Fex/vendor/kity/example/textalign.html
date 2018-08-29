@@ -30,7 +30,7 @@
 
             paper.addShape(new kity.Line(0, 200.5, 600, 200.5).stroke('#CCC'));
             paper.addShape(text1 = new kity.Text('English 中文字').setY(200).setVerticalAlign('middle'));
-            paper.addShape(new kity.HyperLink().pipe(function () {
+            paper.addShape(new kity.HyperLink().pipe(function() {
                 this.addShape(new kity.Text('English 中文字').setY(200).setX(150).setSize(20));
                 this.setHref('http://www.baidu.com')
             }));
@@ -39,6 +39,6 @@
     </script>
 </head>
 <body>
-
+    
 </body>
 </html>

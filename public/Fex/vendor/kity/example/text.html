@@ -28,13 +28,13 @@
 
             paper.setWidth(600).setHeight(400);
 
-            paper.addShape(new kity.Text().pipe(function () {
+            paper.addShape(new kity.Text().pipe(function() {
                 this.addSpan(new kity.TextSpan('hello ').fill('red'));
                 this.addSpan(new kity.TextSpan(' kity').fill('blue'));
                 this.setAnchor('middle');
                 this.setSize(36);
 
-                this.setPath(new kity.Path().pipe(function () {
+                this.setPath(new kity.Path().pipe(function(){
                     var d = this.getDrawer();
                     d.moveTo(150, 200);
                     d.carcTo(200, 450, 200);
@@ -48,6 +48,6 @@
     </script>
 </head>
 <body>
-
+    
 </body>
 </html>

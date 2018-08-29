@@ -4,7 +4,7 @@
  * 路径动画器，可以让一个物体沿着某个轨迹运动
  */
 
-define(function (require) {
+define(function(require) {
     var Animator = require('./animator');
     var g = require('../graphic/geometry');
 
@@ -34,12 +34,12 @@ define(function (require) {
          * @param {kity.Path|String|PathSegment} path 运动的轨迹，或者是 kity.Path 对象
          * @param {boolean} doRotate 是否让运动的目标沿着路径的切线方向旋转
          */
-        constructor: function (path, doRotate) {
+        constructor: function(path, doRotate) {
             var me = this;
             this.callBase({
                 beginValue: 0,
                 finishValue: 1,
-                setter: function (target, value) {
+                setter: function(target, value) {
                     var path = me.motionPath instanceof Path ? me.motionPath.getPathData() : me.motionPath;
                     var point = g.pointAtPath(path, value);
                     target.setTranslate(point.x, point.y);
@@ -88,7 +88,7 @@ define(function (require) {
          * @param {String|Function}   easing   动画播放使用的缓动函数，如 'ease'、'linear'、'swing'
          * @param {Function}          callback 播放结束之后的回调函数
          */
-        motion: function (path, duration, easing, delay, callback) {
+        motion: function(path, duration, easing, delay, callback) {
             return this.animate(new MotionAnimator(path), duration, easing, delay, callback);
         }
     });

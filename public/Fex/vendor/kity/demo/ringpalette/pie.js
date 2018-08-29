@@ -1,14 +1,14 @@
-define(function (require, exports, module) {
+define(function(require, exports, module){
     var Path = require('graphic/path');
     var Point = require('graphic/point');
     return require('core/class').createClass({
         base: Path,
-        constructor: function (r, R, a1, a2) {
+        constructor: function(r, R, a1, a2) {
             this.callBase();
             this.draw(r, R, a1, a2);
-            this.center = Point.fromPolar((R + r) / 2, (a1 + a2) / 2);
+            this.center = Point.fromPolar( (R + r) / 2, (a1 + a2) / 2 );
         },
-        draw: function (r, R, a1, a2) {
+        draw: function(r, R, a1, a2) {
             var d = this.getDrawer();
             var p1 = Point.fromPolar(r, a1),
                 p2 = Point.fromPolar(R, a1),

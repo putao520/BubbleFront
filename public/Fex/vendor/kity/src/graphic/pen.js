@@ -1,10 +1,10 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var Color = require('./color');
 
     return require('../core/class').createClass('Pen', {
 
-        constructor: function (brush, width) {
+        constructor: function(brush, width) {
 
             this.brush = brush;
             this.width = width || 1;
@@ -15,30 +15,30 @@ define(function (require, exports, module) {
 
         },
 
-        getBrush: function () {
+        getBrush: function() {
             return this.brush;
         },
 
-        setBrush: function (brush) {
+        setBrush: function(brush) {
             this.brush = brush;
             return this;
         },
 
-        setColor: function (color) {
+        setColor: function(color) {
             return this.setBrush(color);
         },
 
-        getColor: function () {
+        getColor: function() {
             return (this.brush instanceof Color) ? this.brush : null;
         },
 
-        getWidth: function () {
+        getWidth: function() {
 
             return this.width;
 
         },
 
-        setWidth: function (width) {
+        setWidth: function(width) {
 
             this.width = width;
 
@@ -46,50 +46,50 @@ define(function (require, exports, module) {
 
         },
 
-        getOpacity: function () {
+        getOpacity: function() {
 
             return this.opacity;
 
         },
 
-        setOpacity: function (opacity) {
+        setOpacity: function(opacity) {
 
             this.opacity = opacity;
 
         },
 
-        getLineCap: function () {
+        getLineCap: function() {
 
             return this.linecap;
 
         },
 
-        setLineCap: function (linecap) {
+        setLineCap: function(linecap) {
 
             this.linecap = linecap;
 
             return this;
         },
 
-        getLineJoin: function () {
+        getLineJoin: function() {
 
             return this.linejoin;
         },
 
-        setLineJoin: function (linejoin) {
+        setLineJoin: function(linejoin) {
 
             this.linejoin = linejoin;
 
             return this;
         },
 
-        getDashArray: function () {
+        getDashArray: function() {
 
             return this.dashArray;
 
         },
 
-        setDashArray: function (dashArray) {
+        setDashArray: function(dashArray) {
 
             this.dashArray = dashArray;
 
@@ -97,7 +97,7 @@ define(function (require, exports, module) {
 
         },
 
-        stroke: function (shape) {
+        stroke: function(shape) {
             var node = shape.node;
             node.setAttribute('stroke', this.brush.toString());
             node.setAttribute('stroke-width', this.getWidth());

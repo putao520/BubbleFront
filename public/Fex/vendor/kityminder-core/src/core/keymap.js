@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var keymap = {
         'Backspace': 8,
         'Tab': 9,
@@ -114,7 +114,7 @@ define(function (require, exports, module) {
     var aCharCode = 'a'.charCodeAt(0);
 
     // letters
-    'abcdefghijklmnopqrstuvwxyz'.split('').forEach(function (letter) {
+    'abcdefghijklmnopqrstuvwxyz'.split('').forEach(function(letter) {
         keymap[letter] = aKeyCode + (letter.charCodeAt(0) - aCharCode);
     });
 

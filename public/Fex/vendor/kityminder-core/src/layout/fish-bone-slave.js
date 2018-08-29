@@ -7,7 +7,7 @@
  * @copyright: Baidu FEX, 2014
  */
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
     var kity = require('../core/kity');
     var Layout = require('../core/layout');
 
@@ -34,7 +34,7 @@ define(function (require, exports, module) {
 
             var cBox = child.getContentBox();
 
-            children.forEach(function (child, index) {
+            children.forEach(function(child, index) {
                 child.setLayoutTransform(new kity.Matrix());
                 child.setLayoutVectorIn(new kity.Vector(1, 0));
                 child.setVertexIn(new kity.Point(cBox.left, cBox.cy));
@@ -60,7 +60,7 @@ define(function (require, exports, module) {
             this.move(children, xAdjust, yAdjust);
 
             if (round == 2) {
-                children.forEach(function (child) {
+                children.forEach(function(child) {
                     var m = child.getLayoutTransform();
                     var cbox = child.getContentBox();
                     var pin = m.transformPoint(new kity.Point(cbox.left, 0));

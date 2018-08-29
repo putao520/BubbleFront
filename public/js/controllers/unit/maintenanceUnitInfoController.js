@@ -6,7 +6,7 @@ bubbleFrame.register('maintenanceUnitInfoController', function ($scope, bubble) 
     var initInfo = function () {
         $scope.info = JSON.parse(JSON.stringify(tmpInfo));
         delete $scope.info._id;
-    };
+    }
 
     bubble._call("maintenanceInfo.page", 1, 100).success(function (v) {
         tmpInfo = v.data[0];
@@ -15,7 +15,7 @@ bubbleFrame.register('maintenanceUnitInfoController', function ($scope, bubble) 
 
     $scope.review = function () {
         initInfo();
-    };
+    }
 
     $scope.confirm = function (e) {
         $(e.currentTarget).addClass("data-loading");

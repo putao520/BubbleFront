@@ -5,31 +5,23 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
     $scope.scrollControl = {
         onload: function () {
             scrollLoadPage++;
-            scrollLoadEnable && ($scope.currentType == 0 ? initFileList(scrollLoadPage) : $scope.typeClick({type: $scope.currentType}));
+            scrollLoadEnable && ($scope.currentType == 0 ? initFileList(scrollLoadPage) : $scope.typeClick({ type: $scope.currentType }));
         }
-    };
+    }
 
     var uploadBox = $(".dialog-web-uploader");
     var filebox = $(".filelistbox .fileitembox");
     $scope.fileList = [];
     $scope.currentType = 0;
     $scope.openBtnVisible = true;
-    $scope.btnEnable = {
-        delete: false,
-        add: false,
-        downLoad: false,
-        rename: false,
-        move: false,
-        addFolder: true,
-        upLoad: true
-    };
+    $scope.btnEnable = { delete: false, add: false, downLoad: false, rename: false, move: false, addFolder: true, upLoad: true };
 
     $scope.pathmap = [];
     $scope.icons = {
         rar: 3,
         zip: 3,
         folder: 1
-    };
+    }
 
     var initData = function (v, p) {
         var d = bubble.getTreeData(v.data, "_id", false, function (v) {
@@ -37,9 +29,9 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
         });
         $scope.files = $scope.files.concat(d);
         bubble.sortBy($scope.files, "filetype", true);
-        $scope.pathmap = ([[{fileoldname: "全部文件", _id: 0}, $scope.files]]);
+        $scope.pathmap = ([[{ fileoldname: "全部文件", _id: 0 }, $scope.files]]);
         initFileBox();
-    };
+    }
 
     var initFileBox = function () {
         var d = $scope.files;
@@ -66,7 +58,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
             })(i)
         }
         filebox.append("<div class='clear-b'></div>");
-    };
+    }
 
     var disableBtn = function () {
         $scope.btnEnable.delete = false;
@@ -74,14 +66,14 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
         $scope.btnEnable.move = false;
         $scope.btnEnable.downLoad = false;
         $scope.btnEnable.preview = false;
-    };
+    }
 
     var enableBtn = function (v, x) {
         $scope.btnEnable.delete = true;
         $scope.btnEnable.rename = x;
         $scope.btnEnable.move = true;
         $scope.btnEnable.downLoad = v;
-    };
+    }
 
     var getSelectItem = function (type) {
         var count = 0;
@@ -95,7 +87,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
             }
         }
         return type === "count" ? count : type === "id" ? rs : o;
-    };
+    }
 
     var Upload = function () {
         var uploader = "";
@@ -114,7 +106,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
             uploader.on("uploadSuccess", this.uploadSuccess);
             uploader.on("uploadError", this.uploadError);
             return this;
-        };
+        }
 
         this.fileQueued = function (file) {
             uploader.options.server = $scope.pathmap.length ? bubble.getUploadServer($scope.pathmap[$scope.pathmap.length - 1][0]._id) : bubble.getUploadServer();
@@ -130,7 +122,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
                 box.find("#uploaditem" + file.idx + " .file-status span").html("排队中").addClass("text-muted");
             });
             box.show();
-        };
+        }
 
         this.uploadProgress = function (file, percentage) {
             // file.precent = percentage.toFixed(2) * 100 + "%";
@@ -147,7 +139,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
                 file.prevTime = Date.now();
                 file.prevsize = file.size * percentage;
             }
-        };
+        }
 
         this.uploadSuccess = function (file, v) {
             var total = 0;
@@ -168,12 +160,12 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
                 box.find("#uploaditem" + file.idx + " .file-status span").html(v.message).removeClass("text-info").addClass("text-success");
             }
             bubble.clearCache("file");
-        };
+        }
 
         this.uploadError = function (file, msg) {
 
         }
-    };
+    }
 
     var Darw = function () {
         var _this = this;
@@ -205,7 +197,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
                     list[i].$ele.removeClass("check");
                 }
                 return list[i].selected;
-            };
+            }
 
             for (var i = 0; i < list.length; i++) {
                 initSelect(i) && count++;
@@ -216,7 +208,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
             $scope.btnEnable.move = !!count;
             $scope.btnEnable.downLoad = count == 1 && tmpo.filetype !== 0;
             count = 0;
-        };
+        }
 
         this.start = function (e) {
             if ((e.target === box[0] || e.target === $(".fileitembox")[0]) && $scope.files.length) {
@@ -226,49 +218,29 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
                 this.check([e.clientX - box_point[0], e.clientY - box_point[1]]);
                 this.ismove = true;
             }
-        };
+        }
 
         this.move = function (e) {
             if (this.ismove) {
                 var p = [e.clientX - box_point[0], e.clientY - box_point[1]];
                 var s = box.scrollTop();
                 if (_this.get(p) == 1)
-                    select_box.css({
-                        top: p[1] + s + "px",
-                        left: s_point[0] + "px",
-                        width: Math.abs(p[0] - s_point[0]) + "px",
-                        height: Math.abs(p[1] - s_point[1]) + "px"
-                    });
+                    select_box.css({ top: p[1] + s + "px", left: s_point[0] + "px", width: Math.abs(p[0] - s_point[0]) + "px", height: Math.abs(p[1] - s_point[1]) + "px" });
                 if (_this.get(p) == 2)
-                    select_box.css({
-                        top: s_point[1] + s + "px",
-                        left: s_point[0] + "px",
-                        width: Math.abs(p[0] - s_point[0]) + "px",
-                        height: Math.abs(p[1] - s_point[1]) + "px"
-                    });
+                    select_box.css({ top: s_point[1] + s + "px", left: s_point[0] + "px", width: Math.abs(p[0] - s_point[0]) + "px", height: Math.abs(p[1] - s_point[1]) + "px" });
                 if (_this.get(p) == 3)
-                    select_box.css({
-                        top: s_point[1] + s + "px",
-                        left: p[0] + "px",
-                        width: Math.abs(p[0] - s_point[0]) + "px",
-                        height: Math.abs(p[1] - s_point[1]) + "px"
-                    });
+                    select_box.css({ top: s_point[1] + s + "px", left: p[0] + "px", width: Math.abs(p[0] - s_point[0]) + "px", height: Math.abs(p[1] - s_point[1]) + "px" });
                 if (_this.get(p) == 4)
-                    select_box.css({
-                        top: p[1] + s + "px",
-                        left: p[0] + "px",
-                        width: Math.abs(p[0] - s_point[0]) + "px",
-                        height: Math.abs(p[1] - s_point[1]) + "px"
-                    });
+                    select_box.css({ top: p[1] + s + "px", left: p[0] + "px", width: Math.abs(p[0] - s_point[0]) + "px", height: Math.abs(p[1] - s_point[1]) + "px" });
 
                 this.check(p);
             }
-        };
+        }
 
         this.end = function (e) {
             _this.ismove = false;
-            select_box.css({top: "0px", left: "0px", width: "0px", height: "0px"}).hide();
-        };
+            select_box.css({ top: "0px", left: "0px", width: "0px", height: "0px" }).hide();
+        }
         //获取目标点在直角坐标系中第几象限
         this.get = function (p) {
             var x = p[0] - s_point[0];
@@ -282,32 +254,32 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
                 return 4;
             if (x < 0 && y > 0)
                 return 3;
-        };
+        }
 
         $("body").unbind("mouseup").bind("mouseup", this.end);
-    };
+    }
 
     var initFileList = function (p) {
         $scope.currentType = 0;
         scrollLoadEnable = false;
-        bubble._call("file.pageBy", scrollLoadPage, 60, {isdelete: 0}).success(function (v) {
+        bubble._call("file.pageBy", scrollLoadPage, 60, { isdelete: 0 }).success(function (v) {
             if (!v.errorcode) {
                 scrollLoadEnable = !(v.data.length < 60);
                 initData(v);
             }
         });
-    };
+    }
 
     initFileList();
 
     $scope.types = [
-        {name: "全部", selected: true, type: 0},
-        {name: "图片", selected: false, type: 1},
-        {name: "视频", selected: false, type: 2},
-        {name: "文档", selected: false, type: 3},
-        {name: "音频", selected: false, type: 4},
-        {name: "其他", selected: false, type: 5},
-        {name: "回收站", selected: false, type: 7},
+        { name: "全部", selected: true, type: 0 },
+        { name: "图片", selected: false, type: 1 },
+        { name: "视频", selected: false, type: 2 },
+        { name: "文档", selected: false, type: 3 },
+        { name: "音频", selected: false, type: 4 },
+        { name: "其他", selected: false, type: 5 },
+        { name: "回收站", selected: false, type: 7 },
     ];
 
     $scope.breadcrumbClick = function (idx) {
@@ -315,7 +287,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
         $scope.files = $scope.pathmap[$scope.pathmap.length - 1][1];
         disableBtn();
         initFileBox();
-    };
+    }
 
     $scope.typeClick = function (v) {
         scrollLoadPage = 1;
@@ -332,13 +304,13 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
         }
         $scope.currentType = v.type;
         scrollLoadEnable = false;
-        bubble._call("file.pageBy", scrollLoadPage, 100, v.type === 7 ? {isdelete: 1} : {filetype: v.type}).success(function (v) {
+        bubble._call("file.pageBy", scrollLoadPage, 100, v.type === 7 ? { isdelete: 1 } : { filetype: v.type }).success(function (v) {
             if (!v.errorcode) {
                 scrollLoadEnable = !(v.length < 100);
                 initData(v);
             }
         });
-    };
+    }
 
     $scope.darw = new Darw();
     var upload = new Upload().init();
@@ -361,7 +333,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
             disableBtn();
             initFileBox();
         }
-    };
+    }
 
     $scope.previewFile = function () {
         var item = getSelectItem();
@@ -388,7 +360,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
                 }
             });
         }
-    };
+    }
 
     $scope.uploadMin = function (e) {
         if ($(e.currentTarget).hasClass("dialog-min")) {
@@ -400,24 +372,24 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
             uploadBox.css("bottom", "5px");
             uploadBox.find(".header-progress").hide();
         }
-    };
+    }
 
     $scope.closeUpload = function () {
         uploadBox.hide();
         $scope.openBtnVisible = true;
-    };
+    }
 
     $scope.openUpload = function () {
         uploadBox.show();
         $scope.openBtnVisible = false;
-    };
+    }
 
     $scope.deleteFile = function () {
         var list = getSelectItem("object");
         var p = [];
         while (list.length) {
             var tmp = list.pop();
-            p.push({_id: tmp._id, size: parseInt(tmp.size)});
+            p.push({ _id: tmp._id, size: parseInt(tmp.size) });
             if ($scope.currentType === 7) {
                 p[p.length - 1].isdelete = "1";
             }
@@ -453,7 +425,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
                         });
                 }
             });
-    };
+    }
 
     $scope.downloadFile = function (V) {
         var list = getSelectItem("id");
@@ -461,24 +433,21 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
 
         // });
         window.open(bubble.getInterface("file.download") + list[0] + "&appid=19")
-    };
+    }
 
     $scope.createFolder = function () {
         var fid = $scope.pathmap.length ? $scope.pathmap[$scope.pathmap.length - 1][0]._id : 0;
-        bubble.customModal("fileFolderCreate.html", "fileFolderCreateController", "lg", {fid: fid}, function (v) {
+        bubble.customModal("fileFolderCreate.html", "fileFolderCreateController", "lg", { fid: fid }, function (v) {
             $scope.pathmap[$scope.pathmap.length - 1][1].unshift(v);
             initFileBox();
         });
-    };
+    }
 
     $scope.moveFile = function () {
-        bubble.customModal("fileMoveModal.html", "fileMoveController", "lg", {
-            files: $scope.pathmap[0][1],
-            list: $scope.pathmap[$scope.pathmap.length - 1][1]
-        }, function (v) {
+        bubble.customModal("fileMoveModal.html", "fileMoveController", "lg", { files: $scope.pathmap[0][1], list: $scope.pathmap[$scope.pathmap.length - 1][1] }, function (v) {
             initFileBox();
         });
-    };
+    }
 
     $scope.renameFile = function (v) {
         var o = getSelectItem("object");
@@ -491,7 +460,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
             o[0].fileoldname = rs;
             o[0].$ele.find(".filename").html(rs);
         });
-    };
+    }
 
     $scope.files = [
         // { name: "Photoshop CC 2015 绿色精简版", type: 1, selected: false },
@@ -508,11 +477,7 @@ bubbleFrame.register("fileFolderCreateController", function (bubble, items, $sco
             return;
         }
         $(e.currentTarget).addClass("data-loading");
-        bubble._call("file.add", {
-            fatherid: items.fid || items.fid == 0 ? items.fid : items.fid,
-            fileoldname: $scope.name,
-            fileextname: "folder"
-        }).success(function (v) {
+        bubble._call("file.add", { fatherid: items.fid || items.fid == 0 ? items.fid : items.fid, fileoldname: $scope.name, fileextname: "folder" }).success(function (v) {
             if (v.errorcode) {
                 swal(v.message);
                 $modalInstance.dismiss('cancel');
@@ -520,12 +485,12 @@ bubbleFrame.register("fileFolderCreateController", function (bubble, items, $sco
                 $modalInstance.close(v);
             }
         })
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');
     }
-});
+})
 
 bubbleFrame.register("fileMoveController", function (bubble, items, $scope, $modalInstance) {
     var current = "";
@@ -547,7 +512,7 @@ bubbleFrame.register("fileMoveController", function (bubble, items, $scope, $mod
             v[i].children && getFolder(v[i].children);
         }
         return v;
-    };
+    }
 
     var getSelectItem = function (v) {
         var rs = [];
@@ -556,29 +521,25 @@ bubbleFrame.register("fileMoveController", function (bubble, items, $scope, $mod
             v[i].selected && v[i].filetype == 0 && select_folder.push(v[i]._id);
         }
         return rs;
-    };
+    }
 
     var s = getSelectItem(items.list);
     $scope.data = getFolder(JSON.parse(JSON.stringify(items.files)));
-    $scope.data = [{label: "全部文件", _id: 0, children: $scope.data}];
+    $scope.data = [{ label: "全部文件", _id: 0, children: $scope.data }];
     $scope.onSelect = function (v) {
         current = v;
         var target = "";
-        bubble.getTreeById(items.files, "_id", current._id, function (n) {
-            target = v;
-        });
-    };
+        bubble.getTreeById(items.files, "_id", current._id, function (n) { target = v; });
+    }
     $scope.tree = {};
 
     $scope.ok = function (e) {
         $(e.currentTarget).addClass("data-loading");
-        current;
+        current
         bubble._call("file.updateBatch", s.join(","), current._id).success(function (v) {
             if (!v.errorcode) {
                 var target = "";
-                current._id == 0 ? target = items.files : bubble.getTreeById(items.files, "_id", current._id, function (n) {
-                    target = n;
-                });
+                current._id == 0 ? target = items.files : bubble.getTreeById(items.files, "_id", current._id, function (n) { target = n; });
                 for (var i = 0; i < items.list.length; i++) {
                     if (items.list[i].selected) {
                         if (current._id == 0) {
@@ -597,9 +558,9 @@ bubbleFrame.register("fileMoveController", function (bubble, items, $scope, $mod
                 $(e.currentTarget).removeClass("data-loading");
             }
         });
-    };
+    }
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');
     }
-});
+})

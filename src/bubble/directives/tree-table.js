@@ -1,6 +1,5 @@
 import app from "../../main";
 import $ from "jquery";
-
 var swal = window.swal;
 
 app.directive('treeTable', ['$http', 'bubble', '$compile', '$timeout', function ($http, bubble, $compile, $timeout) {
@@ -97,9 +96,7 @@ app.directive('treeTable', ['$http', 'bubble', '$compile', '$timeout', function 
                 }).then(
                     function (s) {
                         if (s) {
-                            bubble._call($scope.interface + ".delete", $scope.checkList.map(function (v) {
-                                return v._id;
-                            }).join(",")).success(function (v) {
+                            bubble._call($scope.interface + ".delete", $scope.checkList.map(function (v) { return v._id; }).join(",")).success(function (v) {
                                 if (!v.errorcode) {
                                     swal("删除成功");
                                     for (var i = 0; i < $scope.checkList.length; i++) {
@@ -185,14 +182,14 @@ app.directive('treeTable', ['$http', 'bubble', '$compile', '$timeout', function 
                                     $(td1[i]).html(c)
 
                                 }
-                                if (item1 != undefined) {
+                                if (item1!=undefined) {
                                     var dn = d[$(this).attr('data')]
                                     $(this).find($scope.select == "false" ? "td:eq(0)" : "td:eq(1)").unbind("click").click(function () {
                                         expand.call($(a), dn);
                                     });
                                 }
-                                if (item != undefined) {
-
+                                if (item!=undefined) {
+                                    
                                     var dn = d[$($scope.srcdiv).attr('data')]
                                     $($scope.srcdiv).find($scope.select == "false" ? "td:eq(0)" : "td:eq(1)").unbind("click").click(function () {
                                         expand.call($($scope.srcdiv), dn);
@@ -368,7 +365,7 @@ app.directive('treeTable', ['$http', 'bubble', '$compile', '$timeout', function 
 
             var replaceAjaxData = function (v, item, key) {
                 if (v.ajax) {
-                    ajaxReplacrList[key] || (ajaxReplacrList[key] = {result: ""});
+                    ajaxReplacrList[key] || (ajaxReplacrList[key] = { result: "" });
                     if (ajaxReplacrList[key].state == undefined) {
                         ajaxReplacrList[key].state = "process";
                         bubble._call(v.ajax + ".page", 1, 1000).success(function (rs) {
