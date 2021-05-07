@@ -68,7 +68,9 @@ var SortGropu = function (bubble) {
 
         for (var i = 0; i < data.length; i++) {
             searchMap[idx || idx === 0 ? idx + "-" + i : i] = data[i][$scope.name];
-            html += tpl.replace("@id", idx || idx === 0 ? idx + "-" + i : i).replace("@name", data[i][$scope.name] + (data[i][$scope.subname] ? "[ " + data[i][$scope.subname] + " ]" : "")).replace("@sid", data[i][$scope.fatherkey] ? data[i][$scope.fatherkey] : data[i]._id ? data[i]._id : data[i].id)
+            html += tpl.replace("@id", idx || idx === 0 ? idx + "-" + i : i)
+                .replace("@name", data[i][$scope.name] + (data[i][$scope.subname] ? "[ " + data[i][$scope.subname] + " ]" : ""))
+                .replace("@sid", data[i][$scope.fatherkey] ? data[i][$scope.fatherkey] : data[i]._id ? data[i]._id : data[i].id)
                 .replace("@fatherid", data[i].fatherid)
                 .replace("@c", data[i].children ? initHtml(data[i].children, idx || idx === 0 ? idx + "-" + i : i, data[i]) : "").replace("@btn", getbtn(btn, data[i]));
         }
@@ -316,6 +318,10 @@ var SortGropu = function (bubble) {
     }
 
     this.change = function (e) {
+        // input 触发直接返回
+        if ( $(e.target).localName == "input" ){
+            return;
+        }
         // var state = box.nestable('serialize');
         // if(JSON.stringify(state) !== JSON.stringify(initState)){         //含排序判断
         // if (hasChange(initState, state)) {
@@ -373,8 +379,11 @@ var SortGropu = function (bubble) {
         var rs = [];
         var s = s ? s : box.nestable('serialize');
         var fid = "";
+        // 遍历树
         for (var i = 0; i < s.length; i++) {
+            // 获得树第一个数据的 sid
             fid = p ? s[i].obj.parents("li:first").attr("data-sid") : 0;
+            // 父ID发生变化，添加变化到数组
             if (s[i].father != fid) {
                 rs.push([getObjByIdMap(s[i].id), fid, s[i].id]);
             }

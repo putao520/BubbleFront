@@ -203,7 +203,6 @@ bubbleFrame.register("linkEditModalController", function ($scope, $modalInstance
     $scope.ok = function (e) {
         $(e.currentTarget).addClass("data-loading");
         var s = JSON.parse(JSON.stringify($scope.value));
-        s.url = bubble.replaceSymbol(s.url);
         bubble._call("link.update", $scope.value._id, { name: $scope.value.name, url: s.url, desp: $scope.value.desp }).success(function (v) {
             if (!v.errorcode) {
                 $modalInstance.close(v);

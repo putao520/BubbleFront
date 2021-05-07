@@ -1,6 +1,3 @@
-bubbleFrame.register('appController', function ($scope, bubble, $modal, $http, $stateParams) {
-    
-});
 var initAjaxState = {
     menu: false,
     count: false,
@@ -17,16 +14,17 @@ var swithMainLoading = function (v) {
 }
 //左侧菜单控制器
 bubbleFrame.register('navController', function ($scope, bubble, $rootScope, $timeout, $state) {
+    bubble._call("menu.show").success(function (v) {
         swithMainLoading("menu");
-        // var list = {};
-        // for (var i = 0; i < v.length; i++) {
-        //     var t = v[i];
-        //     list[t.sname] = t;
-        // }
-        // $scope.menuList = list;
-        // $scope.include = function (v) {
-        //     return $state.includes(v);
-        // }
+        var list = {};
+        for (var i = 0; i < v.length; i++) {
+            var t = v[i];
+            list[t.sname] = t;
+        }
+        $scope.menuList = list;
+        $scope.include = function (v) {
+            return $state.includes(v);
+        }
         $timeout(function () {
             $("ul.nav.pos-rlt>li").mouseenter(function (e) {
                 var t = $(e.currentTarget);
@@ -40,6 +38,7 @@ bubbleFrame.register('navController', function ($scope, bubble, $rootScope, $tim
                 $("ul.nav.pos-rlt").find(".poptext").hide();
             });
         });
+    });
 })
 //右上角齿轮任务控制器
 bubbleFrame.register('taskPopUpController', function ($scope, bubble) {
@@ -81,6 +80,7 @@ bubbleFrame.register('headerController', function ($scope, bubble, $rootScope, $
     var Site = function () {
         this.colors = ["bg-danger", "bg-info", "bg-success"];
         var _this = this;
+        var showType = "";
         var box = $(".site-change-wrap");
         var site = bubble.getTreeData($scope.sites, "wbid", undefined, undefined, true);
         this.nav = site.length > 1 ? [{ list: site, name: site[0].wbname }] : [];
@@ -106,6 +106,8 @@ bubbleFrame.register('headerController', function ($scope, bubble, $rootScope, $
             _this.tmpsearchList = _this.searchList;
         }
 
+        this.initChildren = initChildren;
+
         this.levelChange = function (v) {
             if (v.wbid) {
                 _this.nav.push({ list: v.children, name: v.wbname });
@@ -116,6 +118,9 @@ bubbleFrame.register('headerController', function ($scope, bubble, $rootScope, $
         }
 
         this.navClick = function (i) {
+            if(i < 0){
+                return;
+            }
             _this.nav.splice(i + 1, _this.nav.length);
             initChildren(_this.nav[_this.nav.length - 1].list);
         }
@@ -125,21 +130,25 @@ bubbleFrame.register('headerController', function ($scope, bubble, $rootScope, $
                 swal("请选择非当前站点");
                 return;
             }
-            bubble._call("site.switch", t.wbid).success(function (rs) {
-                window.localStorage.sitename = t.wbname;
-                window.localStorage.siteid = t.wbid;
-                window.localStorage.sitewbgid = t.wbgid;
-                window.location.reload();
-            });
+            if(!showType || !window.siteChoiceConfirm(t)){
+                bubble._call("site.switch", t.wbid).success(function (rs) {
+                    window.localStorage.sitename = t.wbname;
+                    window.localStorage.siteid = t.wbid;
+                    window.localStorage.sitewbgid = t.wbgid;
+                    window.location.reload();
+                });
+            }
         }
 
-        this.show = function () {
+        this.show = function (type) {
+            showType = type;
             if (_this.icon) {
                 box.fadeIn(200);
             }
         }
 
         this.hide = function () {
+            showType = "";
             box.fadeOut(200);
         }
 
@@ -155,7 +164,7 @@ bubbleFrame.register('headerController', function ($scope, bubble, $rootScope, $
     var initSite = function () {
         $timeout(function () {
             if ($(".site-change-wrap").length) {
-                $scope.Site = new Site();
+                window.Site = $scope.Site = new Site();
             } else {
                 setTimeout(initSite, 500);
             }
@@ -260,7 +269,7 @@ bubbleFrame.register('AppCtrl', function ($scope, $localStorage, $window, $rootS
             window.logininfo = $rootScope.logininfo;
             !$rootScope.reportCount && window.logininfo && bubble._call("report.count").success(function (v) {
                 swithMainLoading("count");
-                $rootScope.reportCount = !v || v.errorcode ? "0" : v;
+                $rootScope.reportCount = !v || v.errorcode ? "0" : v.message;
             });
         } else {
             toState.name.indexOf("access") >= 0 || $state.go("access.login");
@@ -321,5 +330,282 @@ bubbleFrame.register('AppCtrl', function ($scope, $localStorage, $window, $rootS
     }
 });
 
+//右上角齿轮举报控制器
+bubbleFrame.register('reportPopUpController', function ($scope, bubble) {
+    var initMode = true;
+    $scope.reports = [];
+    $scope.colors = ["alert-danger", "alert-info", "alert-success"]
+
+    $scope.refreshData = function () {
+        $scope.loading = true;
+        bubble._call("report.select", { state: "0,1" }, 100).success(function (v) {
+            $scope.loading = false;
+            $scope.reports = v;
+            if ($scope.reports.length && initMode) {
+                initMode = false;
+            }
+            if (initMode && !$scope.reports.length) {
+                $scope.empty = true;
+
+                return;
+            }
+            if (!initMode && !$scope.reports.length) {
+                $scope.empty = false;
+                $scope.refresh = true;
+                return;
+            }
+            $scope.empty = false;
+            $scope.refresh = false;
+        }, false);
+    }
+
+    $scope.refreshData();
+
+    $scope.showReport = function (v, i) {
+        bubble.customModal("replyReportPopUpModal.html", "replyReportPopUpController", "lg", { list: $scope.reports, data: v, scope: $scope, idx: i }, function () {
+
+        });
+    }
+});
 
 
+bubbleFrame.register('replyReportPopUpController', function ($scope, $modalInstance, items, bubble, $timeout) {
+    $scope.stateText = ["未受理", "处理中", "已处理", "被拒绝"];
+    var dateList = items.list;
+    var idx = items.idx;
+
+    $scope.next = function (e) {
+        if (idx != dateList.length - 1) {
+            doneNext = false;
+            idx++;
+            $scope.data = dateList[idx];
+            $scope.data.time = new Date(parseInt($scope.data.time)).Format("yyyy-MM-dd hh:mm");
+        } else {
+            !dateList.length && doneNext && swal("真棒,最近的举报都处理了,再换一批吧");
+            !dateList.length && (items.scope.refresh = true);
+            !e && idx++;
+            !dateList.length ? $modalInstance.close() : (e ? swal("这是最后一条举报了") : $scope.prev());
+        }
+        refresh();
+    }
+
+    $scope.prev = function () {
+        if (idx != 0) {
+            idx--;
+            $scope.data = dateList[idx];
+            $scope.data.time = new Date(parseInt($scope.data.time)).Format("yyyy-MM-dd hh:mm");
+        } else {
+            swal("这已经是第一条举报了")
+        }
+        refresh();
+    }
+
+    var refresh = function () {
+        $scope.refresh = false;
+        $scope.imgs = [];
+        $timeout(function () {
+            $scope.videoCurrent = 0;
+            $scope.videoList = $scope.data.video ? $scope.data.video.split(",") : [];
+            $scope.imgs = $scope.data.image.split(",");
+            $scope.refresh = true;
+        })
+    }
+
+    $scope.refresh = true;
+    $scope.refreshVideo = true;
+    $scope.data = items.data;
+    $scope.data.time = new Date(parseInt($scope.data.time)).Format("yyyy-MM-dd hh:mm");
+    $scope.imgs = $scope.data.image.split(",");
+    $scope.value = { state: "0" };
+    $scope.mode = true;
+    $scope.videoCurrent = 0;
+    $scope.videoList = $scope.data.video ? $scope.data.video.split(",") : [];
+    $scope.deg = 0;
+    $scope.modeChange = function (e) {
+        if (!$scope.mode) {
+            if (!!$scope.value.newContent) {
+                bubble._call("reportReply.add", { "Rcontent": $scope.value.newContent }).success(function (v) {
+                    $scope.mode = !$scope.mode;
+                    swal(!v.errorcode ? "添加成功" : "添加失败");
+                    $(e.currentTarget).parent().parent().find("select").show();
+                    $(e.currentTarget).parent().parent().find("input").hide();
+                });
+            } else {
+                $scope.mode = !$scope.mode;
+                $(e.currentTarget).parent().parent().find("select").show();
+                $(e.currentTarget).parent().parent().find("input").hide();
+            }
+        } else {
+            $scope.mode = !$scope.mode;
+            $(e.currentTarget).parent().parent().find("select").hide();
+            $(e.currentTarget).parent().parent().find("input").show();
+        }
+    }
+    $scope.ok = function (e, type) {
+        if ($scope.data.time === undefined) {
+            return
+        }
+        bubble.customModal("replyReportContentModal.html", "replyReportContentController", "lg", {}, function (rs) {
+            if (!rs) {
+                swal("反馈内容不可为空");
+                return;
+            }
+            $(e.currentTarget).addClass("data-loading");
+            bubble._call(type == "0" ? "report.complete" : "report.refuse", dateList[idx]._id, { reason: rs })
+                .success(function (v) {
+                    $(e.currentTarget).removeClass("data-loading");
+                    if (v.errorcode) {
+                        swal(v.data);
+                        return;
+                    }
+                    dateList[idx].state = type == "0" ? "2" : "3";
+                    dateList[idx].reason = rs;
+                    swal("操作成功");
+                    doneNext = true;
+                    $scope.next();
+                });
+        });
+    };
+
+    $scope.proces = function (e) {
+        if ($scope.data.time === undefined) {
+            return
+        }
+        $(e.currentTarget).addClass("data-loading");
+        bubble._call("report.update", dateList[idx]._id, { state: 1 })
+            .success(function (v) {
+                $(e.currentTarget).removeClass("data-loading");
+                if (v.errorcode) {
+                    swal(v.data);
+                    return;
+                }
+                dateList[idx].state = 1;
+                swal("操作成功");
+                doneNext = true;
+                $scope.next();
+            });
+    };
+
+    $scope.kill = function (e) {
+        bubble.customModal("replyReportContentModal.html", "replyReportContentController", "lg", { kick: true }, function (rs, t) {
+            $(e.currentTarget).addClass("data-loading");
+            bubble._call("report.kick", dateList[idx].userid, { "kickTime": t, _id: dateList[idx]._id, reason: rs })
+                .success(function (v) {
+                    $(e.currentTarget).removeClass("data-loading");
+                    if (v.errorcode) {
+                        swal(v.data);
+                        return;
+                    }
+                    dateList[idx].state = "3";
+                    dateList[idx].reason = "";
+                    swal("操作成功");
+                    doneNext = true;
+                    $scope.next();
+                });
+        });
+    }
+
+    var refreshVideo = function () {
+        $scope.refreshVideo = false;
+        $timeout(function () {
+            $scope.refreshVideo = true;
+        })
+    }
+
+    $scope.download = function () {
+        window.open($scope.videoList[$scope.videoCurrent]);
+    }
+
+    $scope.videoleft = function () {
+        $scope.videoCurrent > 0 && ($scope.videoCurrent-- , refreshVideo());
+    }
+
+    $scope.videoright = function () {
+        $scope.videoCurrent < $scope.videoList.length - 1 && ($scope.videoCurrent++ , refreshVideo());
+    }
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
+
+bubbleFrame.register('replyReportContentController', function ($scope, $modalInstance, items, bubble, $compile, $timeout) {
+    $scope.content = "";
+    $scope.value = "1";
+    $scope.kick = items.kick;
+
+    $scope.$watch("content", function (v) {
+        editor && editor.appendHtml(v.text);
+    });
+
+    var editor = null;
+    $timeout(function () {
+        var Upload = function () {
+            var uploader = "";
+            var box = $(".dialog-web-uploader");
+            var _this = this;
+
+            this.init = function () {
+                uploader = new WebUploader.Uploader({
+                    auto: true,
+                    swf: './js/modules/webuploader/Uploader.swf',
+                    server: bubble.getUploadServer(),
+                    pick: '#fileUploadPicker1',
+                });
+                uploader.on("fileQueued", this.fileQueued);
+                uploader.on("uploadProgress", this.uploadProgress);
+                uploader.on("uploadSuccess", this.uploadSuccess);
+                return this;
+            }
+
+            this.fileQueued = function (file) {
+
+            }
+
+            this.uploadProgress = function (file, percentage) {
+                $(".reportImgUploadBox .h-full").width(percentage.toFixed(2) * 100 + "%");
+            }
+
+            this.uploadSuccess = function (file, v) {
+                $(".reportImgUploadBox .h-full").width(0);
+                !v.errorcode ? editor.appendHtml("<img src='" + bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/") + "' />") : swal("上传失败");
+                bubble.updateScope($scope);
+            }
+
+            this.uploadError = function (file, msg) {
+                $(".reportImgUploadBox .h-full").width(0);
+                swal("上传失败");
+            }
+        }
+
+        editor = KindEditor.create('#editor_id', {
+            uploadJson: bubble.getUploadServer(),
+            items: [
+                'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'cut', 'copy', 'paste',
+                'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+                'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|',
+                'insertfile', 'table', 'hr', 'baidumap', 'link', 'unlink'
+            ],
+        });
+
+        $timeout(function () {
+            var upload = new Upload().init();
+        })
+    })
+    $scope.ok = function (e) {
+        var html = bubble.replaceBase64(editor.html());
+        if (!html) {
+            swal("反馈内容不可为空");
+            return;
+        }
+        bubble.toggleModalBtnLoading(e, true);
+        $modalInstance.close(html, $scope.value);
+    }
+
+    $scope.cancel = function (e) {
+        $modalInstance.dismiss('cancel');
+    }
+})

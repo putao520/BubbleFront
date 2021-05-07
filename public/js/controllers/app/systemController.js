@@ -49,12 +49,14 @@ bubbleFrame.register('systemController', function ($scope, bubble, $modal, $http
     bubble._call("site.find", { _id: id }).success(function (v) {
         v[0].thumbnail = v[0].thumbnail ? v[0].thumbnail.replace(/\\/g, "/") : "";
         $scope.siteInfo = JSON.parse(JSON.stringify(v[0]));
+        $scope.siteInfo.isvisble = $scope.siteInfo.isvisble + "";
         tmpInfo = JSON.parse(JSON.stringify(v[0]));
         editor.html($scope.siteInfo.suffix);
     });
 
     $scope.confirm = function (e) {
         $scope.siteInfo.suffix = editor.html();
+        $scope.siteInfo.isvisble = parseInt($scope.siteInfo.isvisble);
         var p = JSON.stringify($scope.siteInfo);
         if (p === JSON.stringify(tmpInfo) || $(e.currentTarget).hasClass("data-loading")) {
             return;

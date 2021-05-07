@@ -6,9 +6,9 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
         $scope.type1 = "";
         $scope.changetype1 = function (v) {
             $scope.type1 = v;
-            $scope.stime1 = "";
-            $scope.etime1 = "";
             var time = getTime();
+            $scope.stime1 = time[0];
+            $scope.etime1 = time[1];
             getByTime(time[0], time[1]);
         }
 
@@ -16,13 +16,13 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
             type = type !== undefined ? type : $scope.type1;
             switch (type) {
                 case "month":
-                    return [Date.parse(moment().subtract(1, "months")), Date.parse(new Date())];
-                    break;
-                case "week":
-                    return [Date.parse(moment().subtract(1, "weeks")), Date.parse(new Date())];
+                    return [Date.parse(moment().format("YYYY-M-01 0:0:0")), moment(Date.parse(moment().format("YYYY-M-01 0:0:0"))).add(1, 'M').valueOf()];
                     break;
                 case "day":
-                    return [Date.parse(moment().subtract(1, "days")), Date.parse(new Date())];
+                    return [Date.parse(moment().format("YYYY-M-D 0:0:0")), moment(Date.parse(moment().format("YYYY-M-D 0:0:0"))).add(1, 'd').valueOf()];
+                    break;
+                case "year":
+                    return [Date.parse(moment().format("YYYY-01-01 0:0:0")), moment(Date.parse(moment().format("YYYY-01-01 0:0:0"))).add(1, 'y').valueOf()];
                     break;
             }
         }
@@ -47,17 +47,17 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
         }
         var getByTime = function (s, e) {
             $(".contentbatchMask").fadeIn(200);
-            bubble._call("content.totaltime", window.localStorage.siteid, s, e).success(function (v) {
-                initCitem(v[window.localStorage.siteid], true);
+            bubble._call("content.outReport", s, e).success(function (v) {
+                initCitem(v, true);
                 $(".contentbatchMask").fadeOut(200);
             });
         }
         var box = $(".charts1");
         // box.height(box.width() / 2);
         // echarts.init(box[0]).setOption(option);
-        bubble._call("content.total", window.localStorage.siteid).success(function (v) {
-            initCitem(v[window.localStorage.siteid], true);
-        });
+        // bubble._call("content.total", window.localStorage.siteid).success(function (v) {
+        //     initCitem(v, true);
+        // });
 
         var initCitemChildren = function (v, s, y, h) {
             for (var i = 0; i < v.length; i++) {
@@ -115,7 +115,7 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
                     data: v.yAxis,
                     axisLabel: {
                         textStyle: {
-                            fontSize: 18,
+                            fontSize: 14,
                         }
                     }
                 },
@@ -123,81 +123,44 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
             }
         }
 
+        $scope.tabledata = [];
+
         var initCitem = function (v, s) {
+            $scope.tabledata = [];
             var f = v;
             var tmpbox = box;
             var hcount = 0;
             var ccall = [];
             var series = [
-                { name: '总计', itemStyle: { normal: { barBorderRadius: [0, 5, 5, 0] } }, type: 'bar', data: [], label: { normal: { show: true, formatter: "{c}", position: "right" } } },
-                { name: '待审核', itemStyle: { normal: { barBorderRadius: [0, 5, 5, 0] } }, type: 'bar', data: [], label: { normal: { show: true, formatter: "{c}", position: "right" } } },
-                { name: '审核通过', itemStyle: { normal: { barBorderRadius: [0, 5, 5, 0] } }, type: 'bar', data: [], label: { normal: { show: true, formatter: "{c}", position: "right" } } },
-                { name: '审核拒绝', itemStyle: { normal: { barBorderRadius: [0, 5, 5, 0] } }, type: 'bar', data: [], label: { normal: { show: true, formatter: "{c}", position: "right" } } },
-                { name: '阅读量', itemStyle: { normal: { barBorderRadius: [0, 5, 5, 0] } }, type: 'bar', data: [], label: { normal: { show: true, formatter: "{c}", position: "right" } } },
-                { name: '阅读率', itemStyle: { normal: { barBorderRadius: [0, 5, 5, 0] } }, type: 'bar', data: [], label: { normal: { show: true, formatter: "{c}%", position: "right" } } }
+                {
+                    name: '文章发布量', type: 'bar', data: [], label: {
+                        normal: {
+                            position: 'inside',
+                            show: true, formatter: function (data) {
+                                return "发布量: " + data.data.value + "   最后更新时间:" + (v[v.length - data.dataIndex - 1].last_publish_time == 0 ? "暂无" : moment(v[v.length - data.dataIndex - 1].last_publish_time).format("YYYY-M-01"));
+                            }, position: "right"
+                        }
+                    }
+                }
             ];
             var yAxis = [];
-            v = v.children;
+            // v = v.children;
 
             if (!s) {
                 renderCharts(tmpbox[0], 1, f);
             }
+            var color = ["#409EFF", "#c23531"];
 
-            for (var i = v.length - 1; i >= 0; i--) {
-                if (!v[i].count) {
-                    continue;
-                }
-                if (v[i].children) {
-                    ccall.push(v[i].children);
-                }
-                hcount++;
-                yAxis.push(v[i].name);
-                series[0].data.push(v[i].count);
-                series[1].data.push(v[i].checking);
-                series[2].data.push(v[i].checked);
-                series[3].data.push(v[i].uncheck);
-                series[4].data.push(v[i].clickcount);
-                series[5].data.push((v[i].clickcount / f.clickcount * 100).toFixed(0));
+            for (var i = 0; i < v.length; i++) {
+                $scope.tabledata.push(v[i]);
+                v[i].last_publish_time = v[i].last_publish_time == 0 ? "暂无" : moment(v[i].last_publish_time).format("YYYY-M-D HH:mm:ss");
+                series[0].data.push({ value: v[i].publish_total, itemStyle: { normal: { barBorderRadius: [0, 5, 5, 0], color: color[i % 2] } } });
             }
-            // tmpbox.height(hcount <= 2 && hcount > 0 ? 300 : hcount * 120);
+            return;
+
+            tmpbox.height(3000);
             tmpbox.css("overflow", "hidden");
-            renderCharts(tmpbox[0], 2, { series: series, yAxis: yAxis }).on("click", function (p) {
-                for (var x = 0; x < v.length; x++) {
-                    (function (n) {
-                        if (v[n].name == p.name && v[n].children && v[n].children.length) {
-                            $scope.path.push(f);
-                            initCitem(v[n], true);
-                            bubble.updateScope($scope);
-                        }
-                        if (v[n].name == p.name && !v[n].children.length && !v[n].wbid) {
-                            $(".contentbatchMask").fadeIn(200);
-                            if ($scope.type1) {
-                                var time = getTime();
-                                bubble._call("content.totalcolumn", v[n].id, time[0], time[1]).success(function (rs) {
-                                    $(".contentbatchMask").fadeOut(200);
-                                    $scope.path.push(f);
-                                    initCitem({ children: rs[v[n].id] }, true);
-                                    bubble.updateScope($scope);
-                                });
-                            } else if ($scope.stime1 || $scope.stime2) {
-                                bubble._call("content.totalcolumn", v[n].id, $scope.stime1, $scope.etime1).success(function (rs) {
-                                    $(".contentbatchMask").fadeOut(200);
-                                    $scope.path.push(f);
-                                    initCitem({ children: rs[v[n].id] }, true);
-                                    bubble.updateScope($scope);
-                                });
-                            } else {
-                                bubble._call("content.totalcolumn", v[n].id, 0, 0).success(function (rs) {
-                                    $(".contentbatchMask").fadeOut(200);
-                                    $scope.path.push(f);
-                                    initCitem({ children: rs[v[n].id] }, true);
-                                    bubble.updateScope($scope);
-                                });
-                            }
-                        }
-                    })(x)
-                }
-            });
+            renderCharts(tmpbox[0], 2, { series: series, yAxis: yAxis });
         }
 
         var renderCharts = function (o, type, v) {
@@ -206,6 +169,10 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
             rs.setOption(getOption(v));
             return rs;
         }
+
+        bubble._call("content.outReport", getTime("month")[0], new Date().valueOf()).success(function (v) {
+            initCitem(v, true);
+        });
 
         // new Timepicker(box.parent());
     }
@@ -228,13 +195,14 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
             $scope.etime2 = "";
             switch (v) {
                 case "month":
-                    getDateByTime(Date.parse(moment().subtract(1, "months")), Date.parse(new Date()));
+                    getDateByTime($scope.stime2 = Date.parse(moment().subtract(1, "months")), $scope.etime2 = Date.parse(new Date()));
+
                     break;
                 case "week":
-                    getDateByTime(Date.parse(moment().subtract(1, "weeks")), Date.parse(new Date()));
+                    getDateByTime($scope.stime2 = Date.parse(moment().subtract(1, "weeks")), $scope.etime2 = Date.parse(new Date()));
                     break;
                 case "day":
-                    getDateByTime(Date.parse(moment().subtract(1, "days")), Date.parse(new Date()));
+                    getDateByTime($scope.stime2 = Date.parse(moment().subtract(1, "days")), $scope.etime2 = Date.parse(new Date()));
                     break;
             }
         }
@@ -258,14 +226,14 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
             getDateByTime(s, e);
         }
 
-        var getDate = function () {
-            bubble._call("statistics.count", "undefined", "suggest_" + bubble.getAppId(), []).success(function (v) {
-                $scope.suggest = v.record.totalSize;
-            });
-            bubble._call("statistics.count", "undefined", "reportInfo_" + bubble.getAppId(), []).success(function (v) {
-                $scope.report = v.record.totalSize;
-            });
-        }
+        // var getDate = function () {
+        //     bubble._call("statistics.count", "undefined", "suggest_" + bubble.getAppId(), []).success(function (v) {
+        //         $scope.suggest = v.record.totalSize;
+        //     });
+        //     bubble._call("statistics.count", "undefined", "reportInfo_" + bubble.getAppId(), []).success(function (v) {
+        //         $scope.report = v.record.totalSize;
+        //     });
+        // }
 
         var getDateByTime = function (s, e) {
             $(".contentbatchMask").fadeIn(200);
@@ -279,7 +247,7 @@ bubbleFrame.register('statementController', function ($scope, bubble, $timeout, 
             });
         }
 
-        getDate();
+        // getDate();
     }
 
     // var Timepicker = function (obj) {

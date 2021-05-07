@@ -25,6 +25,10 @@ bubbleFrame.register('loginController', function ($timeout, $scope, bubble, $sta
             p.id = $scope.user.username;
             p.loginmode = 0;
         }
+        // if (bubbleFrame.getAppId() == 13) {
+            // swal("欠费通知：因长期未收到项目款项，本系统后台暂时无法访问，并将于2019年6月6号关闭所有业务系统。至此公告发布起，本公司停止对该项目的一切运维服务。");
+            // return;
+        // }
         $("button[type='submit']").html("登陆中...");
         bubble._call("user.login", p).success(function (v) {
             if (v && !v.errorcode) {
@@ -32,7 +36,7 @@ bubbleFrame.register('loginController', function ($timeout, $scope, bubble, $sta
                 $localStorage.logininfo = JSON.stringify(v);
                 window.logininfo = v;
                 $rootScope.logininfo = v;
-                $state.go("app.appManage");
+                $state.go("app.dashboard");
                 window.localStorage.sitename = v.webinfo[0].wbname;
                 window.localStorage.siteid = v.webinfo[0].wbid;
                 window.localStorage.sitewbgid = v.webinfo[0].wbgid;

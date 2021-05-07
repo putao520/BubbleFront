@@ -9,18 +9,23 @@ bubbleFrame.register('voteController', function ($scope, bubble) {
             });
         },
         onRender: function (v, k) {
+            // console.log(v, k);
             if (!(k.vote instanceof Array && k.vote.length)) {
                 v[0] = '<b class="badge bg-success">0</b>';
                 return v;
             }
             var c = 0;
             for (var i = 0; i < k.vote.length; i++) {
-                c += parseInt(k.vote[i].count);
+                c += parseInt(typeof k.vote[i] === 'string' ? JSON.parse(k.vote[i]).count : k.vote[i].count);
             }
             v[0] = '<b class="badge bg-success">' + c + '</b>';
             return v;
         }
     }
+    $scope.$on('vote_add_success', function (e, data) {
+        console.log(e);
+        console.log(data);
+    })
 });
 
 bubbleFrame.register('voteInfoController', function ($scope, bubble, $modalInstance, items) {
@@ -28,13 +33,13 @@ bubbleFrame.register('voteInfoController', function ($scope, bubble, $modalInsta
     $scope.colors = ["info", "primary", "warning"];
     $scope.count = 0;
     for (var i = 0; i < $scope.data.length; i++) {
-        var t = $scope.data[i];
+        var t = $scope.data[i] = typeof $scope.data[i] == 'string' ? JSON.parse($scope.data[i]) : $scope.data[i];
         $scope.count += parseInt(t.count);
     }
 
     for (var i = 0; i < $scope.data.length; i++) {
-        var t = $scope.data[i];
-        t.precent = $scope.count == 0 ? 0 : t.count / $scope.count * 100;
+        var t = $scope.data[i] = typeof $scope.data[i] == 'string' ? JSON.parse($scope.data[i]) : $scope.data[i];
+        t.precent = parseFloat($scope.count == 0 ? 0 : t.count / $scope.count * 100);
         t.precent = t.precent.toFixed(2);
     }
 
@@ -44,7 +49,10 @@ bubbleFrame.register('voteInfoController', function ($scope, bubble, $modalInsta
 });
 
 bubbleFrame.register('voteCreate', function ($scope, $modalInstance, items, bubble) {
-    $scope.value = {};
+    $scope.value = {
+        starttime: new Date(),
+        endtime: new Date()
+    };
     for (var tmp in items.scope.selectPar) {
         $scope.value[tmp] = items.scope.selectPar[tmp];
     }
@@ -75,12 +83,32 @@ bubbleFrame.register('voteCreate', function ($scope, $modalInstance, items, bubb
             swal("不允许空投票项");
             return;
         }
+        if (!$scope.value.starttime) {
+            swal('开始时间不能为空')
+            return
+        }
+        if (!$scope.value.endtime) {
+            swal('结束时间不能为空')
+            return
+        }
+        // starttime
+        var endtime = new Date($scope.value.endtime)
+
+        var starttime = new Date($scope.value.starttime)
+
+        $scope.value.endtime = endtime.getFullYear() + '-' + (endtime.getMonth() + 1) + '-' + endtime.getDate() + ' ' + endtime.getHours() + ':' + endtime.getMinutes()
+        $scope.value.starttime = starttime.getFullYear() + '-' + (starttime.getMonth() + 1) + '-' + starttime.getDate() + ' ' + starttime.getHours() + ':' + starttime.getMinutes()
+        $scope.value.vote.forEach(function (o, i) {
+            o.itemid = i + 1
+        })
+
         bubble._call("vote.add", $scope.value).success(function (v) {
             if (v.errorcode) {
                 swal("添加失败");
                 $modalInstance.dismiss('cancel');
             } else {
-                $modalInstance.close(v.message);
+                // 修复添加后数据不显示的问题
+                $modalInstance.close(v.message ? v.message : v);
             }
         })
     }

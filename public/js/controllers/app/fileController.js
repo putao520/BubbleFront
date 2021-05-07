@@ -66,6 +66,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
         $scope.btnEnable.move = false;
         $scope.btnEnable.downLoad = false;
         $scope.btnEnable.preview = false;
+        $scope.btnEnable.reFile = false;
     }
 
     var enableBtn = function (v, x) {
@@ -73,6 +74,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
         $scope.btnEnable.rename = x;
         $scope.btnEnable.move = true;
         $scope.btnEnable.downLoad = v;
+        $scope.btnEnable.reFile = true;
     }
 
     var getSelectItem = function (type) {
@@ -202,8 +204,8 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
             for (var i = 0; i < list.length; i++) {
                 initSelect(i) && count++;
             }
-
             $scope.btnEnable.delete = !!count;
+            $scope.btnEnable.reFile = !!count;
             $scope.btnEnable.rename = count == 1;
             $scope.btnEnable.move = !!count;
             $scope.btnEnable.downLoad = count == 1 && tmpo.filetype !== 0;
@@ -323,6 +325,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
             c == 0 ? disableBtn() : enableBtn(c == 1 && v.filetype !== 0, c == 1);
             $scope.btnEnable.preview = v.filetype == 1 && c == 1;
             v.selected ? v.$ele.addClass("check") : v.$ele.removeClass("check");
+
         } else {
             //打开文件夹操作
             $scope.pathmap[$scope.pathmap.length - 1][1].map(function (v) {
@@ -427,6 +430,85 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
             });
     }
 
+    $scope.recoverFile = function () {
+        var list = getSelectItem("object");
+        var p = [];
+        var files = [];
+
+        while (list.length) {
+            var tmp = list.pop();
+            p.push({ _id: tmp._id, size: parseInt(tmp.size),fid: tmp._id });
+            files.push(tmp._id);
+
+
+        }
+        files = files.join(",");
+        if ($scope.currentType != 7) {
+            swal({
+                title: "该分类禁止恢复操作",
+                text: "恢复操作仅供回收站分类使用",
+                icon: "warning",
+                buttons: {
+                    defeat: "确定",
+                },
+            })
+            return;
+        }
+        swal({
+            title: "确定要恢复该文件吗?",
+            text: "文件将恢复到原来删除的分类",
+            icon: "warning",
+            buttons: {
+                cancel: "取消",
+                defeat: "确定",
+            },
+        }).then(
+            function (s) {
+                if (s) {
+                    if (p.length == 1){
+                        bubble._call('file.restore', files)
+                            .success(function (x) {
+                                if (x.errorcode) {
+                                    swal("恢复失败");
+                                    return;
+                                }
+                                var o = $scope.files;
+                                for (var i = 0; i < o.length; i++) {
+                                    for (var tmp1 in p) {
+                                        if (p[tmp1]._id === o[i]._id) {
+                                            o.splice(i, 1);
+                                            i--;
+                                            break;
+                                        }
+                                    }
+                                }
+                                initFileBox();
+                            });
+                    }else{
+                        bubble._call('file.RestoreBatch', files)
+                            .success(function (x) {
+                                if (x.errorcode) {
+                                    swal("恢复失败");
+                                    return;
+                                }
+                                var o = $scope.files;
+                                for (var i = 0; i < o.length; i++) {
+                                    for (var tmp1 in p) {
+                                        if (p[tmp1]._id === o[i]._id) {
+                                            o.splice(i, 1);
+                                            i--;
+                                            break;
+                                        }
+                                    }
+                                }
+                                initFileBox();
+                            });
+                    }
+
+                }
+            });
+    }
+
     $scope.downloadFile = function (V) {
         var list = getSelectItem("id");
         // $http.get(bubble.getInterface("file.download") + list[0], function(v){
@@ -461,6 +543,7 @@ bubbleFrame.register('fileController', function ($scope, bubble, $modal, $http, 
             o[0].$ele.find(".filename").html(rs);
         });
     }
+
 
     $scope.files = [
         // { name: "Photoshop CC 2015 绿色精简版", type: 1, selected: false },

@@ -1,9 +1,13 @@
 'use strict';
-bubbleFrame.register('contentController', function ($scope, bubble, $modal, $http, $rootScope, $timeout) {
+bubbleFrame.register('contentController', function ($state, $scope, bubble, $modal, $http, $rootScope, $timeout) {
+    var localMessage = JSON.parse(localStorage.getItem("ngStorage-logininfo"));
+    $scope.ugid = JSON.parse(localMessage).ugid;
+    $scope.datas = bubble.JsonArray.eq("userId", $scope.ugid).getJsonArray()
     var author = $rootScope.logininfo && $rootScope.logininfo.name;
     var topcheckbox = $(".topbox input");
     var topnewscheckbox = $(".topbox-news input");
     var topsuffixcheckbox = $(".topbox-suffix input");
+    var topnewcheckbox = $(".topnew-suffix input"); //最新
     var loadingbox = $(".contentbatchMask");
     var errorWord = null;      //错别字实例
     var animationBtn = null;      //机器人实例
@@ -19,7 +23,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         $scope.newItem.content = pdfCacheContent;
         $scope.newItem.type = 1;
         setPdf();
-    }
+    };
 
     $scope.siteconfig = {
         title: "栏目关联",
@@ -31,7 +35,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             $scope.newItem.GovId = v[0].id;
             $scope.save();
         }
-    }
+    };
 
     bubble._call("site.find", { _id: window.localStorage.siteid }).success(function (v) {
         $scope.saveToGovBtn = v[0].GovUserName && v[0].GovCode;
@@ -55,7 +59,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             $scope.pager.getData();
         });
-    }
+    };
 
     var setPdf = function (v, o) {
         if (!v) {
@@ -89,21 +93,44 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                         page.render(renderContext);
                         cb(i + 1);
                     });
-                }
+                };
                 cb(1);
             });
             $("#pdfbox").fadeIn(200);
         }
+    };
+
+    $scope.showDesc = function (v) {
+        bubble.customModal("imageDesc.html", "imageDescController", "lg", v.desc, function (d) {
+            var html = editor.getData();
+            var reg = /<img [^>]*src=['"]([^'"]+)[^>]*>/g;
+            var l = html.match(reg);
+            for (var i = 0; i < l.length; i++) {
+                if (l[i].indexOf(v.path) >= 0) {
+                    var tmp = $(l[i]);
+                    tmp.attr("alt", d);
+                    html = html.replace(l[i], tmp.prop("outerHTML"));
+                }
+            }
+            setData(html);
+        });
+    }
+
+    $scope.showDescList = function (v) {
+        bubble.customModal("imageDesc.html", "imageDescController", "lg", v.desc, function (d) {
+            v.desc = d;
+            $scope.newItem.imgList = JSON.stringify($scope.imgList);
+        });
     }
 
     $scope.getMaxDate = function () {
         return new Date().Format("yyyy-MM-dd hh:mm:ss");
-    }
+    };
 
     $scope.updateLocalStorage = function () {
         if ($scope.mode == "new" && $scope.newItem)
             window.localStorage.backContent = JSON.stringify($scope.newItem);
-    }
+    };
 
     // KindEditor.plugin('hello', function (K) {
     //     var editor = this, name = 'hello';
@@ -121,63 +148,222 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
     //     });
     // });
 
-    KindEditor.lang({
-        hello: '添加图片'
-    });
+    // KindEditor.lang({
+    //     hello: '添加图片'
+    // });
+
+    var setData = function (v) {
+        CKEDITOR.instances.editor_id.setData(v, {
+            callback: function () {
+
+                var _input_value = CKEDITOR.instances.editor_id.getData();
+
+                if (v !== "" && _input_value == "") {
+                    var _outsidepage = $(".editor");//自定义ID
+
+                    var _editor = $("iframe", _outsidepage)[0];//获取iframe对象
+
+                    if (_editor != undefined) {
+                        $(_editor).contents().find("body").html(v);//访问iframe中的body，并插入html
+                    }
+                }
+
+            }
+        });
+    }
 
     $scope.$watch("newItem.content", function (n) {
-        editorNoUpdate || editor.html(n);
-        editorNoUpdate = false;
-    })
+        try {
+            editorNoUpdate || setData(n || "");
+            editorNoUpdate = false;
+        } catch (e) {
 
-    var editor = KindEditor.create('#editor_id', {
-        items: [
-            'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'cut', 'copy', 'paste',
-            'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
-            'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
-            'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
-            'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
-            'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|',
-            'table', 'hr', 'baidumap', 'link', 'unlink'
-        ],
-        afterChange: function () {
-            var html = this.html();
-            var reg = /<img [^>]*src=['"]([^'"]+)[^>]*>/g;
-            var l = html.match(reg);
-            if (l) {
-                l = l.map(function (v) {
-                    return v.substring(v.indexOf("http"), v.indexOf("\"", v.indexOf("http")));
-                });
-                $scope.imgs.length != l.length && bubble.updateScope($scope);
-                $scope.imgs = l;
-            } else {
-                $scope.imgs = [];
-            }
-            // if (html.indexOf("<table") >= 0 && html.indexOf("ke-zeroborder") >= 0) {
-            //     var $tmp = $(html);
-            //     $tmp.find("table").removeClass("ke-zeroborder").attr("border", "1").html();
-            //     $scope.newItem && ($scope.newItem.content = $tmp.html());
-            //     this.html($scope.newItem.content);
-            // }
-            $scope.error = html !== "";
-            var text = this.text();
-            //var reg = /[\u4e00-\u9fa5]/g;
-            //text = text.match(reg);
-            //text = text ? text.join("") : "";
-            if ($scope.newItem) {
-                $scope.newItem.desp = text.substring(0, 100);				
-                $scope.newItem.content = html;
-                editorNoUpdate = true;
-            }
-            $scope.updateLocalStorage();
-            bubble.updateScope($scope);
-        },
-        height: 580
+        }
     });
 
-    $scope.setImage = function (v) {
-        $scope.newItem.image = v;
+    // var imageSizeState = {
+    //     active: false
+    // }
+
+    var editor = CKEDITOR.replace('editor_id', {
+        customConfig: '',
+        image_previewText: '',
+        autoGrow_onStartup: true,
+        allowedContent: true,
+        height: 500,
+        extraPlugins: 'image2',
+        toolbar: [
+            { name: 'clipboard', items: ['Undo', 'Redo'] },
+            { name: 'styles', items: ['Styles', 'Format'] },
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Strike', '-', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'] },
+            { name: 'links', items: ['Link', 'Unlink'] },
+            { name: 'insert', items: ['Table'] },
+            { name: 'tools', items: ['Maximize'] },
+            { name: 'editing', items: ['Scayt'] }
+        ],
+        removeDialogTabs: 'image:advanced;link:advanced',
+    });
+
+    var contentChangeCb = function () {
+        var html = editor.getData();
+        var reg = /<img [^>]*src=['"]([^'"]+)[^>]*>/g;
+        var l = html.match(reg);
+        if (l) {
+            l = l.map(function (v) {
+                return { path: v.substring(v.indexOf("src=\"") + 5, v.indexOf("\"", v.indexOf("src=\"") + 5)), desc: v.indexOf("alt=\"") >= 0 ? v.substring(v.indexOf("alt=\"") + 5, v.indexOf("\"", v.indexOf("alt=\"") + 5)) : "" };
+            });
+            $scope.imgs.length != l.length && bubble.updateScope($scope);
+            $scope.imgs = l;
+        } else {
+            $scope.imgs = [];
+        }
+        $scope.error = html !== "";
+        var text = editor.document.getBody().getText();
+        if ($scope.newItem) {
+            $scope.newItem.desp = text.substring(0, 100);
+            $scope.newItem.content = html;
+            editorNoUpdate = true;
+        }
+        $scope.updateLocalStorage();
+        bubble.updateScope($scope);
     }
+
+    // editor.on('afterSetData', function () {
+    //     contentChangeCb();
+    // });
+    editor.on('change', contentChangeCb);
+
+    // var editor = UE.getEditor('editor_id', {
+    //     iframeCssUrl: './js/modules/ueditor/themes/iframe.css',// 引入css
+    // });
+
+    // editor.addListener("ready", function () {
+    //     editor.setHeight(600);
+    //     editor.body.draggable = false;
+    //     editor.body.setAttribute("ondragstart", "return false");
+    //     editor.body.setAttribute("ondragenter", "event.dataTransfer.dropEffect='none'; event.stopPropagation(); event.preventDefault();");
+    //     editor.body.setAttribute("ondragover", "event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();");
+    //     editor.body.setAttribute("ondrop", "event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();");
+
+
+    // });
+    // editor.addListener("contentChange", function () {
+    //     var html = editor.getContent();
+    //     var reg = /<img [^>]*src=['"]([^'"]+)[^>]*>/g;
+    //     var l = html.match(reg);
+    //     if (l) {
+    //         l = l.map(function (v) {
+    //             return { path: v.substring(v.indexOf("http"), v.indexOf("\"", v.indexOf("http"))), desc: v.indexOf("alt=\"") >= 0 ? v.substring(v.indexOf("alt=\"") + 5, v.indexOf("\"", v.indexOf("alt=\"") + 5)) : "" };
+    //         });
+    //         $scope.imgs.length != l.length && bubble.updateScope($scope);
+    //         $scope.imgs = l;
+    //     } else {
+    //         $scope.imgs = [];
+    //     }
+    //     $scope.error = html !== "";
+    //     var text = editor.getContentTxt();
+    //     if ($scope.newItem) {
+    //         $scope.newItem.desp = text.substring(0, 100);
+    //         $scope.newItem.content = html;
+    //         editorNoUpdate = true;
+    //     }
+    //     $scope.updateLocalStorage();
+    //     bubble.updateScope($scope);
+
+    //     $(editor.body).find("img").unbind("click").click(regImageEvent);
+    // });
+
+    // var editor = KindEditor.create('#editor_id', {
+    //     items: [
+    //         'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'cut', 'copy', 'paste',
+    //         'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+    //         'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+    //         'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+    //         'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+    //         'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|',
+    //         'table', 'hr', 'baidumap', 'link', 'unlink'
+    //     ],
+    //     afterChange: function () {
+    //         var html = this.html();
+    //         var reg = /<img [^>]*src=['"]([^'"]+)[^>]*>/g;
+    //         var l = html.match(reg);
+    //         if (l) {
+    //             l = l.map(function (v) {
+    //                 return { path: v.substring(v.indexOf("http"), v.indexOf("\"", v.indexOf("http"))), desc: v.indexOf("alt=\"") >= 0 ? v.substring(v.indexOf("alt=\"") + 5, v.indexOf("\"", v.indexOf("alt=\"") + 5)) : "" };
+    //             });
+    //             $scope.imgs.length != l.length && bubble.updateScope($scope);
+    //             $scope.imgs = l;
+    //         } else {
+    //             $scope.imgs = [];
+    //         }
+    //         // if (html.indexOf("<table") >= 0 && html.indexOf("ke-zeroborder") >= 0) {
+    //         //     var $tmp = $(html);
+    //         //     $tmp.find("table").removeClass("ke-zeroborder").attr("border", "1").html();
+    //         //     $scope.newItem && ($scope.newItem.content = $tmp.html());
+    //         //     this.html($scope.newItem.content);
+    //         // }
+    //         $scope.error = html !== "";
+    //         var text = this.text();
+    //         //var reg = /[\u4e00-\u9fa5]/g;
+    //         //text = text.match(reg);
+    //         //text = text ? text.join("") : "";
+    //         if ($scope.newItem) {
+    //             $scope.newItem.desp = text.substring(0, 100);
+    //             $scope.newItem.content = html;
+    //             editorNoUpdate = true;
+    //         }
+    //         $scope.updateLocalStorage();
+    //         bubble.updateScope($scope);
+    //     },
+    //     height: 580
+    // });
+
+    var replaceImage = function (n, o) {
+        var html = editor.getData();
+        var reg = /<img [^>]*src=['"]([^'"]+)[^>]*>/g;
+        var l = html.match(reg);
+        var imgTmp = [];
+        var tmp = "";
+        while (tmp = l.pop()) {
+            if (tmp.indexOf(n) >= 0) {
+                imgTmp[0] = tmp;
+            }
+            if (tmp.indexOf(o) >= 0) {
+                imgTmp[1] = tmp;
+            }
+            if (imgTmp[0] && imgTmp[1]) {
+                break;
+            }
+        }
+        setData(html.replace(imgTmp[0], "|isReplaceTmp|").replace(imgTmp[1], imgTmp[0]).replace("|isReplaceTmp|", imgTmp[1]));
+    }
+
+    $scope.setTopContent = function () {
+        loadingbox.fadeIn(200);
+        bubble._call("content.setGlobalTop", $scope.newItem._id).success(function (v) {
+            loadingbox.fadeOut(200);
+            swal(!v.errorcode ? "设置成功" : "设置失败");
+        });
+    }
+
+    $scope.setImage = function (v) {
+        $scope.newItem.image = v.path;
+    };
+
+    $scope.setImageUp = function (v, idx) {
+        if (idx == 0) {
+            return;
+        }
+        replaceImage($scope.imgs[idx].path, $scope.imgs[idx - 1].path);
+    };
+
+    $scope.setImageDown = function (v, idx) {
+        if (idx == $scope.imgs.length - 1) {
+            return;
+        }
+        replaceImage($scope.imgs[idx].path, $scope.imgs[idx + 1].path);
+    };
 
     topcheckbox.change(function (v) {
         $scope.newItem.attribute = this.checked ? "1" : "0";
@@ -198,20 +384,26 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         bubble.updateScope($scope);
     });
 
+    topnewcheckbox.change(function (v) {
+        $scope.newItem.isTop = this.checked ? "1" : "0";
+        bubble.updateScope($scope);
+    });
+
     $scope.column_tree_data = [];   //栏目树数据
     var initTree = function (v) {
+
         $scope.column_tree_data = bubble.getTreeData(v, "_id", false, function (v) {
             v.label = v.name;
         });
         $scope.treeSelect = function (v) {
             columnChange(v);
-        }
+        };
         $(".content-column-box .open-btn").click(function () {
             $scope.newItem = "";
             $scope.imgList = [];
             bubble.updateScope($scope);
         });
-    }
+    };
 
     var optionList = [];
     var getOptions = function (v, f) {
@@ -222,7 +414,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             data[i].children && optionList.push(getOptions(data[i].children, data[i]));
         }
         return f ? '<optgroup label="' + f.name + '">' + rs + '</optgroup>' : '<optgroup label="根栏目">' + rs + '</optgroup>' + optionList.join("");
-    }
+    };
     var select = "";
     var selectData = "";
     var newItemTpl = {
@@ -246,10 +438,11 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         "fatherid": 0,
         "isdelete": 0,
         "state": "草稿"
-    }
+    };
     $scope.fileControl = {
-        onSelect: function (v) { }
-    }
+        onSelect: function (v) {
+        }
+    };
     $scope.toggleshow = false;
     $scope.mode = "wait";
     $scope.shower = bubble.isMobile();
@@ -270,19 +463,39 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         $scope.openState.time = true;
         e.preventDefault();
         e.stopPropagation();
-    }
+    };
+
+
+
     $scope.tmpNews = [];
     (function () {
         loadingbox.fadeIn(200);
-        bubble._call("column.page", 1, 5000).success(function (v) {
-            $scope.list = v.data;
-            initTree(v.data);
-        }).finally(function () {
-            loadingbox.fadeOut(200);
-            selectData = getOptions(bubble.getTreeData($scope.list, "_id"));
-            select = $(".column-select").html(selectData).val("");
-            select.chosen().change(columnChange);
-        });
+
+        if ($state.params.type == 1) {
+            //栏目更新
+            bubble._call("task.difft", 1, 1000).success(function (v) {
+                $scope.list = v.data;
+                initTree(v.data);
+            }).finally(function () {
+                loadingbox.fadeOut(200);
+                selectData = getOptions(bubble.getTreeData($scope.list, "_id"));
+                select = $(".column-select").html(selectData).val("");
+                select.chosen().change(columnChange);
+            });
+        } else {
+
+            console.log($scope.datas)
+            bubble._call("column.getColumn").success(function (v) {
+                $scope.list = v;
+                initTree(v);
+            }).finally(function () {
+                loadingbox.fadeOut(200);
+                selectData = getOptions(bubble.getTreeData($scope.list, "_id"));
+                select = $(".column-select").html(selectData).val("");
+                select.chosen().change(columnChange);
+            });
+        }
+
     })();
 
     var getColumn = function (id) {
@@ -292,12 +505,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 return d[i];
             }
         }
-    }
+    };
 
     var initChosenSelect = function (id) {
         select.val(id);
         select.trigger("chosen:updated.chosen");
-    }
+    };
 
     $scope.column_tree_current = "";
     var columnChange = function (v, istree) {
@@ -307,17 +520,24 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         v._id && initChosenSelect(v._id);
         $scope.newItem = "";
         $scope.imgList = [];
-        editor.html("");
+        try {
+            setData("");
+        } catch (error) {
+
+        }
         $(".list-group-item").each(function () {
             $(this).find("span:first").addClass("hover-action").find("i").removeClass("text-success");
         });
         $scope.search.reset(true);
         $scope.pager.init($scope.current._id);
         istree && ($scope.column_tree_current = $scope.current.name);
-    }
+    };
 
     $scope.newMove = function (v) {
-        bubble.customModal("columnMoveModal.html", "columnMoveController", "lg", { colmun: $scope.list, newItem: $scope.newItem }, function (v) {
+        bubble.customModal("columnMoveModal.html", "columnMoveController", "lg", {
+            colmun: $scope.list,
+            newItem: $scope.newItem
+        }, function (v) {
             for (var i = 0; i < $scope.news.length; i++) {
                 if ($scope.news[i]._id === $scope.newItem._id) {
                     $scope.news.splice(i, 1);
@@ -326,13 +546,16 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }
             }
         });
-    }
+    };
 
     $scope.columnPicker = function (v) {
-        bubble.customModal("columnMoveModal.html", "columnMoveController", "lg", { colmun: $scope.list, mode: "picker" }, function (v) {
+        bubble.customModal("columnMoveModal.html", "columnMoveController", "lg", {
+            colmun: $scope.list,
+            mode: "picker"
+        }, function (v) {
             columnChange(v, true);
         });
-    }
+    };
 
     $scope.newsClick = function (v) {
         setPdf(v.type == 10 ? v.content : undefined);
@@ -350,7 +573,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         new UploadImageList().init();
         var video = new UploadImageList().init(function (file, v) {
             !v.errorcode ? $scope.videoList[0] = bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/") : swal("上传失败");
-            $scope.newItem.content = $scope.videoList.join(",");
+            $scope.newItem.videopath = $scope.videoList.join(",");
             $(".contentVideoTypeBox .webuploader-pick").html("上传");
             $scope.validVideoNews = false;
             $(".contentVideoTypeBox .process").html("");
@@ -359,24 +582,25 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 $scope.validVideoNews = true;
             })
         }, function (file, v) {
-            $(".contentVideoTypeBox .webuploader-pick").html("上传中...");
-            $(".contentVideoTypeBox .process").html((v * 100).toFixed(2) + "%");
+            $(".contentVideoTypeBox.ubox .webuploader-pick").html("上传中...");
+            $(".contentVideoTypeBox.ubox .process").html((v * 100).toFixed(2) + "%");
         }, "#fileUploadPickerVideo");
         $scope.mode = v.tmpnew ? "new" : "edit";
         $scope.newItem = v;
-        $scope.current.contentType == '1' && ($scope.imgList = $scope.newItem.content.split(","));
-        $scope.current.contentType == '2' && ($scope.videoList = $scope.newItem.content.split(","));
-        editor.html(v.content);
+        $scope.current.contentType == '1' && ($scope.imgList = $scope.newItem.imgList ? JSON.parse($scope.newItem.imgList) : []);
+        $scope.current.contentType == '2' && ($scope.videoList = $scope.newItem.videopath.split(","));
+        // setData(v.content);
         topcheckbox[0].checked = $scope.newItem.attribute == "1";
         topnewscheckbox[0].checked = $scope.newItem.attribute == "2";
         topsuffixcheckbox[0].checked = $scope.newItem.isSuffix == "1";
+        topnewcheckbox[0].checked = $scope.newItem.isTop == "1";
         $scope.validVideoNews = false;
         $timeout(function () {
             $scope.validVideoNews = true;
-            editor.edit.setHeight($(".content-console-box .row-row:first").height() - 270);
+            // editor.setHeight($(".content-console-box .row-row:first").height() - 270);
             $("#pdfbox").height($(".content-console-box .row-row:first").height() - 210);
         });
-    }
+    };
 
     $scope.create = function (v, i, e) {
         setPdf();
@@ -391,7 +615,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         new UploadImageList().init();
         var video = new UploadImageList().init(function (file, v) {
             !v.errorcode ? $scope.videoList[0] = bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/") : swal("上传失败");
-            $scope.newItem.content = $scope.videoList.join(",");
+            $scope.newItem.videopath = $scope.videoList.join(",");
             $(".contentVideoTypeBox .webuploader-pick").html("上传");
             $scope.validVideoNews = false;
             $(".contentVideoTypeBox .process").html("");
@@ -400,15 +624,15 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 $scope.validVideoNews = true;
             })
         }, function (file, v) {
-            $(".contentVideoTypeBox .webuploader-pick").html("上传中...");
-            $(".contentVideoTypeBox .process").html((v * 100).toFixed(2) + "%");
+            $(".contentVideoTypeBox.ubox .webuploader-pick").html("上传中...");
+            $(".contentVideoTypeBox.ubox .process").html((v * 100).toFixed(2) + "%");
         }, "#fileUploadPickerVideo");
         $scope.mode = "new";
         if (!v && window.localStorage.backContent && false && window.localStorage.backContent.length > 15) {
             $scope.newItem = JSON.parse(window.localStorage.backContent);
         } else {
             $scope.newItem = newItemTpl;
-            $scope.newItem.content = v && v.content ? v.content : "";
+            $scope.newItem.content = v && v.content ? v.content : " ";
             $scope.newItem.mainName = v && v.mainName ? v.mainName : "";
             $scope.newItem.author = author;
             $scope.newItem.souce = window.localStorage.sitename;
@@ -421,16 +645,24 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             $scope.newItem.attribute = "0";
         }
         $timeout(function () {
+            $timeout(function () {
+                $scope.newItem.content = $scope.newItem.content + "<p></p>";
+                $timeout(function () {
+                    contentChangeCb();
+                });
+            }, parseInt(Math.random() * 1000));
             $scope.validVideoNews = true;
-            editor.edit.setHeight($(".content-console-box .row-row:first").height() - 270);
+            // editor.setHeight($(".content-console-box .row-row:first").height() - 270);
             $("#pdfbox").height($(".content-console-box .row-row:first").height() - 210);
         });
         topcheckbox[0].checked = false;
         topnewscheckbox[0].checked = false;
+        topnewcheckbox[0].checked = false;
         topsuffixcheckbox[0].checked = false;
         $scope.newItem.isSuffix == "0";
-        editor.html($scope.newItem.content ? $scope.newItem.content : "");
-    }
+        $scope.newItem.attrid = [];
+        setData($scope.newItem.content ? $scope.newItem.content : "<p></p>");
+    };
 
     //置顶
     $scope.top = function (v, i, e) {
@@ -443,7 +675,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             swal("置顶失败");
         }));
-    }
+    };
 
     $scope.delete = function (item) {
         swal({
@@ -477,17 +709,20 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                                     i--;
                                 }
                             }
+                            if ($scope.news.length == 0) {
+                                $scope.pager.getData();
+                            }
                             $scope.newItem = "";
                             $(".deleteBtn").hide();
                             $(".createBtn").fadeIn(200);
                         } else
-                            swal("删除失败");
+                            swal("删除失败:" + v.message);
                         $(".news-list .delete-flag i").removeClass("text-success");
                         $(".news-list .delete-flag").addClass("hover-action");
                     });
                 }
             });
-    }
+    };
 
     $scope.weixinPush = function (v) {
         var ids = [];
@@ -502,7 +737,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
         }
         $scope.sdkconfig.method.show();
-    }
+    };
 
     $scope.deleteCheckAll = function (e) {
         var f = e.currentTarget.checked;
@@ -514,7 +749,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         } else {
             $(".deleteBtn").hide();
         }
-    }
+    };
 
     $scope.deleteCheck = function (v, e) {
         if (v) {
@@ -535,7 +770,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         } else {
             $(".deleteBtn").hide();
         }
-    }
+    };
     //分片发布
     var getChunk = function (v) {
         var num = 18000;
@@ -560,7 +795,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }
                 f || $(".loading-spinner p").html("<p>已完成" + (((count / chunks) * 100).toFixed(2)) + "%</p>");
             });
-        }
+        };
         if (c.length > num) {
             while (subnum < c.length) {
                 list.push(c.substring(subnum, subnum + num));
@@ -572,7 +807,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         }
 
         return false;
-    }
+    };
 
     var checkPrivacy = function () {
         var html = $scope.newItem.content;
@@ -594,21 +829,21 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             rs.pop();
             return rs;
-        }
+        };
         var setColor = function (v) {
             if (v) {
                 var left = "<span style='color:#E53333'>";
                 var right = "</span>";
                 tmphtml = html.substring(0, v.index) + left + html.substring(v.index, v.index + v[0].length) + right + html.substring(v.index + v[0].length, html.length);
             }
-        }
+        };
         // var cl = getList(card);
         var pl = getList(phone);
         var idl = getList(idcard);
         // setColor(cl.concat(pl.concat(idl)));
         $scope.newItem.content = html;
         return false;
-    }
+    };
 
     $scope.allPraviteCheck = function () {
         bubble._call("content.checkAllArticle", "mainName").success(function (v) {
@@ -618,17 +853,17 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             p.append("<p></p>");
             p.find("p").html("正在检测中");
         });
-    }
+    };
 
     $scope.saveToGov = function () {
         $scope.siteconfig.method.show();
-    }
+    };
 
     $scope.save = function (check, p) {
         if ($(".btn-save").html() == "发布中..") {
             return;
         }
-        $scope.newItem.content = editor.html();
+        $scope.newItem.content = editor.getData();
         var cb = function () {
             // if (!checkPrivacy()) {
             //     swal("存在涉及隐私的内容,请检查内容中以红色标注的部分");
@@ -660,6 +895,9 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     tmpAttrid.push(p.attrid[i]._id);
                 }
                 p.attrid = tmpAttrid.join(",");
+            }
+            if (!p.isTop) {
+                p.isTop = 0;
             }
             var continueAppend = getChunk(p);
             $scope.mode == "new" && (p.ogid = $scope.current._id);
@@ -720,9 +958,26 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     $(".contentbatchMask").fadeOut(200);
                 });
             }
-        }
-        check ? errorWord.check($scope.newItem, p ? p : { type: "private", content: editor.html() }, cb) : cb();
-    }
+        };
+        check ? errorWord.check($scope.newItem, p ? p : { type: "private", content: editor.getData() }, cb) : cb();
+    };
+
+    //清空代发布区
+    $scope.deleteAll = function () {
+
+        swal({
+            title: "确定要清空代发布内容吗?",
+            text: "清空操作无法撤销",
+            icon: "warning",
+            buttons: {
+                cancel: "取消",
+                defeat: "清空",
+            },
+        }).then(
+            function (s) {
+                s ? $scope.tmpNews = [] : '';
+            });
+    };
     //全部发布
     $scope.publishAll = function () {
         var count = 0;
@@ -753,7 +1008,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                         v.selected = true;
                         $scope.newItem = $scope.news[0];
                     }
-                    $(".loading-spinner p").html("<p>已完成" + (((count / d.length) * 100).toFixed(0)) + "%</p>")
+                    $(".loading-spinner p").html("<p>已完成" + (((count / d.length) * 100).toFixed(0)) + "%</p>");
                     for (var i = 0; i < $scope.tmpNews.length; i++) {
                         if ($scope.tmpNews[i].mainName == p.mainName) {
                             $scope.tmpNews.splice(i, 1);
@@ -763,11 +1018,11 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 });
             })(d[i]);
         }
-    }
+    };
 
     $scope.getTimeText = function (v) {
         return !isNaN(v) ? new Date(v).Format("yyyy-MM-dd hh:mm") : v;
-    }
+    };
 
     $scope.getOldTime = function (v) {
         isNaN(v) && (v = Date.parse(new Date(v)));
@@ -776,7 +1031,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         time[0] == 0 && (time = Math.floor((new Date().getTime() - new Date(v * 1).getTime()) / (60 * 1000)) + "分钟前");
         time[0] == 0 && (time = "刚刚");
         return time;
-    }
+    };
     //文件选择中选择图片
     var imgSelect = function (v) {
         if (v.filetype != 1) {
@@ -786,12 +1041,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         $scope.newItem.image = v.filepath.indexOf("http") < 0 ? bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/") : v.filepath;
         $scope.fileControl.close();
         bubble.updateScope($scope);
-    }
+    };
     //打开图片文件选择
     $scope.openFile = function (fn) {
         $scope.fileControl.open();
         $scope.fileControl.onSelect = fn ? fn : imgSelect;
-    }
+    };
 
     $scope.transmit = function (e) {
         var o = $(e.currentTarget);
@@ -799,18 +1054,18 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         bubble._call("content.transmit", "11", $scope.newItem.image, bubble.replaceBase64($scope.newItem.content)).success(function (v) {
             o.html("转发");
         });
-    }
+    };
     //纯图片新闻删除图片
     $scope.deleteImgList = function (v) {
         for (var i = 0; i < $scope.imgList.length; i++) {
             var t = $scope.imgList[i];
             if (t == v) {
                 $scope.imgList.splice(i, 1);
-                $scope.newItem.content = $scope.imgList.join(",");
+                $scope.newItem.imgList = $scope.imgList.join(",");
                 return;
-            };
+            }
         }
-    }
+    };
     //文章内容图片上传
     var UploadImageList = function () {
         var uploader = "";
@@ -818,6 +1073,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         var _this = this;
 
         this.init = function (s, p, k) {
+            initpicupload();
             uploader = new WebUploader.Uploader({
                 auto: true,
                 swf: './js/modules/webuploader/Uploader.swf',
@@ -826,26 +1082,47 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             });
             uploader.addButton('#fileUploadPicker2');
             uploader.on("fileQueued", this.fileQueued);
+            uploader.on("uploadProgress", p || null);
             uploader.on("uploadSuccess", s || this.uploadSuccess);
             return this;
+        };
+
+        var initpicupload = function () {
+            uploader = new WebUploader.Uploader({
+                auto: true,
+                swf: './js/modules/webuploader/Uploader.swf',
+                server: bubble.getInterface("upload.file") + "&folderid=0&wbid=",
+                pick: '#cpicupload',
+            });
+            uploader.on("uploadProgress", function (v) {
+                $("#cpicupload .webuploader-pick:last").html("上传中...");
+            });
+            uploader.on("uploadSuccess", function (file, v) {
+                $scope.setImage({ path: bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/") });
+                $("#cpicupload .webuploader-pick:last").html("上传缩略图");
+                bubble.updateScope($scope);
+            });
         }
 
         this.fileQueued = function (file) {
-            $scope.imgList.push("./img/loading.gif");
+            $scope.imgList.push({ src: "./img/loading.gif" });
             file.ListIndex = $scope.imgList.length - 1;
             bubble.updateScope($scope);
-        }
+        };
 
         this.uploadSuccess = function (file, v) {
-            !v.errorcode ? $scope.imgList[file.ListIndex] = bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/") : swal("上传失败");
-            $scope.newItem.content = $scope.imgList.join(",");
+            !v.errorcode ? $scope.imgList[file.ListIndex] = { src: bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/") } : swal("上传失败");
+            $scope.newItem.imgList = JSON.stringify($scope.imgList);
+            if (!$scope.newItem.image) {
+                $scope.newItem.image = $scope.imgList[0].src;
+            }
             bubble.updateScope($scope);
-        }
+        };
 
         this.uploadError = function (file, msg) {
             swal("上传失败");
         }
-    }
+    };
     //文档上传
     var UploadOfficeWord = function () {
         var uploader = "";
@@ -877,27 +1154,27 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             uploader.on("uploadProgress", p || this.uploadProgress);
             uploader.on("uploadSuccess", s || this.uploadSuccess);
             return this;
-        }
+        };
 
         this.uploadProgress = function (file, percentage) {
             $("#wordUploadPicker .webuploader-pick").html("处理中");
             $(".worduploadprocess").width((percentage.toFixed(2) * 100) + "%");
-        }
+        };
 
         this.uploadSuccess = function (file, v) {
             bubble._call("file.getWord", v._id).success(function (v) {
-                editor.html(v);
+                setData(v);
                 $(".worduploadprocess").width(0);
                 $("#wordUploadPicker .webuploader-pick").html("选择文档");
             })
-        }
+        };
 
         this.uploadError = function (file, msg) {
             $("#wordUploadPicker .webuploader-pick").html("选择文档");
             $(".worduploadprocess").width(0);
             swal("上传失败");
         }
-    }
+    };
     //批量文档上传
     var BatchWord = function () {
         var box = $(".wordBatchUploaderBox");
@@ -911,18 +1188,24 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         var noswich = false;
         var doc = "doc,docx,xlsx,xlsm,pptx,pptm,xls,pdf";
         var img = "gif,jpg,jpeg,bmp,png";
+        var previewList = [];
+        var timer = 0;
 
         this.init = function () {
             this.initUploader();
             return this;
-        }
+        };
 
         this.getUpload = function () {
             return uploader;
-        }
+        };
 
         var getType = function (v) {
             return v && doc.indexOf(v.toLowerCase()) >= 0;
+        };
+
+        var getImageType = function (v) {
+            return v && img.indexOf(v.toLowerCase()) >= 0;
         }
 
         var setSwitch = function () {
@@ -944,7 +1227,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             ulist = [];
             noswich = false;
-        }
+        };
 
         this.initUploader = function () {
             // modified by wuren at 20180706 支持视频文件
@@ -956,9 +1239,10 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 auto: true,
                 accept: {
                     title: 'File',
-                    extensions: 'doc,docx,xlsx,xlsm,pdf,xls,gif,jpg,jpeg,bmp,png,3gp,mp4,rmvb,mov,avi,m4v',
+                    extensions: 'doc,docx,xlsx,xlsm,pdf,xls,gif,jpg,jpeg,bmp,png,3gp,mp4,rmvb,mov,avi,m4v,flv',
                     mimeTypes: '.doc,.docx,.xlsx,.xlsm,.pdf,.xls,image/gif,image/jpg,image/jpeg,image/bmp,image/png,video/*,audio/*,application/*'
                 },
+                compressSize: 1024 * 1024
             });
             uploader.on("error", function (v, file) {
                 if (v === "Q_TYPE_DENIED") {
@@ -970,9 +1254,9 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 loadingbox.fadeOut(200);
             });
             uploader.onFileQueued = function (file) {
+                // console.log(file);
                 $(".updateInfo").remove();
                 box.find(".tipsbox").fadeOut(200);
-                $(".contentbatchMask").fadeIn(200);
                 ulist.push(file.ext);
                 if (getType(file.ext)) {
                     fileCount++;
@@ -980,6 +1264,22 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     $(".content-info-box .listbox").append('<div class="alert ng-isolate-scope alert-info pos-rlt"><div class="process"></div><i class="fa fa-spin fa-spinner pull-right" style="display:none;"></i><div><span class="ng-binding ng-scope">' + file.name + '</span></div></div>');
                     file.ele = $(".content-info-box .listbox .alert:last");
                 }
+                // if (getImageType(file.ext)) {
+                //     previewList.push(file);
+                //     if (timer) {
+                //         clearTimeout(timer);
+                //     }
+                //     timer = setTimeout(() => {
+                //         bubble.customModal("imageEditPreview.html", "imageEditPreviewController", "lg", previewList, function (v) {
+                //             $(".contentbatchMask").fadeIn(200);
+                //             uploader.upload();
+                //         });
+                //     }, 100);
+                // }
+                // if (!previewList.length) {
+                $(".contentbatchMask").fadeIn(200);
+                uploader.upload();
+                // }
             };
             uploader.on("uploadProgress", function (file, v) {
                 setSwitch();
@@ -1001,19 +1301,26 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 } else {
                     if (!v.errorcode && $scope.imgs.indexOf(bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/")) < 0) {
 
-                        $scope.imgs.push(bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/"));
+                        // $scope.imgs.push(bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/"));
 
                         // modified by wuren at 20180706 支持视频文件
-                        var html = "<img src='" + $scope.imgs[$scope.imgs.length - 1] + "' />";
+                        var html = "<img src='" + bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/") + "' />";
                         var ext = file.ext.toLowerCase();
-                        if(ext == "mp4" || ext == "3gp" ||ext == "rmvb" ||ext == "mov" ||ext == "avi" ||ext == "m4v" ){
-                            html = '&nbsp;<video src="'+$scope.imgs[$scope.imgs.length - 1] +'" controls>';
+                        if (ext == "mp4" || ext == "3gp" || ext == "rmvb" || ext == "mov" || ext == "avi" || ext == "m4v" || ext == "flv") {
+                            html = '&nbsp;<video src="' + bubble.getInterface("upload").visible + v.filepath.replace(/\\/g, "/") + '" controls>';
                             html += '你的浏览器不支持video标签';
                             html += '</video>&nbsp;';
                         }
 
-                        editor.appendHtml(html);
-                        $scope.newItem.content = editor.html();
+                        // $timeout(function () {
+                        //     editor.insertHtml(html);
+                        // }, parseInt(Math.random() * 1000));
+                        $timeout(function () {
+                            $scope.newItem.content = $scope.newItem.content + html;
+                            $timeout(function () {
+                                contentChangeCb();
+                            });
+                        }, parseInt(Math.random() * 1000));
                         bubble.updateScope($scope);
                     } else {
                         swal("上传失败");
@@ -1021,7 +1328,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     $(".contentbatchMask").fadeOut(200);
                 }
             });
-        }
+
+            uploader.option('compress', {
+                width: 900,
+                height: 600
+            })
+        };
         /**
          * 批量上传文档转码插入
          */
@@ -1042,12 +1354,16 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 $(this).find("i").show();
                 $(".contentbatchMask").fadeIn(200);
                 bubble._call("file.getWord", v._id).success(function (rs) {
+                    setData(rs);
                     $(this).addClass("alert-warning");
                     $(this).find("i").hide();
                     var name = v.fileoldname.split(".");
                     name.pop();
+                    var reg = /<body[^>]*>([\s\S]*)<\/body>/;
+                    var result = reg.exec(rs);
+
                     $scope.tmpNews.push({
-                        content: rs,
+                        content: result[1],
                         mainName: name.join("."),
                         souce: window.localStorage.sitename,
                         image: "",
@@ -1074,7 +1390,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }.bind(this));
             }
         }
-    }
+    };
 
     //错别字处理类
     var ErrorWord = function () {
@@ -1090,9 +1406,15 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
 
         this.init = function () {
             return this;
-        }
+        };
 
         this.check = function (v, p, fn) {
+            if (p.type == "error" || p.type == "all") {
+                if (p.error.errorcode == 100) {
+                    alert(p.error.message);
+                    return;
+                }
+            }
             box.fadeIn(200);
             $timeout(function () {
                 editorerror.edit.setHeight(box.find(".content-box").height() - 110);
@@ -1133,12 +1455,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             box.find(".error-box").unbind("scroll").scroll(function () {
                 $(box.find("iframe")[0].contentWindow).scrollTop($(this).scrollTop());
             });
-        }
+        };
 
         var resetBtn = function () {
             box.find(".btn-danger").hide();
             box.find(".btn-success").show();
-        }
+        };
 
         box.find(".close-btn").click(function (e) {
             current.CONTENT = editorerror.html();
@@ -1165,7 +1487,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         box.click(function (e) {
             e.currentTarget === e.target && $(this).fadeOut(200);
         });
-    }
+    };
 
     //分页处理类
     var Pager = function () {
@@ -1188,36 +1510,44 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             this.initEvent();
             this.getData();
             return this;
-        }
+        };
 
         this.pagesizeChange = function (v) {
             _this.current.page = 1;
             _this.getData();
-        }
+        };
 
         this.getCurrent = function () {
             return _this.current;
-        }
+        };
 
         this.initHtml = function () {
             pagebox.find(".c").html(_this.current.page);
             pagebox.find(".t").html(_this.current.total);
-        }
+        };
 
         this.initEvent = function () {
             pagebox.find(".prev").unbind("click").click(this.prev);
             pagebox.find(".next").unbind("click").click(this.next);
             pagebox.find("input").unbind("keydown").keydown(this.go);
-        }
+        };
 
         this.clearParameter = function () {
             _this.parameter = [];
             searchAll = false;
-        }
+        };
 
         this.setParameter = function (v, o) {
             if (typeof v === 'object') {
                 for (var tmp in v) {
+                    if (tmp == "etime") {
+                        _this.parameter.push({ field: "time", logic: "<", value: v[tmp] });
+                        continue;
+                    }
+                    if (tmp == "stime") {
+                        _this.parameter.push({ field: "time", logic: ">", value: v[tmp] });
+                        continue;
+                    }
                     _this.parameter.push({ field: tmp, logic: "like", value: v[tmp] });
                 }
             } else {
@@ -1225,7 +1555,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             searchAll = o == "all";
             _this.getData(searchAll);
-        }
+        };
 
         this.getData = function (v) {
             loadingbox.fadeIn(200);
@@ -1240,6 +1570,11 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             bubble._call("content.pageBy", _this.current.page, _this.pagesize, par).success(function (v) {
                 if (!v.errorcode) {
+                    var isChecked = $('#del_check').is(':checked');
+                    if (isChecked) {
+                        $('#del_check').click();
+                    }
+
                     $scope.news = v.data;
                     $scope.news.map(function (v) {
                         v.image ? v.image.replace(/\\/g, "/") : (v.image = v.thumbnail.replace(/\\/g, "/"));
@@ -1258,12 +1593,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }
                 loadingbox.fadeOut(200);
             })
-        }
+        };
 
         this.export = function () {
             var par = [{ field: "ogid", logic: "=", value: currentId }].concat(_this.parameter);
             window.open(bubble.getHost() + "/" + bubble.getAppId() + "/GrapeContent/Content/ExportContent/s:" + JSON.stringify(par) + "/文章列表.xls");
-        }
+        };
 
         this.prev = function () {
             if (_this.current.page <= 1) {
@@ -1271,7 +1606,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             _this.current.page--;
             _this.getData();
-        }
+        };
 
         this.next = function () {
             if (_this.current.page >= _this.current.total) {
@@ -1279,7 +1614,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             _this.current.page++;
             _this.getData();
-        }
+        };
 
         this.go = function (e) {
             if (e.keyCode == 13) {
@@ -1291,13 +1626,15 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 _this.getData();
             }
         }
-    }
+    };
 
     //搜索类
     var Search = function () {
         var _this = this;
         this.par = { content: false, mainName: true, souce: false, author: false };
         this.keyword = "";
+        this.stime = 631126861000;
+        this.etime = "";
 
         this.checkChange = function (v) {
             var f = false;
@@ -1305,47 +1642,57 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 if (_this.par[tmp]) {
                     f = true;
                     break;
-                };
+                }
             }
             if (!f) {
                 _this.par[v] = true;
             }
-        }
+        };
 
         this.searchAll = function () {
-            if (!_this.keyword) {
+            if (!_this.keyword && !(_this.stime || _this.etime)) {
                 return;
             }
             var p = {};
-            for (var tmp in _this.par) {
-                if (_this.par[tmp]) {
-                    p[tmp] = _this.keyword;
+            if (_this.keyword) {
+                for (var tmp in _this.par) {
+                    if (_this.par[tmp]) {
+                        p[tmp] = _this.keyword;
+                    }
                 }
             }
+            p.stime = _this.stime;
+            p.etime = _this.etime;
             $scope.pager.clearParameter();
             $scope.pager.setParameter(p, "all");
-        }
+        };
 
         this.do = function () {
-            if (!_this.keyword) {
+            if (!_this.keyword && !(_this.stime || _this.etime)) {
                 return;
             }
             var p = {};
-            for (var tmp in _this.par) {
-                if (_this.par[tmp]) {
-                    p[tmp] = _this.keyword;
+            if (_this.keyword) {
+                for (var tmp in _this.par) {
+                    if (_this.par[tmp]) {
+                        p[tmp] = _this.keyword;
+                    }
                 }
             }
+            p.stime = _this.stime;
+            p.etime = _this.etime;
             $scope.pager.clearParameter();
             $scope.pager.setParameter(p);
-        }
+        };
 
         this.reset = function (s) {
             _this.par = { content: false, mainName: true, souce: false, author: false };
             _this.keyword = "";
+            _this.stime = 631126861000;
+            _this.etime = "";
             s || $scope.pager.setParameter();
         }
-    }
+    };
 
     //预览
     var Preview = function () {
@@ -1355,11 +1702,11 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         this.show = function (v) {
             box.fadeIn(200);
             this.initHtml(v);
-        }
+        };
 
         this.hide = function () {
             box.fadeOut(200);
-        }
+        };
 
         this.initHtml = function (v) {
             var d = v ? v : $scope.newItem;
@@ -1371,17 +1718,17 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 box.find(".content").html(tmp);
                 setPdf(d.content, tmp);
             } else {
-                box.find(".content").html(d.content ? d.content : editor.html());
+                box.find(".content").html(d.content ? d.content : editor.getData());
             }
             box.find("table").css("margin", "0 auto");
-        }
+        };
 
         box.unbind("click").click(function (e) {
             if (e.target === e.currentTarget) {
                 _this.hide();
             }
         })
-    }
+    };
 
     $scope.pushToWechat = function (v) {
         var pushItem = [];
@@ -1389,9 +1736,9 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
 
         if (pushItem.length > 8) {
             swal("一次最多只能推送8篇文章");
-            return;
+
         }
-    }
+    };
 
     //推送辅助窗口
     var PushConfig = function () {
@@ -1418,7 +1765,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
 
             initList();
-        }
+        };
 
         this.init = function () {
             box.unbind("click").click(function (e) {
@@ -1427,7 +1774,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }
             });
             return this;
-        }
+        };
 
         this.hide = function () {
             box.fadeOut(200);
@@ -1437,7 +1784,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             currentColumn = 0;
             type = "";
             switchStep(false);
-        }
+        };
 
         var switchStep = function (v) {
             if (v) {
@@ -1458,7 +1805,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 box.find(".push-back-btn").hide();
                 box.find(".push-config-box").removeClass("min");
             }
-        }
+        };
 
         this.siteOk = function () {
             // bsStep(0);
@@ -1489,12 +1836,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 currentColumn = idx;
                 initBtnDisabled();
             });
-        }
+        };
 
         //返回站点选择,丢弃所有栏目选择信息
         this.backToSite = function () {
             switchStep(false);
-        }
+        };
 
         //跳至某站点栏目选择
         var columnJump = function (idx) {
@@ -1504,7 +1851,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 o.find("li:eq(" + i + ")").addClass("active");
             }
             box.find(".columnlist").hide().eq(idx).fadeIn(200);
-        }
+        };
 
         var initBtnDisabled = function () {
             if (currentColumn == siteList.length) {
@@ -1520,19 +1867,19 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             box.find(".push-prev-btn").removeAttr("disabled");
             box.find(".push-next-btn").removeAttr("disabled");
-        }
+        };
 
         //下一个站点栏目选择
         this.next = function () {
             columnJump(++currentColumn);
             initBtnDisabled();
-        }
+        };
 
         //上一个站点栏目选择
         this.prev = function () {
             columnJump(--currentColumn);
             initBtnDisabled();
-        }
+        };
 
         var regColumnItemEvent = function (x) {
             //栏目选择
@@ -1561,10 +1908,10 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     $(this).addClass("cur");
                 }
             });
-        }
+        };
 
         var initInfoBox = function () {
-            var html = ''
+            var html = '';
             var emptyNum = 0;
             for (var i = 0; i < siteList.length; i++) {
                 var std = "<td rowspan='" + (siteList[i].column.length) + "'>" + siteList[i].name + "</td>";
@@ -1586,7 +1933,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             html += '<tr><td colspan="2" class="text-right">' + btn + '</td></tr>';
             box.find(".columnlist table").html("").append(html);
             box.find(".columnlist table button").unbind("click").click(send);
-        }
+        };
 
         //初始化各站点栏目列表
         var initColumn = function (v) {
@@ -1607,7 +1954,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
 
             currentColumn = 0;
             initBtnDisabled();
-        }
+        };
 
         var initList = function () {
             box.find(".content-box").html('<div class="tipsbox">暂无可推送平台</div>');
@@ -1634,7 +1981,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     });
                 }
             }
-        }
+        };
 
         var initListHtml = function (v, name, key, fn) {
             var title = '<div class="subtitle">' + name + '</div>';
@@ -1647,13 +1994,13 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                         cb(v[i].children, l + 1);
                     }
                 }
-            }
+            };
             cb(v);
             var t = $("<div class='sitelist'>" + title + html + "</div>");
             t.find(".item").click(fn);
             box.find(".content-box").html("").append(t);
             box.find(".tipsbox").hide();
-        }
+        };
 
         var renderList = function (v) {
             box.find(".pushcolumnbox").remove();
@@ -1672,7 +2019,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     }
                 }
             })) : box.find(".push-column-btn").hide();
-        }
+        };
 
         var send = function () {
             var tocolum = {};
@@ -1739,7 +2086,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 });
             }
         }
-    }
+    };
     //动画人物按钮
     var AnimationBtn = function () {
         var _this = this;
@@ -1754,18 +2101,18 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             // initImgLoad();
             initEvent();
             return this;
-        }
+        };
 
         this.show = function () {
             box.show();
             current = 0;
             timer = setInterval(ani, 2000);
             return this;
-        }
+        };
 
         this.unlock = function () {
             messageLock = false;
-        }
+        };
 
         this.hide = function () {
             clearInterval(timer);
@@ -1778,7 +2125,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             box.find(".p2").fadeOut(200);
             box.find(".p1").fadeIn(200);
             hidePop();
-        }
+        };
 
         var ani = function () {
             var prev = 0;
@@ -1792,7 +2139,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             box.find("img:eq(" + (prev) + ")").fadeOut(800);
             box.find("img:eq(" + (next) + ")").fadeIn(800);
-        }
+        };
 
         var initImgLoad = function () {
             var name = "content-ani";
@@ -1809,7 +2156,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     }
                 }
             }
-        }
+        };
 
         var hidePop = function () {
             box.find(".messagebox").addClass("out");
@@ -1818,7 +2165,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 box.find(".messagebox").removeClass("out");
                 messageTimer = 0;
             }, 200);
-        }
+        };
 
         var getError = function (p, content) {
             bubble._call("content.check", bubble.replaceBase64(content)).success(function (v) {
@@ -1829,7 +2176,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 p.error = v;
                 $scope.save(true, p);
             });
-        }
+        };
 
         var initEvent = function () {
             box.unbind("click").click(function (e) {
@@ -1854,29 +2201,29 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 e.stopPropagation();
                 messageLock = true;
                 var idx = $(this).index();
-                var html = editor.html();
+                var html = editor.getData();
                 if (!html) {
                     swal("内容为空");
                     messageLock = false;
                     return;
                 }
                 if (idx == 1) {
-                    $scope.save(true, { type: "private", content: editor.html() });
+                    $scope.save(true, { type: "private", content: editor.getData() });
                     return;
                 }
                 box.find(".p1").fadeOut(200);
                 box.find(".p2").fadeIn(200);
                 if (idx == 0) {
-                    getError({ type: "error" }, editor.html());
+                    getError({ type: "error" }, editor.getData());
                     return;
                 }
                 if (idx == 2) {
-                    getError({ type: "all" }, editor.html());
-                    return;
+                    getError({ type: "all" }, editor.getData());
+
                 }
             });
         }
-    }
+    };
 
     var Attachment = function () {
         var _this = this;
@@ -1886,7 +2233,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         this.init = function () {
             initUploader();
             return this;
-        }
+        };
 
         var initUploader = function () {
             uploader = WebUploader.create({
@@ -1910,7 +2257,12 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 if (!($scope.newItem.attrid instanceof Array)) {
                     $scope.newItem.attrid = [];
                 }
-                $scope.newItem.attrid.push({ fileoldname: file.name, size: bubble.getSize(file.size), state: "上传中", _id: { $oid: "" } });
+                $scope.newItem.attrid.push({
+                    fileoldname: file.name,
+                    size: bubble.getSize(file.size),
+                    state: "上传中",
+                    _id: { $oid: "" }
+                });
                 file.ele = $scope.newItem.attrid[$scope.newItem.attrid.length - 1];
                 bubble.updateScope($scope);
             };
@@ -1924,11 +2276,11 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 box.find(".process").width(0);
                 bubble.updateScope($scope);
             });
-        }
+        };
 
         this.download = function (v) {
             window.open(v.filepath);
-        }
+        };
 
         this.remove = function (v) {
             for (var i = 0; i < $scope.newItem.attrid.length; i++) {
@@ -1939,7 +2291,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }
             }
         }
-    }
+    };
 
     var ThirdParty = function () {
         var _this = this;
@@ -1950,7 +2302,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
 
         this.init = function () {
             return this;
-        }
+        };
         //隐藏
         this.hide = function (e, isSwitch) {
             if (isSwitch) {
@@ -1961,7 +2313,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 box.hide();
             }, 200);
             e && e.stopPropagation();
-        }
+        };
         //显示
         this.show = function (isSwitch) {
             if (isSwitch && !s) {
@@ -1969,20 +2321,20 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             }
             box.show();
             box.css("opacity", 1);
-        }
+        };
         //最小化
         this.min = function (e) {
             box.addClass("min");
             box.find("small").fadeOut(100);
             box.find("i").fadeOut(100);
             e && e.stopPropagation();
-        }
+        };
         //最大化
         this.max = function () {
             box.removeClass("min");
             box.find("small").fadeIn(100);
             box.find("i").fadeIn(100);
-        }
+        };
         var registerEvent = function () {
             box.find(".itembtn .up").unbind("click").click(function () {
                 var index = $(this).parent().parent().index();
@@ -2017,7 +2369,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }
                 renderList();
             });
-        }
+        };
 
         var renderList = function () {
             box.find("#mCSB_1_container").html("");
@@ -2025,7 +2377,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 box.find("#mCSB_1_container").append(getItem(list[i], i + 1));
             }
             registerEvent();
-        }
+        };
 
         var getItem = function (v, i) {
             i = i ? i : list.length;
@@ -2036,7 +2388,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
             var up = i == 1 ? "none" : "";
 
             return '<div id="witem_' + id + '" class="' + iclass + '"> <img src="' + v.image + '"> <div class="desc">' + desc + '</div><div class="itembtn"> <div class="up ' + up + '"> <i class="fa fa-arrow-up"></i> </div> <div class="down ' + down + '"> <i class="fa fa-arrow-down"></i> </div> <div class="remove"> <i class="glyphicon glyphicon-trash transition"></i> </div> </div></div>';
-        }
+        };
         //对象内容地址变更后替换原指针,防止数据无法同步
         this.replace = function (v) {
             for (var i = 0; i < list.length; i++) {
@@ -2048,7 +2400,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                     return;
                 }
             }
-        }
+        };
         //添加
         this.add = function (v) {
             if (!current) {
@@ -2079,17 +2431,17 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 }
             }
             box.find(".wechat-itembox").mCustomScrollbar("scrollTo", "bottom");
-        }
+        };
         //平台选择
         this.partyChose = function (item) {
             bubble.customModal("pushToWechatModal.html", "pushToWechatController", "lg", {}, function (v) {
                 current = v;
                 item && _this.add(item);
             });
-        }
+        };
         this.getSdkName = function () {
             return current.name;
-        }
+        };
         var getSymbolData = function () {
             var pushItem = [];
             var p = "";
@@ -2097,7 +2449,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 pushItem.push(list[i]._id);
             }
             return pushItem.join(",");
-        }
+        };
         //推送
         this.push = function () {
             if (!list.length) {
@@ -2115,13 +2467,13 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 function (s) {
                     if (s) {
                         loadingbox.fadeIn(200);
-                        bubble._call("wechatUser.pushtowechat", current.id, getSymbolData()).success(function (v) {
+                        bubble._call("wechatUser.pushtowechat", current._id, getSymbolData()).success(function (v) {
                             loadingbox.fadeOut(200);
                             swal(v.message ? v.message : v.data);
                         });
                     }
                 });
-        }
+        };
         //保存至库
         this.save = function () {
             if (!list.length) {
@@ -2133,7 +2485,7 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
                 swal(v.message ? v.message : v.data);
             });
         }
-    }
+    };
 
     //待渲染完成后初始化各个类
     $timeout(function () {
@@ -2142,11 +2494,11 @@ bubbleFrame.register('contentController', function ($scope, bubble, $modal, $htt
         $scope.thirdParty = new ThirdParty().init();
         errorWord = new ErrorWord().init();
         $scope.pager = new Pager();
-        $scope.search = new Search();
         $scope.preview = new Preview();
         $scope.pushConfig = new PushConfig().init();
         animationBtn = new AnimationBtn().init().show();
     });
+    $scope.search = new Search();
 });
 //文章移动栏目控制器
 bubbleFrame.register("columnMoveController", function (bubble, items, $scope, $modalInstance, $timeout) {
@@ -2158,7 +2510,7 @@ bubbleFrame.register("columnMoveController", function (bubble, items, $scope, $m
                 e.stopPropagation();
             }) : stop();
         }, 20);
-    }
+    };
     stop();
     $scope.data = bubble.getTreeData(items.colmun, "_id", false, function (v) {
         v.label = v.name;
@@ -2171,7 +2523,7 @@ bubbleFrame.register("columnMoveController", function (bubble, items, $scope, $m
             return;
         }
         v.label != "根栏目" && (current = v);
-    }
+    };
     $scope.tree = {};
 
     $scope.ok = function (e) {
@@ -2192,11 +2544,13 @@ bubbleFrame.register("columnMoveController", function (bubble, items, $scope, $m
                 swal("新闻移动失败");
             }
         });
-    }
+    };
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');
     }
+
+
 });
 
 bubbleFrame.register("pushToWechatController", function (bubble, items, $scope, $modalInstance, $timeout) {
@@ -2206,6 +2560,7 @@ bubbleFrame.register("pushToWechatController", function (bubble, items, $scope, 
     $scope.disabled = true;
     $scope.step1 = true;
     $scope.step2 = false;
+    $scope.sitename = localStorage.sitename;
     bubble._call("wechat.page", 1, 100).success(function (v) {
         if (!v.errorcode) {
             $scope.ptlist = v.data;
@@ -2219,14 +2574,15 @@ bubbleFrame.register("pushToWechatController", function (bubble, items, $scope, 
         $scope.step1 = true;
         $scope.step2 = false;
         $scope.ulist = [];
-    }
+    };
 
     $scope.push = function (v) {
         $modalInstance.close(v);
-    }
+    };
 
     $scope.getUser = function (v) {
-        bubble._call("wechatUser.pageBy", 1, 100, [{ field: 'platid', logic: '==', value: v.id }]).success(function (v) {
+
+        bubble._call("wechatUser.pageBy", 1, 100, [{ field: 'platid', logic: '==', value: v._id }]).success(function (v) {
             if (!v.errorcode) {
                 $scope.ulist = v.data;
                 if (v.data.length) {
@@ -2240,7 +2596,7 @@ bubbleFrame.register("pushToWechatController", function (bubble, items, $scope, 
                 swal(v.message);
             }
         });
-    }
+    };
 
     $scope.ok = function (e) {
         bubble.toggleModalBtnLoading(e, true);
@@ -2260,9 +2616,175 @@ bubbleFrame.register("pushToWechatController", function (bubble, items, $scope, 
         } else {
             swal("请选中一个用户");
         }
-    }
+    };
 
     $scope.cancel = function (e) {
         $modalInstance.dismiss('cancel');
     }
+    $scope.add = function () {
+        console.log(1);
+        bubble.customModal("createAccount.html", "createAccountController", "lg", {}, function (v) {
+            $scope.ulist.push({ name: v.name, configstring: { configstring: { appid: v.appid, appsecret: v.appsecret } } })
+        })
+    }
 });
+
+bubbleFrame.register("createAccountController", function (bubble, items, $scope, $modalInstance, $timeout) {
+    $scope.value = {}
+
+    $scope.ok = function () {
+        var value = $scope.value
+        bubble._call('wechatUser.addSdkUser', JSON.stringify({ name: value.name, configstring: { appid: value.appid, appsecret: value.appsecret }, siteId: window.localStorage.siteid })).success(function (v) {
+            $modalInstance.close(value);
+        })
+    }
+    $scope.cancel = function (e) {
+        $modalInstance.dismiss('cancel');
+    }
+})
+
+bubbleFrame.register("imageDescController", function (bubble, items, $scope, $modalInstance, $timeout) {
+    $scope.desc = items;
+
+    $scope.ok = function () {
+        var value = $scope.desc
+        $modalInstance.close(value);
+    }
+    $scope.cancel = function (e) {
+        $modalInstance.dismiss('cancel');
+    }
+})
+
+bubbleFrame.register("imageEditPreviewController", function (bubble, items, $scope, $modalInstance, $timeout) {
+    var list = [];
+    for (var i = 0; i < items.length; i++) {
+        var reader = new FileReader();
+        reader.readAsDataURL(items[i].source.source);
+        reader.onload = function (e) {
+            list.push(this.result);
+            if (list.length == items.length) {
+                $scope.imgs = list.slice();
+                $scope.$apply();
+            }
+        }
+    }
+
+    $scope.ok = function () {
+        var value = $scope.desc
+        $modalInstance.close(value);
+    }
+    $scope.cancel = function (e) {
+        $modalInstance.dismiss('cancel');
+    }
+
+    $scope.edit = function (v, idx) {
+        bubble.customModal("imageEdit.html", "imageEditController", "lg", { path: v, file: items[idx] }, function (v) {
+            $scope.imgs[idx] = v;
+            // $scope.$apply();
+        });
+    }
+})
+
+bubbleFrame.register("imageEditController", function (bubble, items, $scope, $modalInstance, $timeout) {
+    $scope.ok = function () {
+        items.file.imgData = dataurl;
+        items.file.size = getImageSize(dataurl);
+        items.file.source.source = dataURLtoBlob(dataurl);
+        $modalInstance.close(dataurl);
+    }
+    $scope.cancel = function (e) {
+        $modalInstance.dismiss('cancel');
+    }
+
+    var drawCanvasImage = function (sourceCanvas, canvasOffsetX, canvasOffsetY, canvasCutWidth, canvasCutHeight, pX, pY, sWidth, sHeight) {
+        // 創建單張照片的canvas畫布
+        var canvas = document.createElement('canvas');
+        canvas.width = sWidth;
+        canvas.height = sHeight;
+        var ctx = canvas.getContext('2d');
+        // 繪製圖片前，填充白色背景
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, sWidth, sHeight);
+        // 繪製裁切圖片
+        ctx.drawImage(sourceCanvas, canvasOffsetX, canvasOffsetY, canvasCutWidth, canvasCutHeight, pX, pY, sWidth, sHeight);
+
+        // 取裁切圖片的Base64編碼
+        var dataURL = canvas.toDataURL('image/jpeg');
+
+        return dataURL;
+    }
+
+    var getImageSize = function (dataURL) {
+        // 首先把头部的data:image/png;base64,去掉。
+        var dataStr = dataURL.substring(23);
+        var eqIndex = dataStr.indexOf('=');
+        if (dataStr.indexOf('=') > 0) {
+            dataStr = dataStr.substring(0, eqIndex);
+        }
+        var strLength = dataStr.length;
+        var fileLength = parseInt(strLength - (strLength / 8) * 2);
+
+        return fileLength;
+    }
+
+    var dataurl = "";
+
+    function dataURLtoBlob(dataurl) {
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], { type: mime });
+    }
+
+    var $img = null;
+    var init = false;
+    $scope.src = items.path;
+    var c = {
+        aspectRatio: 16 / 9,
+        mouseWheelZoom: true,
+        crop: function (e) {
+            $scope.imagedata = $img.cropper('getImageData');
+            $scope.width = parseInt($scope.imagedata.width);
+            $scope.height = parseInt($scope.imagedata.height);
+            var croppedCanvas = $img.cropper('getCroppedCanvas', { width: $scope.imagedata.width, height: $scope.imagedata.height });
+            var sWidth = $scope.imagedata.width;
+            var sHeight = $scope.imagedata.height;
+            var pX = 0, pY = 0;
+            var dataURL = drawCanvasImage(croppedCanvas, 0, 0, croppedCanvas.width, croppedCanvas.height, pX, pY, sWidth, sHeight);
+            dataurl = dataURL;
+            $scope.$apply();
+        },
+        zoom: function (v) {
+            $timeout(function () {
+                var data = $img.cropper("getCropBoxData");
+                var imagedata = $img.cropper('getCanvasData');
+                data.top = imagedata.top;
+                data.left = imagedata.left;
+                data.width = imagedata.width;
+                data.height = imagedata.height;
+                $img.cropper("setCropBoxData", data);
+            });
+        }
+    }
+
+    $timeout(function () {
+        c.aspectRatio = $(".imageedittarget>img").width() / $(".imageedittarget>img").height()
+        $(".imageedittarget>img").cropper(c);
+        $img = $(".imageedittarget>img");
+    });
+
+    $timeout(function () {
+        $(".imageedittarget>img").cropper('destroy').cropper(c);
+    }, 100);
+
+    $scope.roat = function () {
+        $(".imageedittarget>img").cropper('rotate', 45);
+    }
+
+    $scope.scal = function (v) {
+        c.aspectRatio = v;
+        $(".imageedittarget>img").cropper('destroy').cropper(c);
+    }
+})

@@ -30,7 +30,7 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
         }
     }
 
-    $scope.url = "http://60.173.0.46:801/19/GrapeContent/Content/totalArticle/s:597ff7609c93690f5a54291b";
+    $scope.url = "http://putao520.putao282.com:801/19/GrapeContent/Content/totalArticle/s:597ff7609c93690f5a54291b";
     $scope.type = "GET";
     $scope.req = {
         isGrape: true,
@@ -66,7 +66,7 @@ bubbleFrame.register('apiController', function ($scope, bubble, $modal, $http, $
         if (v.length < 4) {
             par = ParameType[name];
         } else {
-            par = v[3] ? v[3] : [];
+            par = v[3];
         }
 
         var url = "http://" + ($scope.req.host ? ($scope.req.port ? $scope.req.host + ":" + $scope.req.port : $scope.req.host) : "") + "/" + ($scope.req.appid ? $scope.req.appid : "") + "/" + ins[v[0]] + "/" + v[1] + "/" + v[2];

@@ -1,25 +1,25 @@
 'use strict';
 bubbleFrame.register('messageController', function ($scope, bubble) {
-    $scope.tableControl = {
-        title: [{ name: "回复", key: "hf", width: 60 }, { name: "查看回复", key: "view", width: 90 }],
-        html: ['<a class="btn btn-sm m-t-n-xs"><i class="fa fa-comment-o"></i></a>', "123123"],
-        onClick: function (key, v) {
-            if (key == "hf") {
-                bubble.customModal("replyMessageModal.html", "replyMessageController", "lg", v, function () {
-                    v.replynum += 1;
-                });
-            }
-            if (key == "view") {
-                bubble.customModal("messageViewModal.html", "messageViewController", "lg", v._id, function () {
+    // $scope.tableControl = {
+    //     title: [{ name: "回复", key: "hf", width: 60 }, { name: "查看回复", key: "view", width: 90 }],
+    //     html: ['<a class="btn btn-sm m-t-n-xs"><i class="fa fa-comment-o"></i></a>', "123123"],
+    //     onClick: function (key, v) {
+    //         if (key == "hf") {
+    //             bubble.customModal("replyMessageModal.html", "replyMessageController", "lg", v, function () {
+    //                 v.replynum += 1;
+    //             });
+    //         }
+    //         if (key == "view") {
+    //             bubble.customModal("messageViewModal.html", "messageViewController", "lg", v._id, function () {
 
-                });
-            }
-        },
-        onRender: function (v, k) {
-            v[1] = '<b class="badge bg-info">' + (k.replynum || 0) + '</b>';
-            return v;
-        }
-    }
+    //             });
+    //         }
+    //     },
+    //     onRender: function (v, k) {
+    //         v[1] = '<b class="badge bg-info">' + (k.replynum || 0) + '</b>';
+    //         return v;
+    //     }
+    // }
 });
 
 bubbleFrame.register('replyMessageController', function ($scope, bubble, items, $modalInstance) {

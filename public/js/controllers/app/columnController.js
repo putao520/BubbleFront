@@ -1,5 +1,9 @@
 bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
+    var localMessage = JSON.parse(localStorage.getItem("ngStorage-logininfo"));
+    $scope.ugid = JSON.parse(localMessage).ugid;
+    $scope.datas = bubble.JsonArray.eq("userId", $scope.ugid).getJsonArray()
     var currentColumn = null;
+    $scope.columnPar = { id: 123 }
     $scope.callback = {};
     $scope.siteconfig = {
         title: "栏目关联",
@@ -28,6 +32,7 @@ bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
                     rs && $scope.callback.addRoot(rs);
                 });
             }
+
         }
     ];
     $scope.itembtn = [
@@ -73,6 +78,20 @@ bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
             }
         },
         {
+            name: function (v) {
+                return v.userId && v.userId != "" ? "<span class='text-info'>更该管理员</span>" : "绑定管理员";
+            },
+            onClick: function (v, BtnTextChange) {
+                bubble.customModal("administratorBind.html", "administratorController", "lg", v, function (rs) {
+                    if (rs) {
+                        v.userId = rs;
+                        $scope.callback.update(v);
+                        BtnTextChange();
+                    }
+                });
+            }
+        },
+        {
             name: "删除",
             onClick: function (v) {
                 swal({
@@ -99,6 +118,133 @@ bubbleFrame.register('columnController', function ($scope, bubble, $timeout) {
             }
         }
     ];
+
+    // $scope.bubbleBatchAdd = function () {
+    //     var wbids = [
+    //         "5d3d4e68a713ab1be0ea6cbd",
+    //         "5d3d4e71a713ab1be0ea6cc3",
+    //         "5d3d4e7ba713ab1be0ea6cc9"
+    //     ];
+    //     var update = function (id, idx) {
+    //         return new Promise((res, err) => {
+    //             bubble._call("site.update", id, { fatherid: wbids[idx] }).success(function (v) {
+    //                 if (v.errorcode == 0) {
+    //                     console.log("成功");
+    //                 }
+    //                 res(v);
+    //             });
+    //         })
+    //     }
+
+    //     bubble._call("site.pageBy", 1, 1000, { fatherid: "59816b9ec6c204051c9b0c87" }).success(async function (v) {
+    //         for (var i = 0; i < v.data.length; i++) {
+    //             if (wbids.indexOf(v.data[i]._id) >= 0) {
+    //                 continue;
+    //             }
+    //             if (v.data[i].title.indexOf("幼儿园") >= 0) {
+    //                 await update(v.data[i]._id, 0);
+    //                 continue;
+    //             }
+    //             if (v.data[i].title.indexOf("小学") >= 0) {
+    //                 await update(v.data[i]._id, 1);
+    //                 continue;
+    //             }
+    //             await update(v.data[i]._id, 2);
+    //         }
+    //     });
+    // };
+
+    // $scope.bubbleBatchAdd = function () {
+    //     var wbids = [
+    //         "5d3d52c9a713ab1be0ea6cd2",
+    //         "5d3d52faa713ab1be0ea6cd8",
+    //         "5d3d5329a713ab1be0ea6cde",
+    //         "5d3d535ea713ab1be0ea6ce4",
+    //         "5d3d537ea713ab1be0ea6cea",
+    //         "5d3d53aba713ab1be0ea6cf0"
+    //     ];
+    //     var datas = [
+    //         {
+    //             "name": "党务公开",
+    //             "children": [
+    //                 {
+    //                     "name": "全局工作",
+    //                     "children": [
+    //                         {
+    //                             "name": "党组织班子成员及分工情况",
+    //                         },
+    //                         {
+    //                             "name": "党组织年度工作计划",
+    //                         },
+    //                         {
+    //                             "name": "党组织年度工作总结",
+    //                         },
+    //                         {
+    //                             "name": "党风廉政建设情况",
+    //                         }
+    //                     ]
+    //                 },
+    //             ]
+    //         }
+    //     ];
+
+    //     var add = function (name, fid, wbid) {
+    //         var value = {
+    //             "editor": "",
+    //             "clickCount": 0,
+    //             "isvisble": 0,
+    //             "timediff": 86400000,
+    //             "connColumn": "0",
+    //             "sort": 0,
+    //             "type": 0,
+    //             "slevel": "1",
+    //             "wbid": wbid,
+    //             "ownid": "",
+    //             "tempContent": "0",
+    //             "fatherid": fid,
+    //             "name": name,
+    //             "contentType": "0",
+    //             "tempList": "0",
+    //             "editCount": 1,
+    //             "isreview": "0",
+    //             "TemplateList": "",
+    //             "TemplateContent": "",
+    //             "stisreviewate": "0"
+    //         }
+
+    //         bubble._call("column.add", value).success(function (v) {
+    //             value;
+    //             if (!v.errorcode) {
+    //                 console.log("成功");
+    //             } else {
+    //                 console.log("失败," + wbid + "," + name);
+    //             }
+    //             ff[ff.length - 1].next(v._id);
+    //         });
+    //     }
+
+    //     var fn = function* (idx, widx, data, pid) {
+    //         pid = pid ? pid : "0";
+    //         var cid = "";
+    //         while (data[idx]) {
+    //             cid = yield add(data[idx].name, pid, wbids[widx]);
+    //             if (data[idx].children) {
+    //                 ff.push(fn(0, widx, data[idx].children, cid));
+    //                 yield ff[ff.length - 1].next(cid);
+    //             }
+    //             idx++;
+    //             if (!data[idx] && ff.length == 1 && wbids[widx]) {
+    //                 idx = 0;
+    //                 widx += 1;
+    //             }
+    //         }
+    //         ff.pop();
+    //         ff[ff.length - 1].next();
+    //     }
+
+    //     var ff = [fn(0, 0, datas)];
+    //     ff[ff.length - 1].next();
+    // }
 
     $scope.columnThumb = function () {
         var key = "thumbnail";
@@ -339,7 +485,7 @@ bubbleFrame.register('articleBindController', function (bubble, items, $scope, $
 bubbleFrame.register("columnEditController", function (bubble, items, $scope, $modalInstance, $timeout) {
     $scope.value = JSON.parse(JSON.stringify(items.value));
     delete $scope.value.children;
-    $scope.value.timediff = $scope.value.timediff ? $scope.value.timediff / 24 / 60 / 60 / 1000 : 0;
+    $scope.value.timediffTemp = $scope.value.timediff ? $scope.value.timediff / 24 / 60 / 60 / 1000 : 0;
     $scope.value.ColumnProperty = !isNaN($scope.value.ColumnProperty) ? $scope.value.ColumnProperty + "" : "3";
     $scope.value.isCheck = !isNaN($scope.value.isCheck) ? $scope.value.isCheck + "" : "0";
     $scope.value.isvisble = !isNaN($scope.value.isvisble) ? $scope.value.isvisble + "" : "0";
@@ -347,7 +493,7 @@ bubbleFrame.register("columnEditController", function (bubble, items, $scope, $m
 
     $scope.ok = function (e) {
         bubble.toggleModalBtnLoading(e, true);
-        $scope.value.timediff = $scope.value.timediff * 24 * 60 * 60 * 1000;
+        $scope.value.timediff = $scope.value.timediffTemp * 24 * 60 * 60 * 1000;
         if ($scope.value.Contant) {
             $scope.value.Contant = 1;
         } else {
@@ -357,13 +503,23 @@ bubbleFrame.register("columnEditController", function (bubble, items, $scope, $m
         $scope.value.isCheck = parseInt($scope.value.isCheck);
         $scope.value.isvisble = parseInt($scope.value.isvisble);
         $scope.value.thumbnail = $scope.thumb.getCurrentData().join(",");
-        bubble._call("column.update", $scope.value._id, $scope.value).success(function (v) {
-            if (!v.errorcode) {
-                $modalInstance.close($scope.value);
-            } else {
-                bubble.toggleModalBtnLoading(e, false);
-                swal("修改失败");
+        bubble._call("template.page", 1, 1000).success(function (v) {
+            for (var i = 0; i < v.data.length; i++) {
+                if (v.data[i]._id == $scope.value.tempContent) {
+                    $scope.value.TemplateContent = v.data[i].name;
+                }
+                if (v.data[i]._id == $scope.value.tempList) {
+                    $scope.value.TemplateList = v.data[i].name;
+                }
             }
+            bubble._call("column.update", $scope.value._id, $scope.value).success(function (v) {
+                if (!v.errorcode) {
+                    $modalInstance.close($scope.value);
+                } else {
+                    bubble.toggleModalBtnLoading(e, false);
+                    swal("修改失败");
+                }
+            });
         });
     }
 
@@ -396,6 +552,33 @@ bubbleFrame.register("columnCreateController", function (bubble, items, $scope, 
                 bubble.toggleModalBtnLoading(e, false);
                 swal("修改失败");
             }
+        });
+    }
+
+    $scope.cancel = function (e) {
+        $modalInstance.dismiss('cancel');
+    }
+});
+
+bubbleFrame.register("administratorController", function (bubble, items, $scope, $modalInstance) {
+    $scope.tableControl = {
+        onColumnClick: function (key, v) {
+            $scope.id = v._id;
+            $scope.user = v.name;
+        }
+    }
+    $scope.user = "加载中";
+    bubble._call("user.find", window.localStorage.siteid, "5bd18576a713ab9ebcadd5bd").success(function (v) {
+        $scope.user = v.name;
+    });
+    $scope.id = items.userId;
+    $scope.ok = function (e) {
+        if ($scope.id == items.userId) {
+            $modalInstance.close("");
+        }
+        bubble.toggleModalBtnLoading(e, true);
+        bubble._call("column.updateColumnManager", $scope.id, items._id).success(function (v) {
+            $modalInstance.close($scope.id);
         });
     }
 
