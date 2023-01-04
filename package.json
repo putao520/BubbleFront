@@ -22,7 +22,7 @@
     "ui-select": "^0.19.6"
   },
   "devDependencies": {
-    "react-scripts": "0.9.5"
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
